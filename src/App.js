@@ -1,5 +1,14 @@
+import React from "react";
+
 function App() {
-  return (<div> Hello World! </div>);
+  React.useEffect(() => {
+    console.log(window.location.port);
+  }, [])
+  return (
+    <div>
+      <p> Hello World! </p>
+    </div>
+  );
 }
 
 export default App;
