@@ -36,16 +36,16 @@ const requestURL = isDevMode ? "http://localhost:8000" : "";
 
 export default function SignIn() {
   const classes = useStyles();
-  const currentLanguage = languageSelector("zh-CN");
+  const displayLang = languageSelector("zh-CN");
 
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Title />
-          <SignInForm />
-          <Copyright />
+          <Title lang={displayLang}/>
+          <SignInForm lang={displayLang}/>
+          <Copyright lang={displayLang}/>
         </div>
       </Grid>
       <Grid item xs={false} sm={4} md={7} className={classes.image} />

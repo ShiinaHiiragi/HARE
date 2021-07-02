@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Title() {
+export default function Title(props) {
   const classes = useStyles();
 
   return (
@@ -24,7 +24,7 @@ export default function Title() {
         <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Sign in
+        {props.lang.signIn.title}
       </Typography>
     </div>
   );

@@ -16,24 +16,24 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function FormTip() {
+function FormTip(props) {
   return (
     <Grid container>
       <Grid item xs>
         <Link href="#" variant="body2">
-          Change the current language.
+          {props.lang.signIn.language}
         </Link>
       </Grid>
       <Grid item>
         <Link href="#" variant="body2">
-          Don't have an account? Sign Up
+          {props.lang.signIn.signUp}
         </Link>
       </Grid>
     </Grid>
   );
 }
 
-export default function SignInForm() {
+export default function SignInForm(props) {
   const classes = useStyles();
   return (
     <form className={classes.form} noValidate>
@@ -41,7 +41,7 @@ export default function SignInForm() {
         variant="outlined"
         margin="normal"
         fullWidth
-        label="E-mail Address"
+        label={props.lang.signIn.email}
         autoComplete="email"
         autoFocus
       />
@@ -49,13 +49,13 @@ export default function SignInForm() {
         variant="outlined"
         margin="normal"
         fullWidth
-        label="Password"
+        label={props.lang.signIn.password}
         type="password"
         autoComplete="current-password"
       />
       <FormControlLabel
         control={<Checkbox value="remember" color="primary" />}
-        label="Remember my E-mail"
+        label={props.lang.signIn.memory}
       />
       <Button
         fullWidth
@@ -63,9 +63,9 @@ export default function SignInForm() {
         color="primary"
         className={classes.submit}
       >
-        Sign In
+        {props.lang.signIn.button}
       </Button>
-      <FormTip />
+      <FormTip lang={props.lang}/>
     </form>
   );
 }
