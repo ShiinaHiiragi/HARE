@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node-dev ./bin/www",
     "server": "node ./bin/www --disable-cors"
   },
   "dependencies": {
@@ -14,5 +14,8 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "node-dev": "^7.0.0"
   }
 }

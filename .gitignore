@@ -12,6 +12,7 @@ server/node_modules
 # production
 /build
 server/build
+server/src
 
 # misc
 .DS_Store
