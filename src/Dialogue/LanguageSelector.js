@@ -1,9 +1,12 @@
 import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
+import AddIcon from '@material-ui/icons/Add';
 import { nameMap } from '../Language/Lang';
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,10 +22,14 @@ export default function LanguageSelector(props) {
   const handleClose = (targetValue) => {
     props.handleClose(targetValue);
   };
-  console.log(nameMap);
 
   return (
-    <Dialog onClose={handleClose} open={props.open}>
+    <Dialog
+      onClose={() => handleClose(null)}
+      open={props.open}
+      fullWidth
+      maxWidth="xs"
+    >
       <DialogTitle>
         {props.lang.signIn.languageDialogue}
       </DialogTitle>
@@ -32,6 +39,11 @@ export default function LanguageSelector(props) {
             onClick={() => handleClose(nameMap[lang])}
             button key={lang}
           >
+            <ListItemAvatar>
+              <Avatar>
+                {lang.charAt(0)}
+              </Avatar>
+            </ListItemAvatar>
             <ListItemText primary={lang} />
           </ListItem>
         ))}

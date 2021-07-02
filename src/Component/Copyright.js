@@ -7,7 +7,7 @@ export default function Copyright(props) {
     <Box mt={5}>
       <Typography variant="body2" color="textSecondary" align="center">
         {`${props.lang.signIn.copyright} ©`}
-        <Link color="inherit" href="#!">
+        <Link color="inherit" href="#">
           HARE
         </Link>
         {` ${new Date().getFullYear()}`}
