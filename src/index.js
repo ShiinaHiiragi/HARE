@@ -1,8 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './Example';
+import React from "react";
+import ReactDOM from "react-dom";
+import SignIn from "./Page/SignIn";
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+ReactDOM.render(<SignIn />, document.getElementById("root"));
