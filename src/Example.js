@@ -13,6 +13,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+const isDevMode = window.location.port === "3000";
+const requestURL = isDevMode ? "http://localhost:8000" : "";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -31,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(http://localhost:8000/src/cover)',
+    backgroundImage: `url(${requestURL}/src/cover)`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -76,10 +79,9 @@ export default function SignInSide() {
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               id="email"
-              label="Email Address"
+              label="E-mail Address"
               name="email"
               autoComplete="email"
               autoFocus
@@ -87,7 +89,6 @@ export default function SignInSide() {
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               name="password"
               label="Password"
@@ -97,7 +98,7 @@ export default function SignInSide() {
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Remember my E-mail"
             />
             <Button
               type="submit"
@@ -109,14 +110,9 @@ export default function SignInSide() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"Don't have an account?"}
                 </Link>
               </Grid>
             </Grid>
