@@ -6,9 +6,15 @@ const list = {
     memory: "记住我的邮箱地址",
     button: "登录",
     language: "更换显示语言",
-    languageDialogue: "更换显示语言",
     signUp: "没有账号？",
     copyright: "版权所有"
+  },
+  popup: {
+    language: "更换显示语言",
+    signUp: {
+      title: "注册暂不可用",
+      text: "我们暂时不提供注册功能，如有需要请联系作者在后台直接注册。"
+    }
   },
   common: {
     back: "返回",

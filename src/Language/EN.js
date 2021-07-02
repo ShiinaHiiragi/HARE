@@ -6,9 +6,15 @@ const list = {
     memory: "Remember my E-mail",
     button: "SIGN IN",
     language: "Change the displaying language",
-    languageDialogue: "Change the Displaying Language",
     signUp: "Don't have an account?",
     copyright: "Copyright"
+  },
+  popup: {
+    language: "Change the Displaying Language",
+    signUp: {
+      title: "Sign Up is Unavailable Now",
+      text: "We donn't provide registration entry temporarily. You can contact the author to register in the server directly."
+    }
   },
   common: {
     back: "Back",

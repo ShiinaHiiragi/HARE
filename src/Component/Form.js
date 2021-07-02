@@ -1,9 +1,11 @@
+import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import SignUp from "../Dialogue/SignUp";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
@@ -17,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FormTip(props) {
+  // the sign up information popup
+  const [signUpDialogue, setSignUpDialogue] = React.useState(false);
+  const toggleSignUpDialogue = () => setSignUpDialogue(true);
+  const closeSignUpDialogue = () => setSignUpDialogue(false);
+
   return (
     <Grid container>
       <Grid item xs>
@@ -25,10 +32,15 @@ function FormTip(props) {
         </Link>
       </Grid>
       <Grid item>
-        <Link href="#" variant="body2">
+        <Link href="#" variant="body2" onClick={toggleSignUpDialogue}>
           {props.lang.signIn.signUp}
         </Link>
       </Grid>
+      <SignUp
+        lang={props.lang}
+        open={signUpDialogue}
+        handleClose={closeSignUpDialogue}
+      />
     </Grid>
   );
 }

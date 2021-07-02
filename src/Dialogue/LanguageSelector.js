@@ -22,7 +22,7 @@ export default function LanguageSelector(props) {
       maxWidth="xs"
     >
       <DialogTitle>
-        {props.lang.signIn.languageDialogue}
+        {props.lang.popup.language}
       </DialogTitle>
       <List>
         {languageList.map((lang) => (

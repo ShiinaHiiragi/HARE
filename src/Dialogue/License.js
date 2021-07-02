@@ -21,7 +21,7 @@ export default function License(props) {
       className={classes.noneSelect}
     >
       <DialogTitle >
-        {`MIT License Copyright ${new Date().getFullYear()} HARE`}
+        {`Copyright ${new Date().getFullYear()} HARE`}
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
