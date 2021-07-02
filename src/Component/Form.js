@@ -20,7 +20,7 @@ function FormTip(props) {
   return (
     <Grid container>
       <Grid item xs>
-        <Link href="#" variant="body2">
+        <Link href="#" variant="body2" onClick={props.openDialog.handleLanguage}>
           {props.lang.signIn.language}
         </Link>
       </Grid>
@@ -65,7 +65,7 @@ export default function SignInForm(props) {
       >
         {props.lang.signIn.button}
       </Button>
-      <FormTip lang={props.lang}/>
+      <FormTip lang={props.lang} openDialog={props.openDialog}/>
     </form>
   );
 }

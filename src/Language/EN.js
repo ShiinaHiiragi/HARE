@@ -6,6 +6,7 @@ const list = {
     memory: "Remember my E-mail",
     button: "SIGN IN",
     language: "Change the displaying language",
+    languageDialogue: "Change the Displaying Language",
     signUp: "Don't have an account?",
     copyright: "Copyright"
   }
