@@ -7,6 +7,7 @@ import SignInForm from "../Component/Form";
 import Copyright from "../Component/Copyright";
 import { languagePicker } from "../Language/Lang";
 import LanguageSelector from "../Dialogue/LanguageSelector";
+import License from "../Dialogue/License";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
@@ -67,6 +68,15 @@ export default function SignIn() {
     }
   };
 
+  // the license information popup
+  const [licenseDialogue, setLicenseDialogue] = React.useState(false);
+  const toggleLicenseDialogue = () => {
+    setLicenseDialogue(true);
+  }
+  const closeLicenseDialogue = () => {
+    setLicenseDialogue(false);
+  }
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -77,7 +87,10 @@ export default function SignIn() {
             lang={displayLang.languageObject}
             openDialog={{handleLanguage: toggleLanguageDialogue}}
           />
-          <Copyright lang={displayLang.languageObject}/>
+          <Copyright
+            lang={displayLang.languageObject}
+            toggle={toggleLicenseDialogue}
+          />
         </div>
       </Grid>
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -85,6 +98,11 @@ export default function SignIn() {
         lang={displayLang.languageObject}
         open={displayLang.languageDialogueOpen}
         handleClose={closeLanguageDialogue}
+      />
+      <License
+        lang={displayLang.languageObject}
+        open={licenseDialogue}
+        handleClose={closeLicenseDialogue}
       />
     </Grid>
   );

@@ -6,19 +6,10 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import AddIcon from '@material-ui/icons/Add';
 import { nameMap } from '../Language/Lang';
 
-import { makeStyles } from "@material-ui/core/styles";
-const useStyles = makeStyles((theme) => ({
-  dialogue: {
-    minWidth: "56vw",
-  }
-}));
 const languageList = Object.keys(nameMap);
-
 export default function LanguageSelector(props) {
-  const classes = useStyles();
   const handleClose = (targetValue) => {
     props.handleClose(targetValue);
   };

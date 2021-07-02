@@ -9,6 +9,11 @@ const list = {
     languageDialogue: "Change the Displaying Language",
     signUp: "Don't have an account?",
     copyright: "Copyright"
+  },
+  common: {
+    back: "Back",
+    ok: "OK",
+    apply: "Apply"
   }
 }
 

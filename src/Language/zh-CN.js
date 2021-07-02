@@ -9,6 +9,11 @@ const list = {
     languageDialogue: "更换显示语言",
     signUp: "没有账号？",
     copyright: "版权所有"
+  },
+  common: {
+    back: "返回",
+    ok: "确定",
+    apply: "应用"
   }
 }
 
