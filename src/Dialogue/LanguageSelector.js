@@ -10,13 +10,13 @@ import { nameMap } from '../Language/Lang';
 
 const languageList = Object.keys(nameMap);
 export default function LanguageSelector(props) {
-  const handleClose = (targetValue) => {
+  const close = (targetValue) => {
     props.handleClose(targetValue);
   };
 
   return (
     <Dialog
-      onClose={() => handleClose(null)}
+      onClose={() => close(null)}
       open={props.open}
       fullWidth
       maxWidth="xs"
@@ -27,7 +27,7 @@ export default function LanguageSelector(props) {
       <List>
         {languageList.map((lang) => (
           <ListItem
-            onClick={() => handleClose(nameMap[lang])}
+            onClick={() => close(nameMap[lang])}
             button key={lang}
           >
             <ListItemAvatar>

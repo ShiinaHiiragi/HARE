@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function License(props) {
   const classes = useStyles();
+
   return (
     <Dialog
       open={props.open}

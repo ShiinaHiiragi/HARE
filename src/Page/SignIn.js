@@ -79,8 +79,10 @@ export default function SignIn() {
           <Title lang={globalLang} />
           <SignInForm
             lang={globalLang}
-            handleToggle={{ toggleSnackbar: toggleSnackbar }}
-            handleInterface={{ changeLang: changeGlobalLang }}
+            handle={{
+              toggleSnackbar: toggleSnackbar,
+              changeLang: changeGlobalLang
+            }}
           />
           <Copyright lang={globalLang} />
         </div>

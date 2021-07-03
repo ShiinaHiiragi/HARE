@@ -63,7 +63,7 @@ export default function SignInForm(props) {
   const classes = useStyles();
   
   const submitForm = () => {
-    props.handleToggle.toggleSnackbar("TEST", "info");
+    props.handle.toggleSnackbar("TEST", "info");
   };
   return (
     <form className={classes.form} noValidate>
@@ -98,7 +98,7 @@ export default function SignInForm(props) {
       </Button>
       <FormTip
         lang={props.lang}
-        handleChangeLanguage={props.handleInterface.changeLang}
+        handleChangeLanguage={props.handle.changeLang}
       />
     </form>
   );

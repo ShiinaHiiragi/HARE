@@ -9,6 +9,7 @@ export default function Copyright(props) {
   const [licenseDialogue, setLicenseDialogue] = React.useState(false);
   const toggleLicenseDialogue = () => setLicenseDialogue(true);
   const closeLicenseDialogue = () => setLicenseDialogue(false);
+
   return (
     <Box mt={5}>
       <Typography variant="body2" color="textSecondary" align="center">
