@@ -5,6 +5,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import CryptoJS from "crypto-js";
 import SignUp from "../Dialogue/SignUp";
 import LanguageSelector from "../Dialogue/LanguageSelector";
 
@@ -85,7 +86,9 @@ export default function SignInForm(props) {
     if (emailNil || passwordNil) {
       props.handle.toggleMessageBox(props.lang.message.signInBlank, "warning");
     } else {
-      // TODO: log in
+      const encryptedPassword = CryptoJS.SHA256(value.email + value.password).toString();
+      console.log(encryptedPassword);
+      props.handle.toggleLoading();
     }
   };
 

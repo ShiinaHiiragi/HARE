@@ -7,6 +7,7 @@ import SignInForm from "../Component/Form";
 import Copyright from "../Component/Copyright";
 import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
+import Load from "../Dialogue/Load";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
@@ -71,6 +72,19 @@ export default function SignIn() {
     }))
   }
 
+  // the state of loading scene
+  let clockLoading = null;
+  const [loading, setLoading] = React.useState(false);
+  const toggleLoading = () => clockLoading = setTimeout(() => {
+    clockLoading = null;
+    setLoading(true);
+  }, 1000);
+  const closeLoading = () => {
+    if (clockLoading)
+      clearTimeout(clockLoading);
+    setLoading(false);
+  }
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -81,7 +95,8 @@ export default function SignIn() {
             lang={globalLang}
             handle={{
               toggleMessageBox: toggleMessageBox,
-              changeLang: changeGlobalLang
+              changeLang: changeGlobalLang,
+              toggleLoading: toggleLoading
             }}
           />
           <Copyright lang={globalLang} />
@@ -94,6 +109,7 @@ export default function SignIn() {
         messageBoxType={messageBoxInfo.type}
         messageBoxMessage={messageBoxInfo.message}
       />
+      <Load open={loading} />
     </Grid>
   );
 }
