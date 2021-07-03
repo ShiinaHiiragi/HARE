@@ -9,7 +9,7 @@ var debug = require('debug')('server:server');
 var http = require('http');
 var readline = require('readline');
 var dbInitialize = require('./db').dbInitialize;
-var exec = require('./api').exec;
+var exec = require('./db').exec;
 
 /**
  * Get port from environment and store in Express.
@@ -107,7 +107,10 @@ const oneLine = readline.createInterface({
 });
 
 (function shellLine() {
-  oneLine.question("", (cmd) => {
-    exec(cmd).then(shellLine).catch(err => console.log(err))
+  oneLine.question('', (cmd) => {
+    exec(cmd.split(/\s+/)).then(shellLine).catch(err => {
+      console.log(err);
+      shellLine();
+    })
   })
 })();
