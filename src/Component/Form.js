@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -6,8 +7,11 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import CryptoJS from "crypto-js";
+import cookie from "react-cookies";
+import axios from "axios";
 import SignUp from "../Dialogue/SignUp";
 import LanguageSelector from "../Dialogue/LanguageSelector";
+import Panel from "../Page/Panel";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
@@ -62,21 +66,13 @@ function FormTip(props) {
 
 export default function SignInForm(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState({
-    email: "",
-    password: ""
-  });
-  const [checker, setChecker] = React.useState({
-    email: false,
-    password: false
-  });
+  const [value, setValue] = React.useState({email: "", password: ""});
+  const [checker, setChecker] = React.useState({email: false, password: false});
   const setEmailInput = (event) => setValue(value => ({
-    ...value,
-    email: event.target.value
+    ...value, email: event.target.value
   }));
   const setPasswordInput = (event) => setValue(value => ({
-    ...value,
-    password: event.target.value
+    ...value, password: event.target.value
   }));
   
   const submitForm = () => {
@@ -86,9 +82,18 @@ export default function SignInForm(props) {
     if (emailNil || passwordNil) {
       props.handle.toggleMessageBox(props.lang.message.signInBlank, "warning");
     } else {
-      const encryptedPassword = CryptoJS.SHA256(value.email + value.password).toString();
-      console.log(encryptedPassword);
       props.handle.toggleLoading();
+      const encryptedPassword = CryptoJS.SHA256(value.email + value.password).toString();
+      const tomorrow = new Date(new Date().getTime() + 24 * 3600 * 1000);
+      axios.get(
+        `${props.URL}/data/sign?email=${value.email}&password=${encryptedPassword}`
+      ).then((res) => {
+        props.handle.closeLoading();
+        console.log(res.data);
+        cookie.save("userID", res.data.uid, {expires: tomorrow});
+        cookie.save("token", res.data.token, {expires: tomorrow});
+        ReactDOM.render(<Panel userID={res.data.uid}/>, document.getElementById("root"));
+      }).catch((err) => props.handle.toggleMessageBox(err, "error"));
     }
   };
 

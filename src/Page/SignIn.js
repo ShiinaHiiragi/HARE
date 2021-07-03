@@ -96,8 +96,10 @@ export default function SignIn() {
             handle={{
               toggleMessageBox: toggleMessageBox,
               changeLang: changeGlobalLang,
-              toggleLoading: toggleLoading
+              toggleLoading: toggleLoading,
+              closeLoading: closeLoading
             }}
+            URL={requestURL}
           />
           <Copyright lang={globalLang} />
         </div>

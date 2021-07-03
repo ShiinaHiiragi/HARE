@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 var query = require('../bin/db').query;
 
-router.get('/test', function (req, res, next) {
-  query(`
-    select uid, name
-    from hare
-    where name = 'Alice'`)
-    .then((out) => res.send(out));
+router.get('/sign', (req, res) => {
+  console.log(req.query);
+  res.send(JSON.stringify({
+    uid: "1",
+    token: "23"
+  }));
 });
 
 module.exports = router;

@@ -8,7 +8,7 @@ const dice = (sub, sup) => {
   return Math.round(Math.random() * (sup - sub) + sub)
 }
 
-router.get('/cover', function (req, res, next) {
+router.get('/cover', (req, res) => {
   fs.readdir(path.join(__dirname, '../src/cover'), (err, dir) => {
     if (err) res.status(500).send(err);
     else {
