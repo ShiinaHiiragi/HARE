@@ -1,7 +1,7 @@
 const Pool = require('pg').Pool
 const fs = require('fs');
 const path = require('path');
-const syncEachChain = require('./interface').syncEachChain;
+const syncEachChain = require('./api').syncEachChain;
 
 const setting = JSON.parse(fs.readFileSync(path.join(__dirname, './setting.json')))
 const pool = new Pool(setting.poolSetting);
