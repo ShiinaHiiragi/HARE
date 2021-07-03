@@ -6,7 +6,6 @@ import Title from "../Component/Title";
 import SignInForm from "../Component/Form";
 import Copyright from "../Component/Copyright";
 import { languagePicker } from "../Language/Lang";
-import LanguageSelector from "../Dialogue/LanguageSelector";
 import MessageBox from "../Dialogue/MessageBox";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -45,28 +44,12 @@ export default function SignIn() {
     localStorage.setItem("lang", "en");
     storageLang = "en";
   }
-  const [displayLang, setDisplayLang] = React.useState({
-    languageObject: languagePicker(storageLang),
-    languageDialogueOpen: false,
-  });
-  const toggleLanguageDialogue = () => {
-    setDisplayLang(displayLang => ({
-      ...displayLang,
-      languageDialogueOpen: true
-    }));
-  };
-  const closeLanguageDialogue = (targetValue) => {
-    setDisplayLang(displayLang => ({
-      ...displayLang,
-      languageDialogueOpen: false,
-      languageObject: targetValue
-        ? languagePicker(targetValue)
-        : displayLang.languageObject
-    }));
-    if (targetValue) {
+  const [globalLang, setGlobalLang] = React.useState(languagePicker(storageLang));
+  const changeGlobalLang = (targetValue) => {
+    if (targetValue)
+      setGlobalLang(languagePicker(targetValue));
       localStorage.setItem("lang", targetValue);
-    }
-  };
+  }
 
   // the setting of snackbar
   const [snackbarInfo, setSnackbarInfo] = React.useState({
@@ -93,23 +76,16 @@ export default function SignIn() {
       <CssBaseline />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Title lang={displayLang.languageObject} />
+          <Title lang={globalLang} />
           <SignInForm
-            lang={displayLang.languageObject}
-            handleToggle={{
-              toggleLanguage: toggleLanguageDialogue,
-              toggleSnackbar: toggleSnackbar
-            }}
+            lang={globalLang}
+            handleToggle={{ toggleSnackbar: toggleSnackbar }}
+            handleInterface={{ changeLang: changeGlobalLang }}
           />
-          <Copyright lang={displayLang.languageObject} />
+          <Copyright lang={globalLang} />
         </div>
       </Grid>
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <LanguageSelector
-        lang={displayLang.languageObject}
-        open={displayLang.languageDialogueOpen}
-        handleClose={closeLanguageDialogue}
-      />
       <MessageBox
         open={snackbarInfo.open}
         handleClose={closeSnackbar}

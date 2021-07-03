@@ -6,6 +6,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import SignUp from "../Dialogue/SignUp";
+import LanguageSelector from "../Dialogue/LanguageSelector";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
@@ -24,10 +25,18 @@ function FormTip(props) {
   const toggleSignUpDialogue = () => setSignUpDialogue(true);
   const closeSignUpDialogue = () => setSignUpDialogue(false);
 
+  // the language selector
+  const [languageDialogue, setLanguageDialogue] = React.useState(false);
+  const toggleLanguageSelector = () => setLanguageDialogue(true);
+  const closeLanguageSelector = (targetValue) => {
+    setLanguageDialogue(false);
+    props.handleChangeLanguage(targetValue);
+  }
+
   return (
     <Grid container>
       <Grid item xs>
-        <Link href="#" variant="body2" onClick={props.handleToggleLanguage}>
+        <Link href="#" variant="body2" onClick={toggleLanguageSelector}>
           {props.lang.signIn.language}
         </Link>
       </Grid>
@@ -36,6 +45,11 @@ function FormTip(props) {
           {props.lang.signIn.signUp}
         </Link>
       </Grid>
+      <LanguageSelector
+        lang={props.lang}
+        open={languageDialogue}
+        handleClose={closeLanguageSelector}
+      />
       <SignUp
         lang={props.lang}
         open={signUpDialogue}
@@ -84,7 +98,7 @@ export default function SignInForm(props) {
       </Button>
       <FormTip
         lang={props.lang}
-        handleToggleLanguage={props.handleToggle.toggleLanguage}
+        handleChangeLanguage={props.handleInterface.changeLang}
       />
     </form>
   );
