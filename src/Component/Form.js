@@ -61,9 +61,36 @@ function FormTip(props) {
 
 export default function SignInForm(props) {
   const classes = useStyles();
+  const [value, setValue] = React.useState({
+    email: "",
+    password: ""
+  });
+  const [checker, setChecker] = React.useState({
+    email: false,
+    password: false
+  });
+  const setEmailInput = (event) => setValue(value => ({
+    ...value,
+    email: event.target.value
+  }));
+  const setPasswordInput = (event) => setValue(value => ({
+    ...value,
+    password: event.target.value
+  }));
   
   const submitForm = () => {
-    props.handle.toggleSnackbar("TEST", "info");
+    const emailNil = value.email === "",
+      passwordNil = value.password === "";
+    if (emailNil || passwordNil) {
+      // TEMP: fill this
+      props.handle.toggleSnackbar("!!", "warning");
+      setChecker({
+        email: emailNil,
+        password: passwordNil
+      })
+    } else {
+      setChecker({ email: false, password: false })
+    }
   };
   return (
     <form className={classes.form} noValidate>
@@ -73,6 +100,9 @@ export default function SignInForm(props) {
         fullWidth
         label={props.lang.signIn.email}
         autoComplete="email"
+        error={checker.email}
+        value={value.email}
+        onChange={setEmailInput}
         autoFocus
       />
       <TextField
@@ -82,6 +112,9 @@ export default function SignInForm(props) {
         label={props.lang.signIn.password}
         type="password"
         autoComplete="current-password"
+        error={checker.password}
+        value={value.password}
+        onChange={setPasswordInput}
       />
       <FormControlLabel
         control={<Checkbox value="remember" color="primary" />}
