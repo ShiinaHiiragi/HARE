@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
+var readline = require('readline');
 
 /**
  * Get port from environment and store in Express.
@@ -89,3 +90,18 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+/**
+ * Read lines when listening to the port.
+ */
+const oneLine = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+(function shellLine() {
+  oneLine.question("", (cmd) => {
+    console.log(`echo: "${cmd}"`);
+    shellLine();
+  })
+})();
