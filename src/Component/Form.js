@@ -81,15 +81,11 @@ export default function SignInForm(props) {
   const submitForm = () => {
     const emailNil = value.email === "",
       passwordNil = value.password === "";
+    setChecker({ email: emailNil, password: passwordNil })
     if (emailNil || passwordNil) {
-      // TEMP: fill this
-      props.handle.toggleSnackbar("!!", "warning");
-      setChecker({
-        email: emailNil,
-        password: passwordNil
-      })
+      props.handle.toggleMessageBox("!!", "warning");
     } else {
-      setChecker({ email: false, password: false })
+      // TODO: log in
     }
   };
   return (

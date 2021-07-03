@@ -52,20 +52,20 @@ export default function SignIn() {
   }
 
   // the setting of snackbar
-  const [snackbarInfo, setSnackbarInfo] = React.useState({
+  const [messageBoxInfo, setMessageBoxInfo] = React.useState({
     open: false,
     type: "success",
     message: ""
   });
-  const toggleSnackbar = (message, type) => {
-    setSnackbarInfo({
+  const toggleMessageBox = (message, type) => {
+    setMessageBoxInfo({
       open: true,
       type: type,
       message: message
     });
   };
-  const closeSnackbar = () => {
-    setSnackbarInfo(snackbarInfo => ({
+  const closeMessageBox = () => {
+    setMessageBoxInfo(snackbarInfo => ({
       ...snackbarInfo,
       open: false
     }))
@@ -80,7 +80,7 @@ export default function SignIn() {
           <SignInForm
             lang={globalLang}
             handle={{
-              toggleSnackbar: toggleSnackbar,
+              toggleMessageBox: toggleMessageBox,
               changeLang: changeGlobalLang
             }}
           />
@@ -89,10 +89,10 @@ export default function SignIn() {
       </Grid>
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <MessageBox
-        open={snackbarInfo.open}
-        handleClose={closeSnackbar}
-        snackWindowType={snackbarInfo.type}
-        snackWindowMessage={snackbarInfo.message}
+        open={messageBoxInfo.open}
+        handleClose={closeMessageBox}
+        messageBoxType={messageBoxInfo.type}
+        messageBoxMessage={messageBoxInfo.message}
       />
     </Grid>
   );

@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const snackWindowDuration = 1600;
+const messageBoxDuration = 1600;
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -23,12 +23,12 @@ export default function MessageBox(props) {
     <Snackbar
       open={props.open}
       onClose={props.handleClose}
-      autoHideDuration={snackWindowDuration}
+      autoHideDuration={messageBoxDuration}
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       className={classes.snack}
     >
-      <Alert onClose={props.handleClose} severity={props.snackWindowType}>
-        {props.snackWindowMessage}
+      <Alert onClose={props.handleClose} severity={props.messageBoxType}>
+        {props.messageBoxMessage}
       </Alert>
     </Snackbar>
   );
