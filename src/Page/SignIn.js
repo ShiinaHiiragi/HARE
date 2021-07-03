@@ -75,7 +75,7 @@ export default function SignIn() {
           <Title lang={displayLang.languageObject} />
           <SignInForm
             lang={displayLang.languageObject}
-            openDialog={{handleLanguage: toggleLanguageDialogue}}
+            handleToggle={{toggleLanguage: toggleLanguageDialogue}}
           />
           <Copyright lang={displayLang.languageObject} />
         </div>
