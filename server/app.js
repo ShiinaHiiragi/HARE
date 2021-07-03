@@ -8,6 +8,7 @@ var cors = require("cors");
 var app = express();
 var indexRouter = require('./routes/index');
 var srcRouter = require('./routes/src');
+var dataRouter = require('./routes/data');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +24,7 @@ if (!process.argv.find(item => item === "--disable-cors"))
 
 app.use('/', indexRouter);
 app.use('/src', srcRouter);
+app.use('/data', dataRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

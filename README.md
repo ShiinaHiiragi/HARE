@@ -6,8 +6,8 @@
 
 ### 0.1 框架
 
-1. Web 前端框架：`React.js`
-2. Web 后端框架：`express.js`
+1. Web 前端框架：`React.js`，UI 框架：`Material UI`
+2. Web 后端框架：`express.js`，数据库：`PostgreSQL`
 3. 其他
     - 富文本编辑器：`Quill.js` 和公式 `KaTex`
     - SHA-256 加密密码：`crypto-JS`
@@ -87,9 +87,9 @@
 
 ### 0.3 数据库
 
-- SQLite
+- PostgreSQL
 
-    ```sql
+    ```SQL
     userInfo(userID, email);
     userSetting(userID, avatar, username,
                 city, tel, gender, birth);
@@ -97,7 +97,7 @@
     page(pageID, unitID, pageName, pageCover, pageDescribe);
     item(itemID, pageID, sequence, createTime
          itemQuery, itemKey, itemRecord);
-    recall();
+    recall(recallID, pageID, startTime, endTime);
     ```
 
 ### 0.4 专有名词语义
@@ -204,9 +204,10 @@
     | ---- | ----------- |
     | 组件 | `Component` |
     | 单元 | `Unit`      |
-    | 界面 | `Interface` |
+    | 页面 | `Page`      |
+    | 接口 | `Interface` |
 
-## 1 开发备忘
+## 1 备忘
 
 ### 1.1 约定配置
 
