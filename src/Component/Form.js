@@ -47,6 +47,10 @@ function FormTip(props) {
 
 export default function SignInForm(props) {
   const classes = useStyles();
+  
+  const submitForm = () => {
+    props.handleToggle.toggleSnackbar("TEST", "info");
+  };
   return (
     <form className={classes.form} noValidate>
       <TextField
@@ -74,6 +78,7 @@ export default function SignInForm(props) {
         variant="contained"
         color="primary"
         className={classes.submit}
+        onClick={submitForm}
       >
         {props.lang.signIn.button}
       </Button>

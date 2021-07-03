@@ -1,0 +1,35 @@
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles((theme) => ({
+  snack: {
+    maxWidth: "512px",
+    "& > * + *": {
+      marginTop: theme.spacing(2)
+    }
+  }
+}));
+
+const snackWindowDuration = 1600;
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+export default function MessageBox(props) {
+  const classes = useStyles();
+
+  return (
+    <Snackbar
+      open={props.open}
+      onClose={props.handleClose}
+      autoHideDuration={snackWindowDuration}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      className={classes.snack}
+    >
+      <Alert onClose={props.handleClose} severity={props.snackWindowType}>
+        {props.snackWindowMessage}
+      </Alert>
+    </Snackbar>
+  );
+}

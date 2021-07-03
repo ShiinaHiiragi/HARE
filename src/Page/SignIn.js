@@ -7,6 +7,7 @@ import SignInForm from "../Component/Form";
 import Copyright from "../Component/Copyright";
 import { languagePicker } from "../Language/Lang";
 import LanguageSelector from "../Dialogue/LanguageSelector";
+import MessageBox from "../Dialogue/MessageBox";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
@@ -67,6 +68,26 @@ export default function SignIn() {
     }
   };
 
+  // the setting of snackbar
+  const [snackbarInfo, setSnackbarInfo] = React.useState({
+    open: false,
+    type: "success",
+    message: ""
+  });
+  const toggleSnackbar = (message, type) => {
+    setSnackbarInfo({
+      open: true,
+      type: type,
+      message: message
+    });
+  };
+  const closeSnackbar = () => {
+    setSnackbarInfo(snackbarInfo => ({
+      ...snackbarInfo,
+      open: false
+    }))
+  }
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -75,7 +96,10 @@ export default function SignIn() {
           <Title lang={displayLang.languageObject} />
           <SignInForm
             lang={displayLang.languageObject}
-            handleToggle={{toggleLanguage: toggleLanguageDialogue}}
+            handleToggle={{
+              toggleLanguage: toggleLanguageDialogue,
+              toggleSnackbar: toggleSnackbar
+            }}
           />
           <Copyright lang={displayLang.languageObject} />
         </div>
@@ -85,6 +109,12 @@ export default function SignIn() {
         lang={displayLang.languageObject}
         open={displayLang.languageDialogueOpen}
         handleClose={closeLanguageDialogue}
+      />
+      <MessageBox
+        open={snackbarInfo.open}
+        handleClose={closeSnackbar}
+        snackWindowType={snackbarInfo.type}
+        snackWindowMessage={snackbarInfo.message}
       />
     </Grid>
   );
