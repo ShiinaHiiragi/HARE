@@ -83,7 +83,7 @@ export default function SignInForm(props) {
       passwordNil = value.password === "";
     setChecker({ email: emailNil, password: passwordNil })
     if (emailNil || passwordNil) {
-      props.handle.toggleMessageBox("!!", "warning");
+      props.handle.toggleMessageBox(props.lang.message.signInBlank, "warning");
     } else {
       // TODO: log in
     }

@@ -16,6 +16,9 @@ const list = {
       text: "我们暂时不提供注册功能，如有需要请联系作者在后台直接注册。"
     }
   },
+  message: {
+    signInBlank: "请填写邮箱和密码。"
+  },
   common: {
     back: "返回",
     ok: "确定",

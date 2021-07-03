@@ -16,6 +16,9 @@ const list = {
       text: "We donn't provide registration entry temporarily. You can contact the author to register in the server directly."
     }
   },
+  message: {
+    signInBlank: "Please enter the E-mail and password."
+  },
   common: {
     back: "Back",
     ok: "OK",
