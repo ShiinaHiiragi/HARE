@@ -1,6 +1,58 @@
 {
-  "user": "postgres",
-  "host": "localhost",
-  "database": "hare",
-  "password": "531207"
+  "poolSetting": {
+    "user": "postgres",
+    "host": "localhost",
+    "database": "hare",
+    "password": "531207"
+  },
+  "schema": {
+    "userInfo": [
+      "create table userInfo(",
+      "userID serial primary key,",
+      "email varchar(32) not null);"
+    ],
+    "userSetting": [
+      "create table userSetting(",
+      "userID integer primary key references userInfo,",
+      "username varchar(16) not null,",
+      "avatar text,",
+      "city varchar(16),",
+      "tel varchar(16),",
+      "gender char(1),",
+      "birth date);"
+    ],
+    "unit": [
+      "create table unit(",
+      "unitID serial primary key,",
+      "userID integer not null references userInfo,",
+      "unitName varchar(16) not null);"
+    ],
+    "page": [
+      "create table page(",
+      "pageID serial primary key,",
+      "unitID integer not null references unit,",
+      "pageName varchar(16) not null,",
+      "pageSeq integer not null,",
+      "pageCover text,",
+      "pagePresent varchar(512));"
+    ],
+    "item": [
+      "create table item(",
+      "itemID bigserial primary key,",
+      "pageID integer not null references page,",
+      "seq integer not null,",
+      "createTime timestamp not null,",
+      "itemQuery text not null,",
+      "itemKey text not null,",
+      "itemRecord char(1)[]);"
+    ],
+    "track": [
+      "create table track(",
+      "trackID bigserial primary key,",
+      "pageID integer not null references page,",
+      "trackSeq integer not null,",
+      "startTime timestamp not null,",
+      "endTime timestamp not null);"
+    ]
+  }
 }

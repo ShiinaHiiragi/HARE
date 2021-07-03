@@ -95,9 +95,9 @@
                 city, tel, gender, birth);
     unit(unitID, userID, unitName);
     page(pageID, unitID, pageName, pageCover, pageDescribe);
-    item(itemID, pageID, sequence, createTime
+    item(itemID, pageID, seq, createTime
          itemQuery, itemKey, itemRecord);
-    recall(recallID, pageID, startTime, endTime);
+    track(trackID, pageID, startTime, endTime);
     ```
 
 ### 0.4 专有名词语义
@@ -151,15 +151,17 @@
 
 1. 卡片组
 
-    | 中文                   | 命名         |
-    | ---------------------- | ------------ |
-    | 册项目组               | `Unit`       |
-    | 册项目（在册项目组中） | `Page`       |
-    | 册项目宏观统计信息     | `PageTrack`  |
-    | 册条目（在册项目中）   | `Item`       |
-    | 册条目问题             | `ItemQuery`  |
-    | 册条目答案             | `ItemKey`    |
-    | 册条目记忆历史         | `ItemRecord` |
+    | 中文                   | 命名          |
+    | ---------------------- | ------------- |
+    | 册项目组               | `Unit`        |
+    | 册项目（在册项目组中） | `Page`        |
+    | 册项目宏观统计信息     | `PageTrack`   |
+    | 册描述                 | `PagePresent` |
+    | 册最大序列             | `PageSeq`     |
+    | 册条目（在册项目中）   | `Item`        |
+    | 册条目问题             | `ItemQuery`   |
+    | 册条目答案             | `ItemKey`     |
+    | 册条目记忆历史         | `ItemRecord`  |
 
 2. 概念
 

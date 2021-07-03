@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
 var readline = require('readline');
+var dbInitialize = require('./db').dbInitialize;
 
 /**
  * Get port from environment and store in Express.
@@ -90,6 +91,11 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+/**
+ * Initialize the databse
+ */
+dbInitialize(true);
 
 /**
  * Read lines when listening to the port.
