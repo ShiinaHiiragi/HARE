@@ -1,5 +1,5 @@
 // async version of forEach
-const syncEachChain = (arrayObject, eachTemp) =>
+exports.syncEachChain = (arrayObject, eachTemp) =>
 arrayObject.reduce(
   (promiseChain, arrayItem) =>
     promiseChain.then(() => new Promise((resolve, reject) =>
@@ -7,4 +7,7 @@ arrayObject.reduce(
   Promise.resolve()
 );
 
-exports.syncEachChain = syncEachChain;
+exports.exec = (cmdLine) => new Promise((resolve, reject) => {
+  console.log(cmdLine);
+  resolve();
+})
