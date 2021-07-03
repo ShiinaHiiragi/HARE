@@ -14,7 +14,7 @@
     "userSetting": [
       "create table userSetting(",
       "userID integer primary key references userInfo,",
-      "password varchar(32) not null,",
+      "password varchar(64) not null,",
       "username varchar(16) not null,",
       "avatar text,",
       "city varchar(16),",
