@@ -54,6 +54,12 @@
       "trackSeq integer not null,",
       "startTime timestamp not null,",
       "endTime timestamp not null);"
+    ],
+    "onlineUser": [
+      "create table onlineUser(",
+      "userID integer primary key references userInfo,",
+      "token varchar(64) not null,",
+      "lastTime timestamp not null);"
     ]
   }
 }
