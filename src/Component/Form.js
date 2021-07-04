@@ -24,6 +24,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+let emailCookie = cookie.load("email")
+const setEmailCookie = (boxChecked, email) => {
+  if (boxChecked) cookie.save("email", email, {
+    expires: new Date(new Date().getTime() + 365 * 24 * 3600 * 1000)
+  });
+  else cookie.remove("email");
+}
+
 function FormTip(props) {
   // the sign up information popup
   const [signUpDialogue, setSignUpDialogue] = React.useState(false);
@@ -66,7 +74,7 @@ function FormTip(props) {
 
 export default function SignInForm(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState({email: "", password: ""});
+  const [value, setValue] = React.useState({email: emailCookie ? emailCookie : "", password: ""});
   const [checker, setChecker] = React.useState({email: false, password: false});
   const setEmailInput = (event) => setValue(value => ({
     ...value, email: event.target.value
@@ -85,6 +93,7 @@ export default function SignInForm(props) {
       props.handle.toggleLoading();
       const encryptedPassword = CryptoJS.SHA256(value.email + value.password).toString();
       const tomorrow = new Date(new Date().getTime() + 24 * 3600 * 1000);
+      setEmailCookie(memory, value.email);
       packedGET({
         uri: "/data/sign",
         query: {email: value.email, password: encryptedPassword},
@@ -100,6 +109,9 @@ export default function SignInForm(props) {
       }).catch(props.handle.closeLoading);
     }
   };
+
+  const [memory, setMemory] = React.useState(emailCookie !== undefined);
+  const changeMemory = (event) => setMemory(event.target.checked);
 
   return (
     <form className={classes.form} noValidate>
@@ -128,6 +140,8 @@ export default function SignInForm(props) {
       <FormControlLabel
         control={<Checkbox value="remember" color="primary" />}
         label={props.lang.signIn.memory}
+        checked={memory}
+        onChange={changeMemory}
       />
       <Button
         fullWidth
