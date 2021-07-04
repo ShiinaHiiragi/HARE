@@ -106,6 +106,10 @@ const oneLine = readline.createInterface({
   output: process.stdout
 });
 
+// TEMP: delete it later
+setTimeout(() =>
+  exec("sign abc@xyz.com Ichinoe 123123123".split(/\s+/)), 1000);
+
 (function shellLine() {
   oneLine.question('', (cmd) => {
     exec(cmd.split(/\s+/)).then(shellLine).catch(err => {

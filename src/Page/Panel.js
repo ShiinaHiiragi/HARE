@@ -4,7 +4,8 @@ import React from "react";
 // const requestURL = isDevMode ? "http://localhost:8000" : "";
 
 export default function Panel(props) {
+  const {userID, token} = props;
   return (
-    <div> Welcome, {props.userID} </div>
+    <div> Welcome, userID: {userID}, token: {token} </div>
   );
 }
