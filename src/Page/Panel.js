@@ -10,12 +10,13 @@ const requestURL = isDevMode ? "http://localhost:8000" : "";
 
 export default function Panel(props) {
   const {userID, token} = props;
+ 
+  // TODO: loading multi-language
 
   const [navList, setNavList] = React.useState(true);
+  const [navListMobile, setNavListMobile] = React.useState(false);
   const toggleNavList = () => setNavList(true);
   const closeNavList = () => setNavList(false);
-
-  const [navListMobile, setNavListMobile] = React.useState(false);
   const toggleNavListMobile = () => setNavListMobile(true);
   const closeNavListMobile = () => setNavListMobile(false);
 
