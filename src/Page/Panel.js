@@ -10,10 +10,21 @@ const requestURL = isDevMode ? "http://localhost:8000" : "";
 
 export default function Panel(props) {
   const {userID, token} = props;
+
+  const [navList, setNavList] = React.useState(true);
+  const toggleNavList = () => setNavList(true);
+  const closeNavList = () => setNavList(false);
+
   return (
     <Root>
       <CssBaseline />
-      <NavBar />
+      <NavBar
+        state={{navList: navList}}
+        handle={{
+          toggleNavList: toggleNavList,
+          closeNavList: closeNavList
+        }}
+      />
       <NavList />
       <Main />
     </Root>

@@ -10,18 +10,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Fold(props) {
   const classes = useStyles();
+  const {navList, handleToggleNavList, handleCloseNavList} = props;
+
   return (
     <IconButton
       color="inherit"
       edge="start"
       className={classes.menuButton}
-      // onClick={
-      //   panelPopup.sideListItem
-      //     ? handleSideListItemClose
-      //     : handleSideListItemToggle
-      // }
+      onClick={
+        navList
+          ? handleCloseNavList
+          : handleToggleNavList
+      }
     >
-      {true ? (
+      {navList ? (
         <Tooltip title="Fold" placement="bottom">
           <ChevronLeftIcon />
         </Tooltip>

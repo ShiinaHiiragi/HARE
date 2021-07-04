@@ -26,16 +26,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar(props) {
   const classes = useStyles();
+  const {state, handle} = props;
 
   return (
     <AppBar
       position="fixed"
       className={clsx(classes.appBar, {
-        [classes.appBarShift]: true
+        [classes.appBarShift]: state.navList
       })}
     >
       <Toolbar>
-        <Fold />
+        <Fold
+          navList={state.navList}
+          handleToggleNavList={handle.toggleNavList}
+          handleCloseNavList={handle.closeNavList}
+        />
         <NavTitle />
       </Toolbar>
     </AppBar>
