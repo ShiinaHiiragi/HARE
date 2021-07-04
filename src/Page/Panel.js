@@ -15,6 +15,10 @@ export default function Panel(props) {
   const toggleNavList = () => setNavList(true);
   const closeNavList = () => setNavList(false);
 
+  const [navListMobile, setNavListMobile] = React.useState(false);
+  const toggleNavListMobile = () => setNavListMobile(true);
+  const closeNavListMobile = () => setNavListMobile(false);
+
   return (
     <Root>
       <CssBaseline />
@@ -22,11 +26,16 @@ export default function Panel(props) {
         state={{navList: navList}}
         handle={{
           toggleNavList: toggleNavList,
-          closeNavList: closeNavList
+          closeNavList: closeNavList,
+          toggleNavListMobile: toggleNavListMobile
         }}
       />
       <NavList
-        state={{navList: navList}}
+        state={{
+          navList: navList,
+          navListMobile: navListMobile
+        }}
+        handle={{closeNavListMobile: closeNavListMobile}}
       />
       <Main />
     </Root>

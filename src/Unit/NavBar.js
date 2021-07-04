@@ -40,6 +40,7 @@ export default function NavBar(props) {
           navList={state.navList}
           handleToggleNavList={handle.toggleNavList}
           handleCloseNavList={handle.closeNavList}
+          handleToggleNavListMobile={handle.toggleNavListMobile}
         />
         <NavTitle />
       </Toolbar>
