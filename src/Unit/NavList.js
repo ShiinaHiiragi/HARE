@@ -8,14 +8,20 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     flexShrink: 0
   },
+  drawerPaper: {width: drawerWidth}
 }));
 
 export default function NavList(props) {
   const classes = useStyles();
+  const {state} = props;
 
   return (
     <Drawer
       className={classes.drawer}
+      variant="persistent"
+      anchor="left"
+      open={state.navList}
+      classes={{ paper: classes.drawerPaper }}
     >
     </Drawer>
   );

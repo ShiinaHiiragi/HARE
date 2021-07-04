@@ -25,7 +25,9 @@ export default function Panel(props) {
           closeNavList: closeNavList
         }}
       />
-      <NavList />
+      <NavList
+        state={{navList: navList}}
+      />
       <Main />
     </Root>
   );
