@@ -14,7 +14,7 @@ router.get('/check', (req, res) => {
         res.status(401).send("INVALID");
       else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan)
         res.status(401).send("EXPIRED");
-      else res.send("HARE");
+      else newToken(userID).then(() => res.send("HARE"));
     }).catch((err) => res.status(500).send(err.toString()));
 });
 
@@ -22,7 +22,6 @@ router.get('/sign', (req, res) => {
   query(`select userID from userInfo natural join userSetting
     where email = '${req.query.email}' and password = '${req.query.password}'`)
     .then(out => {
-      console.log(out);
       const token = SHA1(req.query.email + new Date().toString()).toString();
       if (out.length > 0) {
         newToken(out[0].userid, token).then(() =>

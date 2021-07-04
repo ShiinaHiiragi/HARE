@@ -103,8 +103,6 @@ export default function SignInForm(props) {
         props.handle.closeLoading();
         cookie.save("userID", res.data.uid, {expires: tomorrow});
         cookie.save("token", res.data.token, {expires: tomorrow});
-        console.log(res.data);
-        console.log(typeof res.data.uid)
         ReactDOM.render(<Panel userID={res.data.uid} token={res.data.token}/>, document.getElementById("root"));
       }).catch(props.handle.closeLoading);
     }
