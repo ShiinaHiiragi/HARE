@@ -123,7 +123,7 @@
     | 主界面 | `Panel`      |
     | 欢迎页 | `Intro`      |
     | 列表   | `NavList`    |
-    | 导航栏 | `AppBar`     |
+    | 导航栏 | `NavBar`     |
     | 菜单   | `GlobalInfo` |
     | 信息   | `LocalInfo`  |
 
