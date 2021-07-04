@@ -6,6 +6,8 @@ import NavBar from "../Unit/NavBar";
 import NavList from "../Unit/NavList";
 import Main from "../Unit/Main";
 import { languagePicker } from "../Language/Lang";
+import MessageBox from "../Dialogue/MessageBox";
+import Load from "../Dialogue/Load";
 
 const isDevMode = window.location.port === "3000";
 const requestURL = isDevMode ? "http://localhost:8000" : "";
@@ -33,9 +35,40 @@ export default function Panel(props) {
   // the state of response navigation bar
   const [navList, setNavList] = React.useState(true);
   const [navListMobile, setNavListMobile] = React.useState(false);
-
-  // the state of title of navigation bar
   const [navBarTitle, setNavBarTitle] = React.useState("HARE");
+
+  // the setting of snackbar
+  const [messageBoxInfo, setMessageBoxInfo] = React.useState({
+    open: false,
+    type: "success",
+    message: ""
+  });
+  const toggleMessageBox = (message, type) => {
+    setMessageBoxInfo({
+      open: true,
+      type: type,
+      message: message
+    });
+  };
+  const closeMessageBox = () => {
+    setMessageBoxInfo(snackbarInfo => ({
+      ...snackbarInfo,
+      open: false
+    }))
+  }
+
+  // the state of loading scene
+  let clockLoading = null;
+  const [loading, setLoading] = React.useState(false);
+  const toggleLoading = () => clockLoading = setTimeout(() => {
+    clockLoading = null;
+    setLoading(true);
+  }, 1000);
+  const closeLoading = () => {
+    if (clockLoading)
+      clearTimeout(clockLoading);
+    setLoading(false);
+  }
 
   return (
     <Root>
@@ -64,6 +97,13 @@ export default function Panel(props) {
         lang={globalLang}
         state={{navList: navList}}
       />
+      <MessageBox
+        open={messageBoxInfo.open}
+        handleClose={closeMessageBox}
+        messageBoxType={messageBoxInfo.type}
+        messageBoxMessage={messageBoxInfo.message}
+      />
+      <Load open={loading} />
     </Root>
   );
 }
