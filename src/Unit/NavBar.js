@@ -1,5 +1,6 @@
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Hidden from "@material-ui/core/Hidden";
 import NavTitle from "../Component/NavTitle";
 import Fold from "../Component/Fold";
 import clsx from "clsx";
@@ -28,22 +29,35 @@ export default function NavBar(props) {
   const classes = useStyles();
   const {state, handle} = props;
 
+  const AppBarContent = (
+    <Toolbar>
+      <Fold
+        navList={state.navList}
+        handleToggleNavList={handle.toggleNavList}
+        handleCloseNavList={handle.closeNavList}
+        handleToggleNavListMobile={handle.toggleNavListMobile}
+      />
+      <NavTitle />
+    </Toolbar>
+  );
+
   return (
-    <AppBar
-      position="fixed"
-      className={clsx(classes.appBar, {
-        [classes.appBarShift]: state.navList
-      })}
-    >
-      <Toolbar>
-        <Fold
-          navList={state.navList}
-          handleToggleNavList={handle.toggleNavList}
-          handleCloseNavList={handle.closeNavList}
-          handleToggleNavListMobile={handle.toggleNavListMobile}
-        />
-        <NavTitle />
-      </Toolbar>
-    </AppBar>
+    <div>
+      <Hidden xsDown implementation="css">
+        <AppBar
+          position="fixed"
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: state.navList
+          })}
+        >
+          {AppBarContent}
+        </AppBar>
+      </Hidden>
+      <Hidden smUp implementation="css">
+        <AppBar position="fixed" className={classes.appBar}>
+          {AppBarContent}
+        </AppBar>
+      </Hidden>
+    </div>
   );
 }
