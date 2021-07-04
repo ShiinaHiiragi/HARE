@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     flexShrink: 0
   },
-  drawerPaper: {width: drawerWidth}
+  drawerPaper: { width: drawerWidth }
 }));
 
 export default function NavList(props) {

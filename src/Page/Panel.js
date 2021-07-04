@@ -37,7 +37,9 @@ export default function Panel(props) {
         }}
         handle={{closeNavListMobile: closeNavListMobile}}
       />
-      <Main />
+      <Main
+        state={{navList: navList}}
+      />
     </Root>
   );
 }
