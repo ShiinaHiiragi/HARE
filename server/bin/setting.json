@@ -9,7 +9,7 @@
     "userInfo": [
       "create table userInfo(",
       "userID serial primary key,",
-      "email varchar(32) not null);"
+      "email varchar(32) unique not null);"
     ],
     "userSetting": [
       "create table userSetting(",

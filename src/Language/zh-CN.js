@@ -17,6 +17,8 @@ const list = {
     }
   },
   message: {
+    error: "错误",
+    serverError: "服务器错误",
     signInBlank: "请填写邮箱和密码。"
   },
   common: {

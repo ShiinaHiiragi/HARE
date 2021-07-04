@@ -8,10 +8,10 @@ import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import CryptoJS from "crypto-js";
 import cookie from "react-cookies";
-import axios from "axios";
 import SignUp from "../Dialogue/SignUp";
 import LanguageSelector from "../Dialogue/LanguageSelector";
 import Panel from "../Page/Panel";
+import packedGET from "../Interface/Request";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
@@ -85,15 +85,17 @@ export default function SignInForm(props) {
       props.handle.toggleLoading();
       const encryptedPassword = CryptoJS.SHA256(value.email + value.password).toString();
       const tomorrow = new Date(new Date().getTime() + 24 * 3600 * 1000);
-      axios.get(
-        `${props.URL}/data/sign?email=${value.email}&password=${encryptedPassword}`
-      ).then((res) => {
+      packedGET({
+        uri: "/data/sign",
+        query: {email: value.email, password: encryptedPassword},
+        msgbox: props.handle.toggleMessageBox,
+        lang: props.lang
+      }).then(res => {
         props.handle.closeLoading();
-        console.log(res.data);
         cookie.save("userID", res.data.uid, {expires: tomorrow});
         cookie.save("token", res.data.token, {expires: tomorrow});
         ReactDOM.render(<Panel userID={res.data.uid}/>, document.getElementById("root"));
-      }).catch((err) => props.handle.toggleMessageBox(err, "error"));
+      }).catch(props.handle.closeLoading);
     }
   };
 

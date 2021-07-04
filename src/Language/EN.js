@@ -17,6 +17,8 @@ const list = {
     }
   },
   message: {
+    error: "Error",
+    serverError: "Server Error",
     signInBlank: "Please enter the E-mail and password."
   },
   common: {
