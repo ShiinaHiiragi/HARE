@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Main(props) {
   const classes = useStyles();
-  const {state} = props;
+  const {lang, state} = props;
 
   return (
     <main

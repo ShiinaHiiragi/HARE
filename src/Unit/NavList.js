@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavList(props) {
   const classes = useStyles();
-  const {state, handle} = props;
+  const {lang, state, handle} = props;
 
   return (
     <div>

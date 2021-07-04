@@ -1,9 +1,11 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import cookie from "react-cookies";
 import Root from "../Interface/Root";
 import NavBar from "../Unit/NavBar";
 import NavList from "../Unit/NavList";
 import Main from "../Unit/Main";
+import { languagePicker } from "../Language/Lang";
 
 const isDevMode = window.location.port === "3000";
 const requestURL = isDevMode ? "http://localhost:8000" : "";
@@ -11,34 +13,52 @@ const requestURL = isDevMode ? "http://localhost:8000" : "";
 export default function Panel(props) {
   const {userID, token} = props;
  
-  // TODO: loading multi-language
+  // detect if the language information is stored
+  let storageLang = cookie.load("lang");
+  if (storageLang === undefined) {
+    cookie.save("lang", "en", {
+      expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
+    });
+    storageLang = "en";
+  }
+  const [globalLang, setGlobalLang] = React.useState(languagePicker(storageLang));
+  const changeGlobalLang = (targetValue) => {
+    if (targetValue)
+      setGlobalLang(languagePicker(targetValue));
+      cookie.save("lang", targetValue, {
+        expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
+      });
+  }
 
+  // the state of response navigation bar
   const [navList, setNavList] = React.useState(true);
   const [navListMobile, setNavListMobile] = React.useState(false);
-  const toggleNavList = () => setNavList(true);
-  const closeNavList = () => setNavList(false);
-  const toggleNavListMobile = () => setNavListMobile(true);
-  const closeNavListMobile = () => setNavListMobile(false);
+
+  // the state of title of navigation bar
+  const [navBarTitle, setNavBarTitle] = React.useState("HARE");
 
   return (
     <Root>
       <CssBaseline />
       <NavBar
+        lang={globalLang}
         state={{navList: navList}}
         handle={{
-          toggleNavList: toggleNavList,
-          closeNavList: closeNavList,
-          toggleNavListMobile: toggleNavListMobile
+          toggleNavList: () => setNavList(true),
+          closeNavList: () => setNavList(false),
+          toggleNavListMobile: () => setNavListMobile(true)
         }}
       />
       <NavList
+        lang={globalLang}
         state={{
           navList: navList,
           navListMobile: navListMobile
         }}
-        handle={{closeNavListMobile: closeNavListMobile}}
+        handle={{closeNavListMobile: () => setNavListMobile(false)}}
       />
       <Main
+        lang={globalLang}
         state={{navList: navList}}
       />
     </Root>
