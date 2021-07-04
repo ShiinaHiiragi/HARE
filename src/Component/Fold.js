@@ -1,5 +1,4 @@
 import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import MenuIcon from "@material-ui/icons/Menu";
 
@@ -17,21 +16,9 @@ export default function Fold(props) {
       color="inherit"
       edge="start"
       className={classes.menuButton}
-      onClick={
-        navList
-          ? handleCloseNavList
-          : handleToggleNavList
-      }
+      onClick={navList ? handleCloseNavList : handleToggleNavList}
     >
-      {navList ? (
-        <Tooltip title="Fold" placement="bottom">
-          <ChevronLeftIcon />
-        </Tooltip>
-      ) : (
-        <Tooltip title="Unfold" placement="bottom">
-          <MenuIcon />
-        </Tooltip>
-      )}
+      {navList ? (<ChevronLeftIcon />) : (<MenuIcon />)}
     </IconButton>
   );
 }
