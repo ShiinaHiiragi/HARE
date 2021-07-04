@@ -2,7 +2,8 @@ import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Title from "../Component/Title";
+import cookie from "react-cookies";
+import SignTitle from "../Component/SignTitle";
 import SignInForm from "../Component/Form";
 import Copyright from "../Component/Copyright";
 import { languagePicker } from "../Language/Lang";
@@ -40,16 +41,20 @@ export default function SignIn() {
   const classes = useStyles();
 
   // detect if the language information is stored
-  let storageLang = localStorage.getItem("lang");
+  let storageLang = cookie.load("lang");
   if (storageLang === undefined) {
-    localStorage.setItem("lang", "en");
+    cookie.save("lang", "en", {
+      expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
+    });
     storageLang = "en";
   }
   const [globalLang, setGlobalLang] = React.useState(languagePicker(storageLang));
   const changeGlobalLang = (targetValue) => {
     if (targetValue)
       setGlobalLang(languagePicker(targetValue));
-      localStorage.setItem("lang", targetValue);
+      cookie.save("lang", targetValue, {
+        expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
+      });
   }
 
   // the setting of snackbar
@@ -90,7 +95,7 @@ export default function SignIn() {
       <CssBaseline />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Title lang={globalLang} />
+          <SignTitle lang={globalLang} />
           <SignInForm
             lang={globalLang}
             handle={{
