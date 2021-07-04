@@ -42,7 +42,10 @@ export default function Panel(props) {
       <CssBaseline />
       <NavBar
         lang={globalLang}
-        state={{navList: navList}}
+        state={{
+          navList: navList,
+          navBarTitle: navBarTitle
+        }}
         handle={{
           toggleNavList: () => setNavList(true),
           closeNavList: () => setNavList(false),

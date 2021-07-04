@@ -1,6 +1,7 @@
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Hidden from "@material-ui/core/Hidden";
+import LocalInfo from "../Component/LocalInfo";
 import NavTitle from "../Component/NavTitle";
 import Fold from "../Component/Fold";
 import clsx from "clsx";
@@ -37,7 +38,8 @@ export default function NavBar(props) {
         handleCloseNavList={handle.closeNavList}
         handleToggleNavListMobile={handle.toggleNavListMobile}
       />
-      <NavTitle />
+      <NavTitle title={state.navBarTitle}/>
+      <LocalInfo />
     </Toolbar>
   );
 
