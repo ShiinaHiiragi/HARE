@@ -53,3 +53,18 @@ exports.exec = (cmdLine) => new Promise((resolve, reject) => {
       .catch(err => reject(err));
   } else reject('ERROR: cannot parse the command.');
 })
+
+exports.newToken = (userID, token) => new Promise((resolve, reject) => {
+  if (token)
+  wrapQuery(`insert into onlineUser(userID, token, lastTime)
+    values(${userID}, '${token}', now())
+    on conflict (userID) do update
+    set token = EXCLUDED.token, lastTime = EXCLUDED.lastTime`)
+    .then(resolve).catch(err => reject(err));
+  else
+    wrapQuery(`insert into onlineUser(userID, token, lastTime)
+      values(${userID}, '', now())
+      on conflict (userID) do update
+      set lastTime = EXCLUDED.lastTime`)
+      .then(resolve).catch(err => reject(err));
+})
