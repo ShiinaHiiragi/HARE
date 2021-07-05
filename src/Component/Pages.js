@@ -1,5 +1,4 @@
 import React from "react";
-import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -10,6 +9,7 @@ import ListIcon from "@material-ui/icons/List";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
+import UnitMenu from "../Dialogue/UnitMenu";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -26,13 +26,20 @@ const useStyles = makeStyles((theme) => ({
 export default function PersonalInfo(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const [_open, _setOpen] = React.useState(true);
   const handleClick = () => setOpen(!open);
-  const _handleClick = () => _setOpen(!_open);
+
+  const [unitMenu, setUnitMenu] = React.useState({ mouseX: null, mouseY: null });
+  const toggleUnitMenu = (event) => {
+    event.preventDefault();
+    setUnitMenu({
+      mouseX: event.clientX - 2,
+      mouseY: event.clientY - 4,
+    });
+  };
 
   return (
-    <List component="nav" className={classes.list}>
-      <ListItem button onClick={handleClick}>
+    <List onContextMenu={() => {}} component="nav" className={classes.list}>
+      <ListItem onContextMenu={toggleUnitMenu} button onClick={handleClick}>
         <ListItemIcon>
           <ListIcon />
         </ListItemIcon>
@@ -57,29 +64,10 @@ export default function PersonalInfo(props) {
           </ListItem>
         </List>
       </Collapse>
-      <ListItem button onClick={_handleClick}>
-        <ListItemIcon>
-          <ListIcon />
-        </ListItemIcon>
-        <ListItemText primary="Networks" />
-        {_open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={_open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <TurnedInNotIcon />
-            </ListItemIcon>
-            <ListItemText primary="TCP/IP" />
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <TurnedInNotIcon />
-            </ListItemIcon>
-            <ListItemText primary="DNS" />
-          </ListItem>
-        </List>
-      </Collapse>
+      <UnitMenu
+        state={unitMenu}
+        handleClose={() => setUnitMenu({ mouseX: null, mouseY: null })}
+      />
     </List>
   );
 }
