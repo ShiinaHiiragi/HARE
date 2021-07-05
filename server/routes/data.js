@@ -10,15 +10,6 @@ router.get('/check', (req, res) => {
   const userID = req.query.userID === "undefined" ? "0" : req.query.userID;
   checkToken(res, userID, req.query.token)
     .then(() => updateToken(userID).then(() => res.send("HARE")));
-  // query(`select * from onlineUser
-  //   where userID = ${userID} and token = '${req.query.token}'`)
-  //   .then(out => {
-  //     if (out.length === 0)
-  //       res.status(401).send("INVALID");
-  //     else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan)
-  //       res.status(401).send("EXPIRED");
-  //     else updateToken(userID).then(() => res.send("HARE"));
-  //   }).catch((err) => res.status(500).send(err.toString()));
 });
 
 router.get('/sign', (req, res) => {
@@ -34,7 +25,68 @@ router.get('/sign', (req, res) => {
 });
 
 router.get('/pages', (req, res) => {
-
+  const {userID, token} = req.query;
+  checkToken(res, userID, token).then(() => {
+    res.send([
+      {
+        unitID: 1,
+        unitName: "Operating System",
+        open: true,
+        pages: [
+          {
+            pageID: 1,
+            pageName: "Process",
+            PageCover: 0,
+            PageDescribe: "",
+          },
+          {
+            pageID: 2,
+            pageName: "TLB",
+            PageCover: 0,
+            PageDescribe: "",
+          },
+          {
+            pageID: 3,
+            pageName: "Dispatching",
+            PageCover: 0,
+            PageDescribe: "",
+          }
+        ]
+      },
+      {
+        unitID: 2,
+        unitName: "Mathmatics",
+        open: false,
+        pages: [
+          {
+            pageID: 4,
+            pageName: "Predicate",
+            PageCover: 0,
+            PageDescribe: "",
+          }
+        ]
+      },
+      {
+        unitID: 3,
+        unitName: "Networks",
+        open: false,
+        pages: [
+          {
+            pageID: 5,
+            pageName: "DNS",
+            PageCover: 0,
+            PageDescribe: "",
+          },
+          {
+            pageID: 6,
+            pageName: "TCP/IP",
+            PageCover: 0,
+            PageDescribe: "",
+          }
+        ]
+      }
+    ]);
+  });
 });
 
 module.exports = router;

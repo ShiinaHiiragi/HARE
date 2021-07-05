@@ -17,13 +17,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavList(props) {
   const classes = useStyles();
-  const { lang, state, handle } = props;
+  const { lang, data, state, handle } = props;
 
   const drawerContent = (
     <div>
       <PersonalInfo />
       <Divider />
-      <Pages />
+      <Pages
+        lang={lang}
+        userID={data.userID}
+        token={data.token}
+        toggleMessageBox={handle.toggleMessageBox}
+      />
     </div>
   );
 

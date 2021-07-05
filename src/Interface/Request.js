@@ -1,5 +1,7 @@
+import ReactDOM from "react-dom";
 import axios from "axios";
 import requestURL from "./URL";
+import SignIn from "../Page/SignIn";
 
 const packedGET = (params) => {
   let request = `${requestURL}${params.uri}`;
@@ -12,11 +14,16 @@ const packedGET = (params) => {
       .get(request)
       .then((res) => resolve(res))
       .catch((err) => {
-        params.msgbox(
-          `${params.lang.message.serverError}: ${err.response.data}`,
-          "error"
-        );
-        reject(err);
+        if (err.response.status !== 401) {
+          params.msgbox(
+            `${params.lang.message.serverError}: ${err.response.data}`,
+            "error"
+          );
+          reject(err);
+        } else {
+          console.log("INVALID OR EXPIRED");
+          ReactDOM.render(<SignIn />, document.getElementById("root"));
+        }
       });
   });
 };

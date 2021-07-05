@@ -8,7 +8,6 @@ import Main from "../Unit/Main";
 import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
-import requestURL from "../Interface/URL";
 
 export default function Panel(props) {
   const { userID, token } = props;
@@ -86,11 +85,18 @@ export default function Panel(props) {
       />
       <NavList
         lang={globalLang}
+        data={{
+          userID: userID,
+          token: token
+        }}
         state={{
           navList: navList,
           navListMobile: navListMobile
         }}
-        handle={{ closeNavListMobile: () => setNavListMobile(false) }}
+        handle={{
+          closeNavListMobile: () => setNavListMobile(false),
+          toggleMessageBox: toggleMessageBox
+        }}
       />
       <Main lang={globalLang} state={{ navList: navList }} />
       <MessageBox

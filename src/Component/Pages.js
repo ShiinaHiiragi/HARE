@@ -10,6 +10,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import UnitMenu from "../Dialogue/UnitMenu";
+import packedGET from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -23,10 +24,24 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function PersonalInfo(props) {
+export default function Pages(props) {
   const classes = useStyles();
+  const { lang, userID, token, toggleMessageBox } = props;
   const [open, setOpen] = React.useState(true);
   const handleClick = () => setOpen(!open);
+
+  const [listObject, setListObject] = React.useState({});
+  React.useEffect(() => {
+    packedGET({
+      uri: "/data/pages",
+      query: { userID: userID, token: token },
+      msgbox: toggleMessageBox,
+      lang: lang
+    })
+      .then((res) => {
+        setListObject(res.data);
+      });
+  }, []);
 
   const [unitMenu, setUnitMenu] = React.useState({ mouseX: null, mouseY: null });
   const toggleUnitMenu = (event) => {
@@ -38,7 +53,8 @@ export default function PersonalInfo(props) {
   };
 
   return (
-    <List onContextMenu={() => {}} component="nav" className={classes.list}>
+    <List component="nav" className={classes.list}>
+
       <ListItem onContextMenu={toggleUnitMenu} button onClick={handleClick}>
         <ListItemIcon>
           <ListIcon />
