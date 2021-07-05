@@ -6,12 +6,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import axios from "axios";
 import CryptoJS from "crypto-js";
 import cookie from "react-cookies";
 import SignUp from "../Dialogue/SignUp";
 import LanguageSelector from "../Dialogue/LanguageSelector";
 import Panel from "../Page/Panel";
-import packedGET from "../Interface/Request";
+import requestURL from "../Interface/URL";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
@@ -107,22 +108,26 @@ export default function SignInForm(props) {
       ).toString();
       const tomorrow = new Date(new Date().getTime() + 24 * 3600 * 1000);
       setEmailCookie(memory, value.email);
-      packedGET({
-        uri: "/data/sign",
-        query: { email: value.email, password: encryptedPassword },
-        msgbox: props.handle.toggleMessageBox,
-        lang: props.lang
+
+    // we don't use packedGET for it didn't check token
+    axios
+      .get(`${requestURL}/data/sign?email=${value.email}&password=${encryptedPassword}`)
+      .then((res) => {
+        props.handle.closeLoading();
+        cookie.save("userID", res.data.uid, { expires: tomorrow });
+        cookie.save("token", res.data.token, { expires: tomorrow });
+        ReactDOM.render(
+          <Panel userID={res.data.uid} token={res.data.token} />,
+          document.getElementById("root")
+        );
       })
-        .then((res) => {
-          props.handle.closeLoading();
-          cookie.save("userID", res.data.uid, { expires: tomorrow });
-          cookie.save("token", res.data.token, { expires: tomorrow });
-          ReactDOM.render(
-            <Panel userID={res.data.uid} token={res.data.token} />,
-            document.getElementById("root")
-          );
-        })
-        .catch(props.handle.closeLoading);
+      .catch((err) => {
+        props.handle.closeLoading();
+        props.handle.toggleMessageBox(
+          `${props.lang.message.serverError}: ${err.response.data}`,
+          "error"
+        );
+      });
     }
   };
 

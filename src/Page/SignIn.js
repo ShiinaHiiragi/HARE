@@ -9,6 +9,7 @@ import Copyright from "../Component/Copyright";
 import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
+import requestURL from "../Interface/URL";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
@@ -33,9 +34,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center"
   }
 }));
-
-const isDevMode = window.location.port === "3000";
-const requestURL = isDevMode ? "http://localhost:8000" : "";
 
 export default function SignIn() {
   const classes = useStyles();

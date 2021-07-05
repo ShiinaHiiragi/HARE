@@ -1,7 +1,5 @@
 import axios from "axios";
-
-const isDevMode = window.location.port === "3000";
-const requestURL = isDevMode ? "http://localhost:8000" : "";
+import requestURL from "./URL";
 
 const packedGET = (params) => {
   let request = `${requestURL}${params.uri}`;

@@ -8,9 +8,7 @@ import Main from "../Unit/Main";
 import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
-
-const isDevMode = window.location.port === "3000";
-const requestURL = isDevMode ? "http://localhost:8000" : "";
+import requestURL from "../Interface/URL";
 
 export default function Panel(props) {
   const { userID, token } = props;

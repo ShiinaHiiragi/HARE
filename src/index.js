@@ -4,11 +4,10 @@ import SignIn from "./Page/SignIn";
 import Panel from "./Page/Panel";
 import cookie from "react-cookies";
 import axios from "axios";
+import requestURL from "./Interface/URL";
 
 const userID = cookie.load("userID");
 const token = cookie.load("token");
-const isDevMode = window.location.port === "3000";
-const requestURL = isDevMode ? "http://localhost:8000" : "";
 
 axios
   .get(`${requestURL}/data/check?userID=${userID}&token=${token}`)
