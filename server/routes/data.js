@@ -25,7 +25,7 @@ router.get('/sign', (req, res) => {
       const token = SHA1(req.query.email + new Date().toString()).toString();
       if (out.length > 0) {
         newToken(out[0].userid, token).then(() =>
-          res.send({uid: out[0].userid, token: token}));
+          res.send({ uid: out[0].userid, token: token }));
       } else res.status(401).send("Incorrect E-mail or password.");
     }).catch((err) => res.status(500).send(err.toString()));
 });

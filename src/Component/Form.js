@@ -24,13 +24,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-let emailCookie = cookie.load("email")
+let emailCookie = cookie.load("email");
 const setEmailCookie = (boxChecked, email) => {
-  if (boxChecked) cookie.save("email", email, {
-    expires: new Date(new Date().getTime() + 365 * 24 * 3600 * 1000)
-  });
+  if (boxChecked)
+    cookie.save("email", email, {
+      expires: new Date(new Date().getTime() + 365 * 24 * 3600 * 1000)
+    });
   else cookie.remove("email");
-}
+};
 
 function FormTip(props) {
   // the sign up information popup
@@ -44,7 +45,7 @@ function FormTip(props) {
   const closeLanguageSelector = (targetValue) => {
     setLanguageDialogue(false);
     props.handleChangeLanguage(targetValue);
-  }
+  };
 
   return (
     <Grid container>
@@ -74,37 +75,54 @@ function FormTip(props) {
 
 export default function SignInForm(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState({email: emailCookie ? emailCookie : "", password: ""});
-  const [checker, setChecker] = React.useState({email: false, password: false});
-  const setEmailInput = (event) => setValue(value => ({
-    ...value, email: event.target.value
-  }));
-  const setPasswordInput = (event) => setValue(value => ({
-    ...value, password: event.target.value
-  }));
-  
+  const [value, setValue] = React.useState({
+    email: emailCookie ? emailCookie : "",
+    password: ""
+  });
+  const [checker, setChecker] = React.useState({
+    email: false,
+    password: false
+  });
+  const setEmailInput = (event) =>
+    setValue((value) => ({
+      ...value,
+      email: event.target.value
+    }));
+  const setPasswordInput = (event) =>
+    setValue((value) => ({
+      ...value,
+      password: event.target.value
+    }));
+
   const submitForm = () => {
     const emailNil = value.email === "",
       passwordNil = value.password === "";
-    setChecker({ email: emailNil, password: passwordNil })
+    setChecker({ email: emailNil, password: passwordNil });
     if (emailNil || passwordNil) {
       props.handle.toggleMessageBox(props.lang.message.signInBlank, "warning");
     } else {
       props.handle.toggleLoading();
-      const encryptedPassword = CryptoJS.SHA256(value.email + value.password).toString();
+      const encryptedPassword = CryptoJS.SHA256(
+        value.email + value.password
+      ).toString();
       const tomorrow = new Date(new Date().getTime() + 24 * 3600 * 1000);
       setEmailCookie(memory, value.email);
       packedGET({
         uri: "/data/sign",
-        query: {email: value.email, password: encryptedPassword},
+        query: { email: value.email, password: encryptedPassword },
         msgbox: props.handle.toggleMessageBox,
         lang: props.lang
-      }).then(res => {
-        props.handle.closeLoading();
-        cookie.save("userID", res.data.uid, {expires: tomorrow});
-        cookie.save("token", res.data.token, {expires: tomorrow});
-        ReactDOM.render(<Panel userID={res.data.uid} token={res.data.token}/>, document.getElementById("root"));
-      }).catch(props.handle.closeLoading);
+      })
+        .then((res) => {
+          props.handle.closeLoading();
+          cookie.save("userID", res.data.uid, { expires: tomorrow });
+          cookie.save("token", res.data.token, { expires: tomorrow });
+          ReactDOM.render(
+            <Panel userID={res.data.uid} token={res.data.token} />,
+            document.getElementById("root")
+          );
+        })
+        .catch(props.handle.closeLoading);
     }
   };
 

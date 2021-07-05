@@ -10,11 +10,13 @@ const token = cookie.load("token");
 const isDevMode = window.location.port === "3000";
 const requestURL = isDevMode ? "http://localhost:8000" : "";
 
-axios.get(`${requestURL}/data/check?userID=${userID}&token=${token}`)
+axios
+  .get(`${requestURL}/data/check?userID=${userID}&token=${token}`)
   .then((res) => {
     if (res.data === "HARE")
       ReactDOM.render(
-        <Panel userID={userID} token={token}/>,
+        <Panel userID={userID} token={token} />,
         document.getElementById("root")
       );
-  }).catch(() => ReactDOM.render(<SignIn />, document.getElementById("root")));
+  })
+  .catch(() => ReactDOM.render(<SignIn />, document.getElementById("root")));

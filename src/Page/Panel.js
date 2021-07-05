@@ -13,8 +13,8 @@ const isDevMode = window.location.port === "3000";
 const requestURL = isDevMode ? "http://localhost:8000" : "";
 
 export default function Panel(props) {
-  const {userID, token} = props;
- 
+  const { userID, token } = props;
+
   // detect if the language information is stored
   let storageLang = cookie.load("lang");
   if (storageLang === undefined) {
@@ -23,16 +23,17 @@ export default function Panel(props) {
     });
     storageLang = "en";
   }
-  const [globalLang, setGlobalLang] = React.useState(languagePicker(storageLang));
+  const [globalLang, setGlobalLang] = React.useState(
+    languagePicker(storageLang)
+  );
   const changeGlobalLang = (targetValue) => {
-    if (targetValue)
-      setGlobalLang(languagePicker(targetValue));
-      cookie.save("lang", targetValue, {
-        expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
-      });
-  }
+    if (targetValue) setGlobalLang(languagePicker(targetValue));
+    cookie.save("lang", targetValue, {
+      expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
+    });
+  };
 
-  // the state of response navigation bar
+  // the sharing state of response navigation bar and list
   const [navList, setNavList] = React.useState(true);
   const [navListMobile, setNavListMobile] = React.useState(false);
   const [navBarTitle, setNavBarTitle] = React.useState("HARE");
@@ -51,24 +52,24 @@ export default function Panel(props) {
     });
   };
   const closeMessageBox = () => {
-    setMessageBoxInfo(snackbarInfo => ({
+    setMessageBoxInfo((snackbarInfo) => ({
       ...snackbarInfo,
       open: false
-    }))
-  }
+    }));
+  };
 
   // the state of loading scene
   let clockLoading = null;
   const [loading, setLoading] = React.useState(false);
-  const toggleLoading = () => clockLoading = setTimeout(() => {
-    clockLoading = null;
-    setLoading(true);
-  }, 1000);
+  const toggleLoading = () =>
+    (clockLoading = setTimeout(() => {
+      clockLoading = null;
+      setLoading(true);
+    }, 1000));
   const closeLoading = () => {
-    if (clockLoading)
-      clearTimeout(clockLoading);
+    if (clockLoading) clearTimeout(clockLoading);
     setLoading(false);
-  }
+  };
 
   return (
     <Root>
@@ -91,12 +92,9 @@ export default function Panel(props) {
           navList: navList,
           navListMobile: navListMobile
         }}
-        handle={{closeNavListMobile: () => setNavListMobile(false)}}
+        handle={{ closeNavListMobile: () => setNavListMobile(false) }}
       />
-      <Main
-        lang={globalLang}
-        state={{navList: navList}}
-      />
+      <Main lang={globalLang} state={{ navList: navList }} />
       <MessageBox
         open={messageBoxInfo.open}
         handleClose={closeMessageBox}

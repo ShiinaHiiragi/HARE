@@ -48,14 +48,15 @@ export default function SignIn() {
     });
     storageLang = "en";
   }
-  const [globalLang, setGlobalLang] = React.useState(languagePicker(storageLang));
+  const [globalLang, setGlobalLang] = React.useState(
+    languagePicker(storageLang)
+  );
   const changeGlobalLang = (targetValue) => {
-    if (targetValue)
-      setGlobalLang(languagePicker(targetValue));
-      cookie.save("lang", targetValue, {
-        expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
-      });
-  }
+    if (targetValue) setGlobalLang(languagePicker(targetValue));
+    cookie.save("lang", targetValue, {
+      expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
+    });
+  };
 
   // the setting of snackbar
   const [messageBoxInfo, setMessageBoxInfo] = React.useState({
@@ -71,24 +72,24 @@ export default function SignIn() {
     });
   };
   const closeMessageBox = () => {
-    setMessageBoxInfo(snackbarInfo => ({
+    setMessageBoxInfo((snackbarInfo) => ({
       ...snackbarInfo,
       open: false
-    }))
-  }
+    }));
+  };
 
   // the state of loading scene
   let clockLoading = null;
   const [loading, setLoading] = React.useState(false);
-  const toggleLoading = () => clockLoading = setTimeout(() => {
-    clockLoading = null;
-    setLoading(true);
-  }, 1000);
+  const toggleLoading = () =>
+    (clockLoading = setTimeout(() => {
+      clockLoading = null;
+      setLoading(true);
+    }, 1000));
   const closeLoading = () => {
-    if (clockLoading)
-      clearTimeout(clockLoading);
+    if (clockLoading) clearTimeout(clockLoading);
     setLoading(false);
-  }
+  };
 
   return (
     <Grid container component="main" className={classes.root}>

@@ -10,5 +10,5 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
   const classes = useStyles();
-  return (<div className={classes.drawerHeader} />);
+  return <div className={classes.drawerHeader} />;
 }

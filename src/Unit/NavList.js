@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavList(props) {
   const classes = useStyles();
-  const {lang, state, handle} = props;
+  const { lang, state, handle } = props;
 
   return (
     <div>
@@ -25,8 +25,7 @@ export default function NavList(props) {
           anchor="left"
           open={state.navList}
           classes={{ paper: classes.drawerPaper }}
-        >
-        </Drawer>
+        ></Drawer>
       </Hidden>
       <Hidden smUp implementation="css">
         <Drawer
@@ -36,8 +35,7 @@ export default function NavList(props) {
           open={state.navListMobile}
           classes={{ paper: classes.drawerPaper }}
           onClose={handle.closeNavListMobile}
-        >
-        </Drawer>
+        ></Drawer>
       </Hidden>
     </div>
   );

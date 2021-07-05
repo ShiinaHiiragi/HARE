@@ -5,7 +5,7 @@ import Hidden from "@material-ui/core/Hidden";
 
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
-  menuButton: {marginRight: theme.spacing(2)}
+  menuButton: { marginRight: theme.spacing(2) }
 }));
 
 export default function Fold(props) {
@@ -26,7 +26,7 @@ export default function Fold(props) {
           className={classes.menuButton}
           onClick={navList ? handleCloseNavList : handleToggleNavList}
         >
-          {navList ? (<ChevronLeftIcon />) : (<MenuIcon />)}
+          {navList ? <ChevronLeftIcon /> : <MenuIcon />}
         </IconButton>
       </Hidden>
       <Hidden smUp implementation="css">

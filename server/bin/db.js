@@ -56,11 +56,11 @@ exports.exec = (cmdLine) => new Promise((resolve, reject) => {
 
 exports.newToken = (userID, token) => new Promise((resolve, reject) => {
   if (token)
-  wrapQuery(`insert into onlineUser(userID, token, lastTime)
-    values(${userID}, '${token}', now())
-    on conflict (userID) do update
-    set token = EXCLUDED.token, lastTime = EXCLUDED.lastTime`)
-    .then(resolve).catch(err => reject(err));
+    wrapQuery(`insert into onlineUser(userID, token, lastTime)
+      values(${userID}, '${token}', now())
+      on conflict (userID) do update
+      set token = EXCLUDED.token, lastTime = EXCLUDED.lastTime`)
+      .then(resolve).catch(err => reject(err));
   else
     wrapQuery(`insert into onlineUser(userID, token, lastTime)
       values(${userID}, '', now())

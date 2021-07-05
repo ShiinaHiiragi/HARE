@@ -21,13 +21,9 @@ export default function License(props) {
       onClose={props.handleClose}
       className={classes.noneSelect}
     >
-      <DialogTitle >
-        {props.lang.popup.signUp.title}
-      </DialogTitle>
+      <DialogTitle>{props.lang.popup.signUp.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          {props.lang.popup.signUp.text}
-        </DialogContentText>
+        <DialogContentText>{props.lang.popup.signUp.text}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleClose} color="primary">

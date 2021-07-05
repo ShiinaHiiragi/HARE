@@ -26,6 +26,6 @@ const list = {
     ok: "OK",
     apply: "Apply"
   }
-}
+};
 
 export default list;

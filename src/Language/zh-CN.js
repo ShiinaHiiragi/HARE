@@ -26,6 +26,6 @@ const list = {
     ok: "确定",
     apply: "应用"
   }
-}
+};
 
 export default list;

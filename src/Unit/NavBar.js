@@ -23,12 +23,12 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen
     })
-  },
+  }
 }));
 
 export default function NavBar(props) {
   const classes = useStyles();
-  const {lang, state, handle} = props;
+  const { lang, state, handle } = props;
 
   const AppBarContent = (
     <Toolbar>
@@ -38,7 +38,7 @@ export default function NavBar(props) {
         handleCloseNavList={handle.closeNavList}
         handleToggleNavListMobile={handle.toggleNavListMobile}
       />
-      <NavTitle title={state.navBarTitle}/>
+      <NavTitle title={state.navBarTitle} />
       <LocalInfo />
     </Toolbar>
   );
