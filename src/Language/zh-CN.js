@@ -16,6 +16,13 @@ const list = {
       text: "我们暂时不提供注册功能，如有需要请联系作者在后台直接注册。"
     }
   },
+  menu: {
+    editGroup: "编辑卡片组资料",
+    moveUp: "上移",
+    moveDown: "下移",
+    insertPage: "插入新卡片册",
+    deleteUnit: "删除此卡片组"
+  },
   message: {
     error: "错误",
     serverError: "服务器错误",

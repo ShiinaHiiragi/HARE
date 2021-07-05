@@ -2,7 +2,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
 export default function UnitMenu(props) {
-  const { state, handleClose } = props;
+  const { lang, state, handleClose } = props;
   return (
     <Menu
       keepMounted
@@ -15,11 +15,11 @@ export default function UnitMenu(props) {
           : undefined
       }
     >
-      <MenuItem onClick={handleClose}>Edit Group</MenuItem>
-      <MenuItem onClick={handleClose}>Move Up</MenuItem>
-      <MenuItem onClick={handleClose}>Move Down</MenuItem>
-      <MenuItem onClick={handleClose}>Insert new Booklet</MenuItem>
-      <MenuItem onClick={handleClose}>Delete this Group</MenuItem>
+      <MenuItem onClick={handleClose}>{lang.menu.editGroup}</MenuItem>
+      <MenuItem onClick={handleClose}>{lang.menu.moveUp}</MenuItem>
+      <MenuItem onClick={handleClose}>{lang.menu.moveDown}</MenuItem>
+      <MenuItem onClick={handleClose}>{lang.menu.insertPage}</MenuItem>
+      <MenuItem onClick={handleClose}>{lang.menu.deleteUnit}</MenuItem>
     </Menu>
   );
 }

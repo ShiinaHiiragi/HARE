@@ -34,9 +34,7 @@ export default function Pages(props) {
       msgbox: toggleMessageBox,
       lang: lang
     })
-      .then((res) => {
-        setListObject(res.data);
-      });
+      .then((res) => setListObject(res.data));
   }, []);
 
   const changeUnit = (targetID) => {
@@ -87,6 +85,7 @@ export default function Pages(props) {
         ))
       }
       <UnitMenu
+        lang={lang}
         state={unitMenu}
         handleClose={() => setUnitMenu({ mouseX: null, mouseY: null })}
       />

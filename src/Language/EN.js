@@ -16,6 +16,13 @@ const list = {
       text: "We donn't provide registration entry temporarily. You can contact the author to register in the server directly."
     }
   },
+  menu: {
+    editGroup: "Edit Group",
+    moveUp: "Move Up",
+    moveDown: "Move Down",
+    insertPage: "Insert New Booklet",
+    deleteUnit: "Delete this Group"
+  },
   message: {
     error: "Error",
     serverError: "Server Error",
