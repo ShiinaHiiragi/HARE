@@ -14,7 +14,7 @@ import LanguageSelector from "../Dialogue/LanguageSelector";
 import Panel from "../Page/Panel";
 import requestURL from "../Interface/URL";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%",

@@ -11,7 +11,7 @@ import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
 import requestURL from "../Interface/URL";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",

@@ -34,7 +34,7 @@
       "unitID integer not null references unit,",
       "pageName varchar(16) not null,",
       "pageSeq integer not null,",
-      "pageCover text,",
+      "pageCover smallint,",
       "pagePresent varchar(512));"
     ],
     "item": [

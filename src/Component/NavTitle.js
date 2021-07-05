@@ -1,6 +1,6 @@
 import Typography from "@material-ui/core/Typography";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({titleSpan: {flexGrow: 1}}));
 
 export default function NavTitle(props) {
