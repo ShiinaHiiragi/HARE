@@ -5,6 +5,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
 import ListIcon from "@material-ui/icons/List";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -21,8 +22,13 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
-  nested: {
-    paddingLeft: theme.spacing(4),
+  nested: { paddingLeft: theme.spacing(4) },
+  newPage: {
+    flexGrow: "1",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
   }
 }));
 
@@ -118,8 +124,13 @@ export default function Pages(props) {
         />
       </List> :
       // TODO: fill this
-      <IconButton>
-        <AddIcon />
-      </IconButton>
+      <div className={classes.newPage}>
+        <IconButton>
+          <AddIcon fontSize="large"/>
+        </IconButton>
+        <Typography variant="button" color="textSecondary" align="center">
+          {lang.panel.initUnit}
+        </Typography>
+      </div>
   );
 }

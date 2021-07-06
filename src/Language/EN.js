@@ -9,6 +9,9 @@ const list = {
     signUp: "Don't have an account?",
     copyright: "Copyright"
   },
+  panel: {
+    initUnit: "Add New Group"
+  },
   popup: {
     language: "Change the Displaying Language",
     signUp: {

@@ -12,7 +12,12 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     flexShrink: 0
   },
-  drawerPaper: { width: drawerWidth }
+  drawerPaper: { width: drawerWidth },
+  sideList: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column"
+  }
 }));
 
 export default function NavList(props) {
@@ -20,7 +25,7 @@ export default function NavList(props) {
   const { lang, data, state, handle } = props;
 
   const drawerContent = (
-    <div>
+    <div className={classes.sideList}>
       <PersonalInfo />
       <Divider />
       <Pages

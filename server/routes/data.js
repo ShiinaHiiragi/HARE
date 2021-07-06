@@ -27,6 +27,7 @@ router.get('/sign', (req, res) => {
 router.get('/unit', (req, res) => {
   const {userID, token} = req.query;
   checkToken(res, userID, token).then(() => {
+    // res.send([]);
     res.send([
       {
         unitID: 1,
