@@ -23,6 +23,7 @@ const list = {
     editProfile: "Edit Profile",
     changeAvatar: "Change Avatar",
     changeLanguage: "Change Displaying Language",
+    viewCopyright: "View Copyright Information",
     logout: "Logout",
     fold: "Fold",
     unfold: "Unfold",

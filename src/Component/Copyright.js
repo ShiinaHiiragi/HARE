@@ -5,6 +5,7 @@ import Link from "@material-ui/core/Link";
 import License from "../Dialogue/License";
 
 export default function Copyright(props) {
+  const { lang } = props;
   // the license information popup
   const [licenseDialogue, setLicenseDialogue] = React.useState(false);
   const toggleLicenseDialogue = () => setLicenseDialogue(true);
@@ -13,14 +14,14 @@ export default function Copyright(props) {
   return (
     <Box mt={5}>
       <Typography variant="body2" color="textSecondary" align="center">
-        {`${props.lang.signIn.copyright} ©`}
+        {`${lang.signIn.copyright} ©`}
         <Link color="inherit" href="#" onClick={toggleLicenseDialogue}>
           HARE
         </Link>
         {` ${new Date().getFullYear()}`}
       </Typography>
       <License
-        lang={props.lang}
+        lang={lang}
         open={licenseDialogue}
         handleClose={closeLicenseDialogue}
       />

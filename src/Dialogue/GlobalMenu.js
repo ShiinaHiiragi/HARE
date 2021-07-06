@@ -24,6 +24,7 @@ export default function GlobalMenu(props) {
       >
         {lang.menu.changeLanguage}
       </MenuItem>
+      <MenuItem onClick={handleClose}>{lang.menu.viewCopyright}</MenuItem>
       <MenuItem onClick={handleClose}>{lang.menu.logout}</MenuItem>
       <LanguageSelector
         lang={lang} open={languageSelector}
