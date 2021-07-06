@@ -109,7 +109,7 @@ export default function SignInForm(props) {
       const tomorrow = new Date(new Date().getTime() + 24 * 3600 * 1000);
       setEmailCookie(memory, value.email);
 
-    // we don't use packedGET for it didn't check token
+    // we don't use packedPOST for it didn't check token
     axios
       .post(`${requestURL}/data/sign`, { email: value.email, password: encryptedPassword })
       .then((res) => {

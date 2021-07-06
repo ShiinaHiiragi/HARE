@@ -72,14 +72,16 @@ exports.exec = (cmdLine) => new Promise((resolve, reject) => {
 exports.query = query;
 exports.newToken = newToken;
 exports.updateToken = (userID) => newToken(userID);
-exports.checkToken = (res, userID, token) => new Promise((resolve) => 
+exports.checkToken = (userID, token, res) => new Promise((resolve) => 
   query(`select * from onlineUser
     where userID = ${userID} and token = '${token}'`)
     .then(out => {
-      if (out.length === 0)
-        res.status(401).send("INVALID");
-      else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan)
-        res.status(401).send("EXPIRED");
-      else resolve();
-    }).catch((err) => res.status(500).send(err.toString()))
+      if (out.length === 0) {
+        if (res) res.status(401).send("INVALID");
+      } else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan) {
+        if (res) res.status(401).send("EXPIRED");
+      } else resolve();
+    }).catch((err) => {
+      if (res) res.status(500).send(err.toString())
+    })
 )

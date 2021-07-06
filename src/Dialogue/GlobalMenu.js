@@ -6,7 +6,7 @@ import License from "./License";
 import LogoutConfirm from "../Dialogue/LogoutConfirm";
 
 export default function GlobalMenu(props) {
-  const { lang, anchor, handleClose, changeGlobalLang } = props;
+  const { lang, anchor, data, handleClose, changeGlobalLang } = props;
   const [languageSelector, setLanguageSelector] = React.useState(false);
   const [license, setLicense] = React.useState(false);
   const [logout, setLogout] = React.useState(false);
@@ -53,6 +53,7 @@ export default function GlobalMenu(props) {
       />
       <LogoutConfirm
         lang={lang} open={logout}
+        userID={data.userID} token={data.token}
         handleClose={() => setLogout(false)}
       />
     </Menu>

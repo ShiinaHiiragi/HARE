@@ -8,7 +8,7 @@ var router = express.Router();
 
 router.get('/check', (req, res) => {
   const userID = req.query.userID === "undefined" ? "0" : req.query.userID;
-  checkToken(res, userID, req.query.token)
+  checkToken(userID, req.query.token, res)
     .then(() => updateToken(userID).then(() => res.send("HARE")));
 });
 
@@ -25,13 +25,13 @@ router.post('/sign', (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  console.log(req.body);
-  res.send("ok");
+  checkToken(req.body.userID, req.body.token)
+    .then(() => query(`delete from onlineUser where userID = ${req.body.userID}`));
 });
 
 router.get('/unit', (req, res) => {
   const {userID, token} = req.query;
-  checkToken(res, userID, token).then(() => {
+  checkToken(userID, token, res).then(() => {
     res.send([]);
     // res.send([
     //   {
