@@ -8,6 +8,7 @@ import Main from "../Unit/Main";
 import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
+import Kick from "../Dialogue/Kick";
 
 export default function Panel(props) {
   const { userID, token } = props;
@@ -68,6 +69,9 @@ export default function Panel(props) {
     setLoading(false);
   };
 
+  // the state of disconnection
+  const [kick, setKick] = React.useState(false);
+
   return (
     <Root>
       <CssBaseline />
@@ -94,8 +98,9 @@ export default function Panel(props) {
           navListMobile: navListMobile
         }}
         handle={{
-          closeNavListMobile: () => setNavListMobile(false),
           toggleMessageBox: toggleMessageBox,
+          toggleKick: () => setKick(true),
+          closeNavListMobile: () => setNavListMobile(false),
           changeGlobalLang: changeGlobalLang
         }}
       />
@@ -107,6 +112,7 @@ export default function Panel(props) {
         messageBoxMessage={messageBoxInfo.message}
       />
       <Load open={loading} />
+      <Kick lang={globalLang} open={kick} handleClose={() => setKick(false)}/>
     </Root>
   );
 }

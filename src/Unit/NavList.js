@@ -38,6 +38,10 @@ export default function NavList(props) {
         lang={lang}
         userID={data.userID}
         token={data.token}
+        handle={{
+          toggleMessageBox: handle.toggleMessageBox,
+          toggleKick: handle.toggleKick
+        }}
         toggleMessageBox={handle.toggleMessageBox}
       />
     </div>

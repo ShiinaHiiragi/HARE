@@ -36,13 +36,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Pages(props) {
   const classes = useStyles();
-  const { lang, userID, token, toggleMessageBox } = props;
+  const { lang, userID, token, handle } = props;
   const [listObject, setListObject] = React.useState([]);
   React.useEffect(() => {
     packedGET({
       uri: "/data/unit",
       query: { userID: userID, token: token },
-      msgbox: toggleMessageBox,
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
       lang: lang
     })
       .then((res) => setListObject(res));
@@ -171,7 +172,8 @@ export default function Pages(props) {
             setUnitNameCheck: setUnitNameCheck,
             setPageNameCheck: setPageNameCheck,
             setPagePresentCheck: setPagePresentCheck,
-            toggleMessageBox: toggleMessageBox,
+            toggleMessageBox: handle.toggleMessageBox,
+            toggleKick: handle.toggleKick,
             close: () => setNewOpen(false)
           }}
         />

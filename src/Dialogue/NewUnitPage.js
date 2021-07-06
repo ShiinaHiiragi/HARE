@@ -57,6 +57,7 @@ export default function NewUnitPage(props) {
           pagePresent: text.pagePresentValue
         },
         msgbox: handle.toggleMessageBox,
+        kick: handle.toggleKick,
         lang: lang
       }).then((res) => {
         console.log(res);

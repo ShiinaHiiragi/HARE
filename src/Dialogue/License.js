@@ -13,13 +13,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function License(props) {
+  const { lang, open, handleClose } = props;
   const classes = useStyles();
 
   return (
     <Dialog
       fullWidth
-      open={props.open}
-      onClose={props.handleClose}
+      open={open}
+      onClose={handleClose}
       className={classes.noneSelect}
     >
       <DialogTitle>{`Copyright ${new Date().getFullYear()} HARE`}</DialogTitle>
@@ -48,8 +49,8 @@ export default function License(props) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.handleClose} color="primary">
-          {props.lang.common.back}
+        <Button onClick={handleClose} color="primary">
+          {lang.common.back}
         </Button>
       </DialogActions>
     </Dialog>

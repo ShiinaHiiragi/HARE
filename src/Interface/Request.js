@@ -1,10 +1,8 @@
-import ReactDOM from "react-dom";
 import axios from "axios";
 import requestURL from "./Constant";
-import SignIn from "../Page/SignIn";
 
 const packedGET = (params) => {
-  const { uri, query, msgbox, lang } = params;
+  const { uri, query, msgbox, kick, lang } = params;
   let request = `${requestURL}${uri}`;
   Object.keys(query).forEach((item, index) => {
     request += index === 0 ? "?" : "&";
@@ -21,16 +19,13 @@ const packedGET = (params) => {
             "error"
           );
           reject(err);
-        } else {
-          console.log("INVALID OR EXPIRED");
-          ReactDOM.render(<SignIn />, document.getElementById("root"));
-        }
+        } else kick();
       });
   });
 };
 
 const packedPOST = (params) => {
-  const { uri, query, msgbox, lang } = params;
+  const { uri, query, msgbox, kick, lang } = params;
   let request = `${requestURL}${uri}`;
   return new Promise((resolve, reject) => {
     axios
@@ -43,10 +38,7 @@ const packedPOST = (params) => {
             "error"
           );
           reject(err);
-        } else {
-          console.log("INVALID OR EXPIRED");
-          ReactDOM.render(<SignIn />, document.getElementById("root"));
-        }
+        } else kick();
       });
   });
 };

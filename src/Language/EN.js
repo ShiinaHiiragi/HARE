@@ -14,6 +14,10 @@ const list = {
   },
   popup: {
     language: "Change the Displaying Language",
+    kick: {
+      title: "Disconnect from Server",
+      text: "The server reject your request for invalid or expired token. Please re-login."
+    },
     signUp: {
       title: "Sign Up is Unavailable Now",
       text: "We don't provide registration entry temporarily. You can contact the author to register in the server directly."
