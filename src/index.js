@@ -4,7 +4,7 @@ import SignIn from "./Page/SignIn";
 import Panel from "./Page/Panel";
 import cookie from "react-cookies";
 import axios from "axios";
-import requestURL from "./Interface/URL";
+import requestURL from "./Interface/Constant";
 
 const userID = cookie.load("userID");
 const token = cookie.load("token");

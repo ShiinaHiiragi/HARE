@@ -19,9 +19,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const nameMaxLength = 32, presentMaxLength = 512;
 export default function NewUnitPage(props) {
   const classes = useStyles();
   const { lang, open, group, type, text, handle } = props;
+
+  const checkFormInput = () => {
+    const pagePresentLength = text.pagePresentValue.length;
+    const unitNameLength = text.unitNameValue.length;
+    const pageNameLength = text.pageNameValue.length;
+    const pagePresentError = pagePresentLength === 0 || pagePresentLength > presentMaxLength;
+    
+  }
 
   return (
     <Dialog

@@ -12,7 +12,7 @@ import cookie from "react-cookies";
 import SignUp from "../Dialogue/SignUp";
 import LanguageSelector from "../Dialogue/LanguageSelector";
 import Panel from "../Page/Panel";
-import requestURL from "../Interface/URL";
+import requestURL from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({

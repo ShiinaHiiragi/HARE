@@ -7,7 +7,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import IconButton from "@material-ui/core/IconButton";
 import PersonIcon from "@material-ui/icons/Person";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import requestURL from "../Interface/URL";
+import requestURL from "../Interface/Constant";
 import GlobalMenu from "../Dialogue/GlobalMenu";
 
 export default function PersonalInfo(props) {

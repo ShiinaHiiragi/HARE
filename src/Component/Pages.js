@@ -15,6 +15,7 @@ import UnitMenu from "../Dialogue/UnitMenu";
 import PageMenu from "../Dialogue/PageMenu";
 import NewUnitPage from "../Dialogue/NewUnitPage";
 import packedGET from "../Interface/Request";
+import { initMenu } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const initMenu = { mouseX: null, mouseY: null };
 export default function Pages(props) {
   const classes = useStyles();
   const { lang, userID, token, toggleMessageBox } = props;

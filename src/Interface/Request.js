@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import axios from "axios";
-import requestURL from "./URL";
+import requestURL from "./Constant";
 import SignIn from "../Page/SignIn";
 
 const packedGET = (params) => {

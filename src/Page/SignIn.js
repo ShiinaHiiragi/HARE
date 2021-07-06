@@ -9,7 +9,7 @@ import Copyright from "../Component/Copyright";
 import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
-import requestURL from "../Interface/URL";
+import requestURL from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
