@@ -13,6 +13,7 @@ import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import AddIcon from '@material-ui/icons/Add';
 import UnitMenu from "../Dialogue/UnitMenu";
 import PageMenu from "../Dialogue/PageMenu";
+import NewUnitPage from "../Dialogue/NewUnitPage";
 import packedGET from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -70,6 +71,9 @@ export default function Pages(props) {
     setPageMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
 
+  const [newGroupUnit, setNewGroupUnit] = React.useState(0);
+  const [newType, setType] = React.useState(0);
+
   return (
       listObject.length !== 0 ?
       <List component="nav" className={classes.list}>
@@ -125,12 +129,24 @@ export default function Pages(props) {
       </List> :
       // TODO: fill this
       <div className={classes.newPage}>
-        <IconButton>
+        <IconButton onClick={() => {
+          setType(0);
+          setNewGroupUnit(2);
+        }}>
           <AddIcon fontSize="large"/>
         </IconButton>
         <Typography variant="button" color="textSecondary" align="center">
           {lang.panel.initUnit}
         </Typography>
+        <NewUnitPage 
+          lang={lang}
+          open={newGroupUnit}
+          type={newType}
+          handleClose={() => {
+            console.log("call");
+            setNewGroupUnit(0)
+          }}
+        />
       </div>
   );
 }
