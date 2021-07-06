@@ -1,3 +1,4 @@
+import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -9,6 +10,9 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   noneSelect: {
     userSelect: "none"
+  },
+  textInput: {
+    width: "100%"
   }
 }));
 
@@ -18,6 +22,7 @@ export default function NewUnitPage(props) {
 
   return (
     <Dialog
+      fullWidth
       open={open}
       onClose={handleClose}
       className={classes.noneSelect}
@@ -31,10 +36,18 @@ export default function NewUnitPage(props) {
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Permission is hereby granted, free of charge, to any person obtaining
-          a copy of this software and associated documentation files,
-          to deal in the Software without restriction.
+          {
+            group
+              ? lang.popup.newUnitPage.textUnit
+              : lang.popup.newUnitPage.textPage
+          }
         </DialogContentText>
+        <TextField
+          label="Name of New Group"
+          className={classes.textInput}
+          // value={panelPopup.newFriend.createGroup}
+          // onChange={handleMenuNewCreateTextChange}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="secondary">

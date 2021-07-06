@@ -20,7 +20,9 @@ const list = {
     },
     newUnitPage: {
       titleUnit: "Create New Group",
-      titlePage: "Create New Booklet"
+      titlePage: "Create New Booklet",
+      textUnit: "A group should contain at least one booklet. Please enter the information of the first booklet in newly created group.",
+      textPage: "Enter the information of new booklet."
     }
   },
   menu: {

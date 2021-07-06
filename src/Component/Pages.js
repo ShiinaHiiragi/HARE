@@ -132,7 +132,7 @@ export default function Pages(props) {
       <div className={classes.newPage}>
         <IconButton onClick={() => {
           setNewOpen(true);
-          setNewGroup(false);
+          setNewGroup(true);
           setNewType(0);
         }}>
           <AddIcon fontSize="large"/>

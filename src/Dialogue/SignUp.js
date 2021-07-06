@@ -12,11 +12,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function License(props) {
+export default function SignUp(props) {
   const classes = useStyles();
 
   return (
     <Dialog
+      fullWidth
       open={props.open}
       onClose={props.handleClose}
       className={classes.noneSelect}

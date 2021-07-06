@@ -20,7 +20,9 @@ const list = {
     },
     newUnitPage: {
       titleUnit: "创建新记忆组",
-      titlePage: "创建新记忆册"
+      titlePage: "创建新记忆册",
+      textUnit: "一个记忆组必须包含至少一个记忆册，请输入该记忆组的第一个记忆册信息。",
+      textPage: "请输入记忆册信息。"
     }
   },
   menu: {

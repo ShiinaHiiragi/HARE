@@ -14,9 +14,9 @@ export default function LanguageSelector(props) {
 
   return (
     <Dialog
+      fullWidth
       onClose={() => handleClose(null)}
       open={open}
-      fullWidth
       maxWidth="xs"
     >
       <DialogTitle>{lang.popup.language}</DialogTitle>
