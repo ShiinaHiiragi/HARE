@@ -16,17 +16,20 @@ const list = {
     language: "Change the Displaying Language",
     signUp: {
       title: "Sign Up is Unavailable Now",
-      text: "We donn't provide registration entry temporarily. You can contact the author to register in the server directly."
+      text: "We don't provide registration entry temporarily. You can contact the author to register in the server directly."
     },
     newUnitPage: {
       titleUnit: "Create New Group",
       titlePage: "Create New Booklet",
       textUnit: "A group should contain at least one booklet. Please enter the information of the first booklet in newly created group.",
-      textPage: "Enter the information of new booklet."
+      textPage: "Enter the information of new booklet.",
+      unitName: "Name of New Group",
+      pageName: "Name of New Booklet",
+      pagePresent: "The Description of the Booklet Created"
     },
     logout: {
       title: "Logout Confirmation",
-      text: "You are attempting to quit your HARE account. Please click 'YES' to logout.",
+      text: "You are attempting to quit your HARE account. Please click 'YES' to logout."
     }
   },
   menu: {

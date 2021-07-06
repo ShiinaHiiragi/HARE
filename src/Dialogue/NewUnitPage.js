@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -8,12 +9,10 @@ import Button from "@material-ui/core/Button";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
-  noneSelect: {
-    userSelect: "none"
-  },
-  textInput: {
-    width: "100%"
-  }
+  noneSelect: { userSelect: "none" },
+  margin: { marginRight: "5%" },
+  textInputHalf: { width: "45%" },
+  textInput: { width: "95%" }
 }));
 
 export default function NewUnitPage(props) {
@@ -43,11 +42,26 @@ export default function NewUnitPage(props) {
           }
         </DialogContentText>
         {/* TODO: change to chinese later */}
+        <div>
+          <TextField
+            label={lang.popup.newUnitPage.unitName}
+            className={clsx(classes.textInputHalf, classes.margin)}
+            // value={}
+            // onChange={}
+          />
+          <TextField
+            label={lang.popup.newUnitPage.pageName}
+            className={classes.textInputHalf}
+            // value={}
+            // onChange={}
+          />
+        </div>
         <TextField
-          label="Name of New Group"
+          multiline rows={4}
+          label={lang.popup.newUnitPage.pagePresent}
           className={classes.textInput}
-          // value={panelPopup.newFriend.createGroup}
-          // onChange={handleMenuNewCreateTextChange}
+          // value={}
+          // onChange={}
         />
       </DialogContent>
       <DialogActions>
