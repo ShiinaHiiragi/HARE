@@ -10,9 +10,12 @@ import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   noneSelect: { userSelect: "none" },
-  margin: { marginRight: "5%" },
-  textInputHalf: { width: "45%" },
-  textInput: { width: "95%" }
+  margin: { marginRight: "8%" },
+  textInputHalf: { width: "44%" },
+  textInput: {
+    width: "96%",
+    marginTop: theme.spacing(2)
+  }
 }));
 
 export default function NewUnitPage(props) {
@@ -41,14 +44,13 @@ export default function NewUnitPage(props) {
               : lang.popup.newUnitPage.textPage
           }
         </DialogContentText>
-        {/* TODO: change to chinese later */}
         <div>
-          <TextField
+          {group && (<TextField
             label={lang.popup.newUnitPage.unitName}
             className={clsx(classes.textInputHalf, classes.margin)}
             // value={}
             // onChange={}
-          />
+          />)}
           <TextField
             label={lang.popup.newUnitPage.pageName}
             className={classes.textInputHalf}

@@ -128,7 +128,6 @@ export default function Pages(props) {
           handleClose={() => setPageMenu(initMenu)}
         />
       </List> :
-      // TODO: fill this
       <div className={classes.newPage}>
         <IconButton onClick={() => {
           setNewOpen(true);
