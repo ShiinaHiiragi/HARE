@@ -49,13 +49,17 @@ export default function Pages(props) {
   };
 
   const [unitMenu, setUnitMenu] = React.useState(initMenu);
-  const toggleUnitMenu = (event) => {
+  const [pageMenu, setPageMenu] = React.useState(initMenu);
+  const [currentUnitID, setCurrentUnitID] = React.useState(0);
+  const [currentPageID, setCurrentPageID] = React.useState(0);
+  const [fold, setFold] = React.useState(false);
+  const toggleUnitMenu = (event, unitID) => {
     event.preventDefault();
+    setCurrentUnitID(unitID);
+    setFold(listObject[unitID - 1].open);
     setUnitMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
-
-  const [pageMenu, setPageMenu] = React.useState(initMenu);
-  const togglePageMenu = (event, unitID, pageID) => {
+  const togglePageMenu = (event) => {
     event.preventDefault();
     setPageMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
@@ -67,7 +71,7 @@ export default function Pages(props) {
           listObject.map((item, index) => (
             <div key={index}>
               <ListItem
-                onContextMenu={toggleUnitMenu} button
+                onContextMenu={(event) => toggleUnitMenu(event, item.unitID)} button
                 onClick={() => changeUnit(item.unitID)}>
                 <ListItemIcon>
                   <ListIcon />
@@ -97,8 +101,15 @@ export default function Pages(props) {
         }
         <UnitMenu
           lang={lang}
-          state={unitMenu}
-          handleClose={() => setUnitMenu(initMenu)}
+          state={{
+            unitMenu: unitMenu,
+            unitID: currentUnitID,
+            fold: fold
+          }}
+          handle={{
+            closeMenu: () => setUnitMenu(initMenu),
+            changeUnit: changeUnit
+          }}
         />
         <PageMenu
           lang={lang}

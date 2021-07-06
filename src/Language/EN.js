@@ -17,6 +17,8 @@ const list = {
     }
   },
   menu: {
+    fold: "Fold",
+    unfold: "Unfold",
     editUnit: "Edit Group",
     editPage: "Edit Booklet",
     moveUp: "Move Up",

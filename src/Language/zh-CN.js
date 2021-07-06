@@ -17,6 +17,8 @@ const list = {
     }
   },
   menu: {
+    fold: "折叠",
+    unfold: "展开",
     editUnit: "编辑卡片组资料",
     moveUp: "上移",
     moveDown: "下移",

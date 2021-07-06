@@ -2,25 +2,33 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
 export default function UnitMenu(props) {
-  const { lang, state, handleClose } = props;
+  const { lang, state, handle } = props;
   return (
     <Menu
       keepMounted
-      open={state.mouseY !== null}
-      onClose={handleClose}
+      open={state.unitMenu.mouseY !== null}
+      onClose={handle.closeMenu}
       anchorReference="anchorPosition"
       anchorPosition={
-        state.mouseY !== null && state.mouseX !== null
-          ? { top: state.mouseY, left: state.mouseX }
+        state.unitMenu.mouseY !== null && state.unitMenu.mouseX !== null
+          ? { top: state.unitMenu.mouseY, left: state.unitMenu.mouseX }
           : undefined
       }
     >
-      <MenuItem onClick={handleClose}>{lang.menu.editUnit}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.moveUp}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.moveDown}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.addUnitAbove}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.addUnitBelow}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.deleteUnit}</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.changeUnit(state.unitID);
+          handle.closeMenu();
+        }}
+      >
+        {state.fold ? lang.menu.fold : lang.menu.unfold}
+      </MenuItem>
+      <MenuItem onClick={handle.closeMenu}>{lang.menu.editUnit}</MenuItem>
+      <MenuItem onClick={handle.closeMenu}>{lang.menu.moveUp}</MenuItem>
+      <MenuItem onClick={handle.closeMenu}>{lang.menu.moveDown}</MenuItem>
+      <MenuItem onClick={handle.closeMenu}>{lang.menu.addUnitAbove}</MenuItem>
+      <MenuItem onClick={handle.closeMenu}>{lang.menu.addUnitBelow}</MenuItem>
+      <MenuItem onClick={handle.closeMenu}>{lang.menu.deleteUnit}</MenuItem>
     </Menu>
   );
 }
