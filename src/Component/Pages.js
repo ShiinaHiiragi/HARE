@@ -30,7 +30,7 @@ export default function Pages(props) {
   const [listObject, setListObject] = React.useState([]);
   React.useEffect(() => {
     packedGET({
-      uri: "/data/pages",
+      uri: "/data/unit",
       query: { userID: userID, token: token },
       msgbox: toggleMessageBox,
       lang: lang

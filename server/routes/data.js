@@ -24,7 +24,7 @@ router.get('/sign', (req, res) => {
     }).catch((err) => res.status(500).send(err.toString()));
 });
 
-router.get('/pages', (req, res) => {
+router.get('/unit', (req, res) => {
   const {userID, token} = req.query;
   checkToken(res, userID, token).then(() => {
     res.send([
