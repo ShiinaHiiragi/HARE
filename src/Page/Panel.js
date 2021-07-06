@@ -95,7 +95,8 @@ export default function Panel(props) {
         }}
         handle={{
           closeNavListMobile: () => setNavListMobile(false),
-          toggleMessageBox: toggleMessageBox
+          toggleMessageBox: toggleMessageBox,
+          changeGlobalLang: changeGlobalLang
         }}
       />
       <Main lang={globalLang} state={{ navList: navList }} />

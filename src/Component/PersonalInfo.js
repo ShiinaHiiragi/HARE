@@ -11,7 +11,7 @@ import requestURL from "../Interface/URL";
 import GlobalMenu from "../Dialogue/GlobalMenu";
 
 export default function PersonalInfo(props) {
-  const { lang } = props;
+  const { lang, handle } = props;
   const [anchorGlobalMenu, setAnchorGlobalMenu] = React.useState(null);
 
   return (
@@ -36,6 +36,7 @@ export default function PersonalInfo(props) {
         lang={lang}
         anchor={anchorGlobalMenu}
         handleClose={() => setAnchorGlobalMenu(null)}
+        changeGlobalLang={handle.changeGlobalLang}
       />
     </List>
   );
