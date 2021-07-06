@@ -20,6 +20,10 @@ const list = {
     }
   },
   menu: {
+    editProfile: "Edit Profile",
+    changeAvatar: "Change Avatar",
+    changeLanguage: "Change Displaying Language",
+    logout: "Logout",
     fold: "Fold",
     unfold: "Unfold",
     editUnit: "Edit Group",

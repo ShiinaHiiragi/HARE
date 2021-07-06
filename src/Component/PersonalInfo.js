@@ -1,3 +1,4 @@
+import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -7,14 +8,11 @@ import IconButton from "@material-ui/core/IconButton";
 import PersonIcon from "@material-ui/icons/Person";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import requestURL from "../Interface/URL";
-
-import makeStyles from "@material-ui/core/styles/makeStyles";
-const useStyles = makeStyles((theme) => ({
-
-}));
+import GlobalMenu from "../Dialogue/GlobalMenu";
 
 export default function PersonalInfo(props) {
-  const classes = useStyles();
+  const { lang } = props;
+  const [anchorGlobalMenu, setAnchorGlobalMenu] = React.useState(null);
 
   return (
     <List>
@@ -28,10 +26,17 @@ export default function PersonalInfo(props) {
           primary={"Ichinoe"}
           secondary={"abc@xyz.com"}
         />
-        <IconButton>
+        <IconButton
+          onClick={(event) => setAnchorGlobalMenu(event.currentTarget)}
+        >
           <MoreVertIcon />
         </IconButton>
       </ListItem>
+      <GlobalMenu
+        lang={lang}
+        anchor={anchorGlobalMenu}
+        handleClose={() => setAnchorGlobalMenu(null)}
+      />
     </List>
   );
 }

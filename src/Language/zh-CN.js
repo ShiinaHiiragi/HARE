@@ -20,6 +20,9 @@ const list = {
     }
   },
   menu: {
+    editProfile: "编辑个人资料",
+    changeAvatar: "更换头像",
+    changeLanguage: "更换显示语言",
     fold: "折叠",
     unfold: "展开",
     editUnit: "编辑卡片组资料",

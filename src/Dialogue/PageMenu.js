@@ -1,7 +1,7 @@
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
-export default function UnitMenu(props) {
+export default function PageMenu(props) {
   const { lang, state, handleClose } = props;
   return (
     <Menu

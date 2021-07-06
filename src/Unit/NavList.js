@@ -26,7 +26,7 @@ export default function NavList(props) {
 
   const drawerContent = (
     <div className={classes.sideList}>
-      <PersonalInfo />
+      <PersonalInfo lang={lang} />
       <Divider />
       <Pages
         lang={lang}
