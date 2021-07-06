@@ -42,6 +42,7 @@ export default function NewUnitPage(props) {
               : lang.popup.newUnitPage.textPage
           }
         </DialogContentText>
+        {/* TODO: change to chinese later */}
         <TextField
           label="Name of New Group"
           className={classes.textInput}

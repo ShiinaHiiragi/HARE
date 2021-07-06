@@ -8,8 +8,16 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import { nameMap } from "../Language/Lang";
 
+import makeStyles from "@material-ui/core/styles/makeStyles";
+const useStyles = makeStyles((theme) => ({
+  noneSelect: {
+    userSelect: "none"
+  }
+}));
+
 const languageList = Object.keys(nameMap);
 export default function LanguageSelector(props) {
+  const classes = useStyles();
   const { lang, open, handleClose } = props;
 
   return (
@@ -18,6 +26,7 @@ export default function LanguageSelector(props) {
       onClose={() => handleClose(null)}
       open={open}
       maxWidth="xs"
+      className={classes.noneSelect}
     >
       <DialogTitle>{lang.popup.language}</DialogTitle>
       <List>

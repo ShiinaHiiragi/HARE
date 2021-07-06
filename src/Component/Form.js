@@ -111,7 +111,7 @@ export default function SignInForm(props) {
 
     // we don't use packedGET for it didn't check token
     axios
-      .get(`${requestURL}/data/sign?email=${value.email}&password=${encryptedPassword}`)
+      .post(`${requestURL}/data/sign`, { email: value.email, password: encryptedPassword })
       .then((res) => {
         props.handle.closeLoading();
         cookie.save("userID", res.data.uid, { expires: tomorrow });

@@ -4,19 +4,20 @@ import requestURL from "./URL";
 import SignIn from "../Page/SignIn";
 
 const packedGET = (params) => {
-  let request = `${requestURL}${params.uri}`;
-  Object.keys(params.query).forEach((item, index) => {
+  const { uri, query, msgbox, lang } = params;
+  let request = `${requestURL}${uri}`;
+  Object.keys(query).forEach((item, index) => {
     request += index === 0 ? "?" : "&";
-    request += `${item}=${params.query[item]}`;
+    request += `${item}=${query[item]}`;
   });
   return new Promise((resolve, reject) => {
     axios
       .get(request)
-      .then((res) => resolve(res))
+      .then((res) => resolve(res.data))
       .catch((err) => {
         if (err.response.status !== 401) {
-          params.msgbox(
-            `${params.lang.message.serverError}: ${err.response.data}`,
+          msgbox(
+            `${lang.message.serverError}: ${err.response.data}`,
             "error"
           );
           reject(err);
@@ -28,5 +29,27 @@ const packedGET = (params) => {
   });
 };
 
-export { packedGET };
+const packedPOST = (params) => {
+  const { uri, query, msgbox, lang } = params;
+  let request = `${requestURL}${uri}`;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(request, query)
+      .then((res) => resolve(res.data))
+      .catch((err) => {
+        if (err.response.status !== 401) {
+          msgbox(
+            `${lang.message.serverError}: ${err.response.data}`,
+            "error"
+          );
+          reject(err);
+        } else {
+          console.log("INVALID OR EXPIRED");
+          ReactDOM.render(<SignIn />, document.getElementById("root"));
+        }
+      });
+  });
+};
+
+export { packedGET, packedPOST };
 export default packedGET;

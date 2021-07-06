@@ -12,16 +12,21 @@ router.get('/check', (req, res) => {
     .then(() => updateToken(userID).then(() => res.send("HARE")));
 });
 
-router.get('/sign', (req, res) => {
+router.post('/sign', (req, res) => {
   query(`select userID from userInfo natural join userSetting
-    where email = '${req.query.email}' and password = '${req.query.password}'`)
+    where email = '${req.body.email}' and password = '${req.body.password}'`)
     .then(out => {
-      const token = SHA1(req.query.email + new Date().toString()).toString();
+      const token = SHA1(req.body.email + new Date().toString()).toString();
       if (out.length > 0) {
         newToken(out[0].userid, token).then(() =>
           res.send({ uid: out[0].userid, token: token }));
       } else res.status(401).send("Incorrect E-mail or password.");
     }).catch((err) => res.status(500).send(err.toString()));
+});
+
+router.post('/logout', (req, res) => {
+  console.log(req.body);
+  res.send("ok");
 });
 
 router.get('/unit', (req, res) => {

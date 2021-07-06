@@ -45,7 +45,7 @@ export default function Pages(props) {
       msgbox: toggleMessageBox,
       lang: lang
     })
-      .then((res) => setListObject(res.data));
+      .then((res) => setListObject(res));
   }, []);
 
   const changeUnit = (targetID) => {
