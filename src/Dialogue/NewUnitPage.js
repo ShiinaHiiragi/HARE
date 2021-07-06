@@ -14,20 +14,26 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewUnitPage(props) {
   const classes = useStyles();
-  const { lang, open, type, handleClose } = props;
+  const { lang, open, group, type, handleClose } = props;
 
   return (
     <Dialog
-      open={open !== 0}
+      open={open}
       onClose={handleClose}
       className={classes.noneSelect}
     >
-      <DialogTitle>{`Copyright ${new Date().getFullYear()} HARE`}</DialogTitle>
+      <DialogTitle>
+        {
+          group
+            ? lang.popup.newUnitPage.titleUnit
+            : lang.popup.newUnitPage.titlePage
+        }
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
           Permission is hereby granted, free of charge, to any person obtaining
-          a copy of this software and associated documentation files (the
-          "Software"), to deal in the Software without restriction.
+          a copy of this software and associated documentation files,
+          to deal in the Software without restriction.
         </DialogContentText>
       </DialogContent>
       <DialogActions>

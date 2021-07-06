@@ -17,6 +17,10 @@ const list = {
     signUp: {
       title: "注册暂不可用",
       text: "我们暂时不提供注册功能，如有需要请联系作者在后台直接注册。"
+    },
+    newUnitPage: {
+      titleUnit: "创建新记忆组",
+      titlePage: "创建新记忆册"
     }
   },
   menu: {

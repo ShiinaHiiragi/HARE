@@ -17,6 +17,10 @@ const list = {
     signUp: {
       title: "Sign Up is Unavailable Now",
       text: "We donn't provide registration entry temporarily. You can contact the author to register in the server directly."
+    },
+    newUnitPage: {
+      titleUnit: "Create New Group",
+      titlePage: "Create New Booklet"
     }
   },
   menu: {

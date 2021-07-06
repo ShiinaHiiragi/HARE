@@ -71,8 +71,9 @@ export default function Pages(props) {
     setPageMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
 
-  const [newGroupUnit, setNewGroupUnit] = React.useState(0);
-  const [newType, setType] = React.useState(0);
+  const [newOpen, setNewOpen] = React.useState(false);
+  const [newGroup, setNewGroup] = React.useState(false);
+  const [newType, setNewType] = React.useState(0);
 
   return (
       listObject.length !== 0 ?
@@ -130,8 +131,9 @@ export default function Pages(props) {
       // TODO: fill this
       <div className={classes.newPage}>
         <IconButton onClick={() => {
-          setType(0);
-          setNewGroupUnit(2);
+          setNewOpen(true);
+          setNewGroup(false);
+          setNewType(0);
         }}>
           <AddIcon fontSize="large"/>
         </IconButton>
@@ -140,12 +142,8 @@ export default function Pages(props) {
         </Typography>
         <NewUnitPage 
           lang={lang}
-          open={newGroupUnit}
-          type={newType}
-          handleClose={() => {
-            console.log("call");
-            setNewGroupUnit(0)
-          }}
+          open={newOpen} group={newGroup} type={newType}
+          handleClose={() => setNewOpen(false)}
         />
       </div>
   );
