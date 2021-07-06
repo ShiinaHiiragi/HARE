@@ -14,12 +14,13 @@
     "userSetting": [
       "create table userSetting(",
       "userID integer primary key references userInfo,",
+      "unitSize integer not null default 0,",
       "password varchar(64) not null,",
       "username varchar(16) not null,",
       "avatar text,",
       "city varchar(16),",
       "tel varchar(16),",
-      "gender char(1),",
+      "gender char(1) default 'U',",
       "birth date);"
     ],
     "unit": [
@@ -27,8 +28,8 @@
       "userID integer not null,",
       "unitID integer not null,",
       "unitName varchar(16) not null,",
-      "unitSize integer not null,",
       "unitCreateTime timestamp not null,",
+      "pageSize integer not null default 0,",
       "foreign key (userID) references userInfo(userID),",
       "primary key(userID, unitID));"
     ],
@@ -38,11 +39,11 @@
       "unitID integer not null,",
       "pageID integer not null,",
       "pageName varchar(16) not null,",
-      "pageItemSize integer not null,",
-      "pageTrackSize integer not null,",
       "pageCreateTime timestamp not null,",
       "pageCover smallint,",
       "pagePresent varchar(512),",
+      "itemSize integer not null default 0,",
+      "trackSize integer not null default 0,",
       "foreign key(userID, unitID) references unit(userID, unitID),",
       "primary key(userID, unitID, pageID));"
     ],

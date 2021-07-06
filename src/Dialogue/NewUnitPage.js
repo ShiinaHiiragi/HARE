@@ -7,6 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
+import { packedPOST } from "../Interface/Request";
 import { nameMaxLength, presentMaxLength } from "../Interface/Constant"
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewUnitPage(props) {
   const classes = useStyles();
-  const { lang, open, group, type, text, handle } = props;
+  const { lang, userID, token, open, group, type, text, handle } = props;
 
   const checkFormInput = () => {
     let errorMessage = "";
@@ -45,6 +46,22 @@ export default function NewUnitPage(props) {
     const errorMessage = checkFormInput();
     if (errorMessage !== "")
       handle.toggleMessageBox(errorMessage, "warning");
+    else {
+      packedPOST({
+        uri: "/set/new-up",
+        query: {
+          userID: userID,
+          token: token,
+          unitName: text.unitNameValue,
+          pageName: text.pageNameValue,
+          pagePresent: text.pagePresentValue
+        },
+        msgbox: handle.toggleMessageBox,
+        lang: lang
+      }).then((res) => {
+        console.log(res);
+      });
+    }
   };
 
   return (

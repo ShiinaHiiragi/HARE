@@ -36,8 +36,8 @@ const insertUser = (cmdLine, onsuccess, onerror) => {
     returning userID`)
     .then((res) => {
       returnUserID = res[0].userid;
-      return query(`insert into userSetting(userID, username, password, gender)
-        values(${returnUserID}, '${cmdLine[2]}', '${cmdLine[3]}', 'U')`)
+      return query(`insert into userSetting(userID, username, password)
+        values(${returnUserID}, '${cmdLine[2]}', '${cmdLine[3]}')`)
     }).then(() => {
       console.log(`INSERT userID: ${returnUserID}`);
       onsuccess();

@@ -154,6 +154,7 @@ export default function Pages(props) {
         </Typography>
         <NewUnitPage 
           lang={lang}
+          userID={userID} token={token}
           open={newOpen} group={newGroup} type={newType}
           text={{
             unitNameValue: unitNameValue,
