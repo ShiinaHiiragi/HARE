@@ -20,7 +20,8 @@ const list = {
     editGroup: "编辑卡片组资料",
     moveUp: "上移",
     moveDown: "下移",
-    insertPage: "插入新卡片册",
+    addUnitAbove: "在上方插入新卡片组",
+    addUnitBelow: "在下方插入新卡片组",
     deleteUnit: "删除此卡片组"
   },
   message: {

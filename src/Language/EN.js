@@ -20,7 +20,8 @@ const list = {
     editGroup: "Edit Group",
     moveUp: "Move Up",
     moveDown: "Move Down",
-    insertPage: "Insert New Booklet",
+    addUnitAbove: "Add New Group Above",
+    addUnitBelow: "Add New Group Below",
     deleteUnit: "Delete this Group"
   },
   message: {

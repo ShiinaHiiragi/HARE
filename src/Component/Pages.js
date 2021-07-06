@@ -4,10 +4,12 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
+import IconButton from "@material-ui/core/IconButton";
 import ListIcon from "@material-ui/icons/List";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
+import AddIcon from '@material-ui/icons/Add';
 import UnitMenu from "../Dialogue/UnitMenu";
 import packedGET from "../Interface/Request";
 
@@ -55,41 +57,46 @@ export default function Pages(props) {
   };
 
   return (
-    <List component="nav" className={classes.list}>
-      {
-        listObject.map((item, index) => (
-          <div key={index}>
-            <ListItem
-              onContextMenu={(event) => toggleUnitMenu(event, item.unitID)} button
-              onClick={() => changeUnit(item.unitID)}>
-              <ListItemIcon>
-                <ListIcon />
-              </ListItemIcon>
-              <ListItemText primary={item.unitName} />
-              {item.open ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse in={item.open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {
-                  item.pages.map((subItem) => (
-                    <ListItem button className={classes.nested}>
-                      <ListItemIcon>
-                        <TurnedInNotIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={subItem.pageName} />
-                    </ListItem>
-                  ))
-                }
-              </List>
-            </Collapse>
-          </div>
-        ))
-      }
-      <UnitMenu
-        lang={lang}
-        state={unitMenu}
-        handleClose={() => setUnitMenu(initMenu)}
-      />
-    </List>
+      listObject.length !== 0 ?
+      <List component="nav" className={classes.list}>
+        {
+          listObject.map((item, index) => (
+            <div key={index}>
+              <ListItem
+                onContextMenu={(event) => toggleUnitMenu(event, item.unitID)} button
+                onClick={() => changeUnit(item.unitID)}>
+                <ListItemIcon>
+                  <ListIcon />
+                </ListItemIcon>
+                <ListItemText primary={item.unitName} />
+                {item.open ? <ExpandLess /> : <ExpandMore />}
+              </ListItem>
+              <Collapse in={item.open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {
+                    item.pages.map((subItem) => (
+                      <ListItem button className={classes.nested}>
+                        <ListItemIcon>
+                          <TurnedInNotIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={subItem.pageName} />
+                      </ListItem>
+                    ))
+                  }
+                </List>
+              </Collapse>
+            </div>
+          ))
+        }
+        <UnitMenu
+          lang={lang}
+          state={unitMenu}
+          handleClose={() => setUnitMenu(initMenu)}
+        />
+      </List> :
+      // TODO: fill this
+      <IconButton>
+        <AddIcon />
+      </IconButton>
   );
 }
