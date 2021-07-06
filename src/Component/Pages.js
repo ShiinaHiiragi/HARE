@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const initMenu = { mouseX: null, mouseY: null };
 export default function Pages(props) {
   const classes = useStyles();
   const { lang, userID, token, toggleMessageBox } = props;
@@ -44,8 +45,8 @@ export default function Pages(props) {
     ));
   };
 
-  const [unitMenu, setUnitMenu] = React.useState({ mouseX: null, mouseY: null });
-  const toggleUnitMenu = (event, userID) => {
+  const [unitMenu, setUnitMenu] = React.useState(initMenu);
+  const toggleUnitMenu = (event, unitID) => {
     event.preventDefault();
     setUnitMenu({
       mouseX: event.clientX - 2,
@@ -87,7 +88,7 @@ export default function Pages(props) {
       <UnitMenu
         lang={lang}
         state={unitMenu}
-        handleClose={() => setUnitMenu({ mouseX: null, mouseY: null })}
+        handleClose={() => setUnitMenu(initMenu)}
       />
     </List>
   );

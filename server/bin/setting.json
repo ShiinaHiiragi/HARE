@@ -24,36 +24,48 @@
     ],
     "unit": [
       "create table unit(",
-      "unitID serial primary key,",
-      "userID integer not null references userInfo,",
-      "unitName varchar(16) not null);"
+      "userID integer not null,",
+      "unitID integer not null,",
+      "unitName varchar(32) not null,",
+      "unitCreateTime timestamp not null,",
+      "foreign key userID references userInfo(userID),",
+      "primary key(userID, unitID));"
     ],
     "page": [
       "create table page(",
-      "pageID serial primary key,",
-      "unitID integer not null references unit,",
-      "pageName varchar(16) not null,",
-      "pageSeq integer not null,",
+      "userID integer not null,",
+      "unitID integer not null,",
+      "pageID integer not null,",
+      "pageName varchar(32) not null,",
+      "pageCreateTime timestamp not null,",
       "pageCover smallint,",
-      "pagePresent varchar(512));"
+      "pagePresent varchar(512),",
+      "foreign key(userID, unitID) references unit(userID, unitID),",
+      "primary key(userID, unitID, pageID));"
     ],
     "item": [
       "create table item(",
-      "itemID bigserial primary key,",
-      "pageID integer not null references page,",
-      "seq integer not null,",
-      "createTime timestamp not null,",
+      "userID integer not null,",
+      "unitID integer not null,",
+      "pageID integer not null,",
+      "itemID integer not null,",
+      "itemCreateTime timestamp not null,",
       "itemQuery text not null,",
       "itemKey text not null,",
-      "itemRecord char(1)[]);"
+      "itemRecord char(1)[],",
+      "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID),",
+      "primary key(userID, unitID, pageID, itemID));"
     ],
     "track": [
       "create table track(",
-      "trackID bigserial primary key,",
-      "pageID integer not null references page,",
-      "trackSeq integer not null,",
+      "userID integer not null,",
+      "unitID integer not null,",
+      "pageID integer not null,",
+      "trackID integer not null,",
       "startTime timestamp not null,",
-      "endTime timestamp not null);"
+      "endTime timestamp not null,",
+      "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID),",
+      "primary key(userID, unitID, pageID, trackID));"
     ],
     "onlineUser": [
       "create table onlineUser(",
