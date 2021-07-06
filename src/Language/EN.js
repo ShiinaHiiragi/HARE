@@ -54,7 +54,10 @@ const list = {
   message: {
     error: "Error",
     serverError: "Server Error",
-    signInBlank: "Please enter the E-mail and password."
+    signInBlank: "Please enter the E-mail and password.",
+    unitNameError: "The name of the group should be between 0 ~ 16 characters.",
+    pageNameError: "The name of the booklet should be between 0 ~ 16 characters.",
+    pagePresentError: "The description of the booklet should be between 0 ~ 512 characters."
   },
   common: {
     back: "Back",

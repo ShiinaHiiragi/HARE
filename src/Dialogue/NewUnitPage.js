@@ -7,6 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
+import { nameMaxLength, presentMaxLength } from "../Interface/Constant"
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -19,18 +20,32 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const nameMaxLength = 32, presentMaxLength = 512;
 export default function NewUnitPage(props) {
   const classes = useStyles();
   const { lang, open, group, type, text, handle } = props;
 
   const checkFormInput = () => {
+    let errorMessage = "";
     const pagePresentLength = text.pagePresentValue.length;
-    const unitNameLength = text.unitNameValue.length;
     const pageNameLength = text.pageNameValue.length;
-    const pagePresentError = pagePresentLength === 0 || pagePresentLength > presentMaxLength;
-    
+    const unitNameLength = text.unitNameValue.length;
+    const pagePresentError = pagePresentLength > presentMaxLength;
+    errorMessage = pagePresentError ? lang.message.pagePresentError : errorMessage;
+    const pageNameError = pageNameLength === 0 || pageNameLength > nameMaxLength;
+    errorMessage = pageNameError ? lang.message.pageNameError : errorMessage;
+    const unitNameError = unitNameLength === 0 || unitNameLength > nameMaxLength;
+    errorMessage = unitNameError ? lang.message.unitNameError : errorMessage;
+    handle.setUnitNameCheck(unitNameError);
+    handle.setPageNameCheck(pageNameError);
+    handle.setPagePresentCheck(pagePresentError);
+    return errorMessage;
   }
+
+  const submit = () => {
+    const errorMessage = checkFormInput();
+    if (errorMessage !== "")
+      handle.toggleMessageBox(errorMessage, "warning");
+  };
 
   return (
     <Dialog
@@ -56,6 +71,7 @@ export default function NewUnitPage(props) {
         </DialogContentText>
         <div>
           {group && (<TextField
+            required
             label={lang.popup.newUnitPage.unitName}
             className={clsx(classes.textInputHalf, classes.margin)}
             error={text.unitNameCheck}
@@ -64,6 +80,7 @@ export default function NewUnitPage(props) {
             autoFocus
           />)}
           <TextField
+            required
             label={lang.popup.newUnitPage.pageName}
             className={classes.textInputHalf}
             error={text.pageNameCheck}
@@ -81,7 +98,7 @@ export default function NewUnitPage(props) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handle.close} color="secondary">
+        <Button onClick={submit} color="secondary">
           {lang.common.ok}
         </Button>
         <Button onClick={handle.close} color="primary">

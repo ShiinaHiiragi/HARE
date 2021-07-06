@@ -4,6 +4,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   snack: {
+    userSelect: "none",
     maxWidth: "512px",
     "& > * + *": {
       marginTop: theme.spacing(2)

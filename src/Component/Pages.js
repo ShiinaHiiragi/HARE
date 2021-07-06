@@ -84,6 +84,9 @@ export default function Pages(props) {
     setUnitNameValue("");
     setPageNameValue("");
     setPagePresentValue("");
+    setUnitNameCheck(false);
+    setPageNameCheck(false);
+    setPagePresentCheck(false);
     setNewGroup(group);
     setNewType(type);
     setNewOpen(true);
@@ -167,6 +170,7 @@ export default function Pages(props) {
             setUnitNameCheck: setUnitNameCheck,
             setPageNameCheck: setPageNameCheck,
             setPagePresentCheck: setPagePresentCheck,
+            toggleMessageBox: toggleMessageBox,
             close: () => setNewOpen(false)
           }}
         />
