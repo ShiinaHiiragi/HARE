@@ -15,12 +15,12 @@ export default function UnitMenu(props) {
           : undefined
       }
     >
-      <MenuItem onClick={handleClose}>{lang.menu.editUnit}</MenuItem>
+      <MenuItem onClick={handleClose}>{lang.menu.editPage}</MenuItem>
       <MenuItem onClick={handleClose}>{lang.menu.moveUp}</MenuItem>
       <MenuItem onClick={handleClose}>{lang.menu.moveDown}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.addUnitAbove}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.addUnitBelow}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.deleteUnit}</MenuItem>
+      <MenuItem onClick={handleClose}>{lang.menu.addPageAbove}</MenuItem>
+      <MenuItem onClick={handleClose}>{lang.menu.addPageBelow}</MenuItem>
+      <MenuItem onClick={handleClose}>{lang.menu.deletePage}</MenuItem>
     </Menu>
   );
 }

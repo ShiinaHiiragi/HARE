@@ -17,7 +17,7 @@ const list = {
     }
   },
   menu: {
-    editGroup: "编辑卡片组资料",
+    editUnit: "编辑卡片组资料",
     moveUp: "上移",
     moveDown: "下移",
     addUnitAbove: "在上方插入新卡片组",

@@ -17,12 +17,16 @@ const list = {
     }
   },
   menu: {
-    editGroup: "Edit Group",
+    editUnit: "Edit Group",
+    editPage: "Edit Booklet",
     moveUp: "Move Up",
     moveDown: "Move Down",
     addUnitAbove: "Add New Group Above",
+    addPageAbove: "Add New Booklet Above",
     addUnitBelow: "Add New Group Below",
-    deleteUnit: "Delete this Group"
+    addPageBelow: "Add New Booklet Below",
+    deleteUnit: "Delete this Group",
+    deletePage: "Delete this Booklet"
   },
   message: {
     error: "Error",

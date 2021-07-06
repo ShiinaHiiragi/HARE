@@ -11,6 +11,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import AddIcon from '@material-ui/icons/Add';
 import UnitMenu from "../Dialogue/UnitMenu";
+import PageMenu from "../Dialogue/PageMenu";
 import packedGET from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -48,12 +49,15 @@ export default function Pages(props) {
   };
 
   const [unitMenu, setUnitMenu] = React.useState(initMenu);
-  const toggleUnitMenu = (event, unitID) => {
+  const toggleUnitMenu = (event) => {
     event.preventDefault();
-    setUnitMenu({
-      mouseX: event.clientX - 2,
-      mouseY: event.clientY - 4,
-    });
+    setUnitMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
+  };
+
+  const [pageMenu, setPageMenu] = React.useState(initMenu);
+  const togglePageMenu = (event, unitID, pageID) => {
+    event.preventDefault();
+    setPageMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
 
   return (
@@ -63,7 +67,7 @@ export default function Pages(props) {
           listObject.map((item, index) => (
             <div key={index}>
               <ListItem
-                onContextMenu={(event) => toggleUnitMenu(event, item.unitID)} button
+                onContextMenu={toggleUnitMenu} button
                 onClick={() => changeUnit(item.unitID)}>
                 <ListItemIcon>
                   <ListIcon />
@@ -75,7 +79,10 @@ export default function Pages(props) {
                 <List component="div" disablePadding>
                   {
                     item.pages.map((subItem) => (
-                      <ListItem button className={classes.nested}>
+                      <ListItem
+                        onContextMenu={togglePageMenu}
+                        button className={classes.nested}
+                      >
                         <ListItemIcon>
                           <TurnedInNotIcon />
                         </ListItemIcon>
@@ -92,6 +99,11 @@ export default function Pages(props) {
           lang={lang}
           state={unitMenu}
           handleClose={() => setUnitMenu(initMenu)}
+        />
+        <PageMenu
+          lang={lang}
+          state={pageMenu}
+          handleClose={() => setPageMenu(initMenu)}
         />
       </List> :
       // TODO: fill this
