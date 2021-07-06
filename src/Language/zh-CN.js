@@ -23,6 +23,10 @@ const list = {
       titlePage: "创建新记忆册",
       textUnit: "一个记忆组必须包含至少一个记忆册，请输入该记忆组的第一个记忆册信息。",
       textPage: "请输入记忆册信息。"
+    },
+    logout: {
+      title: "退出登录确认",
+      text: "您正准备退出 HARE 登录状态，请按“确定”以继续。",
     }
   },
   menu: {
@@ -52,6 +56,7 @@ const list = {
   common: {
     back: "返回",
     ok: "确定",
+    yes: "确定",
     apply: "应用"
   }
 };

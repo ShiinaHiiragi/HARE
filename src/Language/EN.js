@@ -23,6 +23,10 @@ const list = {
       titlePage: "Create New Booklet",
       textUnit: "A group should contain at least one booklet. Please enter the information of the first booklet in newly created group.",
       textPage: "Enter the information of new booklet."
+    },
+    logout: {
+      title: "Logout Confirmation",
+      text: "You are attempting to quit your HARE account. Please click 'YES' to logout.",
     }
   },
   menu: {
@@ -52,6 +56,7 @@ const list = {
   common: {
     back: "Back",
     ok: "OK",
+    yes: "Yes",
     apply: "Apply"
   }
 };
