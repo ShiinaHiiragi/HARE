@@ -42,7 +42,6 @@ export default function NavList(props) {
           toggleMessageBox: handle.toggleMessageBox,
           toggleKick: handle.toggleKick
         }}
-        toggleMessageBox={handle.toggleMessageBox}
       />
     </div>
   );
