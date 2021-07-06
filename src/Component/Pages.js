@@ -74,6 +74,20 @@ export default function Pages(props) {
   const [newOpen, setNewOpen] = React.useState(false);
   const [newGroup, setNewGroup] = React.useState(false);
   const [newType, setNewType] = React.useState(0);
+  const [unitNameValue, setUnitNameValue] = React.useState("");
+  const [pageNameValue, setPageNameValue] = React.useState("");
+  const [pagePresentValue, setPagePresentValue] = React.useState("");
+  const [unitNameCheck, setUnitNameCheck] = React.useState(false);
+  const [pageNameCheck, setPageNameCheck] = React.useState(false);
+  const [pagePresentCheck, setPagePresentCheck] = React.useState(false);
+  const toggleNewUnitPageDialogue = (group, type) => {
+    setUnitNameValue("");
+    setPageNameValue("");
+    setPagePresentValue("");
+    setNewGroup(group);
+    setNewType(type);
+    setNewOpen(true);
+  }
 
   return (
       listObject.length !== 0 ?
@@ -129,11 +143,7 @@ export default function Pages(props) {
         />
       </List> :
       <div className={classes.newPage}>
-        <IconButton onClick={() => {
-          setNewOpen(true);
-          setNewGroup(true);
-          setNewType(0);
-        }}>
+        <IconButton onClick={() => toggleNewUnitPageDialogue(true, 0)}>
           <AddIcon fontSize="large"/>
         </IconButton>
         <Typography variant="button" color="textSecondary" align="center">
@@ -142,7 +152,23 @@ export default function Pages(props) {
         <NewUnitPage 
           lang={lang}
           open={newOpen} group={newGroup} type={newType}
-          handleClose={() => setNewOpen(false)}
+          text={{
+            unitNameValue: unitNameValue,
+            pageNameValue: pageNameValue,
+            pagePresentValue: pagePresentValue,
+            unitNameCheck: unitNameCheck,
+            pageNameCheck: pageNameCheck,
+            pagePresentCheck: pagePresentCheck
+          }}
+          handle={{
+            setUnitNameValue: setUnitNameValue,
+            setPageNameValue: setPageNameValue,
+            setPagePresentValue: setPagePresentValue,
+            setUnitNameCheck: setUnitNameCheck,
+            setPageNameCheck: setPageNameCheck,
+            setPagePresentCheck: setPagePresentCheck,
+            close: () => setNewOpen(false)
+          }}
         />
       </div>
   );

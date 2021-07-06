@@ -1,3 +1,4 @@
+import React from "react";
 import clsx from "clsx";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -20,13 +21,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewUnitPage(props) {
   const classes = useStyles();
-  const { lang, open, group, type, handleClose } = props;
+  const { lang, open, group, type, text, handle } = props;
 
   return (
     <Dialog
       fullWidth
       open={open}
-      onClose={handleClose}
+      onClose={handle.close}
       className={classes.noneSelect}
     >
       <DialogTitle>
@@ -48,29 +49,33 @@ export default function NewUnitPage(props) {
           {group && (<TextField
             label={lang.popup.newUnitPage.unitName}
             className={clsx(classes.textInputHalf, classes.margin)}
-            // value={}
-            // onChange={}
+            error={text.unitNameCheck}
+            value={text.unitNameValue}
+            onChange={(event) => handle.setUnitNameValue(event.target.value)}
+            autoFocus
           />)}
           <TextField
             label={lang.popup.newUnitPage.pageName}
             className={classes.textInputHalf}
-            // value={}
-            // onChange={}
+            error={text.pageNameCheck}
+            value={text.pageNameValue}
+            onChange={(event) => handle.setPageNameValue(event.target.value)}
           />
         </div>
         <TextField
           multiline rows={4}
           label={lang.popup.newUnitPage.pagePresent}
           className={classes.textInput}
-          // value={}
-          // onChange={}
+          error={text.pagePresentCheck}
+          value={text.pagePresentValue}
+          onChange={(event) => handle.setPagePresentValue(event.target.value)}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="secondary">
+        <Button onClick={handle.close} color="secondary">
           {lang.common.ok}
         </Button>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handle.close} color="primary">
           {lang.common.back}
         </Button>
       </DialogActions>
