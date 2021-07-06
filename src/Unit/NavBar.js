@@ -4,10 +4,10 @@ import Hidden from "@material-ui/core/Hidden";
 import LocalInfo from "../Component/LocalInfo";
 import NavTitle from "../Component/NavTitle";
 import Fold from "../Component/Fold";
+import { drawerWidth } from "../Interface/Constant";
 import clsx from "clsx";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
-const drawerWidth = 300;
 const useStyles = makeStyles((theme) => ({
   appBar: {
     userSelect: "none",

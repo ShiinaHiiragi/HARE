@@ -3,9 +3,9 @@ import Hidden from "@material-ui/core/Hidden";
 import PersonalInfo from "../Component/PersonalInfo";
 import Divider from "@material-ui/core/Divider";
 import Pages from "../Component/Pages";
+import { drawerWidth } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
-const drawerWidth = 300;
 const useStyles = makeStyles((theme) => ({
   drawer: {
     userSelect: "none",
