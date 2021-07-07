@@ -44,6 +44,15 @@ const insertUser = (cmdLine, onsuccess, onerror) => {
     }).catch(err => onerror(err));
 }
 
+const viewTable = (cmdLine, onsuccess, onerror) => {
+  if (Object.keys(setting.schema).find((item) => item === cmdLine[1]))
+    query(`select * from ${cmdLine[1]}`).then((out) => {
+      console.log(out);
+      onsuccess(out);
+    }).catch((err) => onerror(err))
+  else onerror('ERROR: Nonexistent schema.');
+}
+
 const newToken = (userID, token) => new Promise((resolve, reject) => {
   if (token)
     query(`insert into onlineUser(userID, token, lastTime)
@@ -66,6 +75,8 @@ exports.exec = (cmdLine) => new Promise((resolve, reject) => {
     api.checkRegister(cmdLine)
       .then((newLine) => insertUser(newLine, resolve, reject))
       .catch(err => reject(err));
+  } else if (cmdLine[0] === 'view') {
+    viewTable(cmdLine, resolve, reject);
   } else reject('ERROR: cannot parse the command.');
 });
 
