@@ -53,6 +53,25 @@ const viewTable = (cmdLine, onsuccess, onerror) => {
   else onerror('ERROR: Nonexistent schema.');
 }
 
+exports.newUnit = (userID, unitID, unitName) => new Promise((resolve, reject) => {
+  query(`update unit set unitID = unitID + 1 where userID = ${userID} and unitID >= ${unitID};
+    update userSetting set unitSize = unitSize + 1 where userID = ${userID};
+    insert into unit(userID, unitID, unitName, unitCreateTime)
+    values(${userID}, ${unitID}, '${unitName}', now());
+  `).then(resolve).catch(reject);
+});
+
+exports.newPage = (userID, unitID, pageID, pageName, pagePresent) => 
+  new Promise((resolve, reject) => {
+    query(`update page set pageID = pageID + 1
+      where userID = ${userID} and unitID = ${unitID} and pageID >= ${pageID};
+      update unit set pageSize = pageSize + 1
+      where userID = ${userID} and unitID = ${unitID};
+      insert into page(userID, unitID, pageID, pageName, pagePresent, pageCreateTime)
+      values(${userID}, ${unitID}, ${pageID}, '${pageName}', '${pagePresent}', now());
+    `).then(resolve).catch(reject);
+});
+
 const newToken = (userID, token) => new Promise((resolve, reject) => {
   if (token)
     query(`insert into onlineUser(userID, token, lastTime)
