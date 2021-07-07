@@ -181,6 +181,7 @@ export default function Pages(props) {
             pagePresentCheck: pagePresentCheck
           }}
           handle={{
+            setListObject: setListObject,
             setUnitNameValue: setUnitNameValue,
             setPageNameValue: setPageNameValue,
             setPagePresentValue: setPagePresentValue,

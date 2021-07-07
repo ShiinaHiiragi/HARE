@@ -41,7 +41,7 @@ const insertUser = (cmdLine, onsuccess, onerror) => {
     }).then(() => {
       console.log(`INSERT userID: ${returnUserID}`);
       onsuccess();
-    }).catch(err => onerror(err));
+    }).catch(onerror);
 }
 
 const viewTable = (cmdLine, onsuccess, onerror) => {
@@ -49,7 +49,7 @@ const viewTable = (cmdLine, onsuccess, onerror) => {
     query(`select * from ${cmdLine[1]}`).then((out) => {
       console.log(out);
       onsuccess(out);
-    }).catch((err) => onerror(err))
+    }).catch(onerror)
   else onerror('ERROR: Nonexistent schema.');
 }
 
@@ -72,19 +72,46 @@ exports.newPage = (userID, unitID, pageID, pageName, pagePresent) =>
     `).then(resolve).catch(reject);
 });
 
+exports.getUnitPage = (userID) => new Promise((resolve, reject) => {
+  query(`select unitID, unitName from unit
+    where userID = ${userID} order by unitID asc`)
+    .then((out) => {
+      return out.map((item) => ({
+        unitID: item.unitid,
+        unitName: item.unitname,
+        open: item.unitid === 1 ? true : false,
+        pages: []
+    }))}
+    ).then((listItem) => {
+      api.syncEachChain(listItem, (item, onsuccess, onerror) => {
+        query(`select pageID, pageName, pageCover, pagePresent from page
+          where userID = ${userID} and unitID = ${item.unitID} order by pageID asc`)
+          .then((out) => {
+            item.pages = out.map((subItem) => ({
+              pageID: subItem.pageid,
+              pageName: subItem.pagename,
+              pageCover: subItem.pagecover,
+              pagePresent: subItem.pagepresent
+            }))
+            onsuccess();
+          }).catch(onerror);
+      }).then(() => resolve(listItem)).catch(reject);
+    }).catch(reject);
+});
+
 const newToken = (userID, token) => new Promise((resolve, reject) => {
   if (token)
     query(`insert into onlineUser(userID, token, lastTime)
       values(${userID}, '${token}', now())
       on conflict (userID) do update
       set token = EXCLUDED.token, lastTime = EXCLUDED.lastTime`)
-      .then(resolve).catch(err => reject(err));
+      .then(resolve).catch(reject);
   else
     query(`insert into onlineUser(userID, token, lastTime)
       values(${userID}, '', now())
       on conflict (userID) do update
       set lastTime = EXCLUDED.lastTime`)
-      .then(resolve).catch(err => reject(err));
+      .then(resolve).catch(reject);
 })
 
 exports.exec = (cmdLine) => new Promise((resolve, reject) => {
@@ -93,7 +120,7 @@ exports.exec = (cmdLine) => new Promise((resolve, reject) => {
   if (cmdLine[0] === 'sign') {
     api.checkRegister(cmdLine)
       .then((newLine) => insertUser(newLine, resolve, reject))
-      .catch(err => reject(err));
+      .catch(reject);
   } else if (cmdLine[0] === 'view') {
     viewTable(cmdLine, resolve, reject);
   } else reject('ERROR: cannot parse the command.');

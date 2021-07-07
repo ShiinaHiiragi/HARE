@@ -62,7 +62,8 @@ export default function NewUnitPage(props) {
         kick: handle.toggleKick,
         lang: lang
       }).then((res) => {
-        console.log(res);
+        handle.close();
+        handle.setListObject(res);
       });
     }
   };
