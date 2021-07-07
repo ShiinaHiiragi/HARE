@@ -40,7 +40,9 @@ export default function NavList(props) {
         token={data.token}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
-          toggleKick: handle.toggleKick
+          toggleLoading: handle.toggleLoading,
+          toggleKick: handle.toggleKick,
+          closeLoading: handle.closeLoading
         }}
       />
     </div>

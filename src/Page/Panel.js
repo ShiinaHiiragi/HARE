@@ -99,6 +99,8 @@ export default function Panel(props) {
         }}
         handle={{
           toggleMessageBox: toggleMessageBox,
+          toggleLoading: toggleLoading,
+          closeLoading: closeLoading,
           toggleKick: () => setKick(true),
           closeNavListMobile: () => setNavListMobile(false),
           changeGlobalLang: changeGlobalLang

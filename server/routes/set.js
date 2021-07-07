@@ -7,8 +7,8 @@ router.post('/new-up', (req, res) => {
     .then(() => {
       const { userID, group, type, unitName, pageName, pagePresent } = req.body;
       if (group) {
-        db.newUnit(userID, 1, unitName)
-          .then(() => db.newPage(userID, 1, 1, pageName, pagePresent))
+        db.newUnit(userID, type || 1, unitName)
+          .then(() => db.newPage(userID, type || 1, 1, pageName, pagePresent))
           .then(() => db.getUnitPage(userID))
           .then(out => res.send(out))
           .catch((err) => res.status(500).send(err));

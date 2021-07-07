@@ -18,7 +18,7 @@ exports.dbInitialize = (clearAll) => new Promise((resolve, reject) => {
     const schemaSQL = Object.values(setting.schema).map(item => item.join(' '));
     api.syncEachChain(schemaSQL, (item, onsuccess, onerror) => {
       query(item).then(onsuccess).catch(onerror);
-    });
+    }).then(resolve).catch(reject);
   }
   if (clearAll) {
     const schemas = Object.keys(setting.schema).reverse();
@@ -54,22 +54,24 @@ const viewTable = (cmdLine, onsuccess, onerror) => {
 }
 
 exports.newUnit = (userID, unitID, unitName) => new Promise((resolve, reject) => {
-  query(`update unit set unitID = unitID + 1 where userID = ${userID} and unitID >= ${unitID};
+  query(`begin;
+    update unit set unitID = unitID + 1 where userID = ${userID} and unitID >= ${unitID};
     update userSetting set unitSize = unitSize + 1 where userID = ${userID};
     insert into unit(userID, unitID, unitName, unitCreateTime)
-    values(${userID}, ${unitID}, '${unitName}', now());
-  `).then(resolve).catch(reject);
+    values(${userID}, ${unitID}, '${unitName}', now()); commit;`)
+    .then(resolve).catch(reject);
 });
 
 exports.newPage = (userID, unitID, pageID, pageName, pagePresent) => 
   new Promise((resolve, reject) => {
-    query(`update page set pageID = pageID + 1
+    query(`begin; update page set pageID = pageID + 1
       where userID = ${userID} and unitID = ${unitID} and pageID >= ${pageID};
       update unit set pageSize = pageSize + 1
       where userID = ${userID} and unitID = ${unitID};
       insert into page(userID, unitID, pageID, pageName, pagePresent, pageCreateTime)
       values(${userID}, ${unitID}, ${pageID}, '${pageName}', '${pagePresent}', now());
-    `).then(resolve).catch(reject);
+      commit;`)
+      .then(resolve).catch(reject);
 });
 
 exports.getUnitPage = (userID) => new Promise((resolve, reject) => {

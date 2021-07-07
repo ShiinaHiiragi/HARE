@@ -47,6 +47,7 @@ export default function NewUnitPage(props) {
     if (errorMessage !== "")
       handle.toggleMessageBox(errorMessage, "warning");
     else {
+      handle.toggleLoading();
       packedPOST({
         uri: "/set/new-up",
         query: {
@@ -63,6 +64,7 @@ export default function NewUnitPage(props) {
         lang: lang
       }).then((res) => {
         handle.close();
+        handle.closeLoading();
         handle.setListObject(res);
       });
     }

@@ -189,7 +189,9 @@ export default function Pages(props) {
             setPageNameCheck: setPageNameCheck,
             setPagePresentCheck: setPagePresentCheck,
             toggleMessageBox: handle.toggleMessageBox,
+            toggleLoading: handle.toggleLoading,
             toggleKick: handle.toggleKick,
+            closeLoading: handle.closeLoading,
             close: () => setNewOpen(false)
           }}
         />
