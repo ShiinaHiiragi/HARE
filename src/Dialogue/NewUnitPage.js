@@ -35,7 +35,7 @@ export default function NewUnitPage(props) {
     const pageNameError = pageNameLength === 0 || pageNameLength > nameMaxLength;
     errorMessage = pageNameError ? lang.message.pageNameError : errorMessage;
     const unitNameError = unitNameLength === 0 || unitNameLength > nameMaxLength;
-    errorMessage = unitNameError ? lang.message.unitNameError : errorMessage;
+    if (group) errorMessage = unitNameError ? lang.message.unitNameError : errorMessage;
     handle.setUnitNameCheck(unitNameError);
     handle.setPageNameCheck(pageNameError);
     handle.setPagePresentCheck(pagePresentError);
@@ -52,6 +52,8 @@ export default function NewUnitPage(props) {
         query: {
           userID: userID,
           token: token,
+          group: group,
+          type: type,
           unitName: text.unitNameValue,
           pageName: text.pageNameValue,
           pagePresent: text.pagePresentValue

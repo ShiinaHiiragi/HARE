@@ -26,8 +26,18 @@ export default function UnitMenu(props) {
       <MenuItem onClick={handle.closeMenu}>{lang.menu.editUnit}</MenuItem>
       <MenuItem onClick={handle.closeMenu}>{lang.menu.moveUp}</MenuItem>
       <MenuItem onClick={handle.closeMenu}>{lang.menu.moveDown}</MenuItem>
-      <MenuItem onClick={handle.closeMenu}>{lang.menu.addUnitAbove}</MenuItem>
-      <MenuItem onClick={handle.closeMenu}>{lang.menu.addUnitBelow}</MenuItem>
+      <MenuItem onClick={() => {
+        handle.closeMenu();
+        handle.toggleNewUnit(state.unitID);
+      }}>
+        {lang.menu.addUnitAbove}
+      </MenuItem>
+      <MenuItem onClick={() => {
+        handle.closeMenu();
+        handle.toggleNewUnit(state.unitID + 1);
+      }}>
+        {lang.menu.addUnitBelow}
+      </MenuItem>
       <MenuItem onClick={handle.closeMenu}>{lang.menu.deleteUnit}</MenuItem>
     </Menu>
   );

@@ -2,25 +2,35 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
 export default function PageMenu(props) {
-  const { lang, state, handleClose } = props;
+  const { lang, state, handle } = props;
   return (
     <Menu
       keepMounted
-      open={state.mouseY !== null}
-      onClose={handleClose}
+      open={state.pageMenu.mouseY !== null}
+      onClose={handle.closeMenu}
       anchorReference="anchorPosition"
       anchorPosition={
-        state.mouseY !== null && state.mouseX !== null
-          ? { top: state.mouseY, left: state.mouseX }
+        state.pageMenu.mouseY !== null && state.pageMenu.mouseX !== null
+          ? { top: state.pageMenu.mouseY, left: state.pageMenu.mouseX }
           : undefined
       }
     >
-      <MenuItem onClick={handleClose}>{lang.menu.editPage}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.moveUp}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.moveDown}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.addPageAbove}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.addPageBelow}</MenuItem>
-      <MenuItem onClick={handleClose}>{lang.menu.deletePage}</MenuItem>
+      <MenuItem onClick={handle.closeMenu}>{lang.menu.editPage}</MenuItem>
+      <MenuItem onClick={handle.closeMenu}>{lang.menu.moveUp}</MenuItem>
+      <MenuItem onClick={handle.closeMenu}>{lang.menu.moveDown}</MenuItem>
+      <MenuItem onClick={() => {
+        handle.closeMenu();
+        handle.toggleNewPage([state.unitID, state.pageID])
+      }}>
+        {lang.menu.addPageAbove}
+      </MenuItem>
+      <MenuItem onClick={() => {
+        handle.closeMenu();
+        handle.toggleNewPage([state.unitID, state.pageID + 1])
+      }}>
+        {lang.menu.addPageBelow}
+      </MenuItem>
+      <MenuItem onClick={handle.closeMenu}>{lang.menu.deletePage}</MenuItem>
     </Menu>
   );
 }

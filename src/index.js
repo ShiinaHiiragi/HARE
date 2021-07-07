@@ -6,7 +6,7 @@ import cookie from "react-cookies";
 import axios from "axios";
 import requestURL from "./Interface/Constant";
 
-const userID = cookie.load("userID");
+const userID = Number(cookie.load("userID"));
 const token = cookie.load("token");
 
 axios
