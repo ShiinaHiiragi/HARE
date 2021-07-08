@@ -4,7 +4,7 @@ var db = require('../bin/db');
 var api = require('../bin/api');
 
 router.post('/new-up', (req, res) => {
-  // TODO: check the validity of group and type in new-up & swap
+  // TODO: check the validity of group and type in new-up & swap & delete
   const { group, type } = req.body;
   const { userID } = api.sqlNumber(req.body, ["userID"]);
   const { token, unitName, pageName, pagePresent } = api.sqlString(
@@ -40,6 +40,33 @@ router.post('/swap', (req, res) => {
       } else {
         db.movePage(userID, less[0], less[1])
           .then(() => res.send(""))
+          .catch((err) => res.status(500).send(err));
+      }
+    });
+});
+
+router.post('/delete-up', (req, res) => {
+  const { group } = req.body;
+  const { userID, unitID, pageID } = api.sqlNumber(
+    req.body,
+    ["userID", "unitID", "pageID"]
+  );
+  const { token } = api.sqlString(req.body, ["token"]);
+  db.checkToken(userID, token, res)
+    .then(() => {
+      if (group) {
+        db.deleteUnit(userID, unitID)
+          .then(() => res.send("unit"))
+          .catch((err) => res.status(500).send(err));
+      } else {
+        db.deletePage(userID, unitID, pageID)
+          .then((out) => {
+            if (!out[0].pagesize) {
+              db.deleteUnit(userID, unitID)
+                .then(() => res.send("unit"))
+                .catch((err) => res.status(500).send(err));
+            } else res.send("page");
+          })
           .catch((err) => res.status(500).send(err));
       }
     });

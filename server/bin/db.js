@@ -173,3 +173,28 @@ exports.movePage = (userID, unitID, less) => new Promise((resolve, reject) => {
     pageID = ${-less} or pageID = ${-less - 1}); commit;`)
     .then(resolve).catch(reject);
 });
+
+exports.deleteUnit = (userID, unitID) => new Promise((resolve, reject) => {
+  query(`begin; delete from unit where userID = ${userID} and unitID = ${unitID};
+    update userSetting set unitSize = unitSize - 1 where userID = ${userID};
+    update unit set unitID = 1 - unitID
+    where userID = ${userID} and unitID > ${unitID};
+    update unit set unitID = -unitID
+    where userID = ${userID} and unitID < 0; commit;`)
+    .then(resolve).catch(reject);
+});
+
+exports.deletePage = (userID, unitID, pageID) => new Promise((resolve, reject) => {
+  query(`begin; delete from page
+    where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID};
+    update unit set pageSize = pageSize - 1
+    where userID = ${userID} and unitID = ${unitID};
+    update page set pageID = 1 - pageID
+    where userID = ${userID} and unitID = ${unitID} and pageID > ${pageID};
+    update page set pageID = -pageID
+    where userID = ${userID} and unitID = ${unitID} and pageID < 0;
+    commit;`)
+    .then(() => query(`select pageSize from unit
+      where userID = ${userID} and unitID = ${unitID}`))
+    .then(resolve).catch(reject);
+});

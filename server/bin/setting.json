@@ -46,7 +46,7 @@
       "itemSize integer not null default 0,",
       "trackSize integer not null default 0,",
       "foreign key(userID, unitID) references unit(userID, unitID)",
-      "on update cascade,",
+      "on update cascade on delete cascade,",
       "primary key(userID, unitID, pageID));"
     ],
     "item": [
@@ -60,7 +60,7 @@
       "itemKey text not null,",
       "itemRecord char(1)[],",
       "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID)",
-      "on update cascade,",
+      "on update cascade on delete cascade,",
       "primary key(userID, unitID, pageID, itemID));"
     ],
     "track": [
@@ -72,7 +72,7 @@
       "startTime timestamp not null,",
       "endTime timestamp not null,",
       "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID)",
-      "on update cascade,",
+      "on update cascade on delete cascade,",
       "primary key(userID, unitID, pageID, trackID));"
     ],
     "onlineUser": [

@@ -137,7 +137,19 @@ export default function Pages(props) {
     setDeleteType(type);
   }
   const deleteUnitPage = (userID, unitID, pageID) => {
-    console.log(userID, unitID, pageID);
+    packedPOST({
+      uri: "/set/delete-up",
+      query: {
+        userID: userID, token: token,
+        unitID: unitID, pageID: pageID,
+        group: pageID > 0 ? false : true
+      },
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
+      lang: lang
+    }).then((out) => {
+      console.log(out);
+    });
   };
 
   return (
