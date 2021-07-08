@@ -4,6 +4,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
+import { stringFormat } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DeleteConfirm(props) {
   const classes = useStyles();
-  const { lang, open, type, handleClose, handleDeleteTarget } = props;
+  const { lang, open, type, name, handleClose, handleDeleteTarget } = props;
 
   return (
     <Dialog
@@ -25,7 +26,9 @@ export default function DeleteConfirm(props) {
     >
       <DialogTitle>{lang.popup.delete.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{lang.popup.delete[type]}</DialogContentText>
+        <DialogContentText>
+          {stringFormat(lang.popup.delete[type], [name])}
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button

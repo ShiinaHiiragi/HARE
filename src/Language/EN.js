@@ -37,8 +37,8 @@ const list = {
     },
     delete: {
       title: "Deletion Confirmation",
-      unit: "You are attempting to delete this group. Please click 'YES' to continue.",
-      page: "You are attempting to delete this booklet. Please click 'YES' to continue.",
+      unit: "You are attempting to delete the unit '{0}'. Please click 'YES' to continue.",
+      page: "You are attempting to delete the booklet '{0}'. Please click 'YES' to continue.",
       item: "You are attempting to delete this entry. Please click 'YES' to continue."
     }
   },

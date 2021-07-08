@@ -48,28 +48,31 @@ export default function Pages(props) {
   };
 
   // the states used for menus
-  const [top, setTop] = React.useState(false);
-  const [buttom, setButtom] = React.useState(false);
   const [unitMenu, setUnitMenu] = React.useState(initMenu);
   const [pageMenu, setPageMenu] = React.useState(initMenu);
   const [currentUnitID, setCurrentUnitID] = React.useState(0);
   const [currentPageID, setCurrentPageID] = React.useState(0);
-  const [fold, setFold] = React.useState(false);
+  const [currentName, setCurrentName] = React.useState("");
+  const [currentFold, setCurrentFold] = React.useState(false);
+  const [currentTop, setCurrentTop] = React.useState(false);
+  const [currentButtom, setCurrentButtom] = React.useState(false);
   const toggleUnitMenu = (event, unitID) => {
     event.preventDefault();
     setCurrentUnitID(unitID);
     setCurrentPageID(-1);
-    setFold(listObject[unitID - 1].open);
-    setTop(unitID === 1);
-    setButtom(unitID === listObject.length);
+    setCurrentFold(listObject[unitID - 1].open);
+    setCurrentName(listObject[unitID - 1].unitName);
+    setCurrentTop(unitID === 1);
+    setCurrentButtom(unitID === listObject.length);
     setUnitMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
   const togglePageMenu = (event, unitID, pageID) => {
     event.preventDefault();
     setCurrentUnitID(unitID);
     setCurrentPageID(pageID);
-    setTop(pageID === 1);
-    setButtom(pageID === listObject[unitID - 1].pages.length);
+    setCurrentName(listObject[unitID - 1].pages[pageID - 1].pageName);
+    setCurrentTop(pageID === 1);
+    setCurrentButtom(pageID === listObject[unitID - 1].pages.length);
     setPageMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
 
@@ -108,33 +111,33 @@ export default function Pages(props) {
   }
 
   // states used for inserting units or pages
-  const [newOpen, setNewOpen] = React.useState(false);
-  const [newGroup, setNewGroup] = React.useState(false);
-  const [newType, setNewType] = React.useState(0);
-  const [unitNameValue, setUnitNameValue] = React.useState("");
-  const [pageNameValue, setPageNameValue] = React.useState("");
-  const [pagePresentValue, setPagePresentValue] = React.useState("");
-  const [unitNameCheck, setUnitNameCheck] = React.useState(false);
-  const [pageNameCheck, setPageNameCheck] = React.useState(false);
-  const [pagePresentCheck, setPagePresentCheck] = React.useState(false);
-  const toggleNewUnitPageDialogue = (group, type) => {
-    setUnitNameValue("");
-    setPageNameValue("");
-    setPagePresentValue("");
-    setUnitNameCheck(false);
-    setPageNameCheck(false);
-    setPagePresentCheck(false);
-    setNewGroup(group);
-    setNewType(type);
-    setNewOpen(true);
+  const [newUnitPage, setNewUnitPage] = React.useState(false);
+  const [newUnitPageGroup, setNewUnitPageGroup] = React.useState(false);
+  const [newUnitPageType, setNewUnitPageType] = React.useState(0);
+  const [newUnitNameValue, setNewUnitNameValue] = React.useState("");
+  const [newPageNameValue, setNewPageNameValue] = React.useState("");
+  const [newPagePresentValue, setNewPagePresentValue] = React.useState("");
+  const [newUnitNameCheck, setNewUnitNameCheck] = React.useState(false);
+  const [newPageNameCheck, setNewPageNameCheck] = React.useState(false);
+  const [newPagePresentCheck, setNewPagePresentCheck] = React.useState(false);
+  const toggleNewUnitPage = (group, type) => {
+    setNewUnitNameValue("");
+    setNewPageNameValue("");
+    setNewPagePresentValue("");
+    setNewUnitNameCheck(false);
+    setNewPageNameCheck(false);
+    setNewPagePresentCheck(false);
+    setNewUnitPageGroup(group);
+    setNewUnitPageType(type);
+    setNewUnitPage(true);
   }
 
   // states used for deleting units and pages
   const [deleteConfirm, setDeleteConfirm] = React.useState(false);
-  const [deleteType, setDeleteType] = React.useState("");
+  const [deleteConfirmType, setDeleteConfirmType] = React.useState("");
   const toggleDeleteConfirm = (type) => {
     setDeleteConfirm(true);
-    setDeleteType(type);
+    setDeleteConfirmType(type);
   }
   const deleteUnitPage = (userID, unitID, pageID) => {
     packedPOST({
@@ -153,122 +156,123 @@ export default function Pages(props) {
   };
 
   return (
-      <div className={classes.newPage}>
-        {listObject.length !== 0 ?
-        <List component="nav" className={classes.list}>
-          {
-            listObject.map((item, index) => (
-              <div key={index}>
-                <ListItem
-                  onContextMenu={(event) => toggleUnitMenu(event, item.unitID)} button
-                  onClick={() => changeUnit(item.unitID)}>
-                  <ListItemIcon>
-                    <ListIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={item.unitName} />
-                  {item.open ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={item.open} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    {
-                      item.pages.map((subItem, subIndex) => (
-                        <ListItem
-                          selected={subItem.selected}
-                          key={subIndex}
-                          onContextMenu={(event) => 
-                            togglePageMenu(event, item.unitID, subItem.pageID)}
-                          button className={classes.nested}
-                        >
-                          <ListItemIcon>
-                            <TurnedInNotIcon />
-                          </ListItemIcon>
-                          <ListItemText primary={subItem.pageName} />
-                        </ListItem>
-                      ))
-                    }
-                  </List>
-                </Collapse>
-              </div>
-            ))
-          }
-          <UnitMenu
-            lang={lang}
-            state={{
-              unitMenu: unitMenu,
-              unitID: currentUnitID,
-              fold: fold,
-              top: top,
-              buttom: buttom
-            }}
-            handle={{
-              toggleNewUnit: (pos) => toggleNewUnitPageDialogue(true, pos),
-              toggleDeleteConfirm: toggleDeleteConfirm,
-              closeMenu: () => setUnitMenu(initMenu),
-              changeUnit: changeUnit,
-              moveUnit: (less) => changeMove(true, less)
-            }}
-          />
-          <PageMenu
-            lang={lang}
-            state={{
-              pageMenu: pageMenu,
-              unitID: currentUnitID,
-              pageID: currentPageID,
-              top: top,
-              buttom: buttom
-            }}
-            handle={{
-              toggleNewPage: (pos) => toggleNewUnitPageDialogue(false, pos),
-              toggleDeleteConfirm: toggleDeleteConfirm,
-              closeMenu: () => setPageMenu(initMenu),
-              movePage: (less) => changeMove(false, less)
-            }}
-          />
-        </List> :
-        <div className={clsx(classes.newPage, classes.center)}>
-          <IconButton onClick={() => toggleNewUnitPageDialogue(true, 0)}>
-            <AddIcon fontSize="large"/>
-          </IconButton>
-          <Typography variant="button" color="textSecondary" align="center">
-            {lang.panel.initUnit}
-          </Typography>
-        </div>}
-        <NewUnitPage 
+    <div className={classes.newPage}>
+      {listObject.length !== 0 ?
+      <List component="nav" className={classes.list}>
+        {
+          listObject.map((item, index) => (
+            <div key={index}>
+              <ListItem
+                onContextMenu={(event) => toggleUnitMenu(event, item.unitID)} button
+                onClick={() => changeUnit(item.unitID)}>
+                <ListItemIcon>
+                  <ListIcon />
+                </ListItemIcon>
+                <ListItemText primary={item.unitName} />
+                {item.open ? <ExpandLess /> : <ExpandMore />}
+              </ListItem>
+              <Collapse in={item.open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {
+                    item.pages.map((subItem, subIndex) => (
+                      <ListItem
+                        selected={subItem.selected}
+                        key={subIndex}
+                        onContextMenu={(event) => 
+                          togglePageMenu(event, item.unitID, subItem.pageID)}
+                        button className={classes.nested}
+                      >
+                        <ListItemIcon>
+                          <TurnedInNotIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={subItem.pageName} />
+                      </ListItem>
+                    ))
+                  }
+                </List>
+              </Collapse>
+            </div>
+          ))
+        }
+        <UnitMenu
           lang={lang}
-          userID={userID} token={token}
-          open={newOpen} group={newGroup} type={newType}
-          text={{
-            listObject: listObject,
-            unitNameValue: unitNameValue,
-            pageNameValue: pageNameValue,
-            pagePresentValue: pagePresentValue,
-            unitNameCheck: unitNameCheck,
-            pageNameCheck: pageNameCheck,
-            pagePresentCheck: pagePresentCheck
+          state={{
+            unitMenu: unitMenu,
+            unitID: currentUnitID,
+            fold: currentFold,
+            top: currentTop,
+            buttom: currentButtom
           }}
           handle={{
-            setListObject: setListObject,
-            setUnitNameValue: setUnitNameValue,
-            setPageNameValue: setPageNameValue,
-            setPagePresentValue: setPagePresentValue,
-            setUnitNameCheck: setUnitNameCheck,
-            setPageNameCheck: setPageNameCheck,
-            setPagePresentCheck: setPagePresentCheck,
-            toggleMessageBox: handle.toggleMessageBox,
-            toggleLoading: handle.toggleLoading,
-            toggleKick: handle.toggleKick,
-            closeLoading: handle.closeLoading,
-            close: () => setNewOpen(false)
+            toggleNewUnit: (pos) => toggleNewUnitPage(true, pos),
+            toggleDeleteConfirm: toggleDeleteConfirm,
+            closeMenu: () => setUnitMenu(initMenu),
+            changeUnit: changeUnit,
+            moveUnit: (less) => changeMove(true, less)
           }}
         />
-        <DeleteConfirm
+        <PageMenu
           lang={lang}
-          open={deleteConfirm}
-          type={deleteType}
-          handleClose={() => setDeleteConfirm(false)}
-          handleDeleteTarget={() => 
-            deleteUnitPage(userID, currentUnitID, currentPageID)}
+          state={{
+            pageMenu: pageMenu,
+            unitID: currentUnitID,
+            pageID: currentPageID,
+            top: currentTop,
+            buttom: currentButtom
+          }}
+          handle={{
+            toggleNewPage: (pos) => toggleNewUnitPage(false, pos),
+            toggleDeleteConfirm: toggleDeleteConfirm,
+            closeMenu: () => setPageMenu(initMenu),
+            movePage: (less) => changeMove(false, less)
+          }}
         />
-      </div>
+      </List> :
+      <div className={clsx(classes.newPage, classes.center)}>
+        <IconButton onClick={() => toggleNewUnitPage(true, 0)}>
+          <AddIcon fontSize="large"/>
+        </IconButton>
+        <Typography variant="button" color="textSecondary" align="center">
+          {lang.panel.initUnit}
+        </Typography>
+      </div>}
+      <NewUnitPage 
+        lang={lang}
+        userID={userID} token={token}
+        open={newUnitPage} group={newUnitPageGroup} type={newUnitPageType}
+        text={{
+          listObject: listObject,
+          unitNameValue: newUnitNameValue,
+          pageNameValue: newPageNameValue,
+          pagePresentValue: newPagePresentValue,
+          unitNameCheck: newUnitNameCheck,
+          pageNameCheck: newPageNameCheck,
+          pagePresentCheck: newPagePresentCheck
+        }}
+        handle={{
+          setListObject: setListObject,
+          setUnitNameValue: setNewUnitNameValue,
+          setPageNameValue: setNewPageNameValue,
+          setPagePresentValue: setNewPagePresentValue,
+          setUnitNameCheck: setNewUnitNameCheck,
+          setPageNameCheck: setNewPageNameCheck,
+          setPagePresentCheck: setNewPagePresentCheck,
+          toggleMessageBox: handle.toggleMessageBox,
+          toggleLoading: handle.toggleLoading,
+          toggleKick: handle.toggleKick,
+          closeLoading: handle.closeLoading,
+          close: () => setNewUnitPage(false)
+        }}
+      />
+      <DeleteConfirm
+        lang={lang}
+        open={deleteConfirm}
+        type={deleteConfirmType}
+        name={currentName}
+        handleClose={() => setDeleteConfirm(false)}
+        handleDeleteTarget={() => 
+          deleteUnitPage(userID, currentUnitID, currentPageID)}
+      />
+    </div>
   );
 }

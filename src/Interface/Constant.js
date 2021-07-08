@@ -8,6 +8,15 @@ const initMenu = { mouseX: null, mouseY: null };
 const nil = () => {};
 const next = () => new Promise((resolve) => resolve);
 
+const stringFormat = (rawString, replaceArray) => {
+  for (let i = 0; i < replaceArray.length; i += 1) {
+    let reg = new RegExp(`\\{${i}\\}`, "gm");
+    if (reg.test(rawString))
+      rawString = rawString.replace(reg, replaceArray[i]);
+  }
+  return rawString;
+}
+
 export {
   requestURL,
   drawerWidth,
@@ -15,6 +24,7 @@ export {
   presentMaxLength,
   initMenu,
   nil,
-  next
+  next,
+  stringFormat
 };
 export default requestURL;
