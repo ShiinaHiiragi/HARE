@@ -4,16 +4,18 @@ var db = require('../bin/db');
 var router = express.Router();
 
 router.get('/check', (req, res) => {
-  const userID = req.query.userID === "undefined" ? "0" : req.query.userID;
-  db.checkToken(userID, req.query.token, res)
-    .then(() => db.updateToken(userID).then(() => res.send("HARE")));
+  const { userID, token } = req.query;
+  const userIDString = userID === "undefined" ? "0" : userID;
+  db.checkToken(userIDString, token, res)
+    .then(() => db.updateToken(userIDString).then(() => res.send("HARE")));
 });
 
 router.post('/sign', (req, res) => {
+  const { email, password } = req.body;
   db.query(`select userID from userInfo natural join userSetting
-    where email = '${req.body.email}' and password = '${req.body.password}'`)
+    where email = '${email}' and password = '${password}'`)
     .then(out => {
-      const token = SHA1(req.body.email + new Date().toString()).toString();
+      const token = SHA1(email + new Date().toString()).toString();
       if (out.length > 0) {
         db.newToken(out[0].userid, token).then(() =>
           res.send({ uid: out[0].userid, token: token }));
@@ -21,9 +23,10 @@ router.post('/sign', (req, res) => {
     }).catch((err) => res.status(500).send(err.toString()));
 });
 
-router.post('/logout', (req, res) => {
-  db.checkToken(req.body.userID, req.body.token)
-    .then(() => db.query(`delete from onlineUser where userID = ${req.body.userID}`));
+router.post('/logout', (req) => {
+  const { userID, token } = req.body;
+  db.checkToken(userID, token)
+    .then(() => db.query(`delete from onlineUser where userID = ${userID}`));
 });
 
 router.get('/unit', (req, res) => {

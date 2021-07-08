@@ -16,10 +16,22 @@ export default function PageMenu(props) {
       }
     >
       <MenuItem onClick={handle.closeMenu}>{lang.menu.editPage}</MenuItem>
-      <MenuItem disabled={state.top} onClick={handle.closeMenu}>
+      <MenuItem
+        disabled={state.top}
+        onClick={() => {
+          handle.movePage([state.unitID, state.pageID - 1]);
+          handle.closeMenu();
+        }}
+      >
         {lang.menu.moveUp}
         </MenuItem>
-      <MenuItem disabled={state.buttom} onClick={handle.closeMenu}>
+      <MenuItem
+        disabled={state.buttom}
+        onClick={() => {
+          handle.movePage([state.unitID, state.pageID]);
+          handle.closeMenu();
+        }}
+      >
         {lang.menu.moveDown}
       </MenuItem>
       <MenuItem onClick={() => {

@@ -15,6 +15,7 @@ import UnitMenu from "../Dialogue/UnitMenu";
 import PageMenu from "../Dialogue/PageMenu";
 import NewUnitPage from "../Dialogue/NewUnitPage";
 import packedGET from "../Interface/Request";
+import { packedPOST } from "../Interface/Request";
 import { initMenu } from "../Interface/Constant";
 import clsx from "clsx";
 
@@ -80,6 +81,16 @@ export default function Pages(props) {
     setButtom(pageID === listObject[unitID - 1].pages.length);
     setPageMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
+
+  const changeMove = (group, less) => {
+    packedPOST({
+      uri: "/set/swap",
+      query: { userID: userID, token: token, group: group, less: less },
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
+      lang: lang
+    }).then(console.log);
+  }
 
   const [newOpen, setNewOpen] = React.useState(false);
   const [newGroup, setNewGroup] = React.useState(false);
@@ -152,7 +163,8 @@ export default function Pages(props) {
             handle={{
               toggleNewUnit: (pos) => toggleNewUnitPageDialogue(true, pos),
               closeMenu: () => setUnitMenu(initMenu),
-              changeUnit: changeUnit
+              changeUnit: changeUnit,
+              moveUnit: (less) => changeMove(false, less)
             }}
           />
           <PageMenu
@@ -166,7 +178,8 @@ export default function Pages(props) {
             }}
             handle={{
               toggleNewPage: (pos) => toggleNewUnitPageDialogue(false, pos),
-              closeMenu: () => setPageMenu(initMenu)
+              closeMenu: () => setPageMenu(initMenu),
+              movePage: (less) => changeMove(false, less)
             }}
           />
         </List> :
