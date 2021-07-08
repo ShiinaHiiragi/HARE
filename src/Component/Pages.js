@@ -173,6 +173,7 @@ export default function Pages(props) {
           userID={userID} token={token}
           open={newOpen} group={newGroup} type={newType}
           text={{
+            listObject: listObject,
             unitNameValue: unitNameValue,
             pageNameValue: pageNameValue,
             pagePresentValue: pagePresentValue,

@@ -62,10 +62,43 @@ export default function NewUnitPage(props) {
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,
         lang: lang
-      }).then((res) => {
+      }).then(() => {
         handle.close();
         handle.closeLoading();
-        handle.setListObject(res);
+        if (group) {
+          let tempListObject = text.listObject.map((item) => item.unitID >= type
+            ? { ...item, unitID: item.unitID + 1 } : item);
+          tempListObject.splice((type || 1) - 1, 0, {
+            unitID: type || 1,
+            unitName: text.unitNameValue,
+            open: true,
+            pages: [
+              {
+                pageID: 1,
+                pageName: text.pageNameValue,
+                pageCover: 0,
+                pagePresent: text.pagePresentValue
+              }
+            ]
+          });
+          handle.setListObject(tempListObject);
+        } else {
+          let tempPageObject = text.listObject[type[0] - 1]
+            .pages.map((item) => item.pageID >= type[1]
+            ? { ...item, pageID: item.pageID + 1 } : item);
+          tempPageObject.splice(type[1] - 1, 0,               {
+            pageID: type[1],
+            pageName: text.pageNameValue,
+            pageCover: 0,
+            pagePresent: text.pagePresentValue
+          });
+          handle.setListObject((listObject) => listObject.map((item) =>
+            item.unitID === type[0] ? {
+              ...item,
+              pages: tempPageObject
+            }: item
+          ));
+        }
       });
     }
   };
@@ -100,7 +133,7 @@ export default function NewUnitPage(props) {
             error={text.unitNameCheck}
             value={text.unitNameValue}
             onChange={(event) => handle.setUnitNameValue(event.target.value)}
-            autoFocus
+            autoFocus={group}
           />)}
           <TextField
             required
@@ -109,6 +142,7 @@ export default function NewUnitPage(props) {
             error={text.pageNameCheck}
             value={text.pageNameValue}
             onChange={(event) => handle.setPageNameValue(event.target.value)}
+            autoFocus={!group}
           />
         </div>
         <TextField
