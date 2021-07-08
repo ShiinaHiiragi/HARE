@@ -149,14 +149,19 @@ exports.newPage = (userID, unitID, pageID, pageName, pagePresent) =>
       where userID = ${userID} and unitID = ${unitID};
       insert into page(userID, unitID, pageID, pageName, pagePresent, pageCreateTime)
       values(${userID}, ${unitID}, ${pageID}, '${pageName}', '${pagePresent}', now());
-      commit;`)
-      .then(resolve).catch(reject);
+      commit;`).then(resolve).catch(reject);
 });
 
-exports.moveUnit = () => {
+exports.moveUnit = (userID, less) => new Promise((resolve, reject) => {
+  query(`begin; update unit set unitID = ${-less - 1}
+    where userID = ${userID} and unitID = ${less};
+    update unit set unitID = ${-less}
+    where userID = ${userID} and unitID = ${less + 1};
+    update unit set unitID = -unitID
+    where userID = ${userID} and (unitID = ${-less} or unitID = ${-less - 1});
+    commit;`).then(resolve).catch(resolve);
+});
 
-}
-
-exports.movePage = () => {
+exports.movePage = (userID, unitID, less) => {
 
 }

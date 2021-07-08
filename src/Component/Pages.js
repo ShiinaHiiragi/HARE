@@ -89,7 +89,14 @@ export default function Pages(props) {
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
       lang: lang
-    }).then(console.log);
+    }).then(() => {
+      setListObject((listObject) => {
+        listObject[less - 1] = listObject.splice(less, 1, listObject[less - 1])[0];
+        return listObject.map((item) => item.unitID === less
+          ? { ...item, unitID: less + 1} : item.unitID === less + 1
+          ? { ...item, unitID: less } : item);
+      });
+    });
   }
 
   const [newOpen, setNewOpen] = React.useState(false);
@@ -121,7 +128,8 @@ export default function Pages(props) {
             listObject.map((item, index) => (
               <div key={index}>
                 <ListItem
-                  onContextMenu={(event) => toggleUnitMenu(event, item.unitID)} button
+                  onContextMenu={(event) => { console.log(item)
+                    toggleUnitMenu(event, item.unitID)}} button
                   onClick={() => changeUnit(item.unitID)}>
                   <ListItemIcon>
                     <ListIcon />
@@ -164,7 +172,7 @@ export default function Pages(props) {
               toggleNewUnit: (pos) => toggleNewUnitPageDialogue(true, pos),
               closeMenu: () => setUnitMenu(initMenu),
               changeUnit: changeUnit,
-              moveUnit: (less) => changeMove(false, less)
+              moveUnit: (less) => changeMove(true, less)
             }}
           />
           <PageMenu
