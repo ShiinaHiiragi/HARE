@@ -9,6 +9,7 @@ import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
 import Kick from "../Dialogue/Kick";
+import packedGET from "../Interface/Request";
 
 export default function Panel(props) {
   const { userID, token } = props;
@@ -32,6 +33,18 @@ export default function Panel(props) {
   // the sharing state of response navigation bar and list
   const [navList, setNavList] = React.useState(true);
   const [navListMobile, setNavListMobile] = React.useState(false);
+  const [listObject, setListObject] = React.useState([]);
+  React.useEffect(() => {
+    packedGET({
+      uri: "/data/unit",
+      query: { userID: userID, token: token },
+      msgbox: toggleMessageBox,
+      kick: () => setKick(true),
+      lang: globalLang
+    })
+      .then((res) => setListObject(res));
+  }, []);
+
   const [navBarTitle, setNavBarTitle] = React.useState("HARE");
 
   // the setting of disconnection message box
@@ -84,7 +97,8 @@ export default function Panel(props) {
         }}
         state={{
           navList: navList,
-          navListMobile: navListMobile
+          navListMobile: navListMobile,
+          listObject: listObject
         }}
         handle={{
           toggleMessageBox: toggleMessageBox,
@@ -92,7 +106,8 @@ export default function Panel(props) {
           closeLoading: closeLoading,
           toggleKick: () => setKick(true),
           closeNavListMobile: () => setNavListMobile(false),
-          changeGlobalLang: changeGlobalLang
+          changeGlobalLang: changeGlobalLang,
+          setListObject: setListObject
         }}
       />
       <Main lang={globalLang} state={{ navList: navList }} />

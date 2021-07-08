@@ -38,6 +38,8 @@ export default function NavList(props) {
         lang={lang}
         userID={data.userID}
         token={data.token}
+        listObject={state.listObject}
+        setListObject={handle.setListObject}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
           toggleLoading: handle.toggleLoading,

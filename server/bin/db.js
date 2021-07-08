@@ -118,6 +118,7 @@ exports.getUnitPage = (userID) => new Promise((resolve, reject) => {
           where userID = ${userID} and unitID = ${item.unitID} order by pageID asc`)
           .then((out) => {
             item.pages = out.map((subItem) => ({
+              selected: false,
               pageID: subItem.pageid,
               pageName: subItem.pagename,
               pageCover: subItem.pagecover,

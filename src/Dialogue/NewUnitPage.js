@@ -74,6 +74,7 @@ export default function NewUnitPage(props) {
             open: true,
             pages: [
               {
+                seleted: false,
                 pageID: 1,
                 pageName: text.pageNameValue,
                 pageCover: 0,

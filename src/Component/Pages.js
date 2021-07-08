@@ -14,7 +14,6 @@ import AddIcon from '@material-ui/icons/Add';
 import UnitMenu from "../Dialogue/UnitMenu";
 import PageMenu from "../Dialogue/PageMenu";
 import NewUnitPage from "../Dialogue/NewUnitPage";
-import packedGET from "../Interface/Request";
 import { packedPOST } from "../Interface/Request";
 import { initMenu } from "../Interface/Constant";
 import clsx from "clsx";
@@ -38,18 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Pages(props) {
   const classes = useStyles();
-  const { lang, userID, token, handle } = props;
-  const [listObject, setListObject] = React.useState([]);
-  React.useEffect(() => {
-    packedGET({
-      uri: "/data/unit",
-      query: { userID: userID, token: token },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
-    })
-      .then((res) => setListObject(res));
-  }, []);
+  const { lang, userID, token, listObject, setListObject, handle } = props;
 
   const changeUnit = (targetID) => {
     setListObject(listObject.map((item) => item.unitID === targetID
@@ -159,6 +147,7 @@ export default function Pages(props) {
                     {
                       item.pages.map((subItem, subIndex) => (
                         <ListItem
+                          selected={subItem.selected}
                           key={subIndex}
                           onContextMenu={(event) => 
                             togglePageMenu(event, item.unitID, subItem.pageID)}
