@@ -6,13 +6,17 @@ const api = require('./api');
 const tokenLifeSpan = 24 * 3600 * 1000;
 const setting = JSON.parse(fs.readFileSync(path.join(__dirname, './setting.json')))
 const pool = new Pool(setting.poolSetting);
+
+// db inner api
 const query = (sql) => new Promise((resolve, reject) => {
   pool.query(sql, (err, res) => {
     if (err) reject(err);
     else resolve(res.rows);
   });
 });
+exports.query = query;
 
+// db api for server init and command
 exports.dbInitialize = (clearAll) => new Promise((resolve, reject) => {
   const newTable = () => {
     const schemaSQL = Object.values(setting.schema).map(item => item.join(' '));
@@ -27,6 +31,18 @@ exports.dbInitialize = (clearAll) => new Promise((resolve, reject) => {
         .then(onsuccess).catch(onerror);
     }).then(newTable);
   } else newTable();
+});
+
+exports.exec = (cmdLine) => new Promise((resolve, reject) => {
+  if (cmdLine[0] === '') cmdLine.shift();
+  if (cmdLine[cmdLine.length - 1] === '') cmdLine.pop();
+  if (cmdLine[0] === 'sign') {
+    api.checkRegister(cmdLine)
+      .then((newLine) => insertUser(newLine, resolve, reject))
+      .catch(reject);
+  } else if (cmdLine[0] === 'view') {
+    viewTable(cmdLine, resolve, reject);
+  } else reject('ERROR: cannot parse the command.');
 });
 
 const insertUser = (cmdLine, onsuccess, onerror) => {
@@ -53,30 +69,39 @@ const viewTable = (cmdLine, onsuccess, onerror) => {
   else onerror('ERROR: Nonexistent schema.');
 }
 
-exports.newUnit = (userID, unitID, unitName) => new Promise((resolve, reject) => {
-  query(`begin;
-    update unit set unitID = -unitID - 1 where userID = ${userID} and unitID >= ${unitID};
-    update unit set unitID = -unitID where userID = ${userID} and unitID < 0;
-    update userSetting set unitSize = unitSize + 1 where userID = ${userID};
-    insert into unit(userID, unitID, unitName, unitCreateTime)
-    values(${userID}, ${unitID}, '${unitName}', now()); commit;`)
-    .then(resolve).catch(reject);
-});
+// db api for token request
+exports.checkToken = (userID, token, res) => new Promise((resolve) => 
+  query(`select * from onlineUser
+    where userID = ${userID} and token = '${token}'`)
+    .then(out => {
+      if (out.length === 0) {
+        if (res) res.status(401).send("INVALID");
+      } else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan) {
+        if (res) res.status(401).send("EXPIRED");
+      } else resolve();
+    }).catch((err) => {
+      if (res) res.status(500).send(err.toString())
+    })
+)
 
-exports.newPage = (userID, unitID, pageID, pageName, pagePresent) => 
-  new Promise((resolve, reject) => {
-    query(`begin; update page set pageID = -pageID - 1
-      where userID = ${userID} and unitID = ${unitID} and pageID >= ${pageID};
-      update page set pageID = -pageID
-      where userID = ${userID} and unitID = ${unitID} and pageID < 0;
-      update unit set pageSize = pageSize + 1
-      where userID = ${userID} and unitID = ${unitID};
-      insert into page(userID, unitID, pageID, pageName, pagePresent, pageCreateTime)
-      values(${userID}, ${unitID}, ${pageID}, '${pageName}', '${pagePresent}', now());
-      commit;`)
+const newToken = (userID, token) => new Promise((resolve, reject) => {
+  if (token)
+    query(`insert into onlineUser(userID, token, lastTime)
+      values(${userID}, '${token}', now())
+      on conflict (userID) do update
+      set token = EXCLUDED.token, lastTime = EXCLUDED.lastTime`)
       .then(resolve).catch(reject);
-});
+  else
+    query(`insert into onlineUser(userID, token, lastTime)
+      values(${userID}, '', now())
+      on conflict (userID) do update
+      set lastTime = EXCLUDED.lastTime`)
+      .then(resolve).catch(reject);
+})
+exports.newToken = newToken;
+exports.updateToken = (userID) => newToken(userID);
 
+// db api for client menu get or post
 exports.getUnitPage = (userID) => new Promise((resolve, reject) => {
   query(`select unitID, unitName from unit
     where userID = ${userID} order by unitID asc`)
@@ -104,46 +129,34 @@ exports.getUnitPage = (userID) => new Promise((resolve, reject) => {
     }).catch(reject);
 });
 
-const newToken = (userID, token) => new Promise((resolve, reject) => {
-  if (token)
-    query(`insert into onlineUser(userID, token, lastTime)
-      values(${userID}, '${token}', now())
-      on conflict (userID) do update
-      set token = EXCLUDED.token, lastTime = EXCLUDED.lastTime`)
-      .then(resolve).catch(reject);
-  else
-    query(`insert into onlineUser(userID, token, lastTime)
-      values(${userID}, '', now())
-      on conflict (userID) do update
-      set lastTime = EXCLUDED.lastTime`)
-      .then(resolve).catch(reject);
-})
-
-exports.exec = (cmdLine) => new Promise((resolve, reject) => {
-  if (cmdLine[0] === '') cmdLine.shift();
-  if (cmdLine[cmdLine.length - 1] === '') cmdLine.pop();
-  if (cmdLine[0] === 'sign') {
-    api.checkRegister(cmdLine)
-      .then((newLine) => insertUser(newLine, resolve, reject))
-      .catch(reject);
-  } else if (cmdLine[0] === 'view') {
-    viewTable(cmdLine, resolve, reject);
-  } else reject('ERROR: cannot parse the command.');
+exports.newUnit = (userID, unitID, unitName) => new Promise((resolve, reject) => {
+  query(`begin;
+    update unit set unitID = -unitID - 1 where userID = ${userID} and unitID >= ${unitID};
+    update unit set unitID = -unitID where userID = ${userID} and unitID < 0;
+    update userSetting set unitSize = unitSize + 1 where userID = ${userID};
+    insert into unit(userID, unitID, unitName, unitCreateTime)
+    values(${userID}, ${unitID}, '${unitName}', now()); commit;`)
+    .then(resolve).catch(reject);
 });
 
-exports.query = query;
-exports.newToken = newToken;
-exports.updateToken = (userID) => newToken(userID);
-exports.checkToken = (userID, token, res) => new Promise((resolve) => 
-  query(`select * from onlineUser
-    where userID = ${userID} and token = '${token}'`)
-    .then(out => {
-      if (out.length === 0) {
-        if (res) res.status(401).send("INVALID");
-      } else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan) {
-        if (res) res.status(401).send("EXPIRED");
-      } else resolve();
-    }).catch((err) => {
-      if (res) res.status(500).send(err.toString())
-    })
-)
+exports.newPage = (userID, unitID, pageID, pageName, pagePresent) => 
+  new Promise((resolve, reject) => {
+    query(`begin; update page set pageID = -pageID - 1
+      where userID = ${userID} and unitID = ${unitID} and pageID >= ${pageID};
+      update page set pageID = -pageID
+      where userID = ${userID} and unitID = ${unitID} and pageID < 0;
+      update unit set pageSize = pageSize + 1
+      where userID = ${userID} and unitID = ${unitID};
+      insert into page(userID, unitID, pageID, pageName, pagePresent, pageCreateTime)
+      values(${userID}, ${unitID}, ${pageID}, '${pageName}', '${pagePresent}', now());
+      commit;`)
+      .then(resolve).catch(reject);
+});
+
+exports.moveUnit = () => {
+
+}
+
+exports.movePage = () => {
+
+}
