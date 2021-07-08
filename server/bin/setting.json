@@ -30,7 +30,8 @@
       "unitName varchar(16) not null,",
       "unitCreateTime timestamp not null,",
       "pageSize integer not null default 0,",
-      "foreign key (userID) references userInfo(userID),",
+      "foreign key (userID) references userInfo(userID)",
+      "initially deferred,",
       "primary key(userID, unitID));"
     ],
     "page": [
@@ -45,7 +46,7 @@
       "itemSize integer not null default 0,",
       "trackSize integer not null default 0,",
       "foreign key(userID, unitID) references unit(userID, unitID)",
-      "initially deferred,",
+      "on update cascade,",
       "primary key(userID, unitID, pageID));"
     ],
     "item": [
@@ -59,7 +60,7 @@
       "itemKey text not null,",
       "itemRecord char(1)[],",
       "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID)",
-      "initially deferred,",
+      "on update cascade,",
       "primary key(userID, unitID, pageID, itemID));"
     ],
     "track": [
@@ -70,7 +71,8 @@
       "trackID integer not null,",
       "startTime timestamp not null,",
       "endTime timestamp not null,",
-      "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID),",
+      "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID)",
+      "on update cascade,",
       "primary key(userID, unitID, pageID, trackID));"
     ],
     "onlineUser": [

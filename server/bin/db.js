@@ -55,7 +55,8 @@ const viewTable = (cmdLine, onsuccess, onerror) => {
 
 exports.newUnit = (userID, unitID, unitName) => new Promise((resolve, reject) => {
   query(`begin;
-    update unit set unitID = unitID + 1 where userID = ${userID} and unitID >= ${unitID};
+    update unit set unitID = -unitID - 1 where userID = ${userID} and unitID >= ${unitID};
+    update unit set unitID = -unitID where userID = ${userID} and unitID < 0;
     update userSetting set unitSize = unitSize + 1 where userID = ${userID};
     insert into unit(userID, unitID, unitName, unitCreateTime)
     values(${userID}, ${unitID}, '${unitName}', now()); commit;`)
@@ -64,8 +65,10 @@ exports.newUnit = (userID, unitID, unitName) => new Promise((resolve, reject) =>
 
 exports.newPage = (userID, unitID, pageID, pageName, pagePresent) => 
   new Promise((resolve, reject) => {
-    query(`begin; update page set pageID = pageID + 1
+    query(`begin; update page set pageID = -pageID - 1
       where userID = ${userID} and unitID = ${unitID} and pageID >= ${pageID};
+      update page set pageID = -pageID
+      where userID = ${userID} and unitID = ${unitID} and pageID < 0;
       update unit set pageSize = pageSize + 1
       where userID = ${userID} and unitID = ${unitID};
       insert into page(userID, unitID, pageID, pageName, pagePresent, pageCreateTime)

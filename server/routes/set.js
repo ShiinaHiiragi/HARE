@@ -7,6 +7,7 @@ router.post('/new-up', (req, res) => {
     .then(() => {
       const { userID, group, type, unitName, pageName, pagePresent } = req.body;
       if (group) {
+        // the feature of OR in js
         db.newUnit(userID, type || 1, unitName)
           .then(() => db.newPage(userID, type || 1, 1, pageName, pagePresent))
           .then(() => db.getUnitPage(userID))
