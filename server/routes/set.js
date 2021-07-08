@@ -14,7 +14,10 @@ router.post('/new-up', (req, res) => {
           .then(out => res.send(out))
           .catch((err) => res.status(500).send(err));
       } else {
-        res.send(req.body);
+        db.newPage(userID, type[0], type[1], pageName, pagePresent)
+          .then(() => db.getUnitPage(userID))
+          .then(out => res.send(out))
+          .catch((err) => res.status(500).send(err));
       }
     });
 });
