@@ -5,9 +5,11 @@ var router = express.Router();
 
 router.get('/check', (req, res) => {
   const { userID, token } = req.query;
-  const userIDString = userID === "undefined" ? "0" : userID;
-  db.checkToken(userIDString, token, res)
-    .then(() => db.updateToken(userIDString).then(() => res.send("HARE")));
+  // the userID is string from get
+  // transforming to number to avoid SQL injection
+  const userIDNumber = isNaN(Number(userID)) ? 0 : Number(userID);
+  db.checkToken(userIDNumber, token, res)
+    .then(() => db.updateToken(userIDNumber).then(() => res.send("HARE")));
 });
 
 router.post('/sign', (req, res) => {
@@ -30,9 +32,10 @@ router.post('/logout', (req) => {
 });
 
 router.get('/unit', (req, res) => {
-  const {userID, token} = req.query;
-  db.checkToken(userID, token, res).then(() => {
-    db.getUnitPage(userID)
+  const { userID, token } = req.query;
+  const userIDNumber = isNaN(Number(userID)) ? 0 : Number(userID);
+  db.checkToken(userIDNumber, token, res).then(() => {
+    db.getUnitPage(userIDNumber)
       .then(out => res.send(out))
       .catch(err => res.status(500).send(err));
   });
