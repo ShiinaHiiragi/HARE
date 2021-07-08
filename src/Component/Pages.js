@@ -57,6 +57,8 @@ export default function Pages(props) {
     ));
   };
 
+  const [top, setTop] = React.useState(false);
+  const [buttom, setButtom] = React.useState(false);
   const [unitMenu, setUnitMenu] = React.useState(initMenu);
   const [pageMenu, setPageMenu] = React.useState(initMenu);
   const [currentUnitID, setCurrentUnitID] = React.useState(0);
@@ -66,12 +68,16 @@ export default function Pages(props) {
     event.preventDefault();
     setCurrentUnitID(unitID);
     setFold(listObject[unitID - 1].open);
+    setTop(unitID === 1);
+    setButtom(unitID === listObject.length);
     setUnitMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
   const togglePageMenu = (event, unitID, pageID) => {
     event.preventDefault();
     setCurrentUnitID(unitID);
     setCurrentPageID(pageID);
+    setTop(pageID === 1);
+    setButtom(pageID === listObject[unitID - 1].pages.length);
     setPageMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
 
@@ -139,7 +145,9 @@ export default function Pages(props) {
             state={{
               unitMenu: unitMenu,
               unitID: currentUnitID,
-              fold: fold
+              fold: fold,
+              top: top,
+              buttom: buttom
             }}
             handle={{
               toggleNewUnit: (pos) => toggleNewUnitPageDialogue(true, pos),
@@ -152,7 +160,9 @@ export default function Pages(props) {
             state={{
               pageMenu: pageMenu,
               unitID: currentUnitID,
-              pageID: currentPageID
+              pageID: currentPageID,
+              top: top,
+              buttom: buttom
             }}
             handle={{
               toggleNewPage: (pos) => toggleNewUnitPageDialogue(false, pos),
