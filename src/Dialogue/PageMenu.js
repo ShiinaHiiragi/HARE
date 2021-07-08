@@ -46,7 +46,13 @@ export default function PageMenu(props) {
       }}>
         {lang.menu.addPageBelow}
       </MenuItem>
-      <MenuItem onClick={handle.closeMenu}>{lang.menu.deletePage}</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.closeMenu();
+          handle.toggleDeleteConfirm("page");
+        }}>
+        {lang.menu.deletePage}
+      </MenuItem>
     </Menu>
   );
 }

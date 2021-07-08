@@ -14,6 +14,7 @@ import AddIcon from '@material-ui/icons/Add';
 import UnitMenu from "../Dialogue/UnitMenu";
 import PageMenu from "../Dialogue/PageMenu";
 import NewUnitPage from "../Dialogue/NewUnitPage";
+import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import { packedPOST } from "../Interface/Request";
 import { initMenu } from "../Interface/Constant";
 import clsx from "clsx";
@@ -39,13 +40,14 @@ export default function Pages(props) {
   const classes = useStyles();
   const { lang, userID, token, listObject, setListObject, handle } = props;
 
+  // fold and unfold the units
   const changeUnit = (targetID) => {
     setListObject(listObject.map((item) => item.unitID === targetID
-      ? { ...item, open: !item.open }
-      : item
+      ? { ...item, open: !item.open } : item
     ));
   };
 
+  // the states used for menus
   const [top, setTop] = React.useState(false);
   const [buttom, setButtom] = React.useState(false);
   const [unitMenu, setUnitMenu] = React.useState(initMenu);
@@ -56,6 +58,7 @@ export default function Pages(props) {
   const toggleUnitMenu = (event, unitID) => {
     event.preventDefault();
     setCurrentUnitID(unitID);
+    setCurrentPageID(-1);
     setFold(listObject[unitID - 1].open);
     setTop(unitID === 1);
     setButtom(unitID === listObject.length);
@@ -104,6 +107,7 @@ export default function Pages(props) {
     });
   }
 
+  // states used for inserting units or pages
   const [newOpen, setNewOpen] = React.useState(false);
   const [newGroup, setNewGroup] = React.useState(false);
   const [newType, setNewType] = React.useState(0);
@@ -125,6 +129,17 @@ export default function Pages(props) {
     setNewOpen(true);
   }
 
+  // states used for deleting units and pages
+  const [deleteConfirm, setDeleteConfirm] = React.useState(false);
+  const [deleteType, setDeleteType] = React.useState("");
+  const toggleDeleteConfirm = (type) => {
+    setDeleteConfirm(true);
+    setDeleteType(type);
+  }
+  const deleteUnitPage = (userID, unitID, pageID) => {
+    console.log(userID, unitID, pageID);
+  };
+
   return (
       <div className={classes.newPage}>
         {listObject.length !== 0 ?
@@ -133,8 +148,7 @@ export default function Pages(props) {
             listObject.map((item, index) => (
               <div key={index}>
                 <ListItem
-                  onContextMenu={(event) => { console.log(item)
-                    toggleUnitMenu(event, item.unitID)}} button
+                  onContextMenu={(event) => toggleUnitMenu(event, item.unitID)} button
                   onClick={() => changeUnit(item.unitID)}>
                   <ListItemIcon>
                     <ListIcon />
@@ -176,6 +190,7 @@ export default function Pages(props) {
             }}
             handle={{
               toggleNewUnit: (pos) => toggleNewUnitPageDialogue(true, pos),
+              toggleDeleteConfirm: toggleDeleteConfirm,
               closeMenu: () => setUnitMenu(initMenu),
               changeUnit: changeUnit,
               moveUnit: (less) => changeMove(true, less)
@@ -192,6 +207,7 @@ export default function Pages(props) {
             }}
             handle={{
               toggleNewPage: (pos) => toggleNewUnitPageDialogue(false, pos),
+              toggleDeleteConfirm: toggleDeleteConfirm,
               closeMenu: () => setPageMenu(initMenu),
               movePage: (less) => changeMove(false, less)
             }}
@@ -232,6 +248,14 @@ export default function Pages(props) {
             closeLoading: handle.closeLoading,
             close: () => setNewOpen(false)
           }}
+        />
+        <DeleteConfirm
+          lang={lang}
+          open={deleteConfirm}
+          type={deleteType}
+          handleClose={() => setDeleteConfirm(false)}
+          handleDeleteTarget={() => 
+            deleteUnitPage(userID, currentUnitID, currentPageID)}
         />
       </div>
   );

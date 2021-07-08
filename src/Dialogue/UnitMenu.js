@@ -54,7 +54,13 @@ export default function UnitMenu(props) {
       }}>
         {lang.menu.addUnitBelow}
       </MenuItem>
-      <MenuItem onClick={handle.closeMenu}>{lang.menu.deleteUnit}</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.closeMenu();
+          handle.toggleDeleteConfirm("unit");
+        }}>
+        {lang.menu.deleteUnit}
+      </MenuItem>
     </Menu>
   );
 }

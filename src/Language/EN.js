@@ -34,6 +34,12 @@ const list = {
     logout: {
       title: "Logout Confirmation",
       text: "You are attempting to quit your HARE account. Please click 'YES' to logout."
+    },
+    delete: {
+      title: "Deletion Confirmation",
+      unit: "You are attempting to delete this group. Please click 'YES' to continue.",
+      page: "You are attempting to delete this booklet. Please click 'YES' to continue.",
+      item: "You are attempting to delete this entry. Please click 'YES' to continue."
     }
   },
   menu: {
