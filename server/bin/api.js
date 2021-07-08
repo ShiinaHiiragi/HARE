@@ -26,3 +26,16 @@ exports.checkRegister = (cmdLine) => new Promise((resolve, reject) => {
     resolve(cmdLine);
   }
 })
+
+exports.sqlNumber = (query, keys) => {
+  let sql = new Object();
+  keys.forEach(item => 
+    sql[item] = isNaN(Number(query[item])) ? -1 : Number(query[item]));
+  return sql;
+}
+
+exports.sqlString = (query, keys) => {
+  let sql = new Object();
+  keys.forEach(item => sql[item] = query[item].replace(/'/g, `''`))
+  return sql;
+}

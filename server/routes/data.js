@@ -1,19 +1,18 @@
 var express = require('express');
 var SHA1 = require('crypto-js').SHA1;
 var db = require('../bin/db');
+var api = require('../bin/api');
 var router = express.Router();
 
 router.get('/check', (req, res) => {
-  const { userID, token } = req.query;
-  // the userID is string from get
-  // transforming to number to avoid SQL injection
-  const userIDNumber = isNaN(Number(userID)) ? 0 : Number(userID);
-  db.checkToken(userIDNumber, token, res)
-    .then(() => db.updateToken(userIDNumber).then(() => res.send("HARE")));
+  const { userID } = api.sqlNumber(req.query, ["userID"]);
+  const { token } = api.sqlString(req.query, ["token"]);
+  db.checkToken(userID, token, res)
+    .then(() => db.updateToken(userID).then(() => res.send("HARE")));
 });
 
 router.post('/sign', (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = api.sqlString(req.body, ["email", "password"]);
   db.query(`select userID from userInfo natural join userSetting
     where email = '${email}' and password = '${password}'`)
     .then(out => {
@@ -26,13 +25,15 @@ router.post('/sign', (req, res) => {
 });
 
 router.post('/logout', (req) => {
-  const { userID, token } = req.body;
+  const { userID } = api.sqlNumber(req.body, ["userID"]);
+  const { token } = api.sqlString(req.body, ["token"]);
   db.checkToken(userID, token)
     .then(() => db.query(`delete from onlineUser where userID = ${userID}`));
 });
 
 router.get('/unit', (req, res) => {
-  const { userID, token } = req.query;
+  const { userID } = api.sqlNumber(req.query, ["userID"]);
+  const { token } = api.sqlString(req.query, ["token"]);
   const userIDNumber = isNaN(Number(userID)) ? 0 : Number(userID);
   db.checkToken(userIDNumber, token, res).then(() => {
     db.getUnitPage(userIDNumber)

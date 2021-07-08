@@ -1,9 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../bin/db');
+var api = require('../bin/api');
 
 router.post('/new-up', (req, res) => {
-  const { userID, token, group, type, unitName, pageName, pagePresent } = req.body;
+  // TODO: check the validity of group and type in new-up & swap
+  const { group, type } = req.body;
+  const { userID } = api.sqlNumber(req.body, ["userID"]);
+  const { token, unitName, pageName, pagePresent } = api.sqlString(
+    req.body,
+    ["token", "unitName", "pageName", "pagePresent"]
+  );
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
@@ -21,7 +28,9 @@ router.post('/new-up', (req, res) => {
 });
 
 router.post('/swap', (req, res) => {
-  const { userID, token, group, less } = req.body;
+  const { group, less } = req.body;
+  const { userID } = api.sqlNumber(req.body, ["userID"]);
+  const { token } = api.sqlString(req.body, ["token"]);
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
