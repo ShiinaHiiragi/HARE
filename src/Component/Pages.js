@@ -89,16 +89,29 @@ export default function Pages(props) {
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
       lang: lang
-    }).then((out) => {
+    }).then(() => {
       if (group) {
         setListObject((listObject) => {
-          listObject[less - 1] = listObject.splice(less, 1, listObject[less - 1])[0];
+          listObject[less - 1] = listObject.splice(
+            less, 1,
+            listObject[less - 1]
+          )[0];
           return listObject.map((item) => item.unitID === less
             ? { ...item, unitID: less + 1} : item.unitID === less + 1
             ? { ...item, unitID: less } : item);
         });
       } else {
-        console.log(out);
+        setListObject((listObject) => {
+          let tempPageItem = listObject[less[0] - 1].pages;
+          tempPageItem[less[1] - 1] = tempPageItem.splice(
+            less[1], 1,
+            tempPageItem[less[1] - 1]
+          )[0];
+          tempPageItem[less[1] - 1].pageID = less[1];
+          tempPageItem[less[1]].pageID = less[1] + 1;
+          return listObject.map((item) => item.unitID === less[0]
+            ? { ...item, pages: tempPageItem } : item);
+        });
       }
     });
   }

@@ -38,7 +38,9 @@ router.post('/swap', (req, res) => {
           .then(() => res.send(""))
           .catch((err) => res.status(500).send(err));
       } else {
-        res.send(req.body);
+        db.movePage(userID, less[0], less[1])
+          .then(() => res.send(""))
+          .catch((err) => res.status(500).send(err));
       }
     });
 });

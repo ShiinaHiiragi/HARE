@@ -159,9 +159,16 @@ exports.moveUnit = (userID, less) => new Promise((resolve, reject) => {
     where userID = ${userID} and unitID = ${less + 1};
     update unit set unitID = -unitID
     where userID = ${userID} and (unitID = ${-less} or unitID = ${-less - 1});
-    commit;`).then(resolve).catch(resolve);
+    commit;`).then(resolve).catch(reject);
 });
 
-exports.movePage = (userID, unitID, less) => {
-
-}
+exports.movePage = (userID, unitID, less) => new Promise((resolve, reject) => {
+  query(`begin; update page set pageID = ${-less - 1}
+    where userID = ${userID} and unitID = ${unitID} and pageID = ${less};
+    update page set pageID = ${-less}
+    where userID = ${userID} and unitID = ${unitID} and pageID = ${less + 1};
+    update page set pageID = -pageID
+    where userID = ${userID} and unitID = ${unitID} and (
+    pageID = ${-less} or pageID = ${-less - 1}); commit;`)
+    .then(resolve).catch(reject);
+});
