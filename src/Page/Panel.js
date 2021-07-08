@@ -16,14 +16,12 @@ export default function Panel(props) {
   // detect if the language information is stored
   let storageLang = cookie.load("lang");
   if (storageLang === undefined) {
+    storageLang = "en";
     cookie.save("lang", "en", {
       expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
     });
-    storageLang = "en";
   }
-  const [globalLang, setGlobalLang] = React.useState(
-    languagePicker(storageLang)
-  );
+  const [globalLang, setGlobalLang] = React.useState(languagePicker(storageLang));
   const changeGlobalLang = (targetValue) => {
     if (targetValue) setGlobalLang(languagePicker(targetValue));
     cookie.save("lang", targetValue, {
@@ -36,23 +34,17 @@ export default function Panel(props) {
   const [navListMobile, setNavListMobile] = React.useState(false);
   const [navBarTitle, setNavBarTitle] = React.useState("HARE");
 
-  // the setting of snackbar
+  // the setting of disconnection message box
+  const [kick, setKick] = React.useState(false);
   const [messageBoxInfo, setMessageBoxInfo] = React.useState({
-    open: false,
-    type: "success",
-    message: ""
+    open: false, type: "success", message: ""
   });
   const toggleMessageBox = (message, type) => {
-    setMessageBoxInfo({
-      open: true,
-      type: type,
-      message: message
-    });
+    setMessageBoxInfo({ open: true, type: type, message: message });
   };
   const closeMessageBox = () => {
-    setMessageBoxInfo((snackbarInfo) => ({
-      ...snackbarInfo,
-      open: false
+    setMessageBoxInfo((messageBoxInfo) => ({
+      ...messageBoxInfo, open: false
     }));
   };
 
@@ -68,9 +60,6 @@ export default function Panel(props) {
     if (clockLoading) clearTimeout(clockLoading);
     setLoading(false);
   };
-
-  // the state of disconnection
-  const [kick, setKick] = React.useState(false);
 
   return (
     <Root>
