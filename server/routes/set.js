@@ -45,6 +45,15 @@ router.post('/swap', (req, res) => {
     });
 });
 
+router.post('/unit', (req, res) => {
+  const { userID } = api.sqlNumber(req.body, ["userID"]);
+  const { token, name } = api.sqlString(req.body, ["token"]);
+  db.checkToken(userID, token, res)
+    .then(() => {
+      res.send(req.body);
+    });
+});
+
 router.post('/delete-up', (req, res) => {
   const { group } = req.body;
   const { userID, unitID, pageID } = api.sqlNumber(

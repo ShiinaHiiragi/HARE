@@ -10,10 +10,15 @@ import ListIcon from "@material-ui/icons/List";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
+import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
+import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
+import AlarmOutlinedIcon from "@material-ui/icons/AlarmOutlined";
+import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
 import AddIcon from '@material-ui/icons/Add';
 import UnitMenu from "../Dialogue/UnitMenu";
 import PageMenu from "../Dialogue/PageMenu";
 import NewUnitPage from "../Dialogue/NewUnitPage";
+import EditUnit from "../Dialogue/EditUnit";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import { packedPOST } from "../Interface/Request";
 import { initMenu } from "../Interface/Constant";
@@ -39,6 +44,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Pages(props) {
   const classes = useStyles();
   const { lang, userID, token, listObject, setListObject, handle } = props;
+  const pageIcon = [
+    <TurnedInNotIcon />,
+    <PlaylistAddCheckIcon />,
+    <InsertInvitationOutlinedIcon />,
+    <AlarmOutlinedIcon />,
+    <InboxOutlinedIcon />
+  ];
 
   // fold and unfold the units
   const changeUnit = (targetID) => {
@@ -108,7 +120,7 @@ export default function Pages(props) {
         });
       }
     });
-  }
+  };
 
   // states used for inserting units or pages
   const [newUnitPage, setNewUnitPage] = React.useState(false);
@@ -130,6 +142,16 @@ export default function Pages(props) {
     setNewUnitPageGroup(group);
     setNewUnitPageType(type);
     setNewUnitPage(true);
+  }
+
+  // state used for editing unit name
+  const [editUnit, setEditUnit] = React.useState(false);
+  const [editUnitNameValue, setEditUnitNameValue] = React.useState("");
+  const [editUnitNameCheck, setEditUnitNameCheck] = React.useState(false);
+  const toggleEditUnit = () => {
+    setEditUnitNameValue(currentName);
+    setEditUnitNameCheck(false);
+    setEditUnit(true);
   }
 
   // states used for deleting units and pages
@@ -197,7 +219,7 @@ export default function Pages(props) {
                         button className={classes.nested}
                       >
                         <ListItemIcon>
-                          <TurnedInNotIcon />
+                          {pageIcon[subItem.pageCover]}
                         </ListItemIcon>
                         <ListItemText primary={subItem.pageName} />
                       </ListItem>
@@ -220,6 +242,7 @@ export default function Pages(props) {
           handle={{
             toggleNewUnit: (pos) => toggleNewUnitPage(true, pos),
             toggleDeleteConfirm: toggleDeleteConfirm,
+            toggleEditUnit: toggleEditUnit,
             closeMenu: () => setUnitMenu(initMenu),
             changeUnit: changeUnit,
             moveUnit: (less) => changeMove(true, less)
@@ -276,6 +299,25 @@ export default function Pages(props) {
           toggleKick: handle.toggleKick,
           closeLoading: handle.closeLoading,
           close: () => setNewUnitPage(false)
+        }}
+      />
+      <EditUnit
+        lang={lang}
+        open={editUnit}
+        userID={userID} token={token}
+        state={{
+          name: currentName,
+          unitID: currentUnitID,
+          editUnitNameValue: editUnitNameValue,
+          editUnitNameCheck: editUnitNameCheck,
+        }}
+        handle={{
+          toggleMessageBox: handle.toggleMessageBox,
+          toggleKick: handle.toggleKick,
+          setEditUnitNameValue: setEditUnitNameValue,
+          setEditUnitNameCheck: setEditUnitNameCheck,
+          setListObject: setListObject,
+          close: () => setEditUnit(false),
         }}
       />
       <DeleteConfirm

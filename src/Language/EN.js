@@ -31,6 +31,11 @@ const list = {
       pageName: "Name of New Booklet",
       pagePresent: "The Description of the Booklet Created"
     },
+    edit: {
+      titleUnit: "Edit Group Information",
+      labelUnit: "Group Name",
+      textUnit: "Type your desired name and click 'APPLY' to continue."
+    },
     logout: {
       title: "Logout Confirmation",
       text: "You are attempting to quit your HARE account. Please click 'YES' to logout."

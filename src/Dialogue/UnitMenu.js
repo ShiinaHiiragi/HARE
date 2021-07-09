@@ -23,7 +23,14 @@ export default function UnitMenu(props) {
       >
         {state.fold ? lang.menu.fold : lang.menu.unfold}
       </MenuItem>
-      <MenuItem onClick={handle.closeMenu}>{lang.menu.editUnit}</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.closeMenu();
+          handle.toggleEditUnit();
+        }}
+      >
+        {lang.menu.editUnit}
+      </MenuItem>
       <MenuItem
         disabled={state.top}
         onClick={() => {

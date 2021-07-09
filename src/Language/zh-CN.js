@@ -31,9 +31,14 @@ const list = {
       pageName: "记忆册名",
       pagePresent: "记忆册描述"
     },
+    edit: {
+      titleUnit: "编辑记忆组信息",
+      labelUnit: "记忆组名",
+      textUnit: "更改当前记忆组名，然后点击「应用」以继续。"
+    },
     logout: {
       title: "退出登录确认",
-      text: "您正准备退出 HARE 登录状态，请点击「确定」以继续。",
+      text: "您正准备退出 HARE 登录状态，请点击「确定」以登出。",
     },
     delete: {
       title: "删除确认",

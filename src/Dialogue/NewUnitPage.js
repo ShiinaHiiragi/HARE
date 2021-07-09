@@ -157,7 +157,7 @@ export default function NewUnitPage(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={submit} color="secondary">
-          {lang.common.ok}
+          {lang.common.apply}
         </Button>
         <Button onClick={handle.close} color="primary">
           {lang.common.back}
