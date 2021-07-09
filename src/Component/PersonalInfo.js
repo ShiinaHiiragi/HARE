@@ -35,7 +35,10 @@ export default function PersonalInfo(props) {
 
       <GlobalMenu
         lang={lang}
-        data={data}
+        data={{
+          userID: data.userID,
+          token: data.token,
+        }}
         anchor={anchorGlobalMenu}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,

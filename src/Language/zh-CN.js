@@ -69,7 +69,8 @@ const list = {
   message: {
     error: "错误",
     serverError: "服务器错误",
-    signInBlank: "请填写邮箱和密码。",
+    signInBlank: "请填写邮箱和密码",
+    nonImage: "上传的文件不是图片",
     unitNameError: "记忆组名长度应为 0 ~ 16 字符",
     pageNameError: "记忆册名长度应为 0 ~ 16 字符",
     pagePresentError: "记忆册描述长度应为 0 ~ 514 字符"

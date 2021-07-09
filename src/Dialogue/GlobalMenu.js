@@ -14,21 +14,22 @@ export default function GlobalMenu(props) {
 
   const uploadAvatar = (event) => {
     const targetImage = event.target.files;
-    if (targetImage) {
+    if (targetImage && targetImage.length > 0) {
       if (/image\/.+/.test(targetImage[0].type)) {
-        let data = new FormData();
-        data.append("file", targetImage[0]);
-        data.append("chunk", 0);
         packedPOST({
           uri: "/set/avatar",
-          query: data,
+          query: {
+            userID: data.userID,
+            token: data.token,
+            avatar: "123"
+          },
           msgbox: handle.toggleMessageBox,
           kick: handle.toggleKick,
           lang: lang
-        }, { headers: { "Content-Type": "multipart/form-data" } })
-          .then((out) => console.log(data));
+        })
+          .then((out) => console.log(out));
       } else {
-        console.log("×");
+        handle.toggleMessageBox(lang.message.nonImage, "warning");
       }
     }
   }

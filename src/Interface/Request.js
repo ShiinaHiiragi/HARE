@@ -24,6 +24,7 @@ const packedGET = (params) => {
   });
 };
 
+// config: { headers: { "Content-Type": "multipart/form-data" } }
 const packedPOST = (params, config) => {
   const { uri, query, msgbox, kick, lang } = params;
   let request = `${requestURL}${uri}`;

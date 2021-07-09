@@ -83,4 +83,13 @@ router.post('/delete-up', (req, res) => {
     });
 });
 
+router.post('/avatar', (req, res) => {
+  const { userID } = api.sqlNumber(req.body, ["userID"]);
+  const { token, avatar } = api.sqlString(req.body, ["token", "avatar"]);
+  db.checkToken(userID, token, res)
+    .then(() => {
+      res.send(req.body);
+    });
+});
+
 module.exports = router;
