@@ -34,6 +34,8 @@ export default function NavList(props) {
           profile: state.profile
         }}
         handle={{
+          toggleMessageBox: handle.toggleMessageBox,
+          toggleKick: handle.toggleKick,
           changeGlobalLang: handle.changeGlobalLang
         }}
       />

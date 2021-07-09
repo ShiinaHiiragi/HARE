@@ -32,10 +32,17 @@ export default function PersonalInfo(props) {
           <MoreVertIcon />
         </IconButton>
       </ListItem>
+
       <GlobalMenu
         lang={lang}
         data={data}
         anchor={anchorGlobalMenu}
+        handle={{
+          toggleMessageBox: handle.toggleMessageBox,
+          toggleKick: handle.toggleKick,
+          close: () => setAnchorGlobalMenu(null),
+          changeGlobalLang: handle.changeGlobalLang
+        }}
         handleClose={() => setAnchorGlobalMenu(null)}
         changeGlobalLang={handle.changeGlobalLang}
       />

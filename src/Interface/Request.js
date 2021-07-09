@@ -24,21 +24,22 @@ const packedGET = (params) => {
   });
 };
 
-const packedPOST = (params) => {
+const packedPOST = (params, config) => {
   const { uri, query, msgbox, kick, lang } = params;
   let request = `${requestURL}${uri}`;
   return new Promise((resolve, reject) => {
     axios
-      .post(request, query)
+      .post(request, query, config)
       .then((res) => resolve(res.data))
       .catch((err) => {
-        if (err.response.status !== 401) {
+        if (err.response && err.response.status !== 401) {
           msgbox(
             `${lang.message.serverError}: ${err.response.data}`,
             "error"
           );
           reject(err);
-        } else kick();
+        } else if (err.response) kick();
+        else msgbox(`${lang.message.error}: ${err}`, "error");
       });
   });
 };
