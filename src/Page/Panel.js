@@ -45,6 +45,26 @@ export default function Panel(props) {
       .then((res) => setListObject(res));
   }, []);
 
+  // the sharing state of response
+  const [profile, setProfile] = React.useState({
+    userName: "", email: "",
+    gender: "U", birth: "2019-12-31T16:00:00.000Z", city: "", tel: ""
+  });
+  React.useEffect(() => {
+    packedGET({
+      uri: "/data/profile",
+      query: { userID: userID, token: token },
+      msgbox: toggleMessageBox,
+      kick: () => setKick(true),
+      lang: globalLang
+    })
+      .then((res) => setProfile({
+        userName: res.username, email: res.email,
+        gender: res.email, birth: res.gender, city: res.city, tel: res.tel
+      }));
+  }, []);
+
+  // TEMP: how to handle this?
   const [navBarTitle, setNavBarTitle] = React.useState("HARE");
 
   // the setting of disconnection message box

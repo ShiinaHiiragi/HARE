@@ -34,10 +34,19 @@ router.post('/logout', (req) => {
 router.get('/unit', (req, res) => {
   const { userID } = api.sqlNumber(req.query, ["userID"]);
   const { token } = api.sqlString(req.query, ["token"]);
-  const userIDNumber = isNaN(Number(userID)) ? 0 : Number(userID);
-  db.checkToken(userIDNumber, token, res).then(() => {
-    db.getUnitPage(userIDNumber)
+  db.checkToken(userID, token, res).then(() => {
+    db.getUnitPage(userID)
       .then(out => res.send(out))
+      .catch(() => api.internalServerError(res));
+  });
+});
+
+router.get('/profile', (req, res) => {
+  const { userID } = api.sqlNumber(req.query, ["userID"]);
+  const { token } = api.sqlString(req.query, ["token"]);
+  db.checkToken(userID, token, res).then(() => {
+    db.profile(userID)
+      .then(out => res.send(out[0]))
       .catch(() => api.internalServerError(res));
   });
 });

@@ -69,7 +69,13 @@ const viewTable = (cmdLine, onsuccess, onerror) => {
   else onerror('ERROR: Nonexistent schema.');
 }
 
-// db api for token request
+// db api for profile and token request
+exports.profile = (userID) => new Promise((resolve, reject) => 
+  query(`select userName, userID, email, gender, birth, city, tel
+    from userSetting natural join userInfo where userID = ${userID}`)
+    .then(resolve).catch(reject)
+);
+
 exports.checkToken = (userID, token, res) => new Promise((resolve) => 
   query(`select * from onlineUser
     where userID = ${userID} and token = '${token}'`)
