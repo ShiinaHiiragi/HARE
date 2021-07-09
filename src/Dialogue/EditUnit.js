@@ -37,7 +37,10 @@ export default function EditUnit(props) {
         kick: handle.toggleKick,
         lang: lang
       }).then((out) => {
-        console.log(out);
+        handle.setListObject((listObject) => listObject.map(
+          (item) => item.unitID === state.unitID
+            ? { ...item, unitName: state.editUnitNameValue } : item
+        ));
         handle.close();
       });
     }

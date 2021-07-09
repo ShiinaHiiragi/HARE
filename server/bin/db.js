@@ -79,8 +79,8 @@ exports.checkToken = (userID, token, res) => new Promise((resolve) =>
       } else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan) {
         if (res) res.status(401).send("EXPIRED");
       } else resolve();
-    }).catch((err) => {
-      if (res) res.status(500).send(err.toString())
+    }).catch(() => {
+      if (res) api.internalServerError(res)
     })
 )
 
@@ -196,5 +196,11 @@ exports.deletePage = (userID, unitID, pageID) => new Promise((resolve, reject) =
     commit;`)
     .then(() => query(`select pageSize from unit
       where userID = ${userID} and unitID = ${unitID}`))
+    .then(resolve).catch(reject);
+});
+
+exports.editUnit = (userID, unitID, unitName) => new Promise((resolve, reject) => {
+  query(`update unit set unitName = '${unitName}'
+    where userID = ${userID} and unitID = ${unitID}`)
     .then(resolve).catch(reject);
 });

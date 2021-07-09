@@ -10,7 +10,7 @@ const dice = (sub, sup) => {
 
 router.get('/cover', (req, res) => {
   fs.readdir(path.join(__dirname, '../src/cover'), (err, dir) => {
-    if (err) res.status(500).send(err);
+    if (err) api.internalServerError(res);
     else {
       const sup = dir.length - 1;
       const retImage = dir[dice(0, sup)]

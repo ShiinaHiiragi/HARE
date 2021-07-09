@@ -39,3 +39,7 @@ exports.sqlString = (query, keys) => {
   keys.forEach(item => sql[item] = query[item].replace(/'/g, `''`))
   return sql;
 }
+
+exports.internalServerError = (res) => {
+  res.status(500).send("INTERNAL SERVER ERROR");
+};

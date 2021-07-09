@@ -21,7 +21,7 @@ router.post('/sign', (req, res) => {
         db.newToken(out[0].userid, token).then(() =>
           res.send({ uid: out[0].userid, token: token }));
       } else res.status(401).send("Incorrect E-mail or password.");
-    }).catch((err) => res.status(500).send(err.toString()));
+    }).catch(() => api.internalServerError(res));
 });
 
 router.post('/logout', (req) => {
@@ -38,7 +38,7 @@ router.get('/unit', (req, res) => {
   db.checkToken(userIDNumber, token, res).then(() => {
     db.getUnitPage(userIDNumber)
       .then(out => res.send(out))
-      .catch(err => res.status(500).send(err));
+      .catch(() => api.internalServerError(res));
   });
 });
 
