@@ -116,6 +116,7 @@ exports.getUnitPage = (userID) => new Promise((resolve, reject) => {
         unitID: item.unitid,
         unitName: item.unitname,
         open: item.unitid === 1 ? true : false,
+        selected: false,
         pages: []
     }))}
     ).then((listItem) => {

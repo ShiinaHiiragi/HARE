@@ -191,6 +191,23 @@ export default function Pages(props) {
     });
   };
 
+  const pageClick = (unitID, pageID) => {
+    // clear the previous selected state first
+    let prevUnit = listObject.find((item) => item.selected), prevPage;
+    if (prevUnit) {
+      prevUnit.selected = false;
+      prevPage = prevUnit.pages.find((item) => item.selected);
+    }
+    if (prevPage) prevPage.selected = false;
+    setListObject(listObject.map((item) => item.unitID === unitID
+      ? {
+        ...item,
+        selected: true,
+        pages: item.pages.map((subItem) => subItem.pageID === pageID
+          ? { ...subItem, selected: true } : subItem)
+      } : item));
+  }
+
   return (
     <div className={classes.newPage}>
       {listObject.length !== 0 ?
@@ -216,6 +233,8 @@ export default function Pages(props) {
                         key={subIndex}
                         onContextMenu={(event) => 
                           togglePageMenu(event, item.unitID, subItem.pageID)}
+                        onClick={() => 
+                          pageClick(item.unitID, subItem.pageID)}
                         button className={classes.nested}
                       >
                         <ListItemIcon>

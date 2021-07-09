@@ -21,7 +21,7 @@
       "city varchar(16),",
       "tel varchar(16),",
       "gender char(1) default 'U',",
-      "birth date);"
+      "birth date default '2020-01-01');"
     ],
     "unit": [
       "create table unit(",

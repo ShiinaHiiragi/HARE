@@ -38,8 +38,8 @@ export default function NavBar(props) {
         handleCloseNavList={handle.closeNavList}
         handleToggleNavListMobile={handle.toggleNavListMobile}
       />
-      <NavTitle title={state.navBarTitle} />
-      <LocalInfo />
+      <NavTitle title={state.currentSelect.pageName} />
+      {state.currentSelect.unitID !== 0 && <LocalInfo />}
     </Toolbar>
   );
 

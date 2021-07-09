@@ -72,6 +72,7 @@ export default function NewUnitPage(props) {
             unitID: type || 1,
             unitName: text.unitNameValue,
             open: true,
+            selected: false,
             pages: [
               {
                 seleted: false,

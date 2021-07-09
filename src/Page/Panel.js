@@ -45,7 +45,7 @@ export default function Panel(props) {
       .then((res) => setListObject(res));
   }, []);
 
-  // the sharing state of response
+  // the sharing state of profile
   const [profile, setProfile] = React.useState({
     userName: "", email: "",
     gender: "U", birth: "2019-12-31T16:00:00.000Z", city: "", tel: ""
@@ -64,8 +64,21 @@ export default function Panel(props) {
       }));
   }, []);
 
-  // TEMP: how to handle this?
-  const [navBarTitle, setNavBarTitle] = React.useState("HARE");
+  // the sharing state of selected page
+  const [currentSelect, setCurrentSelect] = React.useState({
+    unitID: 0, pageID: 0, pageName: "HARE", pagePresent: ""
+  });
+  React.useEffect(() => {
+    let selectedUnit = listObject.find((item) => item.selected), selectedPage;
+    if (selectedUnit) selectedPage = selectedUnit.pages.find((item) => item.selected);
+    if (selectedPage)
+      setCurrentSelect({
+        unitID: selectedUnit.unitID,
+        pageID: selectedPage.pageID,
+        pageName: selectedPage.pageName,
+        pagePresent: selectedPage.pagePresent
+      });
+  }, [listObject]);
 
   // the setting of disconnection message box
   const [kick, setKick] = React.useState(false);
@@ -101,7 +114,7 @@ export default function Panel(props) {
         lang={globalLang}
         state={{
           navList: navList,
-          navBarTitle: navBarTitle
+          currentSelect: currentSelect
         }}
         handle={{
           toggleNavList: () => setNavList(true),
