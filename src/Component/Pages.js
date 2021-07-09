@@ -151,7 +151,21 @@ export default function Pages(props) {
       kick: handle.toggleKick,
       lang: lang
     }).then((out) => {
-      console.log(out);
+      if (out === "unit") {
+        setListObject((listObject) => {
+          listObject.splice(unitID - 1, 1);
+          return listObject.map(item => item.unitID > unitID
+            ? { ...item, unitID: item.unitID - 1 } : item);
+        });
+      } else {
+        listObject[unitID - 1].pages.splice(pageID - 1, 1);
+        setListObject(listObject.map((item) => item.unitID === unitID
+          ? {
+            ...item,
+            pages: item.pages.map((subItem) => subItem.pageID > pageID
+              ? { ...subItem, pageID: subItem.pageID - 1 } : subItem)
+          } : item));
+      }
     });
   };
 
