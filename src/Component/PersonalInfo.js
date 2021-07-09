@@ -23,8 +23,8 @@ export default function PersonalInfo(props) {
           </Avatar>
         </ListItemAvatar>
         <ListItemText
-          primary={"Ichinoe"}
-          secondary={"abc@xyz.com"}
+          primary={data.profile.userName}
+          secondary={data.profile.email}
         />
         <IconButton
           onClick={(event) => setAnchorGlobalMenu(event.currentTarget)}

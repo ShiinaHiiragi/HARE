@@ -28,7 +28,11 @@ export default function NavList(props) {
     <div className={classes.sideList}>
       <PersonalInfo
         lang={lang}
-        data={data}
+        data={{
+          userID: data.userID,
+          token: data.token,
+          profile: state.profile
+        }}
         handle={{
           changeGlobalLang: handle.changeGlobalLang
         }}

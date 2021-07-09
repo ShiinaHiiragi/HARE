@@ -116,6 +116,7 @@ export default function Panel(props) {
           token: token
         }}
         state={{
+          profile: profile,
           navList: navList,
           navListMobile: navListMobile,
           listObject: listObject
