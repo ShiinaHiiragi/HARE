@@ -3,6 +3,7 @@ const requestURL = isDevMode ? "http://localhost:8000" : "";
 
 const drawerWidth = 300;
 const nameMaxLength = 16, presentMaxLength = 512;
+const imageMaxBase = 2 * 1024 * 1024;
 const initMenu = { mouseX: null, mouseY: null };
 
 const nil = () => {};
@@ -22,6 +23,7 @@ export {
   drawerWidth,
   nameMaxLength,
   presentMaxLength,
+  imageMaxBase,
   initMenu,
   nil,
   next,

@@ -5,6 +5,7 @@ import LanguageSelector from "./LanguageSelector";
 import License from "./License";
 import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import { packedPOST } from "../Interface/Request";
+import { imageMaxBase } from "../Interface/Constant";
 
 export default function GlobalMenu(props) {
   const { lang, anchor, data, handle } = props;
@@ -18,24 +19,28 @@ export default function GlobalMenu(props) {
       if (/image\/.+/.test(targetImage[0].type)) {
         let reader = new FileReader();
         reader.readAsDataURL(targetImage[0]);
-        reader.onload = (event) => {
-          console.log(event.target.result.length);
-          packedPOST({
-            uri: "/set/avatar",
-            query: {
-              userID: data.userID,
-              token: data.token,
-              avatar: event.target.result
-            },
-            msgbox: handle.toggleMessageBox,
-            kick: handle.toggleKick,
-            lang: lang
-          })
-            .then((out) => console.log(out));
-        }
+        reader.onload = avatarOnload
       } else handle.toggleMessageBox(lang.message.nonImage, "warning");
     }
-  }
+  };
+  const avatarOnload = (event) => {
+    if (event.target.result.length > imageMaxBase) {
+      handle.toggleMessageBox(lang.message.largeImage, "warning");
+    } else {
+      packedPOST({
+        uri: "/set/avatar",
+        query: {
+          userID: data.userID,
+          token: data.token,
+          avatar: event.target.result
+        },
+        msgbox: handle.toggleMessageBox,
+        kick: handle.toggleKick,
+        lang: lang
+      })
+        .then((out) => console.log(out));
+    }
+  };
 
   return (
     <Menu
