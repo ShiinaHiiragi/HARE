@@ -37,7 +37,6 @@ export default function PersonalInfo(props) {
         data={{
           userID: data.userID,
           token: data.token,
-          profile: data.profile
         }}
         anchor={anchorGlobalMenu}
         handle={{
@@ -46,7 +45,8 @@ export default function PersonalInfo(props) {
           toggleEditProfile: handle.toggleEditProfile,
           changeGlobalLang: handle.changeGlobalLang,
           refreshAvatar: handle.refreshAvatar,
-          setValue: handle.setValue,
+          initValue: handle.initValue,
+          clearCheck: handle.clearCheck,
           close: () => setAnchorGlobalMenu(null)
         }}
         handleClose={() => setAnchorGlobalMenu(null)}
