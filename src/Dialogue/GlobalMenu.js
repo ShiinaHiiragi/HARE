@@ -34,7 +34,7 @@ export default function GlobalMenu(props) {
           userID: data.userID,
           token: data.token,
           avatar: result,
-          type: type.replace(/image\/(\w+)/, "$1")
+          type: type.replace(/image\/(\w+)/, ".$1")
         },
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,

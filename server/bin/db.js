@@ -76,6 +76,16 @@ exports.profile = (userID) => new Promise((resolve, reject) =>
     .then(resolve).catch(reject)
 );
 
+exports.saveAvatarExtent = (userID, type) => new Promise((resolve, reject) => 
+  query(`update userSetting set avatar = '${type === '.jpeg' ? '.jpg' : type}'
+    where userID = ${userID}`).then(resolve).catch(reject)
+);
+
+exports.getAvatarExtent = (userID) => new Promise((resolve, reject) => 
+  query(`select avatar from userSetting where userID = ${userID}`)
+  .then(resolve).catch(reject)
+);
+
 exports.checkToken = (userID, token, res) => new Promise((resolve) => 
   query(`select * from onlineUser
     where userID = ${userID} and token = '${token}'`)

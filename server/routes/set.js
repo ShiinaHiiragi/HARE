@@ -86,9 +86,9 @@ router.post('/delete-up', (req, res) => {
 });
 
 router.post('/avatar', (req, res) => {
-  const { avatar, type } = req.body;
+  const { avatar } = req.body;
   const { userID } = api.sqlNumber(req.body, ["userID"]);
-  const { token } = api.sqlString(req.body, ["token"]);
+  const { token, type } = api.sqlString(req.body, ["token", "type"]);
   db.checkToken(userID, token, res)
   .then(() => {
     const basicPath = path.join(__dirname, '../src/avatar');
@@ -102,16 +102,18 @@ router.post('/avatar', (req, res) => {
         if (prevAvatar)
           fs.unlinkSync(path.join(basicPath, prevAvatar));
         // save the file uploaded
-        let avatarBase = avatar.replace(typeReg, '');
-        let avatarBuffer = new Buffer(avatarBase, 'base64');
-        fs.writeFile(
-          path.join(basicPath, `${userID}.${type === 'jpeg' ? 'jpg' : type}`),
-          avatarBuffer,
-          (err) => {
-            if (!err) res.send("");
-            else api.internalServerError(res);
-          }
-        );
+        db.saveAvatarExtent(userID, type).then(() => {
+          let avatarBase = avatar.replace(typeReg, '');
+          let avatarBuffer = new Buffer(avatarBase, 'base64');
+          fs.writeFile(
+            path.join(basicPath, `${userID}${type === '.jpeg' ? '.jpg' : type}`),
+            avatarBuffer,
+            (err) => {
+              if (!err) res.send("");
+              else api.internalServerError(res);
+            }
+          );
+        }).catch(() => api.internalServerError(res));
       }
     });
   });

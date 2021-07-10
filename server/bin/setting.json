@@ -17,7 +17,7 @@
       "unitSize integer not null default 0,",
       "password varchar(64) not null,",
       "username varchar(16) not null,",
-      "avatar text,",
+      "avatar varchar(16),",
       "city varchar(16),",
       "tel varchar(16),",
       "gender char(1) default 'U',",

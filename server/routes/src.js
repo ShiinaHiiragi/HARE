@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
+var db = require('../bin/db');
 var router = express.Router();
 
 // get a number randomly in [sub, sup];
@@ -16,6 +17,13 @@ router.get('/cover', (req, res) => {
       const retImage = dir[dice(0, sup)]
       res.sendFile(path.join(__dirname, `../src/cover/${retImage}`));
     }
+  });
+});
+
+router.get('/avatar', (req, res) => {
+  const { userID, token } = req.query;
+  db.getAvatarExtent(userID).then((out) => {
+    res.sendFile(path.join(__dirname, `../src/avatar/${userID}${out[0].avatar}`));
   });
 });
 
