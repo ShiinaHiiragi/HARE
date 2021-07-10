@@ -19,12 +19,13 @@ export default function GlobalMenu(props) {
       if (/image\/.+/.test(targetImage[0].type)) {
         let reader = new FileReader();
         reader.readAsDataURL(targetImage[0]);
-        reader.onload = avatarOnload
+        reader.onload = (event) => 
+          avatarOnload(event.target.result, targetImage[0].type)
       } else handle.toggleMessageBox(lang.message.nonImage, "warning");
     }
   };
-  const avatarOnload = (event) => {
-    if (event.target.result.length > imageMaxBase) {
+  const avatarOnload = (result, type) => {
+    if (result.length > imageMaxBase) {
       handle.toggleMessageBox(lang.message.largeImage, "warning");
     } else {
       packedPOST({
@@ -32,7 +33,8 @@ export default function GlobalMenu(props) {
         query: {
           userID: data.userID,
           token: data.token,
-          avatar: event.target.result
+          avatar: result,
+          type: type.replace(/image\/(\w+)/, "$1")
         },
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,

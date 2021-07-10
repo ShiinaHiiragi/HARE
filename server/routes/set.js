@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
+var path = require('path');
 var db = require('../bin/db');
 var api = require('../bin/api');
 
@@ -84,12 +86,34 @@ router.post('/delete-up', (req, res) => {
 });
 
 router.post('/avatar', (req, res) => {
-  const { avatar } = req.body;
+  const { avatar, type } = req.body;
   const { userID } = api.sqlNumber(req.body, ["userID"]);
-  const { token } = api.sqlString(req.body, ["token", "avatar"]);
+  const { token } = api.sqlString(req.body, ["token"]);
   db.checkToken(userID, token, res)
   .then(() => {
-    res.send(req.body);
+    const basicPath = path.join(__dirname, '../src/avatar');
+    fs.readdir(basicPath, (err, dir) => {
+      if (err) api.internalServerError(res)
+      else {
+        // delete the previous image first
+        const userReg = new RegExp(`${userID}\\.(.+)`);
+        const typeReg = /^data:image\/(\w+);base64,/;
+        const prevAvatar = dir.find((fileItem) => userReg.test(fileItem));
+        if (prevAvatar)
+          fs.unlinkSync(path.join(basicPath, prevAvatar));
+        // save the file uploaded
+        let avatarBase = avatar.replace(typeReg, '');
+        let avatarBuffer = new Buffer(avatarBase, 'base64');
+        fs.writeFile(
+          path.join(basicPath, `${userID}.${type === 'jpeg' ? 'jpg' : type}`),
+          avatarBuffer,
+          (err) => {
+            if (!err) res.send("");
+            else api.internalServerError(res);
+          }
+        );
+      }
+    });
   });
 });
 
