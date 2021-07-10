@@ -98,7 +98,14 @@ export default function Profile(props) {
         kick: handle.toggleKick,
         lang: lang
       }).then((out) => {
-        console.log(out);
+        handle.setProfile((profile) => ({
+          ...profile,
+          userName: value.userName,
+          gender: value.gender,
+          birth: value.birth,
+          city: value.city,
+          tel: value.tel
+        }));
         handle.close();
       })
     } else handle.toggleMessageBox(errorMessage, "warning");
