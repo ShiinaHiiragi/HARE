@@ -27,16 +27,23 @@ exports.checkRegister = (cmdLine) => new Promise((resolve, reject) => {
   }
 })
 
-exports.sqlNumber = (query, keys) => {
+exports.sqlNumber = (query, keys, res) => {
   let sql = new Object();
-  keys.forEach(item => 
-    sql[item] = isNaN(Number(query[item])) ? -1 : Number(query[item]));
+  keys.forEach(item => {
+    if (query[item] === undefined)
+      res.status(406).send("INVALID ARGUMENT");
+    sql[item] = isNaN(Number(query[item])) ? -1 : Number(query[item]);
+  });
   return sql;
 }
 
-exports.sqlString = (query, keys) => {
+exports.sqlString = (query, keys, res) => {
   let sql = new Object();
-  keys.forEach(item => sql[item] = query[item].replace(/'/g, `''`))
+  keys.forEach(item => {
+    if (query[item] === undefined)
+      res.status(406).send("INVALID ARGUMENT");
+    sql[item] = query[item].replace(/'/g, `''`);
+  })
   return sql;
 }
 

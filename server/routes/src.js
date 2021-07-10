@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 var db = require('../bin/db');
+var api = require('../bin/api');
 var router = express.Router();
 
 // get a number randomly in [sub, sup];
@@ -21,9 +22,15 @@ router.get('/cover', (req, res) => {
 });
 
 router.get('/avatar', (req, res) => {
-  const { userID, token } = req.query;
-  db.getAvatarExtent(userID).then((out) => {
-    res.sendFile(path.join(__dirname, `../src/avatar/${userID}${out[0].avatar}`));
+  const { userID } = api.sqlNumber(req.query, ["userID"], res);
+  const { token } = api.sqlString(req.query, ["token"], res);
+  db.checkToken(userID, token, res).then(() => {
+    db.getAvatarExtent(userID).then((out) => {
+      res.sendFile(path.join(
+        __dirname,
+        `../src/avatar/${userID}${out[0].avatar}`
+      ));
+    }).catch(() => api.internalServerError(res));
   });
 });
 

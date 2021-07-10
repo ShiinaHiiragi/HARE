@@ -8,10 +8,11 @@ var api = require('../bin/api');
 router.post('/new-up', (req, res) => {
   // TODO: check the validity of type in new-up & swap & delete
   const { group, type } = req.body;
-  const { userID } = api.sqlNumber(req.body, ["userID"]);
+  const { userID } = api.sqlNumber(req.body, ["userID"], res);
   const { token, unitName, pageName, pagePresent } = api.sqlString(
     req.body,
-    ["token", "unitName", "pageName", "pagePresent"]
+    ["token", "unitName", "pageName", "pagePresent"],
+    res
   );
   db.checkToken(userID, token, res)
     .then(() => {
@@ -31,8 +32,8 @@ router.post('/new-up', (req, res) => {
 
 router.post('/swap', (req, res) => {
   const { group, less } = req.body;
-  const { userID } = api.sqlNumber(req.body, ["userID"]);
-  const { token } = api.sqlString(req.body, ["token"]);
+  const { userID } = api.sqlNumber(req.body, ["userID"], res);
+  const { token } = api.sqlString(req.body, ["token"], res);
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
@@ -48,8 +49,8 @@ router.post('/swap', (req, res) => {
 });
 
 router.post('/unit', (req, res) => {
-  const { userID, unitID } = api.sqlNumber(req.body, ["userID", "unitID"]);
-  const { token, name } = api.sqlString(req.body, ["token", "name"]);
+  const { userID, unitID } = api.sqlNumber(req.body, ["userID", "unitID"], res);
+  const { token, name } = api.sqlString(req.body, ["token", "name"], res);
   db.checkToken(userID, token, res)
     .then(() => {
       db.editUnit(userID, unitID, name)
@@ -62,9 +63,10 @@ router.post('/delete-up', (req, res) => {
   const { group } = req.body;
   const { userID, unitID, pageID } = api.sqlNumber(
     req.body,
-    ["userID", "unitID", "pageID"]
+    ["userID", "unitID", "pageID"],
+    res
   );
-  const { token } = api.sqlString(req.body, ["token"]);
+  const { token } = api.sqlString(req.body, ["token"], res);
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
@@ -87,8 +89,8 @@ router.post('/delete-up', (req, res) => {
 
 router.post('/avatar', (req, res) => {
   const { avatar } = req.body;
-  const { userID } = api.sqlNumber(req.body, ["userID"]);
-  const { token, type } = api.sqlString(req.body, ["token", "type"]);
+  const { userID } = api.sqlNumber(req.body, ["userID"], res);
+  const { token, type } = api.sqlString(req.body, ["token", "type"], res);
   db.checkToken(userID, token, res)
   .then(() => {
     const basicPath = path.join(__dirname, '../src/avatar');
