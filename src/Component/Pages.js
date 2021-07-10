@@ -90,7 +90,7 @@ export default function Pages(props) {
 
   const changeMove = (group, less) => {
     packedPOST({
-      uri: "/set/swap",
+      uri: "/set/swap-up",
       query: { userID: userID, token: token, group: group, less: less },
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
