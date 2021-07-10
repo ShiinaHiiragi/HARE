@@ -8,10 +8,15 @@ var api = require('../bin/api');
 // setting of user profile
 router.post('/profile', (req, res) => {
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
-  const { token } = api.sqlString(req.body, ["token"], res);
+  const {
+    token, userName, birth, gender, tel, city
+  } = api.sqlString(req.body, [
+    "token", "userName", "birth", "gender", "tel", "city"
+  ], res);
   db.checkToken(userID, token, res)
     .then(() => {
-      res.send(req.body);
+      db.saveProfile(userID, userName, birth, gender, tel, city)
+        .then(() => res.send('ok'));
     });
 });
 

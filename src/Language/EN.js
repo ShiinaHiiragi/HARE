@@ -85,7 +85,8 @@ const list = {
     unitNameError: "The name of the group should be between 1 ~ 16 characters.",
     pageNameError: "The name of the booklet should be between 1 ~ 16 characters.",
     pagePresentError: "The description of the booklet should be no more than 512 characters.",
-    userNameError: "The username should be between 1 ~ 16 characters.",
+    userNameLengthError: "The username should be between 1 ~ 16 characters.",
+    userNameInvalidError: "The username should only contain ASCII characters.",
     telError: "The name of the phone should be no more than 16 characters.",
     cityError: "The name of the city should be no more than 16 characters."
   },

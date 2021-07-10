@@ -70,11 +70,20 @@ const viewTable = (cmdLine, onsuccess, onerror) => {
 }
 
 // db api for profile and token request
-exports.profile = (userID) => new Promise((resolve, reject) => 
+exports.getProfile = (userID) => new Promise((resolve, reject) => 
   query(`select userName, userID, email, gender, birth, city, tel
     from userSetting natural join userInfo where userID = ${userID}`)
     .then(resolve).catch(reject)
 );
+
+exports.saveProfile = (userID, userName, birth, gender, tel, city) =>
+  new Promise((resolve, reject) => 
+    query(`update userSetting set userName = '${userName}',
+      birth = '${api.format(new Date(birth), 'yyyy-MM-dd')}',
+      gender = '${gender}', tel = '${tel}', city = '${city}'
+      where userID = '${userID}'`)
+      .then(resolve).catch(reject)
+  );
 
 exports.saveAvatarExtent = (userID, type) => new Promise((resolve, reject) => 
   query(`update userSetting set avatar = '${type === '.jpeg' ? '.jpg' : type}'
@@ -86,6 +95,7 @@ exports.getAvatarExtent = (userID) => new Promise((resolve, reject) =>
   .then(resolve).catch(reject)
 );
 
+// db api for token
 exports.checkToken = (userID, token, res) => new Promise((resolve) => 
   query(`select * from onlineUser
     where userID = ${userID} and token = '${token}'`)

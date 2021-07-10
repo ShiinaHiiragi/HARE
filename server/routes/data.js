@@ -45,7 +45,7 @@ router.get('/profile', (req, res) => {
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
   const { token } = api.sqlString(req.query, ["token"], res);
   db.checkToken(userID, token, res).then(() => {
-    db.profile(userID)
+    db.getProfile(userID)
       .then(out => res.send(out[0]))
       .catch(() => api.internalServerError(res));
   });

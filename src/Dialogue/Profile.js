@@ -70,9 +70,13 @@ export default function Profile(props) {
       handle.setCheck((prev) => ({ ...prev, tel: true }));
       errorMessage = lang.message.telError;
     }
+    if (!/^[\x0-\x7F]*$/.test(value.userName)) {
+      handle.setCheck((prev) => ({ ...prev, userName: true }));
+      errorMessage = lang.message.userNameInvalidError;
+    }
     if (value.userName.length === 0 || value.userName.length > nameMaxLength) {
       handle.setCheck((prev) => ({ ...prev, userName: true }));
-      errorMessage = lang.message.userNameError;
+      errorMessage = lang.message.userNameLengthError;
     }
     return errorMessage;
   }
@@ -93,7 +97,10 @@ export default function Profile(props) {
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,
         lang: lang
-      }).then(() => handle.close())
+      }).then((out) => {
+        console.log(out);
+        handle.close();
+      })
     } else handle.toggleMessageBox(errorMessage, "warning");
   }
 

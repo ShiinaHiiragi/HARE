@@ -85,7 +85,8 @@ const list = {
     unitNameError: "记忆组名长度应为 1 ~ 16 字符",
     pageNameError: "记忆册名长度应为 1 ~ 16 字符",
     pagePresentError: "记忆册描述长度不能超过 512 个字符",
-    userNameError: "用户名长度应为 1 ~ 16 字符",
+    userNameLengthError: "用户名长度应为 1 ~ 16 字符",
+    userNameInvalidError: "用户名只能包含 ASCII 字符",
     telError: "电话长度不能超过 16 个字符",
     cityError: "城市名长度不能超过 16 个字符"
   },

@@ -50,3 +50,33 @@ exports.sqlString = (query, keys, res) => {
 exports.internalServerError = (res) => {
   res.status(500).send("INTERNAL SERVER ERROR");
 };
+
+exports.format = (transDate, formatString) => {
+  var formatComponent = {
+    "M+": transDate.getMonth() + 1,
+    "d+": transDate.getDate(),
+    "h+": transDate.getHours(),
+    "m+": transDate.getMinutes(),
+    "s+": transDate.getSeconds(),
+    "q+": Math.floor((transDate.getMonth() + 3) / 3),
+    S: transDate.getMilliseconds()
+  };
+
+  if (/(y+)/.test(formatString))
+    formatString = formatString.replace(
+      RegExp.$1,
+      (transDate.getFullYear() + "").substr(4 - RegExp.$1.length)
+    );
+
+  for (var index in formatComponent)
+    if (new RegExp(`(${index})`).test(formatString))
+      formatString = formatString.replace(
+        RegExp.$1,
+        RegExp.$1.length === 1
+          ? formatComponent[index]
+          : ("00" + formatComponent[index]).substr(
+              ("" + formatComponent[index]).length
+            )
+      );
+  return formatString;
+};
