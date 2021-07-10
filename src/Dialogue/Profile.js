@@ -197,10 +197,10 @@ export default function Profile(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={applyChange} color="secondary">
-          Apply
+          {lang.common.apply}
         </Button>
         <Button onClick={handle.close} color="primary">
-          Back
+          {lang.common.back}
         </Button>
       </DialogActions>
     </Dialog>
