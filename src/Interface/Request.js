@@ -13,13 +13,14 @@ const packedGET = (params) => {
       .get(request)
       .then((res) => resolve(res.data))
       .catch((err) => {
-        if (err.response.status !== 401) {
+        if (err.response && err.response.status !== 401) {
           msgbox(
             `${lang.message.serverError}: ${err.response.data}`,
             "error"
           );
           reject(err);
-        } else kick();
+        } else if (err.response) kick();
+        else msgbox(`${err}`, "error");
       });
   });
 };
@@ -40,7 +41,7 @@ const packedPOST = (params, config) => {
           );
           reject(err);
         } else if (err.response) kick();
-        else msgbox(`${lang.message.error}: ${err}`, "error");
+        else msgbox(`${err}`, "error");
       });
   });
 };

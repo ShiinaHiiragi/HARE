@@ -16,21 +16,24 @@ export default function GlobalMenu(props) {
     const targetImage = event.target.files;
     if (targetImage && targetImage.length > 0) {
       if (/image\/.+/.test(targetImage[0].type)) {
-        packedPOST({
-          uri: "/set/avatar",
-          query: {
-            userID: data.userID,
-            token: data.token,
-            avatar: "123"
-          },
-          msgbox: handle.toggleMessageBox,
-          kick: handle.toggleKick,
-          lang: lang
-        })
-          .then((out) => console.log(out));
-      } else {
-        handle.toggleMessageBox(lang.message.nonImage, "warning");
-      }
+        let reader = new FileReader();
+        reader.readAsDataURL(targetImage[0]);
+        reader.onload = (event) => {
+          console.log(event.target.result.length);
+          packedPOST({
+            uri: "/set/avatar",
+            query: {
+              userID: data.userID,
+              token: data.token,
+              avatar: event.target.result
+            },
+            msgbox: handle.toggleMessageBox,
+            kick: handle.toggleKick,
+            lang: lang
+          })
+            .then((out) => console.log(out));
+        }
+      } else handle.toggleMessageBox(lang.message.nonImage, "warning");
     }
   }
 

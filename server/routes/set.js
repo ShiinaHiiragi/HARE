@@ -4,7 +4,7 @@ var db = require('../bin/db');
 var api = require('../bin/api');
 
 router.post('/new-up', (req, res) => {
-  // TODO: check the validity of group and type in new-up & swap & delete
+  // TODO: check the validity of type in new-up & swap & delete
   const { group, type } = req.body;
   const { userID } = api.sqlNumber(req.body, ["userID"]);
   const { token, unitName, pageName, pagePresent } = api.sqlString(
@@ -84,12 +84,13 @@ router.post('/delete-up', (req, res) => {
 });
 
 router.post('/avatar', (req, res) => {
+  const { avatar } = req.body;
   const { userID } = api.sqlNumber(req.body, ["userID"]);
-  const { token, avatar } = api.sqlString(req.body, ["token", "avatar"]);
+  const { token } = api.sqlString(req.body, ["token", "avatar"]);
   db.checkToken(userID, token, res)
-    .then(() => {
-      res.send(req.body);
-    });
+  .then(() => {
+    res.send(req.body);
+  });
 });
 
 module.exports = router;
