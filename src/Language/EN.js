@@ -70,6 +70,7 @@ const list = {
     error: "Error",
     serverError: "Server Error",
     signInBlank: "Please enter the E-mail and password.",
+    changeAvatar: "Your avatar has been set successfully.",
     nonImage: "The file you selected is not image.",
     largeImage: "The file you selected is too large.",
     unitNameError: "The name of the group should be between 0 ~ 16 characters.",

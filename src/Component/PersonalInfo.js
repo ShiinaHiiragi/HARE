@@ -9,16 +9,23 @@ import PersonIcon from "@material-ui/icons/Person";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import requestURL from "../Interface/Constant";
 import GlobalMenu from "../Dialogue/GlobalMenu";
+import { randomTimestamp } from "../Interface/Constant";
 
 export default function PersonalInfo(props) {
   const { lang, data, handle } = props;
   const [anchorGlobalMenu, setAnchorGlobalMenu] = React.useState(null);
+  const [avatarURL, setAvatarURL] = React.useState(
+    `${requestURL}/src/avatar?userID=${data.userID}&token=${data.token}`
+  );
+  const refreshAvatar = () => setAvatarURL(
+    `${requestURL}/src/avatar?userID=${data.userID}&token=${data.token}&t=${randomTimestamp()}`
+  );
 
   return (
     <List>
       <ListItem>
         <ListItemAvatar>
-          <Avatar src={`${requestURL}/src/cover`}>
+          <Avatar src={avatarURL}>
             <PersonIcon />
           </Avatar>
         </ListItemAvatar>
@@ -44,7 +51,8 @@ export default function PersonalInfo(props) {
           toggleMessageBox: handle.toggleMessageBox,
           toggleKick: handle.toggleKick,
           close: () => setAnchorGlobalMenu(null),
-          changeGlobalLang: handle.changeGlobalLang
+          changeGlobalLang: handle.changeGlobalLang,
+          refreshAvatar: refreshAvatar
         }}
         handleClose={() => setAnchorGlobalMenu(null)}
         changeGlobalLang={handle.changeGlobalLang}

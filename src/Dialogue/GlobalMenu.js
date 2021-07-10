@@ -40,7 +40,10 @@ export default function GlobalMenu(props) {
         kick: handle.toggleKick,
         lang: lang
       })
-        .then((out) => console.log(out));
+        .then(() => {
+          handle.refreshAvatar();
+          handle.toggleMessageBox(lang.message.changeAvatar, "success");
+        });
     }
   };
 

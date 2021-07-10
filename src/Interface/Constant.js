@@ -1,3 +1,5 @@
+import CryptoJS from "crypto-js";
+
 const isDevMode = window.location.port === "3000";
 const requestURL = isDevMode ? "http://localhost:8000" : "";
 
@@ -8,6 +10,7 @@ const initMenu = { mouseX: null, mouseY: null };
 
 const nil = () => {};
 const next = () => new Promise((resolve) => resolve);
+const randomTimestamp = () => CryptoJS.MD5(new Date().toString()).toString();
 
 const stringFormat = (rawString, replaceArray) => {
   for (let i = 0; i < replaceArray.length; i += 1) {
@@ -27,6 +30,7 @@ export {
   initMenu,
   nil,
   next,
+  randomTimestamp,
   stringFormat
 };
 export default requestURL;
