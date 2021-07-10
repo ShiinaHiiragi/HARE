@@ -124,7 +124,8 @@ export default function SignInForm(props) {
       .catch((err) => {
         props.handle.closeLoading();
         props.handle.toggleMessageBox(
-          `${props.lang.message.serverError}: ${err.response.data}`,
+          `${props.lang.message.serverError}: ${err.response
+            ? err.response.data : err}`,
           "error"
         );
       });

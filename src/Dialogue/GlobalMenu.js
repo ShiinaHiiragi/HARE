@@ -54,7 +54,14 @@ export default function GlobalMenu(props) {
       open={Boolean(anchor)}
       onClose={handle.close}
     >
-      <MenuItem onClick={handle.close}>{lang.menu.editProfile}</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.close();
+          handle.toggleEditProfile();
+        }}
+      >
+        {lang.menu.editProfile}
+      </MenuItem>
       <MenuItem component="label" onClick={handle.close}>
         {lang.menu.changeAvatar}
         <input type="file" accept="image/*" onChange={uploadAvatar} hidden />

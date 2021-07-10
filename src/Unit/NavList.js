@@ -1,9 +1,16 @@
+import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import PersonalInfo from "../Component/PersonalInfo";
 import Divider from "@material-ui/core/Divider";
 import Pages from "../Component/Pages";
-import { drawerWidth } from "../Interface/Constant";
+import Profile from "../Dialogue/Profile"
+import requestURL from "../Interface/Constant";
+import {
+  drawerWidth,
+  randomTimestamp,
+  defaultProfile
+} from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +30,17 @@ const useStyles = makeStyles((theme) => ({
 export default function NavList(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
+  const [editProfile, setEditProfile] = React.useState(false);
+  const [value, setValue] = React.useState(defaultProfile);
+  const [avatarURL, setAvatarURL] = React.useState(
+    `${requestURL}/src/avatar?userID=${data.userID}&token=${data.token}`
+  );
+  const refreshAvatar = () => setAvatarURL(
+    `${requestURL}/src/avatar?userID=${data.userID}&token=${data.token}&t=${randomTimestamp()}`
+  );
+  React.useEffect(() => {
+    setValue({ ...state.profile });
+  }, [state.profile]);
 
   const drawerContent = (
     <div className={classes.sideList}>
@@ -31,12 +49,15 @@ export default function NavList(props) {
         data={{
           userID: data.userID,
           token: data.token,
+          avatar: avatarURL,
           profile: state.profile
         }}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
           toggleKick: handle.toggleKick,
-          changeGlobalLang: handle.changeGlobalLang
+          toggleEditProfile: () => setEditProfile(true),
+          changeGlobalLang: handle.changeGlobalLang,
+          refreshAvatar: refreshAvatar,
         }}
       />
       <Divider />
@@ -81,6 +102,25 @@ export default function NavList(props) {
           {drawerContent}
         </Drawer>
       </Hidden>
+      <Profile
+        lang={lang}
+        open={editProfile}
+        data={{
+          userID: data.userID,
+          token: data.token,
+          avatar: avatarURL
+        }}
+        value={value}
+        check={{
+          userName: false, gender: false,
+          birth: false, city: false, tel: false
+        }}
+        handle={{
+          setProfile: handle.setProfile,
+          setValue: setValue,
+          close: () => setEditProfile(false)
+        }}
+      />
     </div>
   );
 }

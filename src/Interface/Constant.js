@@ -8,6 +8,15 @@ const nameMaxLength = 16, presentMaxLength = 512;
 const imageMaxBase = 2 * 1024 * 1024;
 const initMenu = { mouseX: null, mouseY: null };
 
+const defaultProfile = {
+  userName: "",
+  email: "",
+  gender: "U",
+  birth: "2019-12-31T16:00:00.000Z",
+  city: "",
+  tel: ""
+}
+
 const nil = () => {};
 const next = () => new Promise((resolve) => resolve);
 const randomTimestamp = () => CryptoJS.MD5(new Date().toString()).toString();
@@ -28,6 +37,7 @@ export {
   presentMaxLength,
   imageMaxBase,
   initMenu,
+  defaultProfile,
   nil,
   next,
   randomTimestamp,

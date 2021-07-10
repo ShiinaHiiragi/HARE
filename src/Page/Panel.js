@@ -60,7 +60,7 @@ export default function Panel(props) {
     })
       .then((res) => setProfile({
         userName: res.username, email: res.email,
-        gender: res.email, birth: res.gender, city: res.city, tel: res.tel
+        gender: res.gender, birth: res.birth, city: res.city, tel: res.tel
       }));
   }, []);
 
@@ -141,7 +141,8 @@ export default function Panel(props) {
           toggleKick: () => setKick(true),
           closeNavListMobile: () => setNavListMobile(false),
           changeGlobalLang: changeGlobalLang,
-          setListObject: setListObject
+          setListObject: setListObject,
+          setProfile: setProfile,
         }}
       />
       <Main lang={globalLang} state={{ navList: navList }} />
