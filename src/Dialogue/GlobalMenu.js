@@ -57,6 +57,7 @@ export default function GlobalMenu(props) {
       <MenuItem
         onClick={() => {
           handle.close();
+          handle.setValue({ ...data.profile });
           handle.toggleEditProfile();
         }}
       >

@@ -38,9 +38,6 @@ export default function NavList(props) {
   const refreshAvatar = () => setAvatarURL(
     `${requestURL}/src/avatar?userID=${data.userID}&token=${data.token}&t=${randomTimestamp()}`
   );
-  React.useEffect(() => {
-    setValue({ ...state.profile });
-  }, [state.profile]);
 
   const drawerContent = (
     <div className={classes.sideList}>
@@ -58,6 +55,7 @@ export default function NavList(props) {
           toggleEditProfile: () => setEditProfile(true),
           changeGlobalLang: handle.changeGlobalLang,
           refreshAvatar: refreshAvatar,
+          setValue: setValue
         }}
       />
       <Divider />
@@ -112,8 +110,8 @@ export default function NavList(props) {
         }}
         value={value}
         check={{
-          userName: false, gender: false,
-          birth: false, city: false, tel: false
+          userName: false, birth: false,
+          city: false, tel: false
         }}
         handle={{
           setProfile: handle.setProfile,
