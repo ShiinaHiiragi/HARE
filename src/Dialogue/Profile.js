@@ -33,15 +33,19 @@ const useStyles = makeStyles((theme) => ({
   selfProfile: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
-      width: "200px"
+      width: "45%"
     }
   },
   genderControl: {
     margin: theme.spacing(1),
-    width: "200px"
+    width: "45%"
   },
   selectEmpty: {
     marginTop: theme.spacing(2)
+  },
+  line: {
+    display: "flex",
+    justifyContent: "center"
   }
 }));
 
@@ -54,8 +58,16 @@ export default function Profile(props) {
     }));
   }
 
+  const checkInput = () => {
+    let errorMessage = "";
+  }
+
   return (
-    <Dialog open={open} onClose={handle.close}>
+    <Dialog
+      fullWidth
+      open={open}
+      onClose={handle.close}
+    >
       <DialogContent>
         <div className={classes.avatarProfile}>
           <Avatar
@@ -75,7 +87,7 @@ export default function Profile(props) {
           />
         </div>
         <div className={classes.selfProfile}>
-          <div>
+          <div className={classes.line}>
             <TextField
               label="UID"
               value={data.userID}
@@ -87,7 +99,7 @@ export default function Profile(props) {
               disabled
             />
           </div>
-          <div>
+          <div className={classes.line}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <DatePicker
                 disableFuture
@@ -116,7 +128,7 @@ export default function Profile(props) {
               </Select>
             </FormControl>
           </div>
-          <div>
+          <div className={classes.line}>
             <TextField
               label="TEL"
               value={value.tel}
