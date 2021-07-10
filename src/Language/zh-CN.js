@@ -45,6 +45,15 @@ const list = {
       unit: "您正准备删除记忆组「{0}」，请点击「确定」以继续。",
       page: "您正准备删除记忆册「{0}」，请点击「确定」以继续。",
       item: "您正准备删除此词条，请点击「确定」以继续。"
+    },
+    profile: {
+      userName: "用户名",
+      userID: "UID",
+      email: "电子邮件",
+      birth: "生日",
+      gender: "性别",
+      tel: "电话",
+      city: "城市"
     }
   },
   menu: {

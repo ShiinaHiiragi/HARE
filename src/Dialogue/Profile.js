@@ -77,7 +77,7 @@ export default function Profile(props) {
             <PersonIcon className={classes.notLargeAvatar} />
           </Avatar>
           <TextField
-            label="Username"
+            label={lang.popup.profile.userName}
             value={value.userName}
             inputProps={{
               spellCheck: "false",
@@ -89,12 +89,12 @@ export default function Profile(props) {
         <div className={classes.selfProfile}>
           <div className={classes.line}>
             <TextField
-              label="UID"
+              label={lang.popup.profile.userID}
               value={data.userID}
               disabled
             />
             <TextField
-              label="E-mail"
+              label={lang.popup.profile.email}
               value={value.email}
               disabled
             />
@@ -106,7 +106,7 @@ export default function Profile(props) {
                 variant="inline"
                 format="yyyy/MM/dd"
                 margin="normal"
-                label="Birthday"
+                label={lang.popup.profile.birth}
                 value={value.birth}
                 onChange={(value) => {
                   handle.setValue((profileValue) => ({
@@ -116,7 +116,7 @@ export default function Profile(props) {
               />
             </MuiPickersUtilsProvider>
             <FormControl className={classes.genderControl}>
-              <InputLabel shrink>Gender</InputLabel>
+              <InputLabel shrink>{lang.popup.profile.gender}</InputLabel>
               <Select
                 value={value.gender}
                 className={classes.selectEmpty}
@@ -130,12 +130,12 @@ export default function Profile(props) {
           </div>
           <div className={classes.line}>
             <TextField
-              label="TEL"
+              label={lang.popup.profile.tel}
               value={value.tel}
               onChange={(event) => valueChange("tel", event.target.value)}
             />
             <TextField
-              label="City"
+              label={lang.popup.profile.city}
               value={value.city}
               onChange={(event) => valueChange("city", event.target.value)}
             />

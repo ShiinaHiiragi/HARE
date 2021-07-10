@@ -45,6 +45,15 @@ const list = {
       unit: "You are attempting to delete the unit '{0}'. Please click 'YES' to continue.",
       page: "You are attempting to delete the booklet '{0}'. Please click 'YES' to continue.",
       item: "You are attempting to delete this entry. Please click 'YES' to continue."
+    },
+    profile: {
+      userName: "Username",
+      userID: "UID",
+      email: "E-mail",
+      birth: "Birthday",
+      gender: "Gender",
+      tel: "TEL",
+      city: "City"
     }
   },
   menu: {
