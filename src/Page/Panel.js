@@ -64,19 +64,23 @@ export default function Panel(props) {
   }, []);
 
   // the sharing state of selected page
+  const [route, setRoute] = React.useState(0);
   const [currentSelect, setCurrentSelect] = React.useState({
     unitID: 0, pageID: 0, pageName: "HARE", pagePresent: ""
   });
   React.useEffect(() => {
     let selectedUnit = listObject.find((item) => item.selected), selectedPage;
     if (selectedUnit) selectedPage = selectedUnit.pages.find((item) => item.selected);
-    if (selectedPage)
+    if (selectedPage) {
+      setRoute(1);
       setCurrentSelect({
         unitID: selectedUnit.unitID,
         pageID: selectedPage.pageID,
         pageName: selectedPage.pageName,
         pagePresent: selectedPage.pagePresent
       });
+    }
+
   }, [listObject]);
 
   // the setting of disconnection message box
@@ -144,7 +148,13 @@ export default function Panel(props) {
           setProfile: setProfile,
         }}
       />
-      <Main lang={globalLang} state={{ navList: navList }} />
+      <Main
+        lang={globalLang}
+        state={{
+          navList: navList,
+          route: route
+        }}
+      />
       <MessageBox
         open={messageBoxInfo.open}
         handleClose={closeMessageBox}

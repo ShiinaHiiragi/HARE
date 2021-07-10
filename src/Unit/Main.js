@@ -1,11 +1,14 @@
+import React from "react";
 import clsx from "clsx";
 import Header from "../Interface/Header";
-import Box from "@material-ui/core/Box";
+import IntroGraph from "../Interface/intro.png"
 import { drawerWidth } from "../Interface/Constant";
+import MainPage from "../Interface/MainPage";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   content: {
+    userSelect: "none",
     height: "100vh",
     flexGrow: 1,
     display: "flex",
@@ -23,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
+  },
+  intro: {
+    justifyContent: "center",
+    backgroundColor: "red",
   }
 }));
 
@@ -37,26 +44,24 @@ export default function Main(props) {
       })}
     >
       <Header />
-
-      {/* TODO: Router: control to skip one page of following: */}
-      <Box component="div" display={"none"}>
-        Intro
-      </Box>
-      <Box component="div" display={"none"}>
-        Cover
-      </Box>
-      <Box component="div" display={"none"}>
-        Recall
-      </Box>
-      <Box component="div" display={"none"}>
-        Listing
-      </Box>
-      <Box component="div" display={"none"}>
-        Statistics
-      </Box>
-      <Box component="div" display={"none"}>
-        Ranking
-      </Box>
+      <MainPage index={0} route={state.route} className={classes.intro}>
+        <img src={IntroGraph} />
+      </MainPage>
+      <MainPage index={1} route={state.route}>
+        1 - Cover
+      </MainPage>
+      <MainPage index={2} route={state.route}>
+        2 - Recall
+      </MainPage>
+      <MainPage index={3} route={state.route}>
+        3 - Listing
+      </MainPage>
+      <MainPage index={4} route={state.route}>
+        4 - Statistics
+      </MainPage>
+      <MainPage index={5} route={state.route}>
+        5 - Ranking
+      </MainPage>
     </main>
   );
 }
