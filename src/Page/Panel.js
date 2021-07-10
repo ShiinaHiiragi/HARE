@@ -10,24 +10,22 @@ import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
 import Kick from "../Dialogue/Kick";
 import packedGET from "../Interface/Request";
+import { oneDayMillisecond } from "../Interface/Constant";
 
 export default function Panel(props) {
   const { userID, token } = props;
 
   // detect if the language information is stored
   let storageLang = cookie.load("lang");
+  const tenYears = new Date(new Date().getTime() + 10 * 365 * oneDayMillisecond);
   if (storageLang === undefined) {
     storageLang = "en";
-    cookie.save("lang", "en", {
-      expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
-    });
+    cookie.save("lang", "en", { expires: tenYears });
   }
   const [globalLang, setGlobalLang] = React.useState(languagePicker(storageLang));
   const changeGlobalLang = (targetValue) => {
     if (targetValue) setGlobalLang(languagePicker(targetValue));
-    cookie.save("lang", targetValue, {
-      expires: new Date(new Date().getTime() + 10 * 365 * 24 * 3600 * 1000)
-    });
+    cookie.save("lang", targetValue, { expires: tenYears });
   };
 
   // the sharing state of response navigation bar and list

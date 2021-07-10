@@ -6,6 +6,7 @@ const requestURL = isDevMode ? "http://localhost:8000" : "";
 const drawerWidth = 300;
 const nameMaxLength = 16, presentMaxLength = 512;
 const imageMaxBase = 2 * 1024 * 1024;
+const oneDayMillisecond = 24 * 3600 * 1000;
 const initMenu = { mouseX: null, mouseY: null };
 
 const defaultProfile = {
@@ -37,6 +38,7 @@ export {
   presentMaxLength,
   imageMaxBase,
   initMenu,
+  oneDayMillisecond,
   defaultProfile,
   nil,
   next,

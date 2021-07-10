@@ -13,6 +13,7 @@ import SignUp from "../Dialogue/SignUp";
 import LanguageSelector from "../Dialogue/LanguageSelector";
 import Panel from "../Page/Panel";
 import requestURL from "../Interface/Constant";
+import { oneDayMillisecond } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +30,7 @@ let emailCookie = cookie.load("email");
 const setEmailCookie = (boxChecked, email) => {
   if (boxChecked)
     cookie.save("email", email, {
-      expires: new Date(new Date().getTime() + 365 * 24 * 3600 * 1000)
+      expires: new Date(new Date().getTime() + 10 * 365 * oneDayMillisecond)
     });
   else cookie.remove("email");
 };
@@ -106,29 +107,29 @@ export default function SignInForm(props) {
       const encryptedPassword = CryptoJS.SHA256(
         value.email + value.password
       ).toString();
-      const tomorrow = new Date(new Date().getTime() + 24 * 3600 * 1000);
+      const tomorrow = new Date(new Date().getTime() + oneDayMillisecond);
       setEmailCookie(memory, value.email);
 
-    // we don't use packedPOST for it didn't check token
-    axios
-      .post(`${requestURL}/data/sign`, { email: value.email, password: encryptedPassword })
-      .then((res) => {
-        props.handle.closeLoading();
-        cookie.save("userID", res.data.uid, { expires: tomorrow });
-        cookie.save("token", res.data.token, { expires: tomorrow });
-        ReactDOM.render(
-          <Panel userID={res.data.uid} token={res.data.token} />,
-          document.getElementById("root")
-        );
-      })
-      .catch((err) => {
-        props.handle.closeLoading();
-        props.handle.toggleMessageBox(
-          `${props.lang.message.serverError}: ${err.response
-            ? err.response.data : err}`,
-          "error"
-        );
-      });
+      // we don't use packedPOST for it didn't check token
+      axios
+        .post(`${requestURL}/data/sign`, { email: value.email, password: encryptedPassword })
+        .then((res) => {
+          props.handle.closeLoading();
+          cookie.save("userID", res.data.uid, { expires: tomorrow });
+          cookie.save("token", res.data.token, { expires: tomorrow });
+          ReactDOM.render(
+            <Panel userID={res.data.uid} token={res.data.token} />,
+            document.getElementById("root")
+          );
+        })
+        .catch((err) => {
+          props.handle.closeLoading();
+          props.handle.toggleMessageBox(
+            `${props.lang.message.serverError}: ${err.response
+              ? err.response.data : err}`,
+            "error"
+          );
+        });
     }
   };
 

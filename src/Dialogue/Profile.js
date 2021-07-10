@@ -93,7 +93,7 @@ export default function Profile(props) {
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,
         lang: lang
-      }).then(console.log);
+      }).then(() => handle.close())
     } else handle.toggleMessageBox(errorMessage, "warning");
   }
 
