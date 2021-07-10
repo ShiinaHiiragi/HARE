@@ -82,9 +82,12 @@ const list = {
     changeAvatar: "Your avatar has been set successfully.",
     nonImage: "The file you selected is not image.",
     largeImage: "The file you selected is too large.",
-    unitNameError: "The name of the group should be between 0 ~ 16 characters.",
-    pageNameError: "The name of the booklet should be between 0 ~ 16 characters.",
-    pagePresentError: "The description of the booklet should be between 0 ~ 512 characters."
+    unitNameError: "The name of the group should be between 1 ~ 16 characters.",
+    pageNameError: "The name of the booklet should be between 1 ~ 16 characters.",
+    pagePresentError: "The description of the booklet should be no more than 512 characters.",
+    userNameError: "The username should be between 1 ~ 16 characters.",
+    telError: "The name of the phone should be no more than 16 characters.",
+    cityError: "The name of the city should be no more than 16 characters."
   },
   common: {
     back: "Back",

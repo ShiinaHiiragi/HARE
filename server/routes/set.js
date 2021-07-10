@@ -121,4 +121,13 @@ router.post('/avatar', (req, res) => {
   });
 });
 
+router.post('/profile', (req, res) => {
+  const { userID } = api.sqlNumber(req.body, ["userID"], res);
+  const { token } = api.sqlString(req.body, ["token"], res);
+  db.checkToken(userID, token, res)
+    .then(() => {
+      res.send(req.body);
+    });
+});
+
 module.exports = router;

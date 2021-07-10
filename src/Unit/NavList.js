@@ -35,10 +35,10 @@ export default function NavList(props) {
   const [value, setValue] = React.useState(defaultProfile);
   const initValue = () => setValue({ ...state.profile });
   const [check, setCheck] = React.useState({
-    userName: false, birth: false, city: false, tel: false
+    userName: false, city: false, tel: false
   });
   const clearCheck = () => {
-    setCheck({userName: false, birth: false, city: false, tel: false});
+    setCheck({userName: false, city: false, tel: false});
   }
 
   const [avatarURL, setAvatarURL] = React.useState(
@@ -124,6 +124,8 @@ export default function NavList(props) {
           setProfile: handle.setProfile,
           setValue: setValue,
           setCheck: setCheck,
+          toggleMessageBox: handle.toggleMessageBox,
+          toggleKick: handle.toggleKick,
           close: () => setEditProfile(false)
         }}
       />

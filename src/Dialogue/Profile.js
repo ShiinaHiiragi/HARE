@@ -12,6 +12,8 @@ import PersonIcon from "@material-ui/icons/Person";
 import MenuItem from "@material-ui/core/MenuItem";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { nameMaxLength } from "../Interface/Constant";
+import { packedPOST } from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +62,39 @@ export default function Profile(props) {
 
   const checkInput = () => {
     let errorMessage = "";
+    if (value.city.length > nameMaxLength) {
+      handle.setCheck((prev) => ({ ...prev, city: true }));
+      errorMessage = lang.message.cityError;
+    }
+    if (value.tel.length > nameMaxLength) {
+      handle.setCheck((prev) => ({ ...prev, tel: true }));
+      errorMessage = lang.message.telError;
+    }
+    if (value.userName.length === 0 || value.userName.length > nameMaxLength) {
+      handle.setCheck((prev) => ({ ...prev, userName: true }));
+      errorMessage = lang.message.userNameError;
+    }
+    return errorMessage;
+  }
+  const applyChange = () => {
+    const errorMessage = checkInput();
+    if (errorMessage === "") {
+      packedPOST({
+        uri: "/set/profile",
+        query: {
+          userID: data.userID,
+          token: data.token,
+          userName: value.userName,
+          birth: value.birth,
+          gender: value.gender,
+          tel: value.tel,
+          city: value.city
+        },
+        msgbox: handle.toggleMessageBox,
+        kick: handle.toggleKick,
+        lang: lang
+      }).then(console.log);
+    } else handle.toggleMessageBox(errorMessage, "warning");
   }
 
   return (
@@ -77,12 +112,14 @@ export default function Profile(props) {
             <PersonIcon className={classes.notLargeAvatar} />
           </Avatar>
           <TextField
+            required
             label={lang.popup.profile.userName}
             value={value.userName}
             inputProps={{
               spellCheck: "false",
               style: { textAlign: "center" }
             }}
+            error={check.userName}
             onChange={(event) => valueChange("userName", event.target.value)}
           />
         </div>
@@ -132,18 +169,20 @@ export default function Profile(props) {
             <TextField
               label={lang.popup.profile.tel}
               value={value.tel}
+              error={check.tel}
               onChange={(event) => valueChange("tel", event.target.value)}
             />
             <TextField
               label={lang.popup.profile.city}
               value={value.city}
+              error={check.city}
               onChange={(event) => valueChange("city", event.target.value)}
             />
           </div>
         </div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handle.close} color="secondary">
+        <Button onClick={applyChange} color="secondary">
           Apply
         </Button>
         <Button onClick={handle.close} color="primary">
