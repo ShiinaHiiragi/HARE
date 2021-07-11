@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    overflowY: "scroll"
+    overflowY: "auto"
   },
   basicInfo: {
     borderRadius: "0",
@@ -76,7 +76,7 @@ export default function Cover(props) {
     pageSize: 0, pageTrack: 0, pageCreateTime: "2019-12-31T16:00:00.000Z"
   });
   const iconProps = {
-    color: "disabled",
+    color: "action",
     className: classes.pageCover
   }
   const pageIcon = [
