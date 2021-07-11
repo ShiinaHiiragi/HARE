@@ -18,15 +18,21 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// get a number randomly in [sub, sup];
+const dice = (sub, sup) => {
+  return Math.round(Math.random() * (sup - sub) + sub)
+}
+
 export default function Intro(props) {
   const classes = useStyles();
   const { lang } = props;
+  const captions = lang.panel.intro;
 
   return (
     <div className={classes.root}>
       <img src={IntroGraph} className={classes.graph} />
       <Typography variant="body2" color="textSecondary" align="center">
-        I am cute. Please give me money.
+        {captions[dice(0, captions.length - 1)]}
       </Typography>
     </div>
   );

@@ -10,7 +10,25 @@ const list = {
     copyright: "Copyright"
   },
   panel: {
-    initUnit: "Add New Group"
+    initUnit: "Add New Group",
+    intro: [
+      "Welcome to HARE!",
+      "It's said that pressing '?' may toggle shortcut list.",
+      "Do not study anymore. Let's have fun!",
+      "Are you Friends who want to study?",
+      "Why do you log in? Do you have exams in the near future?",
+      "It's said that if you recite 514 entries in one go, the website will explode.",
+      "I'm cute, please give me money.",
+      "Are you awake? The operation was very successful.",
+      "console.log(\"Hello World!\");",
+      "';DROP TABLE *#",
+      "q → (p → q)",
+      "╠╠╠╠╠╠╠",
+      "This is an apple. I like apples. Apples are good for our health.",
+      "Today is a good day. What about tomorrow?",
+      "Hard life, cat sigh.",
+      "1, 2, ⑨!"
+    ]
   },
   popup: {
     language: "Change the Displaying Language",
