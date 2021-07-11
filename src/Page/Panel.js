@@ -73,8 +73,9 @@ export default function Panel(props) {
     if (selectedPage) {
       setCurrentSelect({
         unitID: selectedUnit.unitID,
-        pageID: selectedPage.pageID,
+        unitName: selectedUnit.unitName,
         route: selectedPage.route,
+        pageID: selectedPage.pageID,
         pageName: selectedPage.pageName,
         pagePresent: selectedPage.pagePresent
       });

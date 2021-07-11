@@ -18,7 +18,7 @@ const list = {
       "Are you Friends who want to study?",
       "Why do you log in? Do you have exams in the near future?",
       "It's said that if you recite 514 entries in one go, the website will explode.",
-      "I'm cute, please give me money.",
+      "I'm cute. Please give me money.",
       "Are you awake? The operation was very successful.",
       "console.log(\"Hello World!\");",
       "';DROP TABLE *#",
