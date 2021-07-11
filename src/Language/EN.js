@@ -28,7 +28,14 @@ const list = {
       "Today is a good day. What about tomorrow?",
       "Hard life, cat sigh.",
       "1, 2, ⑨!"
-    ]
+    ],
+    cover: {
+      createTime: "Created at {0}",
+      details: "Details",
+      recall: "Recall",
+      view: "View Items",
+      stat: "Statistics"
+    }
   },
   popup: {
     language: "Change the Displaying Language",

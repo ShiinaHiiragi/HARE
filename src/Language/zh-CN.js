@@ -28,7 +28,14 @@ const list = {
       "今天也是好天气。——那明天呢？",
       "生活不易，猫猫叹气。",
       "1，2，⑨！"
-    ]
+    ],
+    cover: {
+      createTime: "创建于 {0}",
+      details: "详情",
+      recall: "回忆",
+      view: "查看词条",
+      stat: "统计信息"
+    }
   },
   popup: {
     language: "更换显示语言",
