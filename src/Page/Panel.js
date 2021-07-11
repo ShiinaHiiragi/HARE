@@ -64,7 +64,6 @@ export default function Panel(props) {
   }, []);
 
   // the sharing state of selected page
-  const [route, setRoute] = React.useState(0);
   const [currentSelect, setCurrentSelect] = React.useState({
     unitID: 0, pageID: 0, route: 0, pageName: "HARE", pagePresent: ""
   });
@@ -72,7 +71,6 @@ export default function Panel(props) {
     let selectedUnit = listObject.find((item) => item.selected), selectedPage;
     if (selectedUnit) selectedPage = selectedUnit.pages.find((item) => item.selected);
     if (selectedPage) {
-      setRoute(1);
       setCurrentSelect({
         unitID: selectedUnit.unitID,
         pageID: selectedPage.pageID,
@@ -114,7 +112,6 @@ export default function Panel(props) {
     <Root>
       <CssBaseline />
       <NavBar
-        lang={globalLang}
         state={{
           navList: navList,
           currentSelect: currentSelect

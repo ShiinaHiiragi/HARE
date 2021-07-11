@@ -4,6 +4,7 @@ import Header from "../Interface/Header";
 import { drawerWidth } from "../Interface/Constant";
 import MainPage from "../Interface/MainPage";
 import Intro from "../Component/Intro";
+import Cover from "../Component/Cover"
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +50,7 @@ export default function Main(props) {
         <Intro lang={lang} />
       </MainPage>
       <MainPage index={1} route={current.route}>
-        1 - Cover
+        <Cover lang={lang} current={current}/>
       </MainPage>
       <MainPage index={2} route={current.route}>
         2 - Listing

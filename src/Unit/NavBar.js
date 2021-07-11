@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar(props) {
   const classes = useStyles();
-  const { lang, state, handle } = props;
+  const { state, handle } = props;
 
   const AppBarContent = (
     <Toolbar>

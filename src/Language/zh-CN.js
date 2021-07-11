@@ -99,7 +99,7 @@ const list = {
     signInBlank: "请填写邮箱和密码",
     changeAvatar: "头像已成功上传",
     nonImage: "上传的文件不是图片",
-    nonImage: "上传的文件过大",
+    largeImage: "上传的文件过大",
     unitNameError: "记忆组名长度应为 1 ~ 16 字符",
     pageNameError: "记忆册名长度应为 1 ~ 16 字符",
     pagePresentError: "记忆册描述长度不能超过 512 个字符",

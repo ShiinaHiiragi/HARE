@@ -30,7 +30,7 @@ export default function Intro(props) {
 
   return (
     <div className={classes.root}>
-      <img src={IntroGraph} className={classes.graph} />
+      <img src={IntroGraph} alt="" className={classes.graph} />
       <Typography variant="body2" color="textSecondary" align="center">
         {captions[dice(0, captions.length - 1)]}
       </Typography>
