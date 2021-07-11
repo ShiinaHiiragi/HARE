@@ -41,6 +41,20 @@ router.get('/unit', (req, res) => {
   });
 });
 
+router.get('/page', (req, res) => {
+  const { userID, unitID, pageID } = api.sqlNumber(
+    req.query,
+    ["userID", "unitID", "pageID"],
+    res
+  );
+  const { token } = api.sqlString(req.query, ["token"], res);
+  db.checkToken(userID, token, res).then(() => {
+    db.getPageDetail(userID, unitID, pageID)
+      .then(out => res.send(out[0]))
+      .catch(() => api.internalServerError(res));
+  });
+});
+
 router.get('/profile', (req, res) => {
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
   const { token } = api.sqlString(req.query, ["token"], res);

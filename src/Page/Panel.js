@@ -46,7 +46,8 @@ export default function Panel(props) {
   // the sharing state of profile
   const [profile, setProfile] = React.useState({
     userName: "", email: "",
-    gender: "U", birth: "2019-12-31T16:00:00.000Z", city: "", tel: ""
+    gender: "U", birth: "2019-12-31T16:00:00.000Z",
+    city: "", tel: ""
   });
   React.useEffect(() => {
     packedGET({
@@ -65,7 +66,7 @@ export default function Panel(props) {
 
   // the sharing state of selected page
   const [currentSelect, setCurrentSelect] = React.useState({
-    pageName: "HARE", route: 0,
+    pageName: "HARE", pagePresent: "", route: 0
   });
   React.useEffect(() => {
     let selectedUnit = listObject.find((item) => item.selected), selectedPage;
@@ -150,9 +151,17 @@ export default function Panel(props) {
       />
       <Main
         lang={globalLang}
+        data={{
+          userID: userID,
+          token: token
+        }}
         current={currentSelect}
         state={{
           navList: navList
+        }}
+        handle={{
+          toggleMessageBox: toggleMessageBox,
+          toggleKick: () => setKick(true)
         }}
       />
       <MessageBox

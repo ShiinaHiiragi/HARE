@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Main(props) {
   const classes = useStyles();
-  const { lang, current, state } = props;
+  const { lang, data, current, state, handle } = props;
 
   return (
     <main
@@ -46,7 +46,17 @@ export default function Main(props) {
         <Intro lang={lang} />
       </MainPage>
       <MainPage index={1} route={current.route}>
-        <Cover lang={lang} current={current}/>
+        <Cover
+          lang={lang} current={current}
+          data={{
+            userID: data.userID,
+            token: data.token
+          }}
+          handle={{
+            toggleMessageBox: handle.toggleMessageBox,
+            toggleKick: handle.toggleKick
+          }}
+        />
       </MainPage>
       <MainPage index={2} route={current.route}>
         2 - Listing

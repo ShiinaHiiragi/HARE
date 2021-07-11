@@ -232,3 +232,10 @@ exports.editUnit = (userID, unitID, unitName) => new Promise((resolve, reject) =
     where userID = ${userID} and unitID = ${unitID}`)
     .then(resolve).catch(reject);
 });
+
+// db api for cover page detail
+exports.getPageDetail = (userID, unitID, pageID) => new Promise((resolve, reject) => {
+  query(`select itemSize, trackSize, pageCreateTime from page
+    where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+    .then(resolve).catch(reject);
+});

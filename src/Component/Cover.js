@@ -11,6 +11,7 @@ import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ViewCompactOutlinedIcon from "@material-ui/icons/ViewCompactOutlined";
 import DataUsageOutlinedIcon from "@material-ui/icons/DataUsageOutlined";
 import { timeFormat, stringFormat } from "../Interface/Constant";
+import packedGET from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -71,9 +72,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Cover(props) {
   const classes = useStyles();
-  const { lang, current } = props;
+  const { lang, current, data, handle } = props;
   const [pageDetail, setPageDetail] = React.useState({
-    pageSize: 0, pageTrack: 0, pageCreateTime: "2019-12-31T16:00:00.000Z"
+    itemSize: 0, trackSize: 0, pageCreateTime: "2019-12-31T16:00:00.000Z"
   });
   const iconProps = {
     color: "action",
@@ -89,13 +90,27 @@ export default function Cover(props) {
 
   React.useEffect(() => {
     if (current.route === 1) {
-      setPageDetail({
-        pageSize: 120,
-        pageTrack: 1,
-        pageCreateTime: "2026-02-15T16:00:00.000Z"
+      packedGET({
+        uri: "/data/page",
+        query: {
+          userID: data.userID,
+          token: data.token,
+          unitID: current.unitID,
+          pageID: current.pageID
+        },
+        msgbox: handle.toggleMessageBox,
+        kick: handle.toggleKick,
+        lang: lang
       })
+        .then((out) => {
+          setPageDetail({
+            itemSize: out.itemsize,
+            trackSize: out.tracksize,
+            pageCreateTime: out.pagecreatetime
+          })
+        });
     }
-  }, [current.route]);
+  }, [current]);
 
   return (
     <div className={classes.root}>
@@ -110,15 +125,16 @@ export default function Cover(props) {
           <Typography variant="subtitle2" color="textSecondary">
             {current.unitName}
             &emsp;
-            {`${pageDetail.pageSize} / ${pageDetail.pageTrack}`}
+            {`${pageDetail.itemSize} / ${pageDetail.trackSize}`}
             &emsp;
             {stringFormat(
               lang.panel.cover.createTime,
-              [timeFormat(new Date(pageDetail.pageCreateTime), "yyyy-MM-dd")]
+              [timeFormat(new Date(pageDetail.pageCreateTime), "yyyy-MM-dd hh:mm:ss")]
             )}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illo veniam, provident harum doloremque debitis dolorem animi ipsa quam incidunt molestias porro nisi, omnis error obcaecati eaque nihil eligendi consequatur sint. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat optio omnis est. Consequuntur dicta rerum qui ea iure ducimus possimus sed velit. Adipisci aut quas voluptatibus debitis deleniti hic labore! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius dolor iste odio reic.
+            {current.pagePresent.length ? current.pagePresent : "(No Description)"}
+            {/* Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illo veniam, provident harum doloremque debitis dolorem animi ipsa quam incidunt molestias porro nisi, omnis error obcaecati eaque nihil eligendi consequatur sint. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat optio omnis est. Consequuntur dicta rerum qui ea iure ducimus possimus sed velit. Adipisci aut quas voluptatibus debitis deleniti hic labore! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius dolor iste odio reic. */}
           </Typography>
         </div>
       </Card>

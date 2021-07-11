@@ -89,7 +89,9 @@ export default function NewUnitPage(props) {
           let tempPageObject = text.listObject[type[0] - 1]
             .pages.map((item) => item.pageID >= type[1]
             ? { ...item, pageID: item.pageID + 1 } : item);
-          tempPageObject.splice(type[1] - 1, 0,               {
+          tempPageObject.splice(type[1] - 1, 0, {
+            seleted: false,
+            route: 1,
             pageID: type[1],
             pageName: text.pageNameValue,
             pageCover: 0,
