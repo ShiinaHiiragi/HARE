@@ -34,7 +34,8 @@ const list = {
       details: "Details",
       recall: "Recall",
       view: "View Items",
-      stat: "Statistics"
+      stat: "Statistics",
+      nilPresent: "No Description"
     }
   },
   popup: {

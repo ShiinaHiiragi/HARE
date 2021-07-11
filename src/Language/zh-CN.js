@@ -34,7 +34,8 @@ const list = {
       details: "详情",
       recall: "回忆",
       view: "查看词条",
-      stat: "统计信息"
+      stat: "统计信息",
+      nilPresent: "没有描述"
     }
   },
   popup: {

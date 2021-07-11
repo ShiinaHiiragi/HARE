@@ -11,6 +11,7 @@ import Load from "../Dialogue/Load";
 import Kick from "../Dialogue/Kick";
 import packedGET from "../Interface/Request";
 import { oneDayMillisecond } from "../Interface/Constant";
+import { defaultProfile } from "../Interface/Constant";
 
 export default function Panel(props) {
   const { userID, token } = props;
@@ -44,11 +45,7 @@ export default function Panel(props) {
   }, []);
 
   // the sharing state of profile
-  const [profile, setProfile] = React.useState({
-    userName: "", email: "",
-    gender: "U", birth: "2019-12-31T16:00:00.000Z",
-    city: "", tel: ""
-  });
+  const [profile, setProfile] = React.useState(defaultProfile);
   React.useEffect(() => {
     packedGET({
       uri: "/data/profile",

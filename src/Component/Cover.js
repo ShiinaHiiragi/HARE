@@ -133,8 +133,7 @@ export default function Cover(props) {
             )}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {current.pagePresent.length ? current.pagePresent : "(No Description)"}
-            {/* Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illo veniam, provident harum doloremque debitis dolorem animi ipsa quam incidunt molestias porro nisi, omnis error obcaecati eaque nihil eligendi consequatur sint. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat optio omnis est. Consequuntur dicta rerum qui ea iure ducimus possimus sed velit. Adipisci aut quas voluptatibus debitis deleniti hic labore! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius dolor iste odio reic. */}
+            {current.pagePresent.length ? current.pagePresent : lang.panel.cover.nilPresent}
           </Typography>
         </div>
       </Card>
