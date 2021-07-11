@@ -75,6 +75,7 @@ export default function NavList(props) {
         token={data.token}
         listObject={state.listObject}
         setListObject={handle.setListObject}
+        route={state.route}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
           toggleLoading: handle.toggleLoading,

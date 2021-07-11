@@ -146,6 +146,7 @@ exports.getUnitPage = (userID) => new Promise((resolve, reject) => {
           .then((out) => {
             item.pages = out.map((subItem) => ({
               selected: false,
+              route: 1,
               pageID: subItem.pageid,
               pageName: subItem.pagename,
               pageCover: subItem.pagecover,
