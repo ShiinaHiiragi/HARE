@@ -65,7 +65,7 @@ export default function Panel(props) {
 
   // the sharing state of selected page
   const [currentSelect, setCurrentSelect] = React.useState({
-    unitID: 0, pageID: 0, route: 0, pageName: "HARE", pagePresent: ""
+    pageName: "HARE", route: 0,
   });
   React.useEffect(() => {
     let selectedUnit = listObject.find((item) => item.selected), selectedPage;
@@ -74,10 +74,11 @@ export default function Panel(props) {
       setCurrentSelect({
         unitID: selectedUnit.unitID,
         unitName: selectedUnit.unitName,
-        route: selectedPage.route,
         pageID: selectedPage.pageID,
         pageName: selectedPage.pageName,
-        pagePresent: selectedPage.pagePresent
+        pageCover: selectedPage.pageCover,
+        pagePresent: selectedPage.pagePresent,
+        route: selectedPage.route
       });
     }
   }, [listObject]);
