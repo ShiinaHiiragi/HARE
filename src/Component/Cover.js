@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4),
     display: "flex",
     flexDirection: "row",
+    overflow: "visible"
   },
   imageInfo: {
     display: "flex",
@@ -72,40 +73,7 @@ export default function Cover(props) {
         </div>
       </Card>
       <Card className={classes.basicInfo}>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
-        啦啦啦啦啦啦啦啦啦啦<br/>
+        啦啦啦啦啦啦啦啦啦啦
       </Card>
     </div>
   );

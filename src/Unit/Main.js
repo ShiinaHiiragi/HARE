@@ -28,10 +28,6 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0
   },
-  intro: {
-    justifyContent: "center",
-    backgroundColor: "red",
-  }
 }));
 
 export default function Main(props) {
@@ -46,7 +42,7 @@ export default function Main(props) {
       )}
     >
       <Header />
-      <MainPage index={0} route={current.route} className={classes.intro}>
+      <MainPage index={0} route={current.route}>
         <Intro lang={lang} />
       </MainPage>
       <MainPage index={1} route={current.route}>
