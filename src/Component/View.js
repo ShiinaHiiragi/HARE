@@ -2,7 +2,7 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
-import { DataGrid } from "@material-ui/data-grid";
+import { XGrid } from "@material-ui/x-grid";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -41,25 +41,25 @@ export default function View(props) {
     {
       field: "id",
       headerName: "Entry ID",
-      flex: 1,
+      width: 140,
       editable: true
     },
     {
       field: "query",
       headerName: "Question",
-      flex: 2,
+      width: 200,
       editable: true
     },
     {
       field: "key",
       headerName: "Answer",
-      width: 700,
+      width: 200,
       editable: true
     },
     {
       field: "time",
       headerName: "Time Created",
-      flex: 1,
+      width: 200,
       editable: true
     }
   ];
@@ -78,11 +78,10 @@ export default function View(props) {
         </Button>
       </div>
       <Card className={classes.cardField}>
-        <DataGrid
+        <XGrid
           className={classes.dataGrid}
           rows={data.itemList}
           columns={column}
-          // pageSize={100}
           checkboxSelection
           disableSelectionOnClick
         />
