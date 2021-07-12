@@ -22,26 +22,22 @@ const defaultColumn = (langGrid) => [
   {
     field: "id",
     headerName: langGrid.column.itemID,
-    width: 160,
-    editable: false
+    width: 160
   },
   {
     field: "query",
     headerName: langGrid.column.query,
-    width: 200,
-    editable: false
+    width: 200
   },
   {
     field: "key",
     headerName: langGrid.column.key,
-    width: 200,
-    editable: false
+    width: 200
   },
   {
     field: "time",
     headerName: langGrid.column.time,
-    width: 200,
-    editable: false
+    width: 200
   }
 ];
 

@@ -3,7 +3,7 @@ import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import { defaultColumn } from "../Interface/Constant";
-import { XGrid } from "@material-ui/x-grid";
+import { XGrid, GridToolbar } from "@material-ui/x-grid";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +50,7 @@ export default function View(props) {
             editable: false
           }))
       ))
-    }
+    } else setColumn(defaultColumn(lang.grid));
   }, [lang, data.itemList]);
 
   return (
@@ -71,6 +71,10 @@ export default function View(props) {
           className={classes.dataGrid}
           rows={data.itemList}
           columns={column}
+          disableColumnMenu
+          components={{
+            Toolbar: GridToolbar,
+          }}
         />
       </Card>
     </div>
