@@ -10,7 +10,7 @@ import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
 import requestURL from "../Interface/Constant";
-import { oneDayMillisecond } from "../Interface/Constant";
+import { cookieTime } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -39,19 +39,15 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
 
-  // detect if the language information is stored
-  let storageLang = cookie.load("lang");
-  const tenYears = new Date(new Date().getTime() + 10 * 365 * oneDayMillisecond);
-  if (storageLang === undefined) {
-    cookie.save("lang", "en", { expires: tenYears });
-    storageLang = "en";
-  }
-  const [globalLang, setGlobalLang] = React.useState(
-    languagePicker(storageLang)
-  );
+  // the state of language
+  const [globalLang, setGlobalLang] = React.useState(languagePicker("en"));
+  React.useEffect(() => {
+    let storageLang = cookie.load("lang");
+    changeGlobalLang(storageLang || "en");
+  }, []);
   const changeGlobalLang = (targetValue) => {
     if (targetValue) setGlobalLang(languagePicker(targetValue));
-    cookie.save("lang", targetValue, { expires: tenYears });
+    cookie.save("lang", targetValue, { expires: cookieTime(3650) });
   };
 
   // the setting of snackbar

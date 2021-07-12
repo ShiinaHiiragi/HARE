@@ -1,12 +1,11 @@
 import axios from "axios";
 import requestURL from "./Constant";
 import cookie from "react-cookies";
-import { oneDayMillisecond } from "./Constant";
+import { cookieTime } from "./Constant";
 
 const extendCookie = () => {
-  const tomorrow = new Date(new Date().getTime() + oneDayMillisecond);
-  cookie.save("userID", cookie.load("userID"), { expires: tomorrow });
-  cookie.save("token", cookie.load("token"), { expires: tomorrow });
+  cookie.save("userID", cookie.load("userID"), { expires: cookieTime(1) });
+  cookie.save("token", cookie.load("token"), { expires: cookieTime(1) });
 }
 
 const packedGET = (params) => {

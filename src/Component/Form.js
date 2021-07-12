@@ -13,7 +13,7 @@ import SignUp from "../Dialogue/SignUp";
 import LanguageSelector from "../Dialogue/LanguageSelector";
 import Panel from "../Page/Panel";
 import requestURL from "../Interface/Constant";
-import { oneDayMillisecond } from "../Interface/Constant";
+import { cookieTime } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -29,9 +29,7 @@ const useStyles = makeStyles((theme) => ({
 let emailCookie = cookie.load("email");
 const setEmailCookie = (boxChecked, email) => {
   if (boxChecked)
-    cookie.save("email", email, {
-      expires: new Date(new Date().getTime() + 10 * 365 * oneDayMillisecond)
-    });
+    cookie.save("email", email, { expires: cookieTime(3650) });
   else cookie.remove("email");
 };
 
@@ -107,7 +105,6 @@ export default function SignInForm(props) {
       const encryptedPassword = CryptoJS.SHA256(
         value.email + value.password
       ).toString();
-      const tomorrow = new Date(new Date().getTime() + oneDayMillisecond);
       setEmailCookie(memory, value.email);
 
       // we don't use packedPOST for it didn't check token
@@ -115,8 +112,8 @@ export default function SignInForm(props) {
         .post(`${requestURL}/data/sign`, { email: value.email, password: encryptedPassword })
         .then((res) => {
           props.handle.closeLoading();
-          cookie.save("userID", res.data.uid, { expires: tomorrow });
-          cookie.save("token", res.data.token, { expires: tomorrow });
+          cookie.save("userID", res.data.uid, { expires: cookieTime(1) });
+          cookie.save("token", res.data.token, { expires: cookieTime(1) });
           ReactDOM.render(
             <Panel userID={res.data.uid} token={res.data.token} />,
             document.getElementById("root")

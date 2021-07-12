@@ -45,6 +45,9 @@ const nil = () => {};
 const next = () => new Promise((resolve) => resolve);
 const randomTimestamp = () => CryptoJS.MD5(new Date().toString()).toString();
 
+const cookieTime = (daysCount) =>
+  new Date(new Date().getTime() + daysCount * oneDayMillisecond);
+
 const stringFormat = (rawString, replaceArray) => {
   for (let i = 0; i < replaceArray.length; i += 1) {
     let reg = new RegExp(`\\{${i}\\}`, "gm");
@@ -91,11 +94,11 @@ export {
   presentMaxLength,
   imageMaxBase,
   initMenu,
-  oneDayMillisecond,
   defaultProfile,
   defaultColumn,
   nil,
   next,
+  cookieTime,
   randomTimestamp,
   stringFormat,
   timeFormat
