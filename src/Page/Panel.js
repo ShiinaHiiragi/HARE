@@ -78,6 +78,10 @@ export default function Panel(props) {
         pagePresent: selectedPage.pagePresent,
         route: selectedPage.route
       });
+    } else {
+      setCurrentSelect ({
+        pageName: "HARE", pagePresent: "", route: 0
+      })
     }
   }, [listObject]);
 
