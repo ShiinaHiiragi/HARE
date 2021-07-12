@@ -65,7 +65,7 @@ router.get('/item', (req, res) => {
   db.checkToken(userID, token, res).then(() => {
     db.getItem(userID, unitID, pageID)
       .then(out => res.send(out.map((each) => ({
-        itemID: each.itemid,
+        id: each.itemid,
         query: each.itemquery,
         key: each.itemkey,
         time: each.itemcreatetime,

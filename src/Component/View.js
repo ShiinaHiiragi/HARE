@@ -1,7 +1,8 @@
 import React from "react";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
-import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
+import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
+import { DataGrid } from "@material-ui/data-grid";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -25,11 +26,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column"
   },
-  grid: {
-    flexGrow: 1,
-    marginTop: theme.spacing(1),
-  },
   button: {
+    borderRadius: 0
+  },
+  dataGrid: {
     borderRadius: 0
   }
 }));
@@ -37,6 +37,32 @@ const useStyles = makeStyles((theme) => ({
 export default function View(props) {
   const classes = useStyles();
   const { lang, current, data, handle } = props;
+  const column = [
+    {
+      field: "id",
+      headerName: "Entry ID",
+      flex: 1,
+      editable: true
+    },
+    {
+      field: "query",
+      headerName: "Question",
+      flex: 2,
+      editable: true
+    },
+    {
+      field: "key",
+      headerName: "Answer",
+      width: 700,
+      editable: true
+    },
+    {
+      field: "time",
+      headerName: "Time Created",
+      flex: 1,
+      editable: true
+    }
+  ];
 
   return (
     <div className={classes.root}>
@@ -52,7 +78,14 @@ export default function View(props) {
         </Button>
       </div>
       <Card className={classes.cardField}>
-        {JSON.stringify(data.itemList)}
+        <DataGrid
+          className={classes.dataGrid}
+          rows={data.itemList}
+          columns={column}
+          // pageSize={100}
+          checkboxSelection
+          disableSelectionOnClick
+        />
       </Card>
     </div>
   );
