@@ -4,7 +4,8 @@ import Header from "../Interface/Header";
 import { drawerWidth } from "../Interface/Constant";
 import MainPage from "../Interface/MainPage";
 import Intro from "../Component/Intro";
-import Cover from "../Component/Cover"
+import Cover from "../Component/Cover";
+import View from "../Component/View";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -54,12 +55,24 @@ export default function Main(props) {
           }}
           handle={{
             toggleMessageBox: handle.toggleMessageBox,
-            toggleKick: handle.toggleKick
+            toggleKick: handle.toggleKick,
+            setCurrentRoute: handle.setCurrentRoute
           }}
         />
       </MainPage>
       <MainPage index={2} route={current.route}>
-        2 - Listing
+        <View
+          lang={lang} current={current}
+          data={{
+            userID: data.userID,
+            token: data.token
+          }}
+          handle={{
+            toggleMessageBox: handle.toggleMessageBox,
+            toggleKick: handle.toggleKick,
+            setCurrentRoute: handle.setCurrentRoute
+          }}
+        />
       </MainPage>
       <MainPage index={3} route={current.route}>
         3 - Statistics

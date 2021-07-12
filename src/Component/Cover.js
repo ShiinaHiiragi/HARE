@@ -151,7 +151,7 @@ export default function Cover(props) {
             </Typography>
           </div>
           <div className={classes.button}>
-            <IconButton>
+            <IconButton onClick={() => handle.setCurrentRoute(2)}>
               <ViewCompactOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">

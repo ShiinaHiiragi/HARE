@@ -65,6 +65,10 @@ export default function Panel(props) {
   const [currentSelect, setCurrentSelect] = React.useState({
     pageName: "HARE", pagePresent: "", route: 0
   });
+  const setCurrentRoute = (target) =>
+    setCurrentSelect((currentSelect) => ({
+      ...currentSelect, route: target
+    }));
   React.useEffect(() => {
     let selectedUnit = listObject.find((item) => item.selected), selectedPage;
     if (selectedUnit) selectedPage = selectedUnit.pages.find((item) => item.selected);
@@ -162,7 +166,8 @@ export default function Panel(props) {
         }}
         handle={{
           toggleMessageBox: toggleMessageBox,
-          toggleKick: () => setKick(true)
+          toggleKick: () => setKick(true),
+          setCurrentRoute: setCurrentRoute
         }}
       />
       <MessageBox
