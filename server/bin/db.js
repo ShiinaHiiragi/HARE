@@ -42,6 +42,17 @@ exports.exec = (cmdLine) => new Promise((resolve, reject) => {
       .catch(reject);
   } else if (cmdLine[0] === 'view') {
     viewTable(cmdLine, resolve, reject);
+  } else if (cmdLine[0] === 'sql') {
+    cmdLine.shift();
+    query(cmdLine.join(' '))
+      .then((out) => { console.log(out); resolve(); })
+      .catch(reject);
+  } else if (cmdLine[0] === 'eval') {
+    cmdLine.shift();
+    try {
+      eval(cmdLine.join(' '));
+      resolve();
+    } catch (err) { reject(err); }
   } else reject('ERROR: cannot parse the command.');
 });
 
@@ -239,3 +250,31 @@ exports.getPageDetail = (userID, unitID, pageID) => new Promise((resolve, reject
     where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
     .then(resolve).catch(reject);
 });
+
+// db api for page view request
+exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
+  new Promise((resolve, reject) => {
+    query(`begin; update item set itemID = -itemID - 1
+      where userID = ${userID} and unitID = ${unitID}
+      and pageID = ${pageID} and itemID >= ${itemID};
+      update item set itemID = -itemID
+      where userID = ${userID} and unitID = ${unitID}
+      and pageID = ${pageID} and itemID < 0;
+      update page set itemSize = itemSize + 1
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID};
+      insert into item(userID, unitID, pageID, itemID,
+        itemQuery, itemKey, itemCreateTime)
+      values(${userID}, ${unitID}, ${pageID}, ${itemID},
+        '${itemQuery}', '${itemKey}', now());
+      commit;`).then(resolve).catch(reject);
+  });
+
+exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
+  query(`select itemID, itemQuery, itemKey, itemCreateTime, itemRecord
+    from item where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+    .then(resolve).catch(reject);
+});
+
+// update item set itemRecord = array['P', 'N', 'N', 'P']
+// update item set itemRecord = array_append(itemRecord, 'U')
+// select * from item where cast(array['N'] as char[]) <@ itemRecord
