@@ -6,6 +6,7 @@ import MainPage from "../Interface/MainPage";
 import Intro from "../Component/Intro";
 import Cover from "../Component/Cover";
 import View from "../Component/View";
+import packedGET from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +35,22 @@ const useStyles = makeStyles((theme) => ({
 export default function Main(props) {
   const classes = useStyles();
   const { lang, data, current, state, handle } = props;
+  const [itemList, setItemList] = React.useState([]);
+
+  React.useEffect(() => {
+    packedGET({
+      uri: "/data/item",
+      query: {
+        userID: data.userID,
+        token: data.token,
+        unitID: current.unitID,
+        pageID: current.pageID
+      },
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
+      lang: lang
+    }).then((out) => setItemList(out));
+  }, [current.unitID, current.pageID]);
 
   return (
     <main
@@ -65,7 +82,8 @@ export default function Main(props) {
           lang={lang} current={current}
           data={{
             userID: data.userID,
-            token: data.token
+            token: data.token,
+            itemList: itemList
           }}
           handle={{
             toggleMessageBox: handle.toggleMessageBox,

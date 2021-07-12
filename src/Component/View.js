@@ -11,19 +11,19 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
-  cardField: {
-    flexGrow: 1,
-    borderRadius: "0",
-    margin: theme.spacing(2, 2, 2, 2),
-    padding: theme.spacing(2, 4),
-    display: "flex",
-    flexDirection: "column"
-  },
-  buttonPanel: {
+  buttonField: {
+    margin: theme.spacing(2, 2, 1, 2),
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: theme.spacing(1),
+  },
+  cardField: {
+    flexGrow: 1,
+    borderRadius: "0",
+    margin: theme.spacing(1, 2, 2, 2),
+    padding: theme.spacing(2, 4),
+    display: "flex",
+    flexDirection: "column"
   },
   grid: {
     flexGrow: 1,
@@ -38,29 +38,21 @@ export default function View(props) {
   const classes = useStyles();
   const { lang, current, data, handle } = props;
 
-  React.useEffect(() => {
-    if (current.route === 2) {
-      // fetch item info
-    }
-  }, [current]);
-
   return (
     <div className={classes.root}>
+      <div className={classes.buttonField}>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<ArrowBackOutlinedIcon />}
+          className={classes.button}
+          onClick={() => handle.setCurrentRoute(1)}
+        >
+          {lang.common.back}
+        </Button>
+      </div>
       <Card className={classes.cardField}>
-        <div className={classes.buttonPanel}>
-          <Button
-            variant="outlined"
-            color="primary"
-            startIcon={<ArrowBackOutlinedIcon />}
-            className={classes.button}
-            onClick={() => handle.setCurrentRoute(1)}
-          >
-            {lang.common.back}
-          </Button>
-        </div>
-        <div className={classes.grid}>
-          HAHAHA
-        </div>
+        {JSON.stringify(data.itemList)}
       </Card>
     </div>
   );
