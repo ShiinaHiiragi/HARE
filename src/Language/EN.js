@@ -116,6 +116,37 @@ const list = {
     telError: "The name of the phone should be no more than 16 characters.",
     cityError: "The name of the city should be no more than 16 characters."
   },
+  grid: {
+    column: {
+      itemID: "Entry ID",
+      query: "Question",
+      key: "Answer",
+      time: "Time Created",
+    },
+    ordinal: [
+      "First",         "Second",         "Third",
+      "Fourth",        "Fifth",          "Sixth",
+      "Seventh",       "Eighth",         "Ninth",
+      "Tenth",         "Eleventh",       "Twelfth",
+      "Thirteenth",    "Fourteenth",     "Fifteenth",
+      "Sixteenth",     "Seventeenth",    "Eighteenth",
+      "Nineteenth",    "Twenty-first",   "Twenty-second",
+      "Twenty-third",  "Twenty-fourth",  "Twenty-fifth",
+      "Twenty-sixth",  "Twenty-seventh", "Twenty-eighth",
+      "Twenty-ninth",  "Thirtieth",      "Thirty-first",
+      "Thirty-second", "Thirty-third",   "Thirty-fourth",
+      "Thirty-fifth",  "Thirty-sixth",   "Thirty-seventh",
+      "Thirty-eighth", "Thirty-ninth",   "Fortieth",
+      "Forty-first",   "Forty-second",   "Forty-third",
+      "Forty-fourth",  "Forty-fifth",    "Forty-sixth",
+      "Forty-seventh", "Forty-eighth",   "Forty-ninth",
+      "Fiftieth",      "Fifty-first",    "Fifty-second",
+      "Fifty-third",   "Fifty-fourth",   "Fifty-fifth",
+      "Fifty-sixth",   "Fifty-seventh",  "Fifty-eighth",
+      "Fifty-ninth",   "Sixtieth",       "Sixty-first",
+      "Sixty-second",  "Sixty-third",    "Sixty-fourth"
+    ]
+  },
   common: {
     back: "Back",
     ok: "OK",

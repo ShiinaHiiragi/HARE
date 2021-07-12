@@ -2,6 +2,7 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
+import { defaultColumn } from "../Interface/Constant";
 import { XGrid } from "@material-ui/x-grid";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -22,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     borderRadius: "0",
     margin: theme.spacing(1, 2, 2, 2),
-    padding: theme.spacing(2, 4),
     display: "flex",
     flexDirection: "column"
   },
@@ -37,32 +37,21 @@ const useStyles = makeStyles((theme) => ({
 export default function View(props) {
   const classes = useStyles();
   const { lang, current, data, handle } = props;
-  const column = [
-    {
-      field: "id",
-      headerName: "Entry ID",
-      width: 140,
-      editable: true
-    },
-    {
-      field: "query",
-      headerName: "Question",
-      width: 200,
-      editable: true
-    },
-    {
-      field: "key",
-      headerName: "Answer",
-      width: 200,
-      editable: true
-    },
-    {
-      field: "time",
-      headerName: "Time Created",
-      width: 200,
-      editable: true
+  const [column, setColumn] = React.useState(defaultColumn(lang.grid));
+
+  React.useEffect(() => {
+    if (data.itemList.length) {
+      setColumn(defaultColumn(lang.grid).concat(
+        new Array(Object.keys(data.itemList[0]).length - 4)
+          .fill().map((_, index) => ({
+            field: `${index + 1}`,
+            headerName: lang.grid.ordinal[index],
+            width: 120,
+            editable: false
+          }))
+      ))
     }
-  ];
+  }, [lang, data.itemList]);
 
   return (
     <div className={classes.root}>
@@ -82,8 +71,6 @@ export default function View(props) {
           className={classes.dataGrid}
           rows={data.itemList}
           columns={column}
-          checkboxSelection
-          disableSelectionOnClick
         />
       </Card>
     </div>

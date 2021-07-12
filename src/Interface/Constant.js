@@ -18,6 +18,33 @@ const defaultProfile = {
   tel: ""
 }
 
+const defaultColumn = (langGrid) => [
+  {
+    field: "id",
+    headerName: langGrid.column.itemID,
+    width: 160,
+    editable: false
+  },
+  {
+    field: "query",
+    headerName: langGrid.column.query,
+    width: 200,
+    editable: false
+  },
+  {
+    field: "key",
+    headerName: langGrid.column.key,
+    width: 200,
+    editable: false
+  },
+  {
+    field: "time",
+    headerName: langGrid.column.time,
+    width: 200,
+    editable: false
+  }
+];
+
 const nil = () => {};
 const next = () => new Promise((resolve) => resolve);
 const randomTimestamp = () => CryptoJS.MD5(new Date().toString()).toString();
@@ -70,6 +97,7 @@ export {
   initMenu,
   oneDayMillisecond,
   defaultProfile,
+  defaultColumn,
   nil,
   next,
   randomTimestamp,

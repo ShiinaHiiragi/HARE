@@ -64,14 +64,20 @@ router.get('/item', (req, res) => {
   const { token } = api.sqlString(req.query, ["token"], res);
   db.checkToken(userID, token, res).then(() => {
     db.getItem(userID, unitID, pageID)
-      .then(out => res.send(out.map((each) => ({
-        id: each.itemid,
-        query: each.itemquery,
-        key: each.itemkey,
-        time: each.itemcreatetime,
-        record: each.itemrecord || []
-      }))))
-      .catch(() => api.internalServerError(res));
+      .then(out => res.send(out.map((each) => {
+        let initialObject = {
+          id: each.itemid,
+          query: each.itemquery,
+          key: each.itemkey,
+          time: each.itemcreatetime,
+        };
+        return each.itemrecord.reduce((obj, value, index) => {
+          obj[index + 1] = value
+          return obj;
+        }, initialObject);
+      })))
+      .catch(console.log);
+      // () => api.internalServerError(res)
   });
 });
 
