@@ -27,21 +27,6 @@ export default function Panel(props) {
     cookie.save("lang", targetValue, { expires: cookieTime(3650) });
   };
 
-  // the sharing state of response navigation bar and list
-  const [navList, setNavList] = React.useState(true);
-  const [navListMobile, setNavListMobile] = React.useState(false);
-  const [listObject, setListObject] = React.useState([]);
-  React.useEffect(() => {
-    packedGET({
-      uri: "/data/unit",
-      query: { userID: userID, token: token },
-      msgbox: toggleMessageBox,
-      kick: () => setKick(true),
-      lang: globalLang
-    })
-      .then((res) => setListObject(res));
-  }, []);
-
   // the sharing state of profile
   const [profile, setProfile] = React.useState(defaultProfile);
   React.useEffect(() => {
@@ -57,6 +42,21 @@ export default function Panel(props) {
         gender: res.gender, birth: res.birth,
         city: res.city || "", tel: res.tel || ""
       }));
+  }, []);
+
+  // the sharing state of response navigation bar and list
+  const [navListPC, setNavListPC] = React.useState(true);
+  const [navListMobile, setNavListMobile] = React.useState(false);
+  const [listObject, setListObject] = React.useState([]);
+  React.useEffect(() => {
+    packedGET({
+      uri: "/data/unit",
+      query: { userID: userID, token: token },
+      msgbox: toggleMessageBox,
+      kick: () => setKick(true),
+      lang: globalLang
+    })
+      .then((res) => setListObject(res));
   }, []);
 
   // the sharing state of selected page
@@ -119,12 +119,12 @@ export default function Panel(props) {
       <CssBaseline />
       <NavBar
         state={{
-          navList: navList,
+          navList: navListPC,
           currentSelect: currentSelect
         }}
         handle={{
-          toggleNavList: () => setNavList(true),
-          closeNavList: () => setNavList(false),
+          toggleNavList: () => setNavListPC(true),
+          closeNavList: () => setNavListPC(false),
           toggleNavListMobile: () => setNavListMobile(true)
         }}
       />
@@ -136,7 +136,7 @@ export default function Panel(props) {
         }}
         state={{
           profile: profile,
-          navList: navList,
+          navList: navListPC,
           route: currentSelect.route,
           navListMobile: navListMobile,
           listObject: listObject
@@ -160,7 +160,7 @@ export default function Panel(props) {
         }}
         current={currentSelect}
         state={{
-          navList: navList
+          navList: navListPC
         }}
         handle={{
           toggleMessageBox: toggleMessageBox,
