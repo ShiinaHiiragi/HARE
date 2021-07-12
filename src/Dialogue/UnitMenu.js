@@ -1,8 +1,17 @@
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
+import makeStyles from "@material-ui/core/styles/makeStyles";
+const useStyles = makeStyles((theme) => ({
+  alarm: {
+    color: theme.palette.secondary.main
+  }
+}));
+
 export default function UnitMenu(props) {
+  const classes = useStyles();
   const { lang, state, handle } = props;
+
   return (
     <Menu
       keepMounted
@@ -61,7 +70,7 @@ export default function UnitMenu(props) {
       }}>
         {lang.menu.addUnitBelow}
       </MenuItem>
-      <MenuItem
+      <MenuItem className={classes.alarm}
         onClick={() => {
           handle.closeMenu();
           handle.toggleDeleteConfirm("unit");
