@@ -2,7 +2,6 @@ import React from "react";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
-import SpeedDial from "@material-ui/lab/SpeedDial";
 import AddIcon from "@material-ui/icons/Add";
 import HeightIcon from "@material-ui/icons/Height";
 import CloseIcon from "@material-ui/icons/Close";
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 0,
     margin: theme.spacing(1, 1, 0, 1)
   },
-  dataGrid: {
+  dataGridButton: {
     borderRadius: 0,
     "& button": {
       padding: theme.spacing(0.5, 1),
@@ -67,7 +66,7 @@ function InnerToolbar(props) {
   const { lang } = props;
 
   return (
-    <GridToolbarContainer>
+    <GridToolbarContainer className={classes.dataGridButton} >
       <GridToolbarDensitySelector
         className={classes.innerButton}
         variant="outlined"
@@ -165,7 +164,6 @@ export default function View(props) {
       </div>
       <Card className={classes.cardField}>
         <XGrid
-          className={classes.dataGrid}
           rows={data.itemList}
           columns={column}
           disableColumnMenu
