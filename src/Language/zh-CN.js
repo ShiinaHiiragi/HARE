@@ -126,7 +126,9 @@ const list = {
     buttons: {
       delete: "删除",
       move: "移动",
-      newItem: "新建"
+      newItem: "新建",
+      export: "导出",
+      recollect: "回忆"
     },
     inherent: {
       noRowsLabel: "No rows",

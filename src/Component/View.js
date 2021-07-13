@@ -1,10 +1,14 @@
 import React from "react";
+import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
-import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
+import SpeedDial from "@material-ui/lab/SpeedDial";
 import AddIcon from "@material-ui/icons/Add";
 import HeightIcon from "@material-ui/icons/Height";
 import CloseIcon from "@material-ui/icons/Close";
+import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
+import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
+import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import { defaultColumn } from "../Interface/Constant";
 import {
   XGrid,
@@ -37,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     borderRadius: 0,
+  },
+  exportButton: {
+    margin: theme.spacing(0, 2)
   },
   innerButton: {
     borderRadius: 0,
@@ -135,6 +142,25 @@ export default function View(props) {
           onClick={() => handle.setCurrentRoute(1)}
         >
           {lang.common.back}
+        </Button>
+        <div style={{ flexGrow: 1 }}></div>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<GetAppOutlinedIcon />}
+          className={clsx(classes.button, classes.exportButton)}
+          onClick={() => {}}
+        >
+          {lang.grid.buttons.export}
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<CheckCircleOutlinedIcon />}
+          className={classes.button}
+          onClick={() => {}}
+        >
+          {lang.grid.buttons.recollect}
         </Button>
       </div>
       <Card className={classes.cardField}>

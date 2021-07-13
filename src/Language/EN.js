@@ -126,7 +126,9 @@ const list = {
     buttons: {
       delete: "delete",
       move: "move",
-      newItem: "new"
+      newItem: "new",
+      export: "Export",
+      recollect: "Recall"
     },
     inherent: {
       noRowsLabel: "No rows",
