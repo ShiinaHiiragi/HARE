@@ -55,8 +55,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function InnerToolbar() {
+function InnerToolbar(props) {
   const classes = useStyles();
+  const { lang } = props;
 
   return (
     <GridToolbarContainer>
@@ -80,7 +81,7 @@ function InnerToolbar() {
         className={classes.innerButton}
         onClick={() => {}}
       >
-        Delete
+        {lang.grid.buttons.delete}
       </Button>
       <Button
         variant="outlined"
@@ -89,7 +90,7 @@ function InnerToolbar() {
         className={classes.innerButton}
         onClick={() => {}}
       >
-        Move
+        {lang.grid.buttons.move}
       </Button>
       <Button
         variant="outlined"
@@ -98,7 +99,7 @@ function InnerToolbar() {
         className={classes.innerButton}
         onClick={() => {}}
       >
-        New
+        {lang.grid.buttons.newItem}
       </Button>
     </GridToolbarContainer>
   );
@@ -144,6 +145,9 @@ export default function View(props) {
           disableColumnMenu
           components={{
             Toolbar: InnerToolbar,
+          }}
+          componentsProps={{
+            toolbar: { lang: lang },
           }}
           columnBuffer={16}
         />

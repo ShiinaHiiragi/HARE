@@ -123,6 +123,11 @@ const list = {
       key: "Answer",
       time: "Time Created",
     },
+    buttons: {
+      delete: "delete",
+      move: "move",
+      newItem: "new"
+    },
     inherent: {
       noRowsLabel: "No rows",
       noResultsOverlayLabel: "No results found.",
