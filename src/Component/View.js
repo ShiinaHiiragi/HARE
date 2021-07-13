@@ -2,8 +2,17 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
+import AddIcon from "@material-ui/icons/Add";
+import HeightIcon from "@material-ui/icons/Height";
+import CloseIcon from "@material-ui/icons/Close";
 import { defaultColumn } from "../Interface/Constant";
-import { XGrid, GridToolbar } from "@material-ui/x-grid";
+import {
+  XGrid,
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector
+} from "@material-ui/x-grid";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -27,12 +36,73 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column"
   },
   button: {
-    borderRadius: 0
+    borderRadius: 0,
+  },
+  innerButton: {
+    borderRadius: 0,
+    margin: theme.spacing(1, 1, 0, 1)
   },
   dataGrid: {
-    borderRadius: 0
+    borderRadius: 0,
+    "& button": {
+      padding: theme.spacing(0.5, 1),
+      fontSize: "0.825rem",
+    },
+    "& svg": {
+      width: 20,
+      height: 20
+    }
   }
 }));
+
+function InnerToolbar() {
+  const classes = useStyles();
+
+  return (
+    <GridToolbarContainer>
+      <GridToolbarDensitySelector
+        className={classes.innerButton}
+        variant="outlined"
+      />
+      <GridToolbarColumnsButton
+        className={classes.innerButton}
+        variant="outlined"
+      />
+      <GridToolbarFilterButton
+        className={classes.innerButton}
+        variant="outlined"
+      />
+      <div style={{ flexGrow: 1 }}></div>
+      <Button
+        variant="outlined"
+        color="primary"
+        startIcon={<CloseIcon />}
+        className={classes.innerButton}
+        onClick={() => {}}
+      >
+        Delete
+      </Button>
+      <Button
+        variant="outlined"
+        color="primary"
+        startIcon={<HeightIcon />}
+        className={classes.innerButton}
+        onClick={() => {}}
+      >
+        Move
+      </Button>
+      <Button
+        variant="outlined"
+        color="primary"
+        startIcon={<AddIcon />}
+        className={classes.innerButton}
+        onClick={() => {}}
+      >
+        New
+      </Button>
+    </GridToolbarContainer>
+  );
+}
 
 export default function View(props) {
   const classes = useStyles();
@@ -73,8 +143,9 @@ export default function View(props) {
           columns={column}
           disableColumnMenu
           components={{
-            Toolbar: GridToolbar,
+            Toolbar: InnerToolbar,
           }}
+          columnBuffer={16}
         />
       </Card>
     </div>
