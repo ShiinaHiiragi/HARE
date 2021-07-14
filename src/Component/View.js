@@ -11,6 +11,7 @@ import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import { defaultColumn } from "../Interface/Constant";
 import {
   XGrid,
+  useGridApiRef,
   GridToolbarContainer,
   GridToolbarColumnsButton,
   GridToolbarFilterButton,
@@ -66,9 +67,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function View(props) {
   const classes = useStyles();
+  const apiRef = useGridApiRef();
   const { lang, current, data, handle } = props;
-  const [column, setColumn] = React.useState(defaultColumn(lang.grid));
 
+  const [column, setColumn] = React.useState(defaultColumn(lang.grid));
   const [anchorRecallMenu, setAnchorRecallMenu] = React.useState(null);
 
   function InnerToolbar() {
@@ -177,6 +179,7 @@ export default function View(props) {
             Toolbar: InnerToolbar,
           }}
           columnBuffer={16}
+          apiRef={apiRef}
         />
       </Card>
       <RecallMenu
