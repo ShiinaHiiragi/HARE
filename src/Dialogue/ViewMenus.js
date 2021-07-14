@@ -25,7 +25,6 @@ export default function RecallMenu(props) {
         vertical: "bottom",
         horizontal: "center"
       }}
-      borderRadius={0}
       classes={{
         paper: classes.hoverMenu
       }}
