@@ -61,60 +61,59 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function InnerToolbar(props) {
-  const classes = useStyles();
-  const { lang } = props;
-
-  return (
-    <GridToolbarContainer className={classes.dataGridButton} >
-      <GridToolbarDensitySelector
-        className={classes.innerButton}
-        variant="outlined"
-      />
-      <GridToolbarColumnsButton
-        className={classes.innerButton}
-        variant="outlined"
-      />
-      <GridToolbarFilterButton
-        className={classes.innerButton}
-        variant="outlined"
-      />
-      <div style={{ flexGrow: 1 }}></div>
-      <Button
-        variant="outlined"
-        color="primary"
-        startIcon={<CloseIcon />}
-        className={classes.innerButton}
-        onClick={() => {}}
-      >
-        {lang.grid.buttons.delete}
-      </Button>
-      <Button
-        variant="outlined"
-        color="primary"
-        startIcon={<HeightIcon />}
-        className={classes.innerButton}
-        onClick={() => {}}
-      >
-        {lang.grid.buttons.move}
-      </Button>
-      <Button
-        variant="outlined"
-        color="primary"
-        startIcon={<AddIcon />}
-        className={classes.innerButton}
-        onClick={() => {}}
-      >
-        {lang.grid.buttons.newItem}
-      </Button>
-    </GridToolbarContainer>
-  );
-}
-
 export default function View(props) {
   const classes = useStyles();
   const { lang, current, data, handle } = props;
   const [column, setColumn] = React.useState(defaultColumn(lang.grid));
+
+  function InnerToolbar() {
+    const classes = useStyles();
+  
+    return (
+      <GridToolbarContainer className={classes.dataGridButton} >
+        <GridToolbarDensitySelector
+          className={classes.innerButton}
+          variant="outlined"
+        />
+        <GridToolbarColumnsButton
+          className={classes.innerButton}
+          variant="outlined"
+        />
+        <GridToolbarFilterButton
+          className={classes.innerButton}
+          variant="outlined"
+        />
+        <div style={{ flexGrow: 1 }}></div>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<CloseIcon />}
+          className={classes.innerButton}
+          onClick={() => {}}
+        >
+          {lang.grid.buttons.delete}
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<HeightIcon />}
+          className={classes.innerButton}
+          onClick={() => {}}
+        >
+          {lang.grid.buttons.move}
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<AddIcon />}
+          className={classes.innerButton}
+          onClick={() => {}}
+        >
+          {lang.grid.buttons.newItem}
+        </Button>
+      </GridToolbarContainer>
+    );
+  }
 
   React.useEffect(() => {
     if (data.itemList.length) {
@@ -164,14 +163,12 @@ export default function View(props) {
       </div>
       <Card className={classes.cardField}>
         <XGrid
+          localeText={lang.grid.inherent}
           rows={data.itemList}
           columns={column}
           disableColumnMenu
           components={{
             Toolbar: InnerToolbar,
-          }}
-          componentsProps={{
-            toolbar: { lang: lang },
           }}
           columnBuffer={16}
         />

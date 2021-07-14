@@ -178,17 +178,6 @@ const list = {
       filterValueAny: "any",
       filterValueTrue: "true",
       filterValueFalse: "false",
-      columnMenuLabel: "Menu",
-      columnMenuShowColumns: "Show columns",
-      columnMenuFilter: "Filter",
-      columnMenuHideColumn: "Hide",
-      columnMenuUnsort: "Unsort",
-      columnMenuSortAsc: "Sort by ASC",
-      columnMenuSortDesc: "Sort by DESC",
-      columnHeaderFiltersTooltipActive: (count) =>
-        count !== 1 ? `${count} active filters` : `${count} active filter`,
-      columnHeaderFiltersLabel: "Show filters",
-      columnHeaderSortIconLabel: "Sort",
       footerRowSelected: (count) =>
         count !== 1
           ? `${count.toLocaleString()} rows selected`
