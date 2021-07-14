@@ -300,3 +300,8 @@
   border-radius: 0;
   background-color: rgb(190, 190, 190);
 }
+
+/* React Hotkeys */
+div[tabindex="-1"]:focus {
+  outline: 0;
+}

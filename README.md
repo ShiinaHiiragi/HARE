@@ -238,6 +238,26 @@
     - 当请求提供了错误的令牌，回应异常状态码；
     - 当请求提供了正确的令牌，但是最后请求时间距现在超过了一天，也回应异常状态码
 
-> 家贫，无从致书以观。
+### 1.3 XGrid 修改
+
+1. 修改水印输出
+
+    ```javascript
+    // before
+    const Hs=e=>{const{licenseStatus:t}=e;return t===As.Valid.toString()?null:r.createElement("div",{style:{position:"absolute",pointerEvents:"none",color:"#8282829e",zIndex:1e5,width:"100%",textAlign:"center",bottom:"50%",right:0,letterSpacing:5,fontSize:24}}," ",function(e){switch(e){case As.Expired.toString():return"Material-UI X License Expired";case As.Invalid.toString():return"Material-UI X Invalid License";case As.NotFound.toString():return"Material-UI X Unlicensed product";default:throw new Error("Material-UI: Unhandled license status.")}}(t)," ")};
+    // after
+    const Hs=e=>{const{licenseStatus:t}=e;return null};
+    ```
+
+2. 修改全选时的选择范围
+
+    ```javascript
+    // before
+    e.current.selectRows(e.current.getAllRowIds(),!0)
+    // after
+    e.current.selectRows([...e.current.getVisibleRowModels().keys()],true, true)
+    ```
+
+    > 家贫，无从致书以观。
 
 <p align="right"> Ichinoe Mizue </p>

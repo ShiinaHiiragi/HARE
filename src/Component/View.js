@@ -9,6 +9,7 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import { defaultColumn } from "../Interface/Constant";
+import { HotKeys } from 'react-hotkeys';
 import {
   XGrid,
   useGridApiRef,
@@ -65,6 +66,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const keyMap = {
+  shortcutMenu: "shift+/",
+};
+
 export default function View(props) {
   const classes = useStyles();
   const apiRef = useGridApiRef();
@@ -72,6 +77,12 @@ export default function View(props) {
 
   const [column, setColumn] = React.useState(defaultColumn(lang.grid));
   const [anchorRecallMenu, setAnchorRecallMenu] = React.useState(null);
+
+  const keyHandler = {
+    shortcutMenu: () => {
+      console.log("/");
+    },
+  };
 
   function InnerToolbar() {
     const classes = useStyles();
@@ -137,8 +148,15 @@ export default function View(props) {
   }, [lang, data.itemList]);
 
   return (
-    <div className={classes.root}>
-      <div className={classes.buttonField}>
+    <HotKeys
+      keyMap={keyMap}
+      handlers={keyHandler}
+      className={classes.root}
+    >
+      <div
+        tabIndex={-1}
+        className={classes.buttonField}
+      >
         <Button
           variant="outlined"
           color="primary"
@@ -188,6 +206,6 @@ export default function View(props) {
           close: () => setAnchorRecallMenu(null)
         }}
       />
-    </div>
+    </HotKeys>
   );
 }
