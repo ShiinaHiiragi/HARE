@@ -3,6 +3,10 @@ import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import AddIcon from "@material-ui/icons/Add";
 import HeightIcon from "@material-ui/icons/Height";
 import CloseIcon from "@material-ui/icons/Close";
@@ -138,26 +142,25 @@ export default function View(props) {
 
   function TrackSelector(props) {
     const { item, applyValue } = props;
-  
     const handleFilterChange = (event) => {
       applyValue({ ...item, value: event.target.value });
     };
-  
+
     return (
-      <TextField
-        label={lang.grid.inherent.filterPanelInputLabel}
-        value={item.value}
-        onChange={handleFilterChange}
-        variant="standard"
-        select
-        SelectProps={{ native: true }}
-        InputLabelProps={{ shrink: true }}
-      >
-        <option value="">{lang.grid.inherent.filterValueAny}</option>
-        <option value="P">{lang.grid.inherent.filterValuePure}</option>
-        <option value="F">{lang.grid.inherent.filterValueFar}</option>
-        <option value="L">{lang.grid.inherent.filterValueLost}</option>
-      </TextField>
+      <FormControl variant="standard">
+        <InputLabel>
+          {lang.grid.inherent.filterPanelInputLabel}
+        </InputLabel>
+        <Select
+          value={item.value}
+          onChange={handleFilterChange}
+        >
+          <MenuItem value="">{lang.grid.inherent.filterValueAny}</MenuItem>
+          <MenuItem value="P">{lang.grid.inherent.filterValuePure}</MenuItem>
+          <MenuItem value="F">{lang.grid.inherent.filterValueFar}</MenuItem>
+          <MenuItem value="L">{lang.grid.inherent.filterValueLost}</MenuItem>
+        </Select>
+      </FormControl>
     );
   }
 
