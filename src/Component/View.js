@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const keyMap = {
-  shortcutMenu: "shift+/",
+  cancelSelected: "esc",
 };
 
 export default function View(props) {
@@ -79,8 +79,8 @@ export default function View(props) {
   const [anchorRecallMenu, setAnchorRecallMenu] = React.useState(null);
 
   const keyHandler = {
-    shortcutMenu: () => {
-      console.log("/");
+    cancelSelected: () => {
+      apiRef.current.selectRows(apiRef.current.getAllRowIds(), false);
     },
   };
 
@@ -201,6 +201,7 @@ export default function View(props) {
         />
       </Card>
       <RecallMenu
+        lang={lang}
         anchor={anchorRecallMenu}
         handle={{
           close: () => setAnchorRecallMenu(null)

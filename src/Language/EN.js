@@ -130,6 +130,10 @@ const list = {
       export: "Export",
       recollect: "Recall"
     },
+    menu: {
+      recallSelected: "Recall Selected",
+      recallFar: "Recall Faulted"
+    },
     inherent: {
       noRowsLabel: "No rows",
       noResultsOverlayLabel: "No results found.",

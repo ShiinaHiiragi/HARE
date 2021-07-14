@@ -130,6 +130,10 @@ const list = {
       export: "导出",
       recollect: "回忆"
     },
+    menu: {
+      recallSelected: "回忆选中的",
+      recallFar: "回忆有错误记录的"
+    },
     inherent: {
       noRowsLabel: "没有词条",
       noResultsOverlayLabel: "没有结果",
@@ -183,7 +187,7 @@ const list = {
       booleanCellTrueLabel: "真",
       booleanCellFalseLabel: "假"
     },
-    ordinal:  [
+    ordinal: [
       "第一次", "第二次", "第三次", "第四次",
       "第五次", "第六次", "第七次", "第八次",
       "第九次", "第十次", "第十一次", "第十二次",

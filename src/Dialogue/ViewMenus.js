@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RecallMenu(props) {
   const classes = useStyles();
-  const { anchor, handle } = props;
+  const { lang, anchor, handle } = props;
 
   return (
     <Menu
@@ -29,8 +29,8 @@ export default function RecallMenu(props) {
         paper: classes.hoverMenu
       }}
     >
-      <MenuItem onClick={handle.close}>Recall Filtered</MenuItem>
-      <MenuItem onClick={handle.close}>Recall Selected</MenuItem>
+      <MenuItem onClick={handle.close}>{lang.grid.menu.recallSelected}</MenuItem>
+      <MenuItem onClick={handle.close}>{lang.grid.menu.recallFar}</MenuItem>
     </Menu>
   );
 }
