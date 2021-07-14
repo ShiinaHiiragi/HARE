@@ -21,8 +21,19 @@ const defaultProfile = {
 const defaultColumn = (langGrid) => [
   {
     field: "id",
+    type: "number",
     headerName: langGrid.column.itemID,
     width: 160
+  },
+  {
+    field: "time",
+    type: "dateTime",
+    headerName: langGrid.column.time,
+    valueFormatter: (param) => timeFormat(
+      new Date(param.value),
+      langGrid.column.timeFormatString
+    ),
+    width: 200
   },
   {
     field: "query",
@@ -32,11 +43,6 @@ const defaultColumn = (langGrid) => [
   {
     field: "key",
     headerName: langGrid.column.key,
-    width: 200
-  },
-  {
-    field: "time",
-    headerName: langGrid.column.time,
     width: 200
   }
 ];

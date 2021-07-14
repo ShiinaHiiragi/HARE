@@ -122,6 +122,7 @@ const list = {
       query: "Question",
       key: "Answer",
       time: "Time Created",
+      timeFormatString: "MM/dd/yyyy hh:mm:ss"
     },
     buttons: {
       delete: "delete",

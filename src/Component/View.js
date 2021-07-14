@@ -8,7 +8,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
-import { defaultColumn } from "../Interface/Constant";
+import { defaultColumn, timeFormat } from "../Interface/Constant";
 import { HotKeys } from 'react-hotkeys';
 import {
   XGrid,

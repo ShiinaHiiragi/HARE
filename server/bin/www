@@ -54,7 +54,7 @@ function normalizePort(val) {
 }
 
 /**
- * Event listener for HTTP server "error" event.
+ * Event listener for HTTP server 'error' event.
  */
 
 function onError(error) {
@@ -82,7 +82,7 @@ function onError(error) {
 }
 
 /**
- * Event listener for HTTP server "listening" event.
+ * Event listener for HTTP server 'listening' event.
  */
 
 function onListening() {
@@ -95,34 +95,34 @@ function onListening() {
 
 // TEMP: delete it later
 const debugFunction = () => {
-  exec("sign abc@xyz.com Ichinoe 123123123".split(/\s+/))
-  .then(() => { return require('./db').newUnit(1, 1, "Operating System") })
-  .then(() => { return require('./db').newUnit(1, 2, "Math") })
-  .then(() => { return require('./db').newUnit(1, 3, "Networks") })
-  .then(() => { return require('./db').newPage(1, 1, 1, "TLB", "Translation Lookaside Buffer") })
-  .then(() => { return require('./db').newPage(1, 1, 2, "Process",
-    "The instance of a computer program that is being executed by one or many threads.") })
-  .then(() => { return require('./db').newPage(1, 1, 3, "Dispatching", "") })
-  .then(() => { return require('./db').newPage(1, 2, 1, "Predicates", "") })
-  .then(() => { return require('./db').newPage(1, 3, 1, "DNS", "Domain Name System") })
-  .then(() => { return require('./db').newPage(1, 3, 2, "TCP/IP", "") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 1, "Q1", "A1") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 2, "Q2", "A2") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 3, "Q3", "A3") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 4, "Q4", "A4") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 5, "Q5", "A5") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 6, "Q6", "A6") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 7, "Q7", "A7") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 8, "Q8", "A8") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 9, "Q9", "A9") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 10, "Q10", "A10") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 11, "Q11", "A11") })
-  .then(() => { return require('./db').newItem(1, 1, 1, 12, "Q12", "A12") })
+  exec('sign abc@xyz.com Ichinoe 123123123'.split(/\s+/))
+  .then(() => { return require('./db').newUnit(1, 1, 'Operating System') })
+  .then(() => { return require('./db').newUnit(1, 2, 'Math') })
+  .then(() => { return require('./db').newUnit(1, 3, 'Networks') })
+  .then(() => { return require('./db').newPage(1, 1, 1, 'TLB', 'Translation Lookaside Buffer') })
+  .then(() => { return require('./db').newPage(1, 1, 2, 'Process',
+    'The instance of a computer program that is being executed by one or many threads.') })
+  .then(() => { return require('./db').newPage(1, 1, 3, 'Dispatching', '') })
+  .then(() => { return require('./db').newPage(1, 2, 1, 'Predicates', '') })
+  .then(() => { return require('./db').newPage(1, 3, 1, 'DNS', 'Domain Name System') })
+  .then(() => { return require('./db').newPage(1, 3, 2, 'TCP/IP', '') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 1, 'Q1', 'A1') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 2, 'Q2', 'A2') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 3, 'Q3', 'A3') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 4, 'Q4', 'A4') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 5, 'Q5', 'A5') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 6, 'Q6', 'A6') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 7, 'Q7', 'A7') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 8, 'Q8', 'A8') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 9, 'Q9', 'A9') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 10, 'Q10', 'A10') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 11, 'Q11', 'A11') })
+  .then(() => { return require('./db').newItem(1, 1, 1, 12, 'Q12', 'A12') })
   .then(() => { return require('./db')
-    .query(`update item set itemRecord = array['P', 'N', 'N', 'P']`) })
-  .then(() => console.log("DEBUG: The units and pages are created."))
+    .query(`update item set itemRecord = array['L', 'L', 'N', 'P']`) })
+  .then(() => console.log('DEBUG: The units and pages are created.'))
   .then(() => {
-    require('fs').readdir(require('path').join(__dirname, "../src/avatar"),
+    require('fs').readdir(require('path').join(__dirname, '../src/avatar'),
       (err, dir) => {
         require('../bin/db').saveAvatarExtent(1, require('path').extname(dir[0]));
       });

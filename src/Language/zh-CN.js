@@ -122,6 +122,7 @@ const list = {
       query: "问题",
       key: "答案",
       time: "创建时间",
+      timeFormatString: "yyyy-MM-dd hh:mm:ss"
     },
     buttons: {
       delete: "删除",
@@ -167,8 +168,8 @@ const list = {
       filterOperatorEquals: "等于",
       filterOperatorStartsWith: "始于",
       filterOperatorEndsWith: "终于",
-      filterOperatorIs: "是",
-      filterOperatorNot: "不是",
+      filterOperatorIs: "在",
+      filterOperatorNot: "不在",
       filterOperatorAfter: "晚于",
       filterOperatorOnOrAfter: "不早于",
       filterOperatorBefore: "早于",
