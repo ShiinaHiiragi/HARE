@@ -2,6 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
 import HeightIcon from "@material-ui/icons/Height";
 import CloseIcon from "@material-ui/icons/Close";
@@ -9,9 +10,8 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
-import PauseIcon from "@material-ui/icons/Pause";
 import ChangeHistoryIcon from '@material-ui/icons/ChangeHistory';
-import { defaultColumn, timeFormat } from "../Interface/Constant";
+import { defaultColumn } from "../Interface/Constant";
 import { HotKeys } from "react-hotkeys";
 import {
   XGrid,
@@ -136,6 +136,31 @@ export default function View(props) {
     );
   }
 
+  function TrackSelector(props) {
+    const { item, applyValue } = props;
+  
+    const handleFilterChange = (event) => {
+      applyValue({ ...item, value: event.target.value });
+    };
+  
+    return (
+      <TextField
+        label={lang.grid.inherent.filterPanelInputLabel}
+        value={item.value}
+        onChange={handleFilterChange}
+        variant="standard"
+        select
+        SelectProps={{ native: true }}
+        InputLabelProps={{ shrink: true }}
+      >
+        <option value="">{lang.grid.inherent.filterValueAny}</option>
+        <option value="P">{lang.grid.inherent.filterValuePure}</option>
+        <option value="F">{lang.grid.inherent.filterValueFar}</option>
+        <option value="L">{lang.grid.inherent.filterValueLost}</option>
+      </TextField>
+    );
+  }
+
   React.useEffect(() => {
     if (data.itemList.length) {
       setColumn(defaultColumn(lang.grid).concat(
@@ -150,6 +175,20 @@ export default function View(props) {
                 return <CloseIcon />
               else return <ChangeHistoryIcon />
             },
+            filterOperators: [
+              {
+                label: lang.grid.inherent.filterOperatorIs,
+                value: "is",
+                getApplyFilterFn: (filterItem) => {
+                  if (filterItem.value) {
+                    return (param) => {
+                      return param.value === filterItem.value;
+                    }
+                  } else return null;
+                },
+                InputComponent: TrackSelector
+              },
+            ],
             width: 120,
             align: "center",
             headerAlign: "center",

@@ -181,8 +181,9 @@ const list = {
       filterOperatorIsEmpty: "is empty",
       filterOperatorIsNotEmpty: "is not empty",
       filterValueAny: "any",
-      filterValueTrue: "true",
-      filterValueFalse: "false",
+      filterValuePure: "correct",
+      filterValueFar: "fault",
+      filterValueLost: "lost",
       footerRowSelected: (count) =>
         count !== 1
           ? `${count.toLocaleString()} rows selected`
