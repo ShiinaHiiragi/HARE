@@ -16,6 +16,9 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector
 } from "@material-ui/x-grid";
+import {
+  RecallMenu
+} from "../Dialogue/ViewMenus";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -66,6 +69,8 @@ export default function View(props) {
   const { lang, current, data, handle } = props;
   const [column, setColumn] = React.useState(defaultColumn(lang.grid));
 
+  const [anchorRecallMenu, setAnchorRecallMenu] = React.useState(null);
+
   function InnerToolbar() {
     const classes = useStyles();
   
@@ -86,7 +91,7 @@ export default function View(props) {
         <div style={{ flexGrow: 1 }}></div>
         <Button
           variant="outlined"
-          color="primary"
+          color="secondary"
           startIcon={<CloseIcon />}
           className={classes.innerButton}
           onClick={() => {}}
@@ -156,7 +161,8 @@ export default function View(props) {
           color="primary"
           startIcon={<CheckCircleOutlinedIcon />}
           className={classes.button}
-          onClick={() => {}}
+          onClick={(event) => setAnchorRecallMenu(event.currentTarget)}
+          onMouseOver={(event) => setAnchorRecallMenu(event.currentTarget)}
         >
           {lang.grid.buttons.recollect}
         </Button>
@@ -173,6 +179,12 @@ export default function View(props) {
           columnBuffer={16}
         />
       </Card>
+      <RecallMenu
+        anchor={anchorRecallMenu}
+        handle={{
+          close: () => setAnchorRecallMenu(null)
+        }}
+      />
     </div>
   );
 }
