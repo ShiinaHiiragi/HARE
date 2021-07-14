@@ -119,7 +119,7 @@ const debugFunction = () => {
   .then(() => { return require('./db').newItem(1, 1, 1, 11, 'Q11', 'A11') })
   .then(() => { return require('./db').newItem(1, 1, 1, 12, 'Q12', 'A12') })
   .then(() => { return require('./db')
-    .query(`update item set itemRecord = array['L', 'L', 'N', 'P']`) })
+    .query(`update item set itemRecord = array['L', 'L', 'F', 'P']`) })
   .then(() => console.log('DEBUG: The units and pages are created.'))
   .then(() => {
     require('fs').readdir(require('path').join(__dirname, '../src/avatar'),

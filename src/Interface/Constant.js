@@ -23,7 +23,9 @@ const defaultColumn = (langGrid) => [
     field: "id",
     type: "number",
     headerName: langGrid.column.itemID,
-    width: 160
+    width: 160,
+    align: "center",
+    headerAlign: "center",
   },
   {
     field: "time",
@@ -33,17 +35,21 @@ const defaultColumn = (langGrid) => [
       new Date(param.value),
       langGrid.column.timeFormatString
     ),
-    width: 200
+    width: 200,
+    align: "center",
+    headerAlign: "center",
   },
   {
     field: "query",
     headerName: langGrid.column.query,
-    width: 200
+    width: 200,
+    headerAlign: "center",
   },
   {
     field: "key",
     headerName: langGrid.column.key,
-    width: 200
+    width: 200,
+    headerAlign: "center",
   }
 ];
 

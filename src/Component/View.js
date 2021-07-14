@@ -7,9 +7,12 @@ import HeightIcon from "@material-ui/icons/Height";
 import CloseIcon from "@material-ui/icons/Close";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
-import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
+import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
+import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
+import PauseIcon from "@material-ui/icons/Pause";
+import ChangeHistoryIcon from '@material-ui/icons/ChangeHistory';
 import { defaultColumn, timeFormat } from "../Interface/Constant";
-import { HotKeys } from 'react-hotkeys';
+import { HotKeys } from "react-hotkeys";
 import {
   XGrid,
   useGridApiRef,
@@ -140,8 +143,16 @@ export default function View(props) {
           .fill().map((_, index) => ({
             field: `${index + 1}`,
             headerName: lang.grid.ordinal[index],
+            renderCell: (param) => {
+              if (param.value === "P")
+                return <RadioButtonUncheckedIcon />
+              else if (param.value === "F")
+                return <CloseIcon />
+              else return <ChangeHistoryIcon />
+            },
             width: 120,
-            editable: false
+            align: "center",
+            headerAlign: "center",
           }))
       ))
     } else setColumn(defaultColumn(lang.grid));
