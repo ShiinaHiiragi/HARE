@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
-  const ref = React.createRef();
+  const queryRef = React.createRef();
 
   return (
     <Dialog
@@ -29,7 +29,7 @@ export default function NewItem(props) {
       className={classes.noneSelect}
     >
       <DialogTitle> {lang.popup.newItem.title} </DialogTitle>
-      <DialogContent ref={ref}>
+      <DialogContent>
         <DialogContentText>
           {stringFormat(lang.popup.newItem.text, [
             state.listLength
@@ -39,11 +39,12 @@ export default function NewItem(props) {
         </DialogContentText>
         <ReactQuill
           theme="snow"
+          ref={queryRef}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => {
-          console.log(ref.current.getElementsByClassName("ql-editor")[0].innerHTML);
+          console.log(queryRef.current.getEditor());
         }} color="secondary">
           {lang.common.apply}
         </Button>
