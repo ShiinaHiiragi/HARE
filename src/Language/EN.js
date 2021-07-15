@@ -57,6 +57,12 @@ const list = {
       pageName: "Name of New Booklet",
       pagePresent: "The Description of the Booklet Created"
     },
+    newItem: {
+      title: "Create New Entry",
+      text: "The new entry will be inserted to the Entry ID appointed, which {0}; The entry whose ID is larger will be put off.",
+      onlyOne: "can only be 1",
+      aboveOne: "ranges from 1 to {0}"
+    },
     edit: {
       titleUnit: "Edit Group Information",
       labelUnit: "Group Name",

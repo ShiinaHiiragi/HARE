@@ -5,6 +5,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
+import { stringFormat } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -24,10 +25,14 @@ export default function NewItem(props) {
       onClose={handle.close}
       className={classes.noneSelect}
     >
-      <DialogTitle> {"TEST"} </DialogTitle>
+      <DialogTitle> {lang.popup.newItem.title} </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {"Hello"}
+          {stringFormat(lang.popup.newItem.text, [
+            state.listLength
+              ? stringFormat(lang.popup.newItem.aboveOne, [state.listLength + 1])
+              : lang.popup.newItem.onlyOne
+          ])}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

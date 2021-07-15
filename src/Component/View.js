@@ -143,7 +143,8 @@ export default function View(props) {
             token: data.token
           }}
           state={{
-            open: newItem
+            open: newItem,
+            listLength: data.itemList.length
           }}
           handle={{
             close: () => setNewItem(false)
