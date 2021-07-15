@@ -2,7 +2,6 @@ import React from "react";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
@@ -17,6 +16,7 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import ChangeHistoryIcon from '@material-ui/icons/ChangeHistory';
 import { defaultColumn } from "../Interface/Constant";
 import RecallMenu from "../Dialogue/RecallMenus";
+import NewItem from "../Dialogue/NewItem";
 import { HotKeys } from "react-hotkeys";
 import {
   XGrid,
@@ -83,6 +83,8 @@ export default function View(props) {
   const [column, setColumn] = React.useState(defaultColumn(lang.grid));
   const [anchorRecallMenu, setAnchorRecallMenu] = React.useState(null);
 
+  const [newItem, setNewItem] = React.useState(false);
+
   const keyHandler = {
     cancelSelected: () => {
       apiRef.current.selectRows(apiRef.current.getAllRowIds(), false);
@@ -130,10 +132,23 @@ export default function View(props) {
           color="primary"
           startIcon={<AddIcon />}
           className={classes.innerButton}
-          onClick={() => {}}
+          onClick={() => setNewItem(true)}
         >
           {lang.grid.buttons.newItem}
         </Button>
+        <NewItem
+          lang={lang}
+          data={{
+            userID: data.userID,
+            token: data.token
+          }}
+          state={{
+            open: newItem
+          }}
+          handle={{
+            close: () => setNewItem(false)
+          }}
+        />
       </GridToolbarContainer>
     );
   }
