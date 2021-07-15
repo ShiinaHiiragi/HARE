@@ -84,6 +84,9 @@ export default function View(props) {
   const [anchorRecallMenu, setAnchorRecallMenu] = React.useState(null);
 
   const [newItem, setNewItem] = React.useState(false);
+  const toggleNewItem = () => {
+    setNewItem(true);
+  }
 
   const keyHandler = {
     cancelSelected: () => {
@@ -132,7 +135,7 @@ export default function View(props) {
           color="primary"
           startIcon={<AddIcon />}
           className={classes.innerButton}
-          onClick={() => setNewItem(true)}
+          onClick={toggleNewItem}
         >
           {lang.grid.buttons.newItem}
         </Button>

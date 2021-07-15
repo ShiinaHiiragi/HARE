@@ -1,4 +1,6 @@
 import React from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -34,6 +36,9 @@ export default function NewItem(props) {
               : lang.popup.newItem.onlyOne
           ])}
         </DialogContentText>
+        <ReactQuill
+          theme="snow"
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handle.close} color="secondary">
