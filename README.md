@@ -240,24 +240,192 @@
 
 ### 1.3 XGrid 修改
 
-1. 修改水印输出
+1. 删除水印产生：GridBody.tsx
+
+    ```javascript
+    // delete line 37
+    <Watermark licenseStatus={rootProps.licenseStatus} />
+    ```
+    
+2. 修改全选时的选择范围：useGridKeyboard.ts
 
     ```javascript
     // before
-    const Hs=e=>{const{licenseStatus:t}=e;return t===As.Valid.toString()?null:r.createElement("div",{style:{position:"absolute",pointerEvents:"none",color:"#8282829e",zIndex:1e5,width:"100%",textAlign:"center",bottom:"50%",right:0,letterSpacing:5,fontSize:24}}," ",function(e){switch(e){case As.Expired.toString():return"Material-UI X License Expired";case As.Invalid.toString():return"Material-UI X Invalid License";case As.NotFound.toString():return"Material-UI X Unlicensed product";default:throw new Error("Material-UI: Unhandled license status.")}}(t)," ")};
+    apiRef.current.selectRows(apiRef.current.getAllRowIds(), true);
     // after
-    const Hs=e=>{const{licenseStatus:t}=e;return null};
+    apiRef.current.selectRows(
+      [...apiRef.current.getVisibleRowModels().keys()],
+      true, true
+    );
+    ```
+    
+3. 修改过滤器的项目为 `MenuItem`：GridFilterForm.tsx
+
+    ```javascript
+    <option key={GridLinkOperator.And.toString()} value={GridLinkOperator.And.toString()}>
+      {apiRef!.current.getLocaleText('filterPanelOperatorAnd')}
+    </option>
+    <option key={GridLinkOperator.Or.toString()} value={GridLinkOperator.Or.toString()}>
+      {apiRef!.current.getLocaleText('filterPanelOperatorOr')}
+    </option>
+    <option key={col.field} value={col.field}>
+      {col.headerName || col.field}
+    </option>
+    <option key={operator.value} value={operator.value}>
+      {operator.label ||
+        apiRef!.current.getLocaleText(
+          `filterOperator${capitalize(operator.value)}` as GridTranslationKeys,
+        )}
+    </option>
     ```
 
-2. 修改全选时的选择范围
+    将上面的所有 `option` 改为 `MenuItem` 即可。但是 `MenuItem` 不被识别为 `ClickAwayListener` 内部的组件，需要更改 `handleClickAway`：GridPanel.tsx
 
     ```javascript
     // before
-    e.current.selectRows(e.current.getAllRowIds(),!0)
+    const handleClickAway = React.useCallback((event) => {
+      apiRef!.current.hidePreferences();
+    }, [apiRef]);
     // after
-    e.current.selectRows([...e.current.getVisibleRowModels().keys()],true, true)
+    const handleClickAway = React.useCallback((event) => {
+      if (event.target !== document.body)
+        apiRef!.current.hidePreferences();
+    }, [apiRef]);
     ```
 
-    > 家贫，无从致书以观。
+4. 修改过滤器 `FormControl` 的间距：GridFilterForm.tsx
+
+    ```javascript
+    columnSelect: {
+      width: 150,
+      // add this
+      marginRight: 12
+    }
+    operatorSelect: {
+      width: 120,
+      // add this
+      marginRight: 12
+    }
+    ```
+
+5. 修改数字比较对应的标签：gridNumericOperators.ts
+
+    ```javascript
+    {
+      // change [label] to '≠', but do not edit [value]
+      label: '!=',
+      value: '!=',
+      getApplyFilterFn: (filterItem: GridFilterItem) => {
+        if (!filterItem.value) {
+          return null;
+        }
+    
+        return ({ value }): boolean => {
+          return Number(value) !== filterItem.value;
+        };
+      },
+      InputComponent: GridFilterInputValue,
+      InputComponentProps: { type: 'number' },
+    }
+    ```
+
+6. 修改时间选择器，加入时间组件。即在输入内建类型标签为 `datetime-local` 时使用 `DateTimePicker` 而不是 `TextField`。注意，如果今后需要选择 `date` 类型，那么也要特判，使用 `DatePicker`：GridFilterInputValue.tsx
+
+    ```javascript
+    return (
+      type === 'datetime-local'
+      ? (
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <DateTimePicker
+            disableFuture
+            variant="inline"
+            label={apiRef.current.getLocaleText('filterPanelInputLabel')}
+            placeholder={apiRef.current.getLocaleText('filterPanelInputPlaceholder')}
+            format="yyyy-MM-dd HH:mm"
+            value={filterValueState || new Date()}
+            onChange={onFilterChange}
+          />
+        </MuiPickersUtilsProvider>
+      ) : (
+        <TextField
+          id={id}
+          label={apiRef.current.getLocaleText('filterPanelInputLabel')}
+          placeholder={apiRef.current.getLocaleText('filterPanelInputPlaceholder')}
+          value={filterValueState}
+          onChange={onFilterChange}
+          type={type || 'text'}
+          variant="standard"
+          InputProps={InputProps}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          {...singleSelectProps}
+          {...others}
+        />
+      )
+    );
+    ```
+
+    `DateTimePicker` 的 `onChange` 有区别，不是传入 `event` 而是直接传入修改后的值（Date 类型）
+
+    ```javascript
+    const onFilterChange = React.useCallback(
+      (event) => {
+        clearTimeout(filterTimeout.current);
+        const value = type === 'datetime-local' ? event : event.target.value;
+        setFilterValueState(value);
+        ...
+    ```
+
+    `buildApplyFilterFn` 函数需要大改。首先，修改后的 `filterItem.value` 是 Date 类型，可以用 `setHours` 直接获得时间戳；其次，在本项目中，秒钟之后的时间需要被忽略，所以需要直接设为零后和前者比较。
+
+    ```javascript
+    function buildApplyFilterFn(
+      filterItem: GridFilterItem,
+      compareFn: (value1: number, value2: number) => boolean,
+      showTime?: boolean
+    ) {
+      if (!filterItem.value) {
+        return null;
+      }
+      // the RegExp is useless
+      const time = filterItem.value.setHours(
+        filterItem.value.getHours(),
+        filterItem.value.getMinutes(),
+        0,
+        0
+      );
+    
+      return ({ value }): boolean => {
+        if (!value) {
+          return false;
+        }
+        const valueAsDate = value instanceof Date ? value : new Date(value.toString());
+        // must erase seconds and milliseconds
+        // if (keepHours) {
+        //   return compareFn(valueAsDate.getTime(), time);
+        // }
+    
+        // Make a copy of the date to not reset the hours in the original object
+        const dateCopy = value instanceof Date ? new Date(valueAsDate) : valueAsDate;
+        const timeToCompare = dateCopy.setHours(
+          showTime ? valueAsDate.getHours() : 0,
+          showTime ? valueAsDate.getMinutes() : 0,
+          0,
+          0,
+        );
+        return compareFn(timeToCompare, time);
+      };
+    }
+    ```
+
+7. 移除占位符
+
+    ```javascript
+    // delete line 96
+    placeholder={apiRef!.current.getLocaleText('columnsPanelTextFieldPlaceholder')}
+    ```
+
+    
 
 <p align="right"> Ichinoe Mizue </p>

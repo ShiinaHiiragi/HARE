@@ -122,7 +122,7 @@ const list = {
       query: "问题",
       key: "答案",
       time: "创建时间",
-      timeFormatString: "yyyy-MM-dd hh:mm:ss"
+      timeFormatString: "yyyy-MM-dd hh:mm"
     },
     buttons: {
       delete: "删除",
@@ -152,7 +152,6 @@ const list = {
       toolbarFiltersTooltipShow: "显示过滤器",
       toolbarFiltersTooltipActive: (count) => `${count} 个生效过滤规则`,
       columnsPanelTextFieldLabel: "寻找列",
-      columnsPanelTextFieldPlaceholder: "列名",
       columnsPanelDragIconLabel: "列重排",
       columnsPanelShowAllButton: "显示全部",
       columnsPanelHideAllButton: "隐藏全部",
@@ -163,7 +162,6 @@ const list = {
       filterPanelOperatorOr: "或",
       filterPanelColumns: "列",
       filterPanelInputLabel: "值",
-      filterPanelInputPlaceholder: "过滤值",
       filterOperatorContains: "包含",
       filterOperatorEquals: "等于",
       filterOperatorStartsWith: "始于",

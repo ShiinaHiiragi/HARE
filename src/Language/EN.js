@@ -122,7 +122,7 @@ const list = {
       query: "Question",
       key: "Answer",
       time: "Time Created",
-      timeFormatString: "MM/dd/yyyy hh:mm:ss"
+      timeFormatString: "MM/dd/yyyy hh:mm"
     },
     buttons: {
       delete: "delete",
@@ -156,7 +156,6 @@ const list = {
       toolbarExportLabel: "Export",
       toolbarExportCSV: "Download as CSV",
       columnsPanelTextFieldLabel: "Find column",
-      columnsPanelTextFieldPlaceholder: "Column title",
       columnsPanelDragIconLabel: "Reorder column",
       columnsPanelShowAllButton: "Show all",
       columnsPanelHideAllButton: "Hide all",
@@ -167,7 +166,6 @@ const list = {
       filterPanelOperatorOr: "Or",
       filterPanelColumns: "Columns",
       filterPanelInputLabel: "Value",
-      filterPanelInputPlaceholder: "Filter value",
       filterOperatorContains: "contains",
       filterOperatorEquals: "equals",
       filterOperatorStartsWith: "starts with",
