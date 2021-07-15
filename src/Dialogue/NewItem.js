@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
+  const ref = React.createRef();
 
   return (
     <Dialog
@@ -28,7 +29,7 @@ export default function NewItem(props) {
       className={classes.noneSelect}
     >
       <DialogTitle> {lang.popup.newItem.title} </DialogTitle>
-      <DialogContent>
+      <DialogContent ref={ref}>
         <DialogContentText>
           {stringFormat(lang.popup.newItem.text, [
             state.listLength
@@ -41,7 +42,9 @@ export default function NewItem(props) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handle.close} color="secondary">
+        <Button onClick={() => {
+          console.log(ref.current.getElementsByClassName("ql-editor")[0].innerHTML);
+        }} color="secondary">
           {lang.common.apply}
         </Button>
         <Button onClick={handle.close} color="primary">
