@@ -152,7 +152,7 @@ export default function View(props) {
           {lang.grid.inherent.filterPanelInputLabel}
         </InputLabel>
         <Select
-          value={item.value}
+          value={item.value || ""}
           onChange={handleFilterChange}
         >
           <MenuItem value="">{lang.grid.inherent.filterValueAny}</MenuItem>
@@ -183,11 +183,9 @@ export default function View(props) {
                 label: lang.grid.inherent.filterOperatorIs,
                 value: "is",
                 getApplyFilterFn: (filterItem) => {
-                  if (filterItem.value) {
-                    return (param) => {
-                      return param.value === filterItem.value;
-                    }
-                  } else return null;
+                  if (!filterItem.value) 
+                    return null;
+                  else return (param) => param.value === filterItem.value;
                 },
                 InputComponent: TrackSelector
               },
