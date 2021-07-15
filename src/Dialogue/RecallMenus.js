@@ -34,7 +34,3 @@ export default function RecallMenu(props) {
     </Menu>
   );
 }
-
-export {
-  RecallMenu
-};

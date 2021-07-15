@@ -16,6 +16,7 @@ import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import ChangeHistoryIcon from '@material-ui/icons/ChangeHistory';
 import { defaultColumn } from "../Interface/Constant";
+import RecallMenu from "../Dialogue/RecallMenus";
 import { HotKeys } from "react-hotkeys";
 import {
   XGrid,
@@ -25,9 +26,6 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector
 } from "@material-ui/x-grid";
-import {
-  RecallMenu
-} from "../Dialogue/ViewMenus";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({

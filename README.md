@@ -419,11 +419,12 @@
     }
     ```
 
-7. 移除占位符
+7. 移除占位符，将列投影面板改成不可选择的
 
     ```javascript
-    // delete line 96
+    // delete line 96 in GridColumnsPanel.tsx
     placeholder={apiRef!.current.getLocaleText('columnsPanelTextFieldPlaceholder')}
+    // add userSelect in GridPanelWrapper.tsx
     ```
 
     
