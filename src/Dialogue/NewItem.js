@@ -24,7 +24,10 @@ const useStyles = makeStyles((theme) => ({
   content: {
     padding: theme.spacing(4, 6),
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    [theme.breakpoints.down("xs")]: {
+      overflowY: "visible"
+    },
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -38,14 +41,26 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 200
   },
   quillField: {
-    flexGrow: 1,
     marginTop: theme.spacing(2),
     display: "flex",
-    flexDirection: "row",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column",
+      height: "100vh"
+    },
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+      flexGrow: 1,
+    }
   },
   quillContainer: {
-    width: "48%",
-    height: "100%",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+      height: "48%",
+    },
+    [theme.breakpoints.up("sm")]: {
+      width: "48%",
+      height: "100%",
+    },
   },
   quill: {
     fontFamily: "Roboto",
@@ -143,7 +158,7 @@ export default function NewItem(props) {
         />
         <div className={classes.quillField}>
           <PackedQuill ref={queryRef} />
-          <div style={{ width: "4%" }} />
+          <div style={{ width: "4%", height: "4%" }} />
           <PackedQuill ref={keyRef} />
         </div> 
       </DialogContent>
