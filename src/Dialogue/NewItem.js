@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(4, 6),
     display: "flex",
     flexDirection: "column",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       overflowY: "visible"
     },
   },
@@ -43,21 +43,21 @@ const useStyles = makeStyles((theme) => ({
   quillField: {
     marginTop: theme.spacing(2),
     display: "flex",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
       height: "100vh"
     },
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       flexDirection: "row",
       flexGrow: 1,
     }
   },
   quillContainer: {
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       width: "100%",
       height: "48%",
     },
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       width: "48%",
       height: "100%",
     },

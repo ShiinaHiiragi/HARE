@@ -19,7 +19,7 @@ export default function Fold(props) {
 
   return (
     <div>
-      <Hidden xsDown implementation="css">
+      <Hidden smDown implementation="css">
         <IconButton
           color="inherit"
           edge="start"
@@ -29,7 +29,7 @@ export default function Fold(props) {
           {navList ? <ChevronLeftIcon /> : <MenuIcon />}
         </IconButton>
       </Hidden>
-      <Hidden smUp implementation="css">
+      <Hidden mdUp implementation="css">
         <IconButton
           color="inherit"
           edge="start"

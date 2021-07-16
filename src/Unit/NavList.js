@@ -88,7 +88,7 @@ export default function NavList(props) {
 
   return (
     <div>
-      <Hidden xsDown implementation="css">
+      <Hidden smDown implementation="css">
         <Drawer
           className={classes.drawer}
           variant="persistent"
@@ -99,7 +99,7 @@ export default function NavList(props) {
           {drawerContent}
         </Drawer>
       </Hidden>
-      <Hidden smUp implementation="css">
+      <Hidden mdUp implementation="css">
         <Drawer
           className={classes.drawer}
           variant="temporary"

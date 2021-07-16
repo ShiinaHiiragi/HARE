@@ -45,7 +45,7 @@ export default function NavBar(props) {
 
   return (
     <div>
-      <Hidden xsDown implementation="css">
+      <Hidden smDown implementation="css">
         <AppBar
           position="fixed"
           className={clsx(classes.appBar, {
@@ -55,7 +55,7 @@ export default function NavBar(props) {
           {AppBarContent}
         </AppBar>
       </Hidden>
-      <Hidden smUp implementation="css">
+      <Hidden mdUp implementation="css">
         <AppBar position="fixed" className={classes.appBar}>
           {AppBarContent}
         </AppBar>
