@@ -76,9 +76,11 @@ export default function NavList(props) {
         listObject={state.listObject}
         setListObject={handle.setListObject}
         route={state.route}
+        navListMobile={state.navListMobile}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
           toggleLoading: handle.toggleLoading,
+          closeNavListMobile: handle.closeNavListMobile,
           toggleKick: handle.toggleKick,
           closeLoading: handle.closeLoading
         }}

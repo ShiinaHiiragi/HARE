@@ -43,7 +43,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Pages(props) {
   const classes = useStyles();
-  const { lang, userID, token, route, listObject, setListObject, handle } = props;
+  const {
+    lang,
+    userID,
+    token,
+    route,
+    listObject,
+    setListObject,
+    navListMobile,
+    handle } = props;
   const pageIcon = [
     <TurnedInNotIcon />,
     <PlaylistAddCheckIcon />,
@@ -202,6 +210,7 @@ export default function Pages(props) {
       prevPage.selected = false;
       prevPage.route = route < 4 ? route : 1;
     }
+    if (navListMobile) handle.closeNavListMobile();
     setListObject(listObject.map((item) => item.unitID === unitID
       ? {
         ...item,
