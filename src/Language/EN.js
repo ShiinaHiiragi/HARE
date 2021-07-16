@@ -62,6 +62,8 @@ const list = {
       title: "Create New Entry",
       text: "The new entry will be inserted to the entry ID appointed, which {0}; those entries whose ID is larger will be put off.",
       itemID: "Target Entry ID",
+      query: "Enter the Question Here",
+      key: "Enter the Answer Here",
       onlyOne: "can only be 1",
       aboveOne: "ranges from 1 to {0}"
     },

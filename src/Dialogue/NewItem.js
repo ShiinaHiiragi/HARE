@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     [theme.breakpoints.down("sm")]: {
-      overflowY: "visible"
+      overflowY: "scroll"
     },
   },
   title: {
@@ -47,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
-      height: "100vh"
+      minHeight: "100vh",
+      overflowY: "visible"
     },
     [theme.breakpoints.up("md")]: {
       flexDirection: "row",
@@ -161,9 +162,9 @@ export default function NewItem(props) {
           className={classes.itemField}
         />
         <div className={classes.quillField}>
-          <PackedQuill placeholder={"QUERY"} ref={queryRef} />
+          <PackedQuill placeholder={lang.popup.newItem.query} ref={queryRef} />
           <div style={{ width: "4%", height: "4%" }} />
-          <PackedQuill placeholder={"KEY"} ref={keyRef} />
+          <PackedQuill placeholder={lang.popup.newItem.key} ref={keyRef} />
         </div> 
       </DialogContent>
     </Dialog>

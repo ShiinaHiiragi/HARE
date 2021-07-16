@@ -62,6 +62,8 @@ const list = {
       title: "创建新词条",
       text: "新词条会被插到指定的 ID 的位置，ID {0}；在指定位置之后的词条会向后顺延 1 号。",
       itemID: "词条 ID",
+      query: "在此输入问题",
+      key: "在此输入回答",
       onlyOne: "只能为 1",
       aboveOne: "的范围是 1 ~ {0}"
     },
