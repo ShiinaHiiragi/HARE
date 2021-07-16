@@ -2,11 +2,15 @@ import React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import AppBar from "@material-ui/core/AppBar";
+import IconButton from "@material-ui/core/IconButton";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/icons/Close";
 import { stringFormat } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -14,9 +18,49 @@ const useStyles = makeStyles((theme) => ({
   noneSelect: {
     userSelect: "none"
   },
+  bar: {
+    position: "relative",
+  },
+  content: {
+    padding: theme.spacing(4, 6),
+    display: "flex",
+    flexDirection: "column"
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+  textField: {
+    margin: theme.spacing(0)
+  },
+  itemField: {
+    width: "20%",
+    minWidth: 200
+  },
+  quillField: {
+    flexGrow: 1,
+    marginTop: theme.spacing(2),
+    display: "flex",
+    flexDirection: "row",
+  },
   quillContainer: {
+    width: "48%",
+    height: "100%",
+  },
+  quill: {
+    fontFamily: "Roboto",
+    height: "100%",
     width: "100%",
-    height: "200px"
+    maxHeight: "100%",
+    display: "flex",
+    flexDirection: "column",
+    "& .ql-container": {
+      flexGrow: 1,
+      height: 0,
+      width: "100%",
+      overflowY: "auto",
+      fontSize: "1rem"
+    }
   }
 }));
 
@@ -46,7 +90,7 @@ const PackedQuill = React.forwardRef((props, ref) => {
         ref={ref}
         modules={modules}
         formats={formats}
-        style={{ width: "100%", height: "100%" }}
+        className={classes.quill}
       />
     </div>
   );
@@ -56,37 +100,53 @@ export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
   const queryRef = React.createRef();
+  const keyRef = React.createRef();
+
+  const submit = () => {
+    console.log(queryRef.current.state);
+    console.log(keyRef.current.state);
+  }
 
   return (
     <Dialog
-      fullWidth
-      // TODO: make fullScreen pretty
       fullScreen
       open={state.open}
       onClose={handle.close}
       className={classes.noneSelect}
     >
-      <DialogTitle> {lang.popup.newItem.title} </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
+      <AppBar className={classes.bar}>
+        <Toolbar>
+          <IconButton edge="start" color="inherit" onClick={handle.close}>
+            <CloseIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            {lang.popup.newItem.title}
+          </Typography>
+          <Button color="inherit" onClick={submit}>
+            {lang.common.apply}
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <DialogContent className={classes.content}>
+        <DialogContentText className={classes.textField}>
           {stringFormat(lang.popup.newItem.text, [
             state.listLength
               ? stringFormat(lang.popup.newItem.aboveOne, [state.listLength + 1])
               : lang.popup.newItem.onlyOne
           ])}
         </DialogContentText>
-        <PackedQuill ref={queryRef} />
+        <TextField
+          required
+          type="number"
+          label={lang.popup.newItem.itemID}
+          className={classes.itemField}
+        />
+        <div className={classes.quillField}>
+          <PackedQuill ref={queryRef} />
+          <div style={{ width: "4%" }} />
+          <PackedQuill ref={keyRef} />
+        </div> 
       </DialogContent>
-      <DialogActions>
-        <Button onClick={() => {
-          console.log(queryRef.current.state);
-        }} color="secondary">
-          {lang.common.apply}
-        </Button>
-        <Button onClick={handle.close} color="primary">
-          {lang.common.back}
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 }

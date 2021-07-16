@@ -60,7 +60,8 @@ const list = {
     },
     newItem: {
       title: "Create New Entry",
-      text: "The new entry will be inserted to the Entry ID appointed, which {0}; the entry whose ID is larger will be put off.",
+      text: "The new entry will be inserted to the entry ID appointed, which {0}; those entries whose ID is larger will be put off.",
+      itemID: "Target Entry ID",
       onlyOne: "can only be 1",
       aboveOne: "ranges from 1 to {0}"
     },
