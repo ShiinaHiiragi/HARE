@@ -13,8 +13,44 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   noneSelect: {
     userSelect: "none"
+  },
+  quillContainer: {
+    width: "100%",
+    height: "200px"
   }
 }));
+
+const PackedQuill = React.forwardRef((props, ref) => {
+  const classes = useStyles();
+  const modules = {
+    toolbar: [
+      [{ "header": [1, 2, false] }],
+      ["bold", "italic", "underline","strike", "blockquote"],
+      [{"list": "ordered"}, {"list": "bullet"}, {"indent": "-1"}, {"indent": "+1"}],
+      ["link", "image"],
+      ["clean"]
+    ],
+  };
+
+  const formats = [
+    "header",
+    "bold", "italic", "underline", "strike", "blockquote",
+    "list", "bullet", "indent",
+    "link", "image"
+  ]
+
+  return (
+    <div className={classes.quillContainer}>
+      <ReactQuill
+        theme="snow"
+        ref={ref}
+        modules={modules}
+        formats={formats}
+        style={{ width: "100%", height: "100%" }}
+      />
+    </div>
+  );
+});
 
 export default function NewItem(props) {
   const classes = useStyles();
@@ -24,6 +60,8 @@ export default function NewItem(props) {
   return (
     <Dialog
       fullWidth
+      // TODO: make fullScreen pretty
+      fullScreen
       open={state.open}
       onClose={handle.close}
       className={classes.noneSelect}
@@ -37,14 +75,11 @@ export default function NewItem(props) {
               : lang.popup.newItem.onlyOne
           ])}
         </DialogContentText>
-        <ReactQuill
-          theme="snow"
-          ref={queryRef}
-        />
+        <PackedQuill ref={queryRef} />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => {
-          console.log(queryRef.current.getEditor());
+          console.log(queryRef.current.state);
         }} color="secondary">
           {lang.common.apply}
         </Button>

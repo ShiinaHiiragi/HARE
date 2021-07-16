@@ -27,7 +27,8 @@ const list = {
       "This is an apple. I like apples. Apples are good for our health.",
       "Today is a good day. What about tomorrow?",
       "Hard life, cat sigh.",
-      "1, 2, ⑨!"
+      "1, 2, ⑨!",
+      "Can you borrow me a fishing pole?"
     ],
     cover: {
       createTime: "Created at {0}",
