@@ -12,6 +12,8 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import { stringFormat } from "../Interface/Constant";
+import katex from "katex";
+import "katex/dist/katex.min.css";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -80,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+window.katex = katex;
 const PackedQuill = React.forwardRef((props, ref) => {
   const classes = useStyles();
   const { placeholder } = props;
@@ -87,7 +90,7 @@ const PackedQuill = React.forwardRef((props, ref) => {
     toolbar: [
       [{ "header": [1, 2, 3, 4, false] }],
       ["bold", "italic", "underline", "strike"],
-      ["blockquote", "code-block"],
+      ["blockquote", "code-block", "formula", "link", "image"],
       [
         { "align": [] },
         { "indent": "-1"},
@@ -95,8 +98,7 @@ const PackedQuill = React.forwardRef((props, ref) => {
         { "list": "ordered"},
         { "list": "bullet" }
       ],
-      [{ "color": [] }, { "background": [] }],
-      ["clean"]
+      [{ "color": [] }, { "background": [] }, "clean"],
     ],
   };
 
