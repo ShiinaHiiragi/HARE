@@ -63,13 +63,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   quill: {
-    fontFamily: "Roboto",
+    fontFamily: "Roboto !important",
     height: "100%",
     width: "100%",
     maxHeight: "100%",
     display: "flex",
     flexDirection: "column",
     "& .ql-container": {
+      fontFamily: "Roboto",
       flexGrow: 1,
       height: 0,
       width: "100%",
@@ -81,22 +82,23 @@ const useStyles = makeStyles((theme) => ({
 
 const PackedQuill = React.forwardRef((props, ref) => {
   const classes = useStyles();
+  const { placeholder } = props;
   const modules = {
     toolbar: [
-      [{ "header": [1, 2, false] }],
-      ["bold", "italic", "underline","strike", "blockquote"],
-      [{"list": "ordered"}, {"list": "bullet"}, {"indent": "-1"}, {"indent": "+1"}],
-      ["link", "image"],
+      [{ "header": [1, 2, 3, 4, false] }],
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote", "code-block"],
+      [
+        { "align": [] },
+        { "indent": "-1"},
+        { "indent": "+1" },
+        { "list": "ordered"},
+        { "list": "bullet" }
+      ],
+      [{ "color": [] }, { "background": [] }],
       ["clean"]
     ],
   };
-
-  const formats = [
-    "header",
-    "bold", "italic", "underline", "strike", "blockquote",
-    "list", "bullet", "indent",
-    "link", "image"
-  ]
 
   return (
     <div className={classes.quillContainer}>
@@ -104,8 +106,8 @@ const PackedQuill = React.forwardRef((props, ref) => {
         theme="snow"
         ref={ref}
         modules={modules}
-        formats={formats}
         className={classes.quill}
+        placeholder={placeholder}
       />
     </div>
   );
@@ -157,9 +159,9 @@ export default function NewItem(props) {
           className={classes.itemField}
         />
         <div className={classes.quillField}>
-          <PackedQuill ref={queryRef} />
+          <PackedQuill placeholder={"QUERY"} ref={queryRef} />
           <div style={{ width: "4%", height: "4%" }} />
-          <PackedQuill ref={keyRef} />
+          <PackedQuill placeholder={"KEY"} ref={keyRef} />
         </div> 
       </DialogContent>
     </Dialog>
