@@ -84,24 +84,34 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+function insertKatex() {
+  console.log(this.quill);
+}
+
 window.katex = katex;
 const PackedQuill = React.forwardRef((props, ref) => {
   const classes = useStyles();
   const { placeholder } = props;
+
   const modules = {
-    toolbar: [
-      [{ "header": [1, 2, 3, 4, false] }],
-      ["bold", "italic", "underline", "strike"],
-      ["blockquote", "code-block", "formula", "image"],
-      [
-        { "align": [] },
-        { "indent": "-1"},
-        { "indent": "+1" },
-        { "list": "ordered"},
-        { "list": "bullet" }
+    toolbar: {
+      container: [
+        [{ "header": [1, 2, 3, 4, false] }],
+        ["bold", "italic", "underline", "strike"],
+        ["blockquote", "code", "code-block", "formula", "image"],
+        [
+          { "align": [] },
+          { "indent": "-1"},
+          { "indent": "+1" },
+          { "list": "ordered"},
+          { "list": "bullet" }
+        ],
+        [{ "color": palette }, { "background": palette }, "clean"],
       ],
-      [{ "color": palette }, { "background": palette }, "clean"],
-    ],
+      handlers: {
+        formula: insertKatex
+      }
+    }
   };
 
   return (
