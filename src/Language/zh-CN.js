@@ -90,6 +90,11 @@ const list = {
       gender: "性别",
       tel: "电话",
       city: "城市"
+    },
+    katex: {
+      title: "公式",
+      text: "在文本框输入 LaTeX 公式并在下方预览。",
+      label: "LaTeX 公式"
     }
   },
   menu: {

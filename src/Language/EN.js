@@ -90,6 +90,11 @@ const list = {
       gender: "Gender",
       tel: "TEL",
       city: "City"
+    },
+    katex: {
+      title: "Inline Math",
+      text: "Input LaTeX in the textfield and preview the result.",
+      label: "LaTeX Code"
     }
   },
   menu: {

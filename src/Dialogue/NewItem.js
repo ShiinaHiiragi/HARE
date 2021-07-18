@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import { stringFormat } from "../Interface/Constant";
 import { palette } from "../Interface/Constant";
+import KaTeX from "./KaTeX";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 
@@ -84,14 +85,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function insertKatex() {
-  console.log(this.quill);
-}
-
 window.katex = katex;
 const PackedQuill = React.forwardRef((props, ref) => {
   const classes = useStyles();
-  const { placeholder } = props;
+  const { lang, placeholder } = props;
+
+  const [katex, setKatex] = React.useState(false);
+  const [thisQuill, setThisQuill] = React.useState(null);
+  function toggleKatex() {
+    setThisQuill(this.quill);
+    setKatex(true);
+  }
 
   const modules = {
     toolbar: {
@@ -109,7 +113,7 @@ const PackedQuill = React.forwardRef((props, ref) => {
         [{ "color": palette }, { "background": palette }, "clean"],
       ],
       handlers: {
-        formula: insertKatex
+        formula: toggleKatex
       }
     }
   };
@@ -122,6 +126,12 @@ const PackedQuill = React.forwardRef((props, ref) => {
         modules={modules}
         className={classes.quill}
         placeholder={placeholder}
+      />
+      <KaTeX
+        lang={lang}
+        open={katex}
+        quill={thisQuill}
+        handleClose={() => setKatex(false)}
       />
     </div>
   );
@@ -173,9 +183,17 @@ export default function NewItem(props) {
           className={classes.itemField}
         />
         <div className={classes.quillField}>
-          <PackedQuill placeholder={lang.popup.newItem.query} ref={queryRef} />
+          <PackedQuill
+            lang={lang}
+            placeholder={lang.popup.newItem.query}
+            ref={queryRef}
+          />
           <div style={{ width: "4%", height: "4%" }} />
-          <PackedQuill placeholder={lang.popup.newItem.key} ref={keyRef} />
+          <PackedQuill
+            lang={lang}
+            placeholder={lang.popup.newItem.key}
+            ref={keyRef}
+          />
         </div> 
       </DialogContent>
     </Dialog>
