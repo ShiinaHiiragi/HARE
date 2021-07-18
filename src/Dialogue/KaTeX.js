@@ -6,11 +6,17 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import katex from "katex";
+import "katex/dist/katex.min.css";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   noneSelect: {
     userSelect: "none"
+  },
+  preview: {
+    minHeight: "4rem",
+    padding: theme.spacing(1, 0)
   }
 }));
 
@@ -20,8 +26,11 @@ export default function KaTeX(props) {
   const { lang, open, quill, handleClose } = props;
   const ref = React.useRef();
   const updateInput = (event) => {
-    console.log(event.target.value);
-    console.log(ref.current.value);
+    katex.render(event.target.value, document.getElementById("preview"), {
+      displayMode: true,
+      throwOnError: false,
+      strict: false
+    });
   }
 
   return (
@@ -38,11 +47,14 @@ export default function KaTeX(props) {
         </DialogContentText>
         <TextField
           fullWidth
+          multiline
+          rows={4}
           required
           label={lang.popup.katex.label}
           inputRef={ref}
           onChange={updateInput}
         />
+        <div className={classes.preview} id="preview"></div>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="secondary">

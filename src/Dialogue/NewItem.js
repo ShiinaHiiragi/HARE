@@ -14,8 +14,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import { stringFormat } from "../Interface/Constant";
 import { palette } from "../Interface/Constant";
 import KaTeX from "./KaTeX";
-import katex from "katex";
-import "katex/dist/katex.min.css";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -85,7 +83,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-window.katex = katex;
 const PackedQuill = React.forwardRef((props, ref) => {
   const classes = useStyles();
   const { lang, placeholder } = props;
