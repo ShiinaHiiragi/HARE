@@ -24,7 +24,11 @@ const defaultProfile = {
   city: "",
   tel: ""
 }
-
+const katexConfig = {
+  displayMode: true,
+  throwOnError: false,
+  strict: false
+}
 const defaultColumn = (langGrid) => [
   {
     field: "id",
@@ -115,6 +119,7 @@ export {
   initMenu,
   palette,
   defaultProfile,
+  katexConfig,
   defaultColumn,
   nil,
   next,

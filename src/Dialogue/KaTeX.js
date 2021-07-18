@@ -7,6 +7,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import katex from "katex";
+import { katexConfig } from "../Interface/Constant";
 import "katex/dist/katex.min.css";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -23,14 +24,18 @@ const useStyles = makeStyles((theme) => ({
 // WARNING: this is an uncontrollable component
 export default function KaTeX(props) {
   const classes = useStyles();
-  const { lang, open, quill, handleClose } = props;
-  const ref = React.useRef();
+  const { lang, open, quill: quillRef, range, handleClose } = props;
+  const inputRef = React.useRef();
   const updateInput = (event) => {
-    katex.render(event.target.value, document.getElementById("preview"), {
-      displayMode: true,
-      throwOnError: false,
-      strict: false
-    });
+    katex.render(event.target.value, document.getElementById("preview"), katexConfig);
+  }
+
+  const submit = () => {
+    console.log(range);
+    // const katexString = inputRef.current.value;
+    // const resultString = katex.renderToString(katexString, katexConfig);
+    // if (katexString !== "") { }
+    // handleClose();
   }
 
   return (
@@ -51,13 +56,13 @@ export default function KaTeX(props) {
           rows={4}
           required
           label={lang.popup.katex.label}
-          inputRef={ref}
+          inputRef={inputRef}
           onChange={updateInput}
         />
         <div className={classes.preview} id="preview"></div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="secondary">
+        <Button onClick={submit} color="secondary">
           {lang.common.apply}
         </Button>
         <Button onClick={handleClose} color="primary">
