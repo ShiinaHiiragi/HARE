@@ -87,7 +87,19 @@ const useStyles = makeStyles((theme) => ({
 export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
+  const [itemID, setItemID] = React.useState(0);
+  const [query, setQuery] = React.useState(BraftEditor.createEditorState(null));
+  const [key, setKey] = React.useState(BraftEditor.createEditorState(null));
+  React.useEffect(() => {
+    if (state.open)
+      setItemID(state.listLength + 1);
+  }, [state.open]);
 
+  const clearClose = () => {
+    setQuery(BraftEditor.createEditorState(null));
+    setKey(BraftEditor.createEditorState(null));
+    handle.close();
+  }
   const submit = () => {
     // TODO: fill this
   }
@@ -96,12 +108,12 @@ export default function NewItem(props) {
     <Dialog
       fullScreen
       open={state.open}
-      onClose={handle.close}
+      onClose={clearClose}
       className={classes.noneSelect}
     >
       <AppBar className={classes.bar}>
         <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={handle.close}>
+          <IconButton edge="start" color="inherit" onClick={clearClose}>
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
@@ -125,21 +137,21 @@ export default function NewItem(props) {
           required
           type="number"
           disabled={!state.listLength}
-          value={state.itemID}
-          onChange={(event) => handle.setItemID(event.target.value)}
+          value={itemID}
+          onChange={(event) => setItemID(event.target.value)}
           label={lang.popup.newItem.itemID}
           className={classes.itemField}
         />
         <div className={classes.editorField}>
           <BraftEditor
             className={classes.editor}
-            value={state.query}
-            onChange={handle.setQuery}
+            value={query}
+            onChange={setQuery}
           />
           <BraftEditor
             className={classes.editor}
-            value={state.key}
-            onChange={handle.setKey}
+            value={key}
+            onChange={setKey}
           />
         </div> 
       </DialogContent>

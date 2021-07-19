@@ -1,6 +1,5 @@
 import React from "react";
 import clsx from "clsx";
-import BraftEditor from "braft-editor";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import FormControl from '@material-ui/core/FormControl';
@@ -85,13 +84,7 @@ export default function View(props) {
   const [anchorRecallMenu, setAnchorRecallMenu] = React.useState(null);
 
   const [newItem, setNewItem] = React.useState(false);
-  const [newItemID, setNewItemID] = React.useState(0);
-  const [newItemQuery, setNewItemQuery] = React.useState(BraftEditor.createEditorState(null));
-  const [newItemKey, setNewItemKey] = React.useState(BraftEditor.createEditorState(null));
   const toggleNewItem = () => {
-    setNewItemID(data.itemList.length + 1);
-    setNewItemQuery(BraftEditor.createEditorState(null))
-    setNewItemKey(BraftEditor.createEditorState(null))
     setNewItem(true);
   }
 
@@ -277,15 +270,9 @@ export default function View(props) {
         state={{
           open: newItem,
           listLength: data.itemList.length,
-          itemID: newItemID,
-          query: newItemQuery,
-          key: newItemKey
         }}
         handle={{
           close: () => setNewItem(false),
-          setItemID: setNewItemID,
-          setQuery: setNewItemQuery,
-          setKey: setNewItemKey
         }}
       />
     </HotKeys>
