@@ -9,13 +9,6 @@ const imageMaxBase = 2 * 1024 * 1024;
 const oneDayMillisecond = 24 * 3600 * 1000;
 const initMenu = { mouseX: null, mouseY: null };
 
-const palette = [
-  "#c0392b", "#e74c3c", "#f39c12", "#f1c40f",
-  "#16a085", "#1abc9c", "#27ae60", "#2ecc71",
-  "#2980b9", "#3498db", "#8e44ad", "#9b59b6",
-  "#ecf0f1", "#bdc3c7", "#95a5a6", "#7f8c8d",
-  "#34495e", "#2c3e50"
-];
 const defaultProfile = {
   userName: "",
   email: "",
@@ -117,7 +110,6 @@ export {
   presentMaxLength,
   imageMaxBase,
   initMenu,
-  palette,
   defaultProfile,
   katexConfig,
   defaultColumn,

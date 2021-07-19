@@ -1,7 +1,10 @@
 import React from "react";
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import clsx from "clsx"
+import ReactMarkdown from "react-markdown"
+import MonacoEditor from "react-monaco-editor";
+import Paper from "@material-ui/core/Paper";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 import Dialog from "@material-ui/core/Dialog";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -12,8 +15,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
+import remarkMath from "remark-math"
+import rehypeKatex from "rehype-katex"
+import "katex/dist/katex.min.css"
+import gfm from "remark-gfm"
 import { stringFormat } from "../Interface/Constant";
-import "braft-editor/dist/index.css";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -65,6 +71,22 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: {
       flexDirection: "row",
     }
+  },
+  editorContainer: {
+    height: 0,
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      height: "49%",
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "49%",
+      height: "100%",
+    },
+    overflowY: "scroll"
+  },
+  editorPreview: {
+    backgroundColor: "rgb(245, 245, 245)",
+    padding: theme.spacing(1, 4)
   }
 }));
 
@@ -73,12 +95,15 @@ export default function NewItem(props) {
   const { lang, data, state, handle } = props;
   const [itemID, setItemID] = React.useState(0);
   const [tab, setTab] = React.useState(0);
+  const [query, setQuery] = React.useState("");
+  const [key, setKey] = React.useState("");
   React.useEffect(() => {
-    if (state.open)
-      setItemID(state.listLength + 1);
+    if (state.open) setItemID(state.listLength + 1);
   }, [state.open]);
 
   const clearClose = () => {
+    setQuery("");
+    setKey("");
     handle.close();
   }
   const submit = () => {
@@ -136,11 +161,35 @@ export default function NewItem(props) {
             variant="fullWidth"
             indicatorColor="primary"
           >
-            <Tab label="Q" />
-            <Tab label="A" />
+            <Tab label={lang.popup.newItem.query} />
+            <Tab label={lang.popup.newItem.key} />
           </Tabs>
           <div className={classes.editorInput}>
-
+            <div className={classes.editorContainer} >
+              <MonacoEditor
+                width="100%"
+                height="100%"
+                language="markdown"
+                value={tab ? key : query}
+                onChange={tab? setKey : setQuery}
+                options={{
+                  minimap: { enabled: false },
+                  wordWrap: "on"
+                }}
+              />
+            </div>
+            <div style={{ width: "2%", height: "2%" }}></div>
+            <Typography
+              className={clsx(classes.editorContainer, classes.editorPreview)}
+              component="div"
+              variant="body2"
+            >
+              <ReactMarkdown
+                remarkPlugins={[gfm, remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+                children={tab ? key : query}
+              />
+            </Typography>
           </div>
         </Paper>
       </DialogContent>
