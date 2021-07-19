@@ -24,18 +24,19 @@ const useStyles = makeStyles((theme) => ({
 // WARNING: this is an uncontrollable component
 export default function KaTeX(props) {
   const classes = useStyles();
-  const { lang, open, quill: quillRef, range, handleClose } = props;
+  const { lang, open, handleClose, handleChange } = props;
   const inputRef = React.useRef();
   const updateInput = (event) => {
     katex.render(event.target.value, document.getElementById("preview"), katexConfig);
   }
 
   const submit = () => {
-    console.log(range);
-    // const katexString = inputRef.current.value;
-    // const resultString = katex.renderToString(katexString, katexConfig);
-    // if (katexString !== "") { }
-    // handleClose();
+    const katexString = inputRef.current.value;
+    // if (katexString !== "") {
+      const resultString = katex.renderToString(katexString, katexConfig);
+      handleChange(resultString);
+    // }
+    handleClose();
   }
 
   return (

@@ -87,12 +87,12 @@ const PackedQuill = React.forwardRef((props, ref) => {
   const classes = useStyles();
   const { lang, placeholder } = props;
   const [katex, setKatex] = React.useState(false);
-  const [range, setRange] = React.useState(null);
 
-  function toggleKatex () {
-    console.log(this);
-    setRange(this.quill.getSelection());
-    setKatex(true);
+  function insertKatex(html) {
+    const { index, length } = ref.current.getEditor().getSelection();
+    console.log(index, length);
+    ref.current.getEditor().deleteText(index, length);
+    console.log(ref.current.getEditor().insertText(index, html));
   }
 
   const modules = {
@@ -111,7 +111,7 @@ const PackedQuill = React.forwardRef((props, ref) => {
         [{ "color": palette }, { "background": palette }, "clean"],
       ],
       handlers: {
-        formula: toggleKatex
+        formula: () => setKatex(true)
       }
     }
   };
@@ -128,9 +128,8 @@ const PackedQuill = React.forwardRef((props, ref) => {
       <KaTeX
         lang={lang}
         open={katex}
-        quill={ref}
-        range={range}
         handleClose={() => setKatex(false)}
+        handleChange={insertKatex}
       />
     </div>
   );
@@ -139,8 +138,8 @@ const PackedQuill = React.forwardRef((props, ref) => {
 export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
-  const queryRef = React.useRef();
-  const keyRef = React.useRef();
+  const queryRef = React.createRef();
+  const keyRef = React.createRef();
 
   const submit = () => {
     console.log(queryRef.current.state);
