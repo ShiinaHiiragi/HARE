@@ -1,6 +1,5 @@
 import React from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import BraftEditor from "braft-editor";
 import Dialog from "@material-ui/core/Dialog";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -12,10 +11,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import { stringFormat } from "../Interface/Constant";
-import { palette } from "../Interface/Constant";
-import KaTeX from "./KaTeX";
-import katex from "katex";
-import "katex/dist/katex.min.css";
+import "braft-editor/dist/index.css";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     width: "20%",
     minWidth: 200
   },
-  quillField: {
+  editorField: {
     marginTop: theme.spacing(2),
     display: "flex",
     [theme.breakpoints.down("sm")]: {
@@ -57,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
     }
   },
-  quillContainer: {
+  editorContainer: {
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       height: "48%",
@@ -67,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
       height: "100%",
     },
   },
-  quill: {
+  editor: {
     fontFamily: "Roboto !important",
     height: "100%",
     width: "100%",
@@ -88,68 +84,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-window.katex = katex;
-const PackedQuill = React.forwardRef((props, ref) => {
-  const classes = useStyles();
-  const { lang, placeholder } = props;
-  const [katex, setKatex] = React.useState(false);
-
-  function insertKatex(html) {
-    const { index, length } = ref.current.getEditor().getSelection();
-    console.log(index, length);
-    ref.current.getEditor().deleteText(index, length);
-    console.log(ref.current.getEditor().insertText(index, html));
-  }
-
-  const modules = {
-    toolbar: {
-      container: [
-        [{ "header": [1, 2, 3, 4, false] }],
-        ["bold", "italic", "underline", "strike"],
-        ["blockquote", "code", "code-block", "formula", "image"],
-        [
-          { "align": [] },
-          { "indent": "-1"},
-          { "indent": "+1" },
-          { "list": "ordered"},
-          { "list": "bullet" }
-        ],
-        [{ "color": palette }, { "background": palette }, "clean"],
-      ],
-      handlers: {
-        // formula: () => setKatex(true)
-      }
-    }
-  };
-
-  return (
-    <div className={classes.quillContainer}>
-      <ReactQuill
-        theme="snow"
-        ref={ref}
-        modules={modules}
-        className={classes.quill}
-        placeholder={placeholder}
-      />
-      <KaTeX
-        lang={lang}
-        open={katex}
-        handleClose={() => setKatex(false)}
-        handleChange={insertKatex}
-      />
-    </div>
-  );
-});
-
 export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
-  const queryRef = React.createRef();
-  const keyRef = React.createRef();
 
   const submit = () => {
-    console.log(queryRef.current.state);
-    console.log(keyRef.current.state);
+    // TODO: fill this
   }
 
   return (
@@ -177,26 +117,29 @@ export default function NewItem(props) {
           {stringFormat(lang.popup.newItem.text, [
             state.listLength
               ? stringFormat(lang.popup.newItem.aboveOne, [state.listLength + 1])
-              : lang.popup.newItem.onlyOne
+              : lang.popup.newItem.onlyOne,
+            state.listLength ? lang.popup.newItem.supply : "",
           ])}
         </DialogContentText>
         <TextField
           required
           type="number"
+          disabled={!state.listLength}
+          value={state.itemID}
+          onChange={(event) => handle.setItemID(event.target.value)}
           label={lang.popup.newItem.itemID}
           className={classes.itemField}
         />
-        <div className={classes.quillField}>
-          <PackedQuill
-            lang={lang}
-            placeholder={lang.popup.newItem.query}
-            ref={queryRef}
+        <div className={classes.editorField}>
+          <BraftEditor
+            className={classes.editor}
+            value={state.query}
+            onChange={handle.setQuery}
           />
-          <div style={{ width: "4%", height: "4%" }} />
-          <PackedQuill
-            lang={lang}
-            placeholder={lang.popup.newItem.key}
-            ref={keyRef}
+          <BraftEditor
+            className={classes.editor}
+            value={state.key}
+            onChange={handle.setKey}
           />
         </div> 
       </DialogContent>

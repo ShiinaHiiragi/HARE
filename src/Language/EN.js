@@ -60,7 +60,8 @@ const list = {
     },
     newItem: {
       title: "Create New Entry",
-      text: "The new entry will be inserted to the entry ID appointed, which {0}; those entries whose ID is larger will be put off.",
+      text: "The new entry will be inserted to the entry ID appointed, which {0}{1}.",
+      supply: "; those entries whose ID is larger will be put off",
       itemID: "Target Entry ID",
       query: "Enter the Question Here",
       key: "Enter the Answer Here",
