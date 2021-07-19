@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       overflowY: "scroll"
     },
+    [theme.breakpoints.up("md")]: {
+      maxHeight: "100%"
+    }
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -55,7 +58,9 @@ const useStyles = makeStyles((theme) => ({
       overflowY: "visible"
     },
     [theme.breakpoints.up("md")]: {
-      flexGrow: 1
+      flexGrow: 1,
+      height: 0,
+      overflowY: "visible"
     }
   },
   itemInput: {
@@ -70,23 +75,24 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up("md")]: {
       flexDirection: "row",
+      height: 0,
     }
   },
   editorContainer: {
-    height: 0,
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       height: "49%",
     },
     [theme.breakpoints.up("md")]: {
       width: "49%",
-      height: "100%",
-    },
-    overflowY: "scroll"
+      height: "100%"
+    }
   },
   editorPreview: {
     backgroundColor: "rgb(245, 245, 245)",
-    padding: theme.spacing(1, 4)
+    padding: theme.spacing(1, 4),
+    height: "100%",
+    overflowY: "auto"
   }
 }));
 
