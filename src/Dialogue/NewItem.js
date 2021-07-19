@@ -93,7 +93,12 @@ const useStyles = makeStyles((theme) => ({
   editorPreview: {
     backgroundColor: "rgb(245, 245, 245)",
     padding: theme.spacing(1, 4),
-    height: "100%",
+    [theme.breakpoints.down("sm")]: {
+      height: "49%",
+    },
+    [theme.breakpoints.up("md")]: {
+      height: "100%"
+    },
     overflowY: "auto"
   }
 }));
