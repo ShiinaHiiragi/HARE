@@ -80,8 +80,11 @@ const useStyles = makeStyles((theme) => ({
       height: 0,
       width: "100%",
       overflowY: "auto",
-      fontSize: "1rem"
-    }
+      fontSize: "1rem",
+      "& .ql-editor.ql-blank::before": {
+        fontStyle: "normal"
+      }
+    },
   }
 }));
 
