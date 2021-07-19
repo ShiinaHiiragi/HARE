@@ -1,5 +1,7 @@
 import React from "react";
-import BraftEditor from "braft-editor";
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Dialog from "@material-ui/core/Dialog";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -37,50 +39,32 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0)
   },
   itemField: {
-    width: "20%",
-    minWidth: 200
+    margin: theme.spacing(1, 0),
   },
   editorField: {
-    marginTop: theme.spacing(2),
     display: "flex",
+    flexDirection: "column",
     [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
       minHeight: "100vh",
       overflowY: "visible"
     },
     [theme.breakpoints.up("md")]: {
-      flexDirection: "row",
-      flexGrow: 1,
+      flexGrow: 1
     }
   },
-  editorContainer: {
+  itemInput: {
+    width: "20%",
+    minWidth: 200
+  },
+  editorInput: {
+    display: "flex",
+    flexGrow: "1",
     [theme.breakpoints.down("sm")]: {
-      width: "100%",
-      height: "48%",
+      flexDirection: "column",
     },
     [theme.breakpoints.up("md")]: {
-      width: "48%",
-      height: "100%",
-    },
-  },
-  editor: {
-    fontFamily: "Roboto !important",
-    height: "100%",
-    width: "100%",
-    maxHeight: "100%",
-    display: "flex",
-    flexDirection: "column",
-    "& .ql-container": {
-      fontFamily: "Roboto",
-      flexGrow: 1,
-      height: 0,
-      width: "100%",
-      overflowY: "auto",
-      fontSize: "1rem",
-      "& .ql-editor.ql-blank::before": {
-        fontStyle: "normal"
-      }
-    },
+      flexDirection: "row",
+    }
   }
 }));
 
@@ -88,16 +72,13 @@ export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
   const [itemID, setItemID] = React.useState(0);
-  const [query, setQuery] = React.useState(BraftEditor.createEditorState(null));
-  const [key, setKey] = React.useState(BraftEditor.createEditorState(null));
+  const [tab, setTab] = React.useState(0);
   React.useEffect(() => {
     if (state.open)
       setItemID(state.listLength + 1);
   }, [state.open]);
 
   const clearClose = () => {
-    setQuery(BraftEditor.createEditorState(null));
-    setKey(BraftEditor.createEditorState(null));
     handle.close();
   }
   const submit = () => {
@@ -133,27 +114,35 @@ export default function NewItem(props) {
             state.listLength ? lang.popup.newItem.supply : "",
           ])}
         </DialogContentText>
-        <TextField
-          required
-          type="number"
-          disabled={!state.listLength}
-          value={itemID}
-          onChange={(event) => setItemID(event.target.value)}
-          label={lang.popup.newItem.itemID}
-          className={classes.itemField}
-        />
-        <div className={classes.editorField}>
-          <BraftEditor
-            className={classes.editor}
-            value={query}
-            onChange={setQuery}
+        <div className={classes.itemField}>
+          <TextField
+            required
+            type="number"
+            disabled={!state.listLength}
+            value={itemID}
+            onChange={(event) => setItemID(event.target.value)}
+            label={lang.popup.newItem.itemID}
+            className={classes.itemInput}
           />
-          <BraftEditor
-            className={classes.editor}
-            value={key}
-            onChange={setKey}
-          />
-        </div> 
+        </div>
+        <Paper
+          className={classes.editorField}
+          variant="outlined"
+          square
+        >
+          <Tabs
+            value={tab}
+            onChange={(_, index) => setTab(index)}
+            variant="fullWidth"
+            indicatorColor="primary"
+          >
+            <Tab label="Q" />
+            <Tab label="A" />
+          </Tabs>
+          <div className={classes.editorInput}>
+
+          </div>
+        </Paper>
       </DialogContent>
     </Dialog>
   );
