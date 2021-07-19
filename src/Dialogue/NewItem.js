@@ -69,7 +69,9 @@ const useStyles = makeStyles((theme) => ({
   },
   editorInput: {
     display: "flex",
-    flexGrow: "1",
+    width: "100%",
+    height: 0,
+    flexGrow: 1,
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
     },
