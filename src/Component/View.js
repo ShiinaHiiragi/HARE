@@ -273,6 +273,7 @@ export default function View(props) {
         }}
         handle={{
           close: () => setNewItem(false),
+          toggleMessageBox: handle.toggleMessageBox,
         }}
       />
     </HotKeys>

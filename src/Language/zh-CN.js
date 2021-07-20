@@ -70,7 +70,7 @@ const list = {
       exitTitle: "退出确认",
       exitText: "您正准备放弃所有已编辑内容并退出新建词条的过程，请点击「确定」以退出。",
       applyTitle: "提交确认",
-      applyText: "您正准备提交新词条（虽然从未编辑“答案”部分），请点击「确定」以继续。",
+      applyText: "您正准备提交新词条（虽然从未编辑“答案”部分），请点击「确定」以继续。"
     },
     edit: {
       titleUnit: "编辑记忆组信息",
@@ -134,7 +134,8 @@ const list = {
     userNameLengthError: "用户名长度应为 1 ~ 16 字符",
     userNameInvalidError: "用户名只能包含 ASCII 字符",
     telError: "电话长度不能超过 16 个字符",
-    cityError: "城市名长度不能超过 16 个字符"
+    cityError: "城市名长度不能超过 16 个字符",
+    invalidItemID: "指定的 ID 超出了范围"
   },
   grid: {
     column: {

@@ -70,7 +70,7 @@ const list = {
       exitTitle: "Exit Confirm",
       exitText: "You are attempting to discard editing contents and quit. Please click 'YES' to continue.",
       applyTitle: "Submit Confirm",
-      applyText: "You are attempting to submit a new entry, though you didn't edit 'Answer'. Please click 'YES' to continue submitting.",
+      applyText: "You are attempting to submit a new entry, though you didn't edit 'Answer'. Please click 'YES' to continue submitting."
     },
     edit: {
       titleUnit: "Edit Group Information",
@@ -134,7 +134,8 @@ const list = {
     userNameLengthError: "The username should be between 1 ~ 16 characters.",
     userNameInvalidError: "The username should only contain ASCII characters.",
     telError: "The name of the phone should be no more than 16 characters.",
-    cityError: "The name of the city should be no more than 16 characters."
+    cityError: "The name of the city should be no more than 16 characters.",
+    invalidItemID: "The target entry ID is out of range."
   },
   grid: {
     column: {

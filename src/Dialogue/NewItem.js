@@ -135,6 +135,11 @@ export default function NewItem(props) {
     if (index) setEditKey(true);
     setTab(index);
   }
+  const idChange = (event) => {
+    const valueJudge = event.target.value;
+    if (/^[0-9]*$/.test(valueJudge))
+      setItemID(event.target.value);
+  }
 
   // the icon button of exit
   const toggleExit = () => {
@@ -150,6 +155,11 @@ export default function NewItem(props) {
 
   // the text button of continue
   const toggleApply = () => {
+    const targetNumber = Number(itemID) | 0;
+    if (targetNumber <= 0 || targetNumber > state.listLength + 1) {
+      handle.toggleMessageBox(lang.message.invalidItemID, "warning");
+      return;
+    }
     if (!editKey) setApply(true);
     else submit();
   }
@@ -192,7 +202,7 @@ export default function NewItem(props) {
             type="number"
             disabled={!state.listLength}
             value={itemID}
-            onChange={(event) => setItemID(event.target.value)}
+            onChange={idChange}
             label={lang.popup.newItem.itemID}
             className={classes.itemInput}
           />
