@@ -114,6 +114,7 @@ export default function NewItem(props) {
   const [itemID, setItemID] = React.useState(0);
   const [query, setQuery] = React.useState("");
   const [key, setKey] = React.useState("");
+  const [itemIDCheck, setItemIDCheck] = React.useState(false);
 
   // the state of tab
   const [tab, setTab] = React.useState(0);
@@ -126,8 +127,6 @@ export default function NewItem(props) {
   React.useEffect(() => {
     if (state.open) {
       setItemID(state.listLength + 1);
-      setTab(0);
-      setEditKey(false);
     }
   }, [state.open]);
 
@@ -145,21 +144,24 @@ export default function NewItem(props) {
   const toggleExit = () => {
     if (query !== "" || key !== "")
       setExit(true);
-    else handle.close();
+    else clearClose();
   }
-  const clearClose = () => {
-    setQuery("");
-    setKey("");
+  const clearClose = (clear) => {
+    if (clear) { setQuery(""); setKey(""); }
     handle.close();
+    setTab(0);
+    setEditKey(false);
+    setItemIDCheck(false);
   }
 
   // the text button of continue
   const toggleApply = () => {
     const targetNumber = Number(itemID) | 0;
     if (targetNumber <= 0 || targetNumber > state.listLength + 1) {
+      setItemIDCheck(true);
       handle.toggleMessageBox(lang.message.invalidItemID, "warning");
       return;
-    }
+    } else setItemIDCheck(false);
     if (!editKey) setApply(true);
     else submit();
   }
@@ -201,6 +203,7 @@ export default function NewItem(props) {
             required
             type="number"
             disabled={!state.listLength}
+            error={itemIDCheck}
             value={itemID}
             onChange={idChange}
             label={lang.popup.newItem.itemID}
@@ -258,7 +261,7 @@ export default function NewItem(props) {
         lang={lang}
         open={exit}
         handleClose={() => setExit(false)}
-        handleClearClose={clearClose}
+        handleClearClose={() => clearClose(true)}
       />
       <SubmitConfirm
         lang={lang}
