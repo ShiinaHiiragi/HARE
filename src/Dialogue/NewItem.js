@@ -26,6 +26,7 @@ import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
 import NewItemHelp from "./NewItemHelp";
+import { packedPOST } from "../Interface/Request";
 import { stringFormat, cookieTime } from "../Interface/Constant";
 
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
@@ -130,7 +131,7 @@ export default function NewItem(props) {
 
   // the state of tab
   const [tab, setTab] = React.useState(0);
-  const [editKey, setEditKey] = React.useState(true);
+  const [editKey, setEditKey] = React.useState(false);
 
   // the state of dialogue
   const [exit, setExit] = React.useState(false);
@@ -206,7 +207,21 @@ export default function NewItem(props) {
     else submit();
   }
   const submit = () => {
-    console.log("SUBMIT");
+    packedPOST({
+      uri: "/set/new-item",
+      query: {
+        userID: data.userID,
+        token: data.token,
+        unitID: data.unitID,
+        pageID: data.pageID,
+        itemID: itemID,
+        query: query,
+        key: key
+      },
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
+      lang: lang
+    }).then(() => clearClose(true));
   }
 
   return (

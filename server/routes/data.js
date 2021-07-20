@@ -77,10 +77,12 @@ router.get('/item', (req, res) => {
           key: each.itemkey,
           time: each.itemcreatetime,
         };
-        return each.itemrecord.reduce((obj, value, index) => {
-          obj[index + 1] = value
-          return obj;
-        }, initialObject);
+        if (each.itemrecord)
+          return each.itemrecord.reduce((obj, value, index) => {
+            obj[index + 1] = value
+            return obj;
+          }, initialObject);
+        else return initialObject;
       })))
       .catch(console.log);
       // () => api.internalServerError(res)

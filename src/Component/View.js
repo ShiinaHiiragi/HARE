@@ -266,7 +266,9 @@ export default function View(props) {
         lang={lang}
         data={{
           userID: data.userID,
-          token: data.token
+          token: data.token,
+          unitID: current.unitID,
+          pageID: current.pageID
         }}
         state={{
           open: newItem,
@@ -275,6 +277,7 @@ export default function View(props) {
         handle={{
           close: () => setNewItem(false),
           toggleMessageBox: handle.toggleMessageBox,
+          toggleKick: handle.toggleKick
         }}
       />
     </HotKeys>
