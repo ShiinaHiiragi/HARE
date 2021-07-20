@@ -25,6 +25,7 @@ import gfm from "remark-gfm";
 import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
+import NewItemHelp from "./NewItemHelp";
 import { stringFormat, cookieTime } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -131,6 +132,7 @@ export default function NewItem(props) {
   // the state of dialogue
   const [exit, setExit] = React.useState(false);
   const [apply, setApply] = React.useState(false);
+  const [help, setHelp] = React.useState(false);
 
   React.useEffect(() => {
     if (state.open) {
@@ -220,7 +222,7 @@ export default function NewItem(props) {
           <Typography variant="h6" className={classes.title}>
             {lang.popup.newItem.title}
           </Typography>
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={() => setHelp(true)}>
             <InfoOutlinedIcon />
           </IconButton>
           <IconButton color="inherit" onClick={toggleApply}>
@@ -311,6 +313,11 @@ export default function NewItem(props) {
         open={apply}
         handleClose={() => setApply(false)}
         handleSubmit={submit}
+      />
+      <NewItemHelp
+        lang={lang}
+        open={help}
+        handleClose={() => setHelp(false)}
       />
     </Dialog>
   );
