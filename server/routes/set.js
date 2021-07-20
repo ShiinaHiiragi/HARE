@@ -13,6 +13,7 @@ router.post('/profile', (req, res) => {
   } = api.sqlString(req.body, [
     "token", "userName", "birth", "gender", "tel", "city"
   ], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => {
       db.saveProfile(userID, userName, birth, gender, tel, city)
@@ -24,6 +25,7 @@ router.post('/avatar', (req, res) => {
   const { avatar } = req.body;
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
   const { token, type } = api.sqlString(req.body, ["token", "type"], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res)
   .then(() => {
     const basicPath = path.join(__dirname, '../src/avatar');
@@ -64,6 +66,7 @@ router.post('/new-up', (req, res) => {
     ["token", "unitName", "pageName", "pagePresent"],
     res
   );
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
@@ -88,6 +91,7 @@ router.post('/delete-up', (req, res) => {
     res
   );
   const { token } = api.sqlString(req.body, ["token"], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
@@ -112,6 +116,7 @@ router.post('/swap-up', (req, res) => {
   const { group, less } = req.body;
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
   const { token } = api.sqlString(req.body, ["token"], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
@@ -129,6 +134,7 @@ router.post('/swap-up', (req, res) => {
 router.post('/unit', (req, res) => {
   const { userID, unitID } = api.sqlNumber(req.body, ["userID", "unitID"], res);
   const { token, name } = api.sqlString(req.body, ["token", "name"], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => {
       db.editUnit(userID, unitID, name)

@@ -29,22 +29,30 @@ exports.checkRegister = (cmdLine) => new Promise((resolve, reject) => {
 
 exports.sqlNumber = (query, keys, res) => {
   let sql = new Object();
+  let invalid = false;
   keys.forEach(item => {
-    if (query[item] === undefined)
+    if (query[item] === undefined) {
       res.status(406).send("INVALID ARGUMENT");
+      invalid = true;
+      return;
+    }
     sql[item] = isNaN(Number(query[item])) ? -1 : Number(query[item]);
   });
-  return sql;
+  return invalid ? new Object() : sql;
 }
 
 exports.sqlString = (query, keys, res) => {
   let sql = new Object();
+  let invalid = false;
   keys.forEach(item => {
-    if (query[item] === undefined)
+    if (query[item] === undefined) {
       res.status(406).send("INVALID ARGUMENT");
+      invalid = true;
+      return;
+    }
     sql[item] = query[item].replace(/'/g, `''`);
   })
-  return sql;
+  return invalid ? new Object() : sql;
 }
 
 exports.internalServerError = (res) => {

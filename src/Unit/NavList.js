@@ -42,10 +42,10 @@ export default function NavList(props) {
   }
 
   const [avatarURL, setAvatarURL] = React.useState(
-    `${requestURL}/src/avatar?userID=${data.userID}&token=${data.token}`
+    `${requestURL}/src/avatar?userID=${data.userID}`
   );
   const refreshAvatar = () => setAvatarURL(
-    `${requestURL}/src/avatar?userID=${data.userID}&token=${data.token}&t=${randomTimestamp()}`
+    `${requestURL}/src/avatar?userID=${data.userID}&t=${randomTimestamp()}`
   );
 
   const drawerContent = (

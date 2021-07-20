@@ -7,12 +7,14 @@ var router = express.Router();
 router.get('/check', (req, res) => {
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
   const { token } = api.sqlString(req.query, ["token"], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.updateToken(userID).then(() => res.send("HARE")));
 });
 
 router.post('/sign', (req, res) => {
   const { email, password } = api.sqlString(req.body, ["email", "password"], res);
+  if (!email) return;
   db.query(`select userID from userInfo natural join userSetting
     where email = '${email}' and password = '${password}'`)
     .then(out => {
@@ -27,6 +29,7 @@ router.post('/sign', (req, res) => {
 router.post('/logout', (req) => {
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
   const { token } = api.sqlString(req.body, ["token"], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token)
     .then(() => db.query(`delete from onlineUser where userID = ${userID}`));
 });
@@ -34,6 +37,7 @@ router.post('/logout', (req) => {
 router.get('/unit', (req, res) => {
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
   const { token } = api.sqlString(req.query, ["token"], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res).then(() => {
     db.getUnitPage(userID)
       .then(out => res.send(out))
@@ -48,6 +52,7 @@ router.get('/page', (req, res) => {
     res
   );
   const { token } = api.sqlString(req.query, ["token"], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res).then(() => {
     db.getPageDetail(userID, unitID, pageID)
       .then(out => res.send(out[0]))
@@ -62,6 +67,7 @@ router.get('/item', (req, res) => {
     res
   );
   const { token } = api.sqlString(req.query, ["token"], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res).then(() => {
     db.getItem(userID, unitID, pageID)
       .then(out => res.send(out.map((each) => {
@@ -84,6 +90,7 @@ router.get('/item', (req, res) => {
 router.get('/profile', (req, res) => {
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
   const { token } = api.sqlString(req.query, ["token"], res);
+  if (!(userID && token)) return;
   db.checkToken(userID, token, res).then(() => {
     db.getProfile(userID)
       .then(out => res.send(out[0]))
