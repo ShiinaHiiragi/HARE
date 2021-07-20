@@ -22,9 +22,10 @@ import rehypeRaw from "rehype-raw";
 import "katex/dist/katex.min.css";
 import "../Interface/Markdown.css";
 import gfm from "remark-gfm";
+import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
-import { stringFormat } from "../Interface/Constant";
+import { stringFormat, cookieTime } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -111,6 +112,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// TODO: scrollbar image upload
 export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
@@ -133,6 +135,9 @@ export default function NewItem(props) {
   React.useEffect(() => {
     if (state.open) {
       setItemID(state.listLength + 1);
+      const savedWrap = cookie.load("__wordWrap");
+      if (savedWrap) setWordWrap(savedWrap);
+      else cookie.save("__wordWrap", "on", { expires: cookieTime(3650) });
     }
   }, [state.open]);
   const onEditorReady = (editor, monaco) => {
@@ -142,17 +147,19 @@ export default function NewItem(props) {
     // });
     editor.addAction({
       id: "wordWrap",
-      label: lang.popup.newItem.wordWrap,
+      label: "Word Wrap",
       keybindings: [monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z],
       contextMenuGroupId: "1_modification",
       run: () => {
         if (closureWordWrap === "on") {
           setWordWrap("off");
           closureWordWrap = "off";
+          cookie.save("__wordWrap", "off", { expires: cookieTime(3650) });
         }
         else {
           setWordWrap("on");
           closureWordWrap = "on";
+          cookie.save("__wordWrap", "on", { expires: cookieTime(3650) });
         }
       }
     });
