@@ -69,6 +69,8 @@ const list = {
       aboveOne: "ranges from 1 to {0}",
       exitTitle: "Exit Confirm",
       exitText: "You are attempting to discard editing contents and quit. Please click 'YES' to continue.",
+      applyTitle: "Submit Confirm",
+      applyText: "You are attempting to submit a new entry, though you didn't edit 'Answer'. Please click 'YES' to continue submitting.",
     },
     edit: {
       titleUnit: "Edit Group Information",

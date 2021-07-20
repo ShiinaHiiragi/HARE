@@ -20,6 +20,7 @@ import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import gfm from "remark-gfm";
 import ExitConfirm from "./ExitConfirm";
+import SubmitConfirm from "./SubmitConfirm";
 import { stringFormat } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -107,15 +108,24 @@ const useStyles = makeStyles((theme) => ({
 export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
+
+  // the state of text input
   const [itemID, setItemID] = React.useState(0);
-  const [tab, setTab] = React.useState(0);
   const [query, setQuery] = React.useState("");
   const [key, setKey] = React.useState("");
+
+  // the state of tab
+  const [tab, setTab] = React.useState(0);
   const [editKey, setEditKey] = React.useState(true);
+
+  // the state of dialogue
   const [exit, setExit] = React.useState(false);
+  const [apply, setApply] = React.useState(false);
+
   React.useEffect(() => {
     if (state.open) {
       setItemID(state.listLength + 1);
+      setTab(0);
       setEditKey(false);
     }
   }, [state.open]);
@@ -125,6 +135,7 @@ export default function NewItem(props) {
     setTab(index);
   }
 
+  // the icon button of exit
   const toggleExit = () => {
     if (query !== "" || key !== "")
       setExit(true);
@@ -136,8 +147,13 @@ export default function NewItem(props) {
     handle.close();
   }
 
+  // the text button of continue
+  const toggleApply = () => {
+    if (!editKey) setApply(true);
+    else submit();
+  }
   const submit = () => {
-    // TODO: fill this
+    console.log("SUBMIT");
   }
 
   return (
@@ -155,7 +171,7 @@ export default function NewItem(props) {
           <Typography variant="h6" className={classes.title}>
             {lang.popup.newItem.title}
           </Typography>
-          <Button color="inherit" onClick={submit}>
+          <Button color="inherit" onClick={toggleApply}>
             {lang.common.apply}
           </Button>
         </Toolbar>
@@ -232,6 +248,12 @@ export default function NewItem(props) {
         open={exit}
         handleClose={() => setExit(false)}
         handleClearClose={clearClose}
+      />
+      <SubmitConfirm
+        lang={lang}
+        open={apply}
+        handleClose={() => setApply(false)}
+        handleSubmit={submit}
       />
     </Dialog>
   );

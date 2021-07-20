@@ -69,6 +69,8 @@ const list = {
       aboveOne: "的范围是 1 ~ {0}",
       exitTitle: "退出确认",
       exitText: "您正准备放弃所有已编辑内容并退出新建词条的过程，请点击「确定」以退出。",
+      applyTitle: "提交确认",
+      applyText: "您正准备提交新词条（虽然从未编辑“答案”部分），请点击「确定」以继续。",
     },
     edit: {
       titleUnit: "编辑记忆组信息",
