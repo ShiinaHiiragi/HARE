@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardField: {
     flexGrow: 1,
+    height: 0,
     borderRadius: "0",
     margin: theme.spacing(1, 2, 2, 2),
     display: "flex",

@@ -17,6 +17,7 @@
     "crypto-js": "^4.0.0",
     "date-fns": "^2.22.1",
     "katex": "^0.13.11",
+    "monaco-editor-webpack-plugin": "^4.1.1",
     "pg": "^8.6.0",
     "react": "^17.0.2",
     "react-cookies": "^0.1.1",
@@ -32,11 +33,11 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-app-rewired start",
     "server": "cd server && npm run start",
-    "build": "react-scripts build",
-    "build-copy": "react-scripts build && ROBOCOPY ./build ./server/build /e",
-    "test": "react-scripts test",
+    "build": "react-app-rewired build",
+    "build-copy": "react-app-rewired build && ROBOCOPY ./build ./server/build /e",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -56,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-app-rewired": "^2.1.8"
   }
 }

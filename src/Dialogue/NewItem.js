@@ -27,7 +27,10 @@ import { stringFormat } from "../Interface/Constant";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   noneSelect: {
-    userSelect: "none"
+    userSelect: "none",
+  },
+  container: {
+    overflowY: "hidden",
   },
   bar: {
     position: "relative",
@@ -175,6 +178,7 @@ export default function NewItem(props) {
       open={state.open}
       onClose={toggleExit}
       className={classes.noneSelect}
+      classes={{ paper: classes.container }}
     >
       <AppBar className={classes.bar}>
         <Toolbar>
@@ -249,7 +253,8 @@ export default function NewItem(props) {
                 remarkPlugins={[gfm, remarkMath]}
                 rehypePlugins={[rehypeKatex]}
                 components={{
-                  img: ({node, ...props}) => <img style={{ maxWidth: "100%" }} {...props} />
+                  img: ({node, ...props}) => <img style={{ maxWidth: "100%" }} {...props} />,
+                  a: ({node, ...props}) => <a target="_blank" {...props} />
                 }}
                 children={tab ? key : query}
               />
