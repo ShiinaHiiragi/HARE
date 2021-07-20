@@ -79,15 +79,15 @@ const list = {
         ],
         [
           "为什么编辑器右键菜单总是英文？",
-          "我们使用的编辑器是微软开发的开源编辑器 Monaco Editor，现在暂不支持在 ESM 模块下的本地化设置，造成的诸多不便敬请谅解。"
+          "我们使用的编辑器是微软开发的开源编辑器 Monaco 编辑器，现在暂不支持在 ESM 模块下的本地化设置，造成的诸多不便敬请谅解。"
         ],
         [
           "怎么在编辑器里面改变自动换行？",
-          "您可以在编辑器用右键菜单或者快捷键 ALT+Z 设置编辑器内换行，浏览器 Cookie 将会记住这个设置。"
+          "您可以在 Monaco 编辑器用右键菜单或者快捷键 ALT+Z 设置编辑器内换行，浏览器 Cookie 将会记住这个设置。"
         ],
         [
           "编辑器现在支持高亮什么语言？",
-          "Monaco Editor 现在支持代码块中 C，C++，C#，Java，Rust，Lua，Python，Ruby，JavaScript，TypeScript，CoffeeScript，HTML，XML，YML，MARKDOWN，JSON，CSS，LESS，SCSS，SQL，MySQL，PostgreSQL，Verilog，SystemVerilog，HCL，MIPS，Shell，Haskell 的代码高亮。但是 MARKDOWN 渲染器并不支持对这些代码进行高亮处理。"
+          "我们在 Monaco 编辑器支持代码块中 C，C++，C#，Java，Rust，Lua，Python，Ruby，JavaScript，TypeScript，CoffeeScript，HTML，XML，YML，MARKDOWN，JSON，CSS，LESS，SCSS，SQL，MySQL，PostgreSQL，Verilog，SystemVerilog，HCL，MIPS，Shell 的代码高亮。而 MARKDOWN 渲染器支持几乎所有代码的高亮处理，比如 JavaScript 或者 Monaco 编辑器不支持的 Haskell 等语言。注：Monaco 编辑器实际支持高亮的语言比上述列出的语言更多。"
         ]
       ],
     },

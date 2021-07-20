@@ -87,7 +87,7 @@ const list = {
         ],
         [
           "What language does the editor support to highlight?",
-          "We now support C, C++, C#, Java, Rust, Lua, Python, Ruby, JavaScript, TypeScript, CoffeeScript, HTML, XML, YML, MARKDOWN, JSON, CSS, LESS, SCSS, SQL, MySQL, PostgreSQL, Verilog, SystemVerilog, HCL, MIPS, Shell, Haskell in Monaco Editor. But the markdown renderer doesn't support highlighting now."
+          "We now choose to support C, C++, C#, Java, Rust, Lua, Python, Ruby, JavaScript, TypeScript, CoffeeScript, HTML, XML, YML, MARKDOWN, JSON, CSS, LESS, SCSS, SQL, MySQL, PostgreSQL, Verilog, SystemVerilog, HCL, MIPS, Shell in Monaco Editor. And the markdown renderer support  highlighting of almost all language such as JavaScript or Haskell, which Monaco Editor may not support yet. PS: the actual languages the Monaco Editor supports is much more than what we listed above."
         ]
       ],
     },
