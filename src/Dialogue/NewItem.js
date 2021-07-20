@@ -15,10 +15,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
-import remarkMath from "remark-math"
-import rehypeKatex from "rehype-katex"
-import "katex/dist/katex.min.css"
-import gfm from "remark-gfm"
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
+import gfm from "remark-gfm";
+import ExitConfirm from "./ExitConfirm";
 import { stringFormat } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -110,15 +111,31 @@ export default function NewItem(props) {
   const [tab, setTab] = React.useState(0);
   const [query, setQuery] = React.useState("");
   const [key, setKey] = React.useState("");
+  const [editKey, setEditKey] = React.useState(true);
+  const [exit, setExit] = React.useState(false);
   React.useEffect(() => {
-    if (state.open) setItemID(state.listLength + 1);
+    if (state.open) {
+      setItemID(state.listLength + 1);
+      setEditKey(false);
+    }
   }, [state.open]);
 
+  const tabChange = (_, index) => {
+    if (index) setEditKey(true);
+    setTab(index);
+  }
+
+  const toggleExit = () => {
+    if (query !== "" || key !== "")
+      setExit(true);
+    else handle.close();
+  }
   const clearClose = () => {
     setQuery("");
     setKey("");
     handle.close();
   }
+
   const submit = () => {
     // TODO: fill this
   }
@@ -127,12 +144,12 @@ export default function NewItem(props) {
     <Dialog
       fullScreen
       open={state.open}
-      onClose={clearClose}
+      onClose={toggleExit}
       className={classes.noneSelect}
     >
       <AppBar className={classes.bar}>
         <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={clearClose}>
+          <IconButton edge="start" color="inherit" onClick={toggleExit}>
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
@@ -170,7 +187,7 @@ export default function NewItem(props) {
         >
           <Tabs
             value={tab}
-            onChange={(_, index) => setTab(index)}
+            onChange={tabChange}
             variant="fullWidth"
             indicatorColor="primary"
           >
@@ -187,6 +204,7 @@ export default function NewItem(props) {
                 onChange={tab? setKey : setQuery}
                 options={{
                   minimap: { enabled: false },
+                  automaticLayout: true,
                   wordWrap: "on"
                 }}
               />
@@ -200,12 +218,21 @@ export default function NewItem(props) {
               <ReactMarkdown
                 remarkPlugins={[gfm, remarkMath]}
                 rehypePlugins={[rehypeKatex]}
+                components={{
+                  img: ({node, ...props}) => <img style={{ maxWidth: "100%" }} {...props} />
+                }}
                 children={tab ? key : query}
               />
             </Typography>
           </div>
         </Paper>
       </DialogContent>
+      <ExitConfirm
+        lang={lang}
+        open={exit}
+        handleClose={() => setExit(false)}
+        handleClearClose={clearClose}
+      />
     </Dialog>
   );
 }

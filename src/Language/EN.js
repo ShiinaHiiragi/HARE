@@ -66,7 +66,9 @@ const list = {
       query: "Question Markdown Editor",
       key: "Answer Markdown Editor",
       onlyOne: "can only be 1",
-      aboveOne: "ranges from 1 to {0}"
+      aboveOne: "ranges from 1 to {0}",
+      exitTitle: "Exit Confirm",
+      exitText: "You are attempting to discard editing contents and quit. Please click 'YES' to continue.",
     },
     edit: {
       titleUnit: "Edit Group Information",

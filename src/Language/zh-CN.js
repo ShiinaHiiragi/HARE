@@ -66,7 +66,9 @@ const list = {
       query: "问题 Markdown 编辑器",
       key: "回答 Markdown 编辑器",
       onlyOne: "只能为 1",
-      aboveOne: "的范围是 1 ~ {0}"
+      aboveOne: "的范围是 1 ~ {0}",
+      exitTitle: "退出确认",
+      exitText: "您正准备放弃所有已编辑内容并退出新建词条的过程，请点击「确定」以退出。",
     },
     edit: {
       titleUnit: "编辑记忆组信息",
