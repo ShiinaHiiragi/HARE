@@ -13,7 +13,8 @@ import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import Button from "@material-ui/core/Button";
+import DoneIcon from '@material-ui/icons/Done';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import CloseIcon from "@material-ui/icons/Close";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -118,6 +119,7 @@ export default function NewItem(props) {
   const [query, setQuery] = React.useState("");
   const [key, setKey] = React.useState("");
   const [itemIDCheck, setItemIDCheck] = React.useState(false);
+  const [wordWrap, setWordWrap] = React.useState("on");
 
   // the state of tab
   const [tab, setTab] = React.useState(0);
@@ -132,6 +134,25 @@ export default function NewItem(props) {
       setItemID(state.listLength + 1);
     }
   }, [state.open]);
+  const onEditorReady = (editor, monaco) => {
+    let closureWordWrap = wordWrap;
+    editor.addAction({
+      id: "wordWrap",
+      label: lang.popup.newItem.wordWrap,
+      keybindings: [monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z],
+      contextMenuGroupId: "1_modification",
+      run: () => {
+        if (closureWordWrap === "on") {
+          setWordWrap("off");
+          closureWordWrap = "off";
+        }
+        else {
+          setWordWrap("on");
+          closureWordWrap = "on";
+        }
+      }
+    });
+  }
 
   const tabChange = (_, index) => {
     if (index) setEditKey(true);
@@ -188,9 +209,12 @@ export default function NewItem(props) {
           <Typography variant="h6" className={classes.title}>
             {lang.popup.newItem.title}
           </Typography>
-          <Button color="inherit" onClick={toggleApply}>
-            {lang.common.apply}
-          </Button>
+          <IconButton color="inherit">
+            <InfoOutlinedIcon />
+          </IconButton>
+          <IconButton color="inherit" onClick={toggleApply}>
+            <DoneIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <DialogContent className={classes.content}>
@@ -236,10 +260,11 @@ export default function NewItem(props) {
                 language="markdown"
                 value={tab ? key : query}
                 onChange={tab? setKey : setQuery}
+                editorDidMount={onEditorReady}
                 options={{
                   minimap: { enabled: false },
                   automaticLayout: true,
-                  wordWrap: "on"
+                  wordWrap: wordWrap
                 }}
               />
             </div>
@@ -253,8 +278,10 @@ export default function NewItem(props) {
                 remarkPlugins={[gfm, remarkMath]}
                 rehypePlugins={[rehypeKatex]}
                 components={{
-                  img: ({node, ...props}) => <img style={{ maxWidth: "100%" }} {...props} />,
-                  a: ({node, ...props}) => <a target="_blank" {...props} />
+                  img: ({node, ...props}) =>
+                    <img style={{ maxWidth: "100%" }} alt={props.title} {...props} />,
+                  a: ({node, ...props}) =>
+                    <a target="_blank" rel="noreferrer" href={props.href} children={props.children} />
                 }}
                 children={tab ? key : query}
               />

@@ -10,7 +10,7 @@ module.exports = function override(config, env) {
       'css', 'less', 'scss',
       'sql', 'mysql', 'pgsql',
       'verilog', 'systemverilog', 'hcl', 'mips',
-      'shell', 'ini', 'haskell'
+      'shell', 'haskell'
     ]
   }));
   return config;
