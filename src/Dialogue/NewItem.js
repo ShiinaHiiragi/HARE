@@ -13,11 +13,12 @@ import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import DoneIcon from '@material-ui/icons/Done';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import DoneIcon from "@material-ui/icons/Done";
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import rehypeRaw from "rehype-raw";
 import "katex/dist/katex.min.css";
 import "../Interface/Markdown.css";
 import gfm from "remark-gfm";
@@ -136,6 +137,9 @@ export default function NewItem(props) {
   }, [state.open]);
   const onEditorReady = (editor, monaco) => {
     let closureWordWrap = wordWrap;
+    // editor.onDidChangeCursorPosition((event) => {
+    //   console.log(event);
+    // });
     editor.addAction({
       id: "wordWrap",
       label: lang.popup.newItem.wordWrap,
@@ -276,7 +280,7 @@ export default function NewItem(props) {
             >
               <ReactMarkdown
                 remarkPlugins={[gfm, remarkMath]}
-                rehypePlugins={[rehypeKatex]}
+                rehypePlugins={[rehypeKatex, rehypeRaw]}
                 components={{
                   img: ({node, ...props}) =>
                     <img style={{ maxWidth: "100%" }} alt={props.title} {...props} />,
