@@ -18,6 +18,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import "../Interface/Markdown.css";
 import gfm from "remark-gfm";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
@@ -93,13 +94,13 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   editorPreview: {
-    backgroundColor: "rgb(245, 245, 245)",
-    padding: theme.spacing(1, 4),
     [theme.breakpoints.down("sm")]: {
       height: "49%",
+      padding: theme.spacing(1, 4),
     },
     [theme.breakpoints.up("md")]: {
-      height: "100%"
+      height: "100%",
+      padding: theme.spacing(1, 2),
     },
     overflowY: "auto"
   }
@@ -227,7 +228,7 @@ export default function NewItem(props) {
             </div>
             <div style={{ width: "2%", height: "2%" }}></div>
             <Typography
-              className={clsx(classes.editorContainer, classes.editorPreview)}
+              className={clsx(classes.editorContainer, classes.editorPreview, "markdown-body")}
               component="div"
               variant="body2"
             >
