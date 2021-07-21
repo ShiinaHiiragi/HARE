@@ -42,38 +42,40 @@ export default function Main(props) {
   });
 
   React.useEffect(() => {
-    packedGET({
-      uri: "/data/page",
-      query: {
-        userID: data.userID,
-        unitID: current.unitID,
-        pageID: current.pageID
-      },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
-    })
-      .then((out) => {
-        setPageDetail({
-          itemSize: out.itemsize,
-          trackSize: out.tracksize,
-          pageCreateTime: out.pagecreatetime
-        })
-      });
+    if (current.unitID && current.pageID)
+      packedGET({
+        uri: "/data/page",
+        query: {
+          userID: data.userID,
+          unitID: current.unitID,
+          pageID: current.pageID
+        },
+        msgbox: handle.toggleMessageBox,
+        kick: handle.toggleKick,
+        lang: lang
+      })
+        .then((out) => {
+          setPageDetail({
+            itemSize: out.itemsize,
+            trackSize: out.tracksize,
+            pageCreateTime: out.pagecreatetime
+          })
+        });
   }, [current.unitID, current.pageID]);
 
   React.useEffect(() => {
-    packedGET({
-      uri: "/data/item",
-      query: {
-        userID: data.userID,
-        unitID: current.unitID,
-        pageID: current.pageID
-      },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
-    }).then((out) => setItemList(out));
+    if (current.unitID && current.pageID)
+      packedGET({
+        uri: "/data/item",
+        query: {
+          userID: data.userID,
+          unitID: current.unitID,
+          pageID: current.pageID
+        },
+        msgbox: handle.toggleMessageBox,
+        kick: handle.toggleKick,
+        lang: lang
+      }).then((out) => setItemList(out));
   }, [current.unitID, current.pageID]);
 
   return (

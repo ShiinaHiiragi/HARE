@@ -47,7 +47,6 @@ router.get('/unit', (req, res) => {
 });
 
 router.get('/page', (req, res) => {
-  console.log(req.cookies);
   const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID, unitID, pageID } = api.sqlNumber(
     req.query,
