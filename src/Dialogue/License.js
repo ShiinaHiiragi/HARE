@@ -11,7 +11,16 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableRow from "@material-ui/core/TableRow";
+import Avatar from "@material-ui/core/Avatar";
+import PersonIcon from "@material-ui/icons/Person";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { author, version, requestURL } from "../Interface/Constant"
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -21,9 +30,29 @@ const useStyles = makeStyles((theme) => ({
   title: {
     paddingBottom: 0
   },
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular
+  },
+  tableField: {
+    marginBottom: theme.spacing(1)
+  },
+  table: {
+    width: "100%",
+  },
+  largeAvatar: {
+    width: theme.spacing(12),
+    height: theme.spacing(12),
+    margin: theme.spacing(0, 0, 2, 0)
+  },
+  notLargeAvatar: {
+    width: theme.spacing(8),
+    height: theme.spacing(8)
   }
 }));
 
@@ -32,6 +61,9 @@ export default function License(props) {
   const classes = useStyles();
   const [tab, setTab] = React.useState(0);
   const [expand, setExpand] = React.useState(0);
+  React.useEffect(() => {
+    if (open) { setTab(0); setExpand(0); }
+  }, [open]);
 
   const infoObject = lang.popup.about.info;
   const helpObject = lang.popup.about.help;
@@ -58,8 +90,45 @@ export default function License(props) {
       </Tabs>
       {(function() {
         if (tab === 0) return (
-          <DialogContent>
-            lang.popup.about.info
+          <DialogContent className={classes.content}>
+            <Avatar
+              src={`${requestURL}/src/about`}
+              className={classes.largeAvatar}
+            >
+              <PersonIcon className={classes.notLargeAvatar} />
+            </Avatar>
+            <Typography variant="subtitle1">
+              {`${author} @${version}`}
+            </Typography>
+            <TableContainer className={classes.tableField}>
+              <Table className={classes.table} size="small">
+                <TableHead>
+                  <TableRow>
+                    {lang.popup.about.header.map((item) =>
+                      <TableCell align="center" key={item}>{item}</TableCell>)}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {Object.keys(infoObject).map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        align="center"
+                      >
+                        {item}
+                      </TableCell>
+                      <TableCell align="center">
+                        {infoObject[item][0]}
+                      </TableCell>
+                      <TableCell align="center">
+                        {infoObject[item][1]}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </DialogContent>
         );
         else return (

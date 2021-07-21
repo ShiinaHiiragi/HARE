@@ -21,6 +21,13 @@ router.get('/cover', (req, res) => {
   });
 });
 
+router.get('/about', (req, res) => {
+  fs.readdir(path.join(__dirname, '../src/about'), (err, dir) => {
+    if (err) api.internalServerError(res);
+    else res.sendFile(path.join(__dirname, `../src/about/${dir[0]}`));
+  });
+});
+
 router.get('/avatar', (req, res) => {
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
   const { token } = api.sqlString(req.cookies, ["token"], res);

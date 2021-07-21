@@ -104,7 +104,10 @@ const list = {
     about: {
       title: "About HARE",
       tab: ["Information", "Help"],
+      header: ["Dependency", "Description", "Version"],
       info: {
+        "Express.js": ["Server for Node", "4.16.1"],
+        "Crypto-JS": ["Crypto Standards", "4.0.0"],
       },
       help: {
         "About Account Security": {

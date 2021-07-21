@@ -104,7 +104,10 @@ const list = {
     about: {
       title: "关于 HARE",
       tab: ["基本信息", "帮助"],
+      header: ["依赖", "描述", "版本"],
       info: {
+        "Express.js": ["Node.js 服务器", "4.16.1"],
+        "Crypto-JS": ["标准加密库", "4.0.0"],
       },
       help: {
         "关于账号安全": {

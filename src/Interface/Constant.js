@@ -1,5 +1,7 @@
 import CryptoJS from "crypto-js";
 
+const author = "Ichinoe";
+const version = "1.0.0";
 const isDevMode = window.location.port === "3000";
 const requestURL = isDevMode ? "http://localhost:8000" : "";
 
@@ -8,8 +10,8 @@ const logoutWait = 400;
 const nameMaxLength = 16, presentMaxLength = 512;
 const imageMaxBase = 2 * 1024 * 1024;
 const oneDayMillisecond = 24 * 3600 * 1000;
-const initMenu = { mouseX: null, mouseY: null };
 
+const initMenu = { mouseX: null, mouseY: null };
 const defaultProfile = {
   userName: "",
   email: "",
@@ -17,11 +19,6 @@ const defaultProfile = {
   birth: "2019-12-31T16:00:00.000Z",
   city: "",
   tel: ""
-}
-const katexConfig = {
-  displayMode: true,
-  throwOnError: false,
-  strict: false
 }
 const defaultColumn = (langGrid) => [
   {
@@ -105,6 +102,8 @@ const timeFormat = (transDate, formatString) => {
 };
 
 export {
+  author,
+  version,
   requestURL,
   drawerWidth,
   logoutWait,
@@ -113,7 +112,6 @@ export {
   imageMaxBase,
   initMenu,
   defaultProfile,
-  katexConfig,
   defaultColumn,
   nil,
   next,
