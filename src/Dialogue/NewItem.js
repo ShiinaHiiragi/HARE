@@ -204,9 +204,9 @@ export default function NewItem(props) {
       return;
     } else setItemIDCheck(false);
     if (!editKey) setApply(true);
-    else submit(targetNumber);
+    else submit();
   }
-  const submit = (targetItemID) => {
+  const submit = () => {
     packedPOST({
       uri: "/set/new-item",
       query: {
@@ -214,7 +214,7 @@ export default function NewItem(props) {
         token: data.token,
         unitID: data.unitID,
         pageID: data.pageID,
-        itemID: targetItemID,
+        itemID: Number(itemID) | 0,
         query: query,
         key: key
       },

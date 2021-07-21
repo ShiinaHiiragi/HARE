@@ -88,3 +88,9 @@ exports.format = (transDate, formatString) => {
       );
   return formatString;
 };
+
+exports.arrayString = (size) => {
+  let res = size ? '[\'L\'' : '[';
+  if (size) res += ', \'L\''.repeat(size - 1);
+  return res + ']';
+}

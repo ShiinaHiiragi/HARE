@@ -265,8 +265,18 @@ exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
       insert into item(userID, unitID, pageID, itemID,
         itemQuery, itemKey, itemCreateTime)
       values(${userID}, ${unitID}, ${pageID}, ${itemID},
-        '${itemQuery}', '${itemKey}', now());
-      commit;`).then(resolve).catch(reject);
+        '${itemQuery}', '${itemKey}', now()); commit;`)
+    .then(() => query(`select trackSize from page where userID = ${userID}
+    and unitID = ${unitID} and pageID = ${pageID};`))
+    .then((out) => {
+      const trackSize = out[0].tracksize;
+      if (trackSize)
+        return query(`update item set itemRecord = array${api.arrayString(trackSize)}
+          where userID = ${userID} and unitID = ${unitID}
+          and pageID = ${pageID} and itemID = ${itemID}`);
+    })
+    .then(resolve)
+    .catch(reject);
   });
 
 exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {

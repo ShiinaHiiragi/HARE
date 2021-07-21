@@ -118,8 +118,10 @@ const debugFunction = () => {
   .then(() => { return require('./db').newItem(1, 1, 1, 10, 'Q10', 'A10') })
   .then(() => { return require('./db').newItem(1, 1, 1, 11, 'Q11', 'A11') })
   .then(() => { return require('./db').newItem(1, 1, 1, 12, 'Q12', 'A12') })
-  // .then(() => { return require('./db')
-    // .query(`update item set itemRecord = array['L', 'L', 'F', 'P']`) })
+  .then(() => { return require('./db')
+    .query(`update item set itemRecord = array['L', 'L', 'F', 'P'];`) })
+  .then(() => { return require('./db')
+    .query(`update page set trackSize = 4 where userID = 1 and unitID = 1 and pageID = 1;`) })
   .then(() => console.log('DEBUG: The units and pages are created.'))
   .then(() => {
     require('fs').readdir(require('path').join(__dirname, '../src/avatar'),
@@ -144,7 +146,8 @@ const oneLine = readline.createInterface({
 
 (function shellLine() {
   oneLine.question('', (cmd) => {
-    exec(cmd.split(/\s+/)).then(shellLine).catch(err => {
+    if (/^\s*$/.test(cmd)) shellLine();
+    else exec(cmd.split(/\s+/)).then(shellLine).catch(err => {
       console.log(err);
       shellLine();
     })
