@@ -141,7 +141,7 @@ const list = {
     editProfile: "编辑个人资料",
     changeAvatar: "更换头像",
     changeLanguage: "更换显示语言",
-    viewCopyright: "查看版权信息",
+    viewCopyright: "关于",
     logout: "退出登录",
     fold: "折叠",
     unfold: "展开",

@@ -141,7 +141,7 @@ const list = {
     editProfile: "Edit Profile",
     changeAvatar: "Change Avatar",
     changeLanguage: "Change Displaying Language",
-    viewCopyright: "View Copyright Information",
+    viewCopyright: "About HARE",
     logout: "Logout",
     fold: "Fold",
     unfold: "Unfold",

@@ -31,6 +31,8 @@ export default function License(props) {
   const { lang, open, handleClose } = props;
   const classes = useStyles();
   const [tab, setTab] = React.useState(0);
+  const infoObject = lang.popup.about.info;
+  const helpObject = lang.popup.about.help;
 
   return (
     <Dialog
@@ -60,41 +62,27 @@ export default function License(props) {
         );
         else return (
           <DialogContent>
-            <Accordion square variant="outlined">
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>Accordion 1</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                  malesuada lacus ex, sit amet blandit leo lobortis eget.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion square variant="outlined">
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>Accordion 2</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                  malesuada lacus ex, sit amet blandit leo lobortis eget.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion square variant="outlined">
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>
-                  Disabled Accordion
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                  malesuada lacus ex, sit amet blandit leo lobortis eget.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
+            {Object.keys(helpObject).map((item) => (
+              <Accordion square variant="outlined">
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography className={classes.heading}>
+                    {item}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails style={{ flexDirection: "column" }}>
+                  {Object.keys(helpObject[item]).map((subItem) => (
+                    <div>
+                      <Typography variant="subtitle1">
+                        {subItem}
+                      </Typography>
+                      <DialogContentText>
+                        {helpObject[item][subItem]}
+                      </DialogContentText>
+                    </div>
+                  ))}
+                </AccordionDetails>
+              </Accordion>
+            ))}
           </DialogContent>
         );
       })()}
