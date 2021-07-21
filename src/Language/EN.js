@@ -107,7 +107,12 @@ const list = {
       info: {
       },
       help: {
-        "About Server": {
+        "About Account Security": {
+          "How to change the account password?": "The author is still developing the core content and account password modification is not supported at present.",
+          "What is token? Why is it invalid or expired?": "We assign a token to each login account, which is essentially a hexadecimal string. Every time you request information or perform an operation from the server, we only need to verify whether the UID and token, and then the actual operation can be performed, instead of always verifying the account and password. Logging in again or not interacting with the server for twenty-four hours will invalidate the current token, and you will be forced to disconnect from the server.",
+          "Will my personal information be leaked by HARE?": "All your information is stored on the server, and will not be provided to clients that do not hold your account password or UID and token at the same time. Please note that in addition to your account password, valid or unexpired tokens cannot be leaked either, otherwise there is a serious security risk. Under normal website operations not opening the console, you will not unconsciously reveal your token. If you want to invalidate the current token, please log out directly. If you log out successfully, the server has deleted your current token.",
+          "What information does cookie record in my broswer?": "Cookies store your UID, token information, email (if remembered is checked), language, and editor line breaks. The UID and token information in the cookie is a guarantee for you to re-enter the website within 24 hours after you directly close the page without logging out.",
+          "Why does the image of the avatar sometimes show INVALID ARGUMENT?": "You may open your avatar in a new tab by context menu. But the server will not reveal your avatar for requesting an avatar requires verification of the token in your browser's cookie. If you pass the image URL to someone else, they won’t get the image because they don’t have your token."
         },
         "About Editor": {
           "How to upload image in markdown editor?": "There are two ways generally to upload your image. The one is to refer an address directly in `![]()` block, which means you have find a place to store your image other than our server and the request for the image won't be blocked by that server due to the CORS policy. The other way is to upload to your browser stored by using img tag and BASE64 coding, which may make the raw text input hard to read usually.",

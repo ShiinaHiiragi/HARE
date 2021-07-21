@@ -31,6 +31,8 @@ export default function License(props) {
   const { lang, open, handleClose } = props;
   const classes = useStyles();
   const [tab, setTab] = React.useState(0);
+  const [expand, setExpand] = React.useState(0);
+
   const infoObject = lang.popup.about.info;
   const helpObject = lang.popup.about.help;
 
@@ -62,16 +64,22 @@ export default function License(props) {
         );
         else return (
           <DialogContent>
-            {Object.keys(helpObject).map((item) => (
-              <Accordion square variant="outlined">
+            {Object.keys(helpObject).map((item, index) => (
+              <Accordion
+                key={index}
+                expanded={expand === index}
+                onChange={() => setExpand(index)}
+                square
+                variant="outlined"
+              >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography className={classes.heading}>
                     {item}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails style={{ flexDirection: "column" }}>
-                  {Object.keys(helpObject[item]).map((subItem) => (
-                    <div>
+                  {Object.keys(helpObject[item]).map((subItem, subIndex) => (
+                    <div key={subIndex}>
                       <Typography variant="subtitle1">
                         {subItem}
                       </Typography>
