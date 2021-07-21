@@ -208,7 +208,6 @@ export default function NewItem(props) {
       uri: "/set/new-item",
       query: {
         userID: data.userID,
-        token: data.token,
         unitID: data.unitID,
         pageID: data.pageID,
         itemID: targetItemID,

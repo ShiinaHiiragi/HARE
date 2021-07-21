@@ -46,7 +46,6 @@ export default function Main(props) {
       uri: "/data/page",
       query: {
         userID: data.userID,
-        token: data.token,
         unitID: current.unitID,
         pageID: current.pageID
       },
@@ -68,7 +67,6 @@ export default function Main(props) {
       uri: "/data/item",
       query: {
         userID: data.userID,
-        token: data.token,
         unitID: current.unitID,
         pageID: current.pageID
       },

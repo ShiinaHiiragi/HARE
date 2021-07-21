@@ -32,7 +32,6 @@ export default function GlobalMenu(props) {
         uri: "/set/avatar",
         query: {
           userID: data.userID,
-          token: data.token,
           avatar: result,
           type: type.replace(/image\/(\w+)/, ".$1")
         },

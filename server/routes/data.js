@@ -5,8 +5,8 @@ var api = require('../bin/api');
 var router = express.Router();
 
 router.get('/check', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
-  const { token } = api.sqlString(req.query, ["token"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.updateToken(userID).then(() => res.send("HARE")));
@@ -27,8 +27,8 @@ router.post('/sign', (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
-  const { token } = api.sqlString(req.body, ["token"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token)
     .then(() => db.query(`delete from onlineUser where userID = ${userID}`))
@@ -36,8 +36,8 @@ router.post('/logout', (req, res) => {
 });
 
 router.get('/unit', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
-  const { token } = api.sqlString(req.query, ["token"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res).then(() => {
     db.getUnitPage(userID)
@@ -47,12 +47,13 @@ router.get('/unit', (req, res) => {
 });
 
 router.get('/page', (req, res) => {
+  console.log(req.cookies);
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID, unitID, pageID } = api.sqlNumber(
     req.query,
     ["userID", "unitID", "pageID"],
     res
   );
-  const { token } = api.sqlString(req.query, ["token"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res).then(() => {
     db.getPageDetail(userID, unitID, pageID)
@@ -62,12 +63,12 @@ router.get('/page', (req, res) => {
 });
 
 router.get('/item', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID, unitID, pageID } = api.sqlNumber(
     req.query,
     ["userID", "unitID", "pageID"],
     res
   );
-  const { token } = api.sqlString(req.query, ["token"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res).then(() => {
     db.getItem(userID, unitID, pageID)
@@ -90,8 +91,8 @@ router.get('/item', (req, res) => {
 });
 
 router.get('/profile', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
-  const { token } = api.sqlString(req.query, ["token"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res).then(() => {
     db.getProfile(userID)

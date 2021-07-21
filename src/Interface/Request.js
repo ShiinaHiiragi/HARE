@@ -3,6 +3,7 @@ import requestURL from "./Constant";
 import cookie from "react-cookies";
 import { cookieTime } from "./Constant";
 
+axios.defaults.withCredentials = true;
 const extendCookie = () => {
   cookie.save("userID", cookie.load("userID"), { expires: cookieTime(1) });
   cookie.save("token", cookie.load("token"), { expires: cookieTime(1) });

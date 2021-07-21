@@ -99,7 +99,7 @@ export default function Pages(props) {
   const changeMove = (group, less) => {
     packedPOST({
       uri: "/set/swap-up",
-      query: { userID: userID, token: token, group: group, less: less },
+      query: { userID: userID, group: group, less: less },
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
       lang: lang
@@ -173,8 +173,9 @@ export default function Pages(props) {
     packedPOST({
       uri: "/set/delete-up",
       query: {
-        userID: userID, token: token,
-        unitID: unitID, pageID: pageID,
+        userID: userID,
+        unitID: unitID,
+        pageID: pageID,
         group: pageID > 0 ? false : true
       },
       msgbox: handle.toggleMessageBox,

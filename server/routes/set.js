@@ -7,11 +7,12 @@ var api = require('../bin/api');
 
 // setting of user profile
 router.post('/profile', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
   const {
-    token, userName, birth, gender, tel, city
+    userName, birth, gender, tel, city
   } = api.sqlString(req.body, [
-    "token", "userName", "birth", "gender", "tel", "city"
+    "userName", "birth", "gender", "tel", "city"
   ], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
@@ -23,8 +24,9 @@ router.post('/profile', (req, res) => {
 
 router.post('/avatar', (req, res) => {
   const { avatar } = req.body;
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
-  const { token, type } = api.sqlString(req.body, ["token", "type"], res);
+  const { type } = api.sqlString(req.body, ["type"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
   .then(() => {
@@ -60,10 +62,11 @@ router.post('/avatar', (req, res) => {
 router.post('/new-up', (req, res) => {
   // TODO: check the validity of type in new-up & swap & delete
   const { group, type } = req.body;
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
-  const { token, unitName, pageName, pagePresent } = api.sqlString(
+  const { unitName, pageName, pagePresent } = api.sqlString(
     req.body,
-    ["token", "unitName", "pageName", "pagePresent"],
+    ["unitName", "pageName", "pagePresent"],
     res
   );
   if (!(userID && token)) return;
@@ -85,12 +88,12 @@ router.post('/new-up', (req, res) => {
 
 router.post('/delete-up', (req, res) => {
   const { group } = req.body;
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID, unitID, pageID } = api.sqlNumber(
     req.body,
     ["userID", "unitID", "pageID"],
     res
   );
-  const { token } = api.sqlString(req.body, ["token"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => {
@@ -114,8 +117,8 @@ router.post('/delete-up', (req, res) => {
 
 router.post('/swap-up', (req, res) => {
   const { group, less } = req.body;
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
-  const { token } = api.sqlString(req.body, ["token"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => {
@@ -132,8 +135,9 @@ router.post('/swap-up', (req, res) => {
 });
 
 router.post('/unit', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID, unitID } = api.sqlNumber(req.body, ["userID", "unitID"], res);
-  const { token, name } = api.sqlString(req.body, ["token", "name"], res);
+  const { name } = api.sqlString(req.body, ["name"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => {
@@ -145,16 +149,13 @@ router.post('/unit', (req, res) => {
 
 // setting of unit and page
 router.post('/new-item', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID, unitID, pageID, itemID } = api.sqlNumber(
     req.body,
     ["userID", "unitID", "pageID", "itemID"],
     res
   );
-  const { token, query, key } = api.sqlString(
-    req.body,
-    ["token", "query", "key"],
-    res
-  );
+  const { query, key } = api.sqlString(req.body, ["query", "key"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => {

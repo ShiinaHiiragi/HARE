@@ -29,7 +29,6 @@ export default function EditUnit(props) {
         uri: "/set/unit",
         query: {
           userID: userID,
-          token: token,
           unitID: state.unitID,
           name: state.editUnitNameValue
         },

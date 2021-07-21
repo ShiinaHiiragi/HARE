@@ -32,7 +32,7 @@ export default function Panel(props) {
   React.useEffect(() => {
     packedGET({
       uri: "/data/profile",
-      query: { userID: userID, token: token },
+      query: { userID: userID },
       msgbox: toggleMessageBox,
       kick: () => setKick(true),
       lang: globalLang
@@ -51,7 +51,7 @@ export default function Panel(props) {
   React.useEffect(() => {
     packedGET({
       uri: "/data/unit",
-      query: { userID: userID, token: token },
+      query: { userID: userID },
       msgbox: toggleMessageBox,
       kick: () => setKick(true),
       lang: globalLang

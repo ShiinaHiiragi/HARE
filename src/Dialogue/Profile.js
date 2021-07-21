@@ -87,7 +87,6 @@ export default function Profile(props) {
         uri: "/set/profile",
         query: {
           userID: data.userID,
-          token: data.token,
           userName: value.userName,
           birth: value.birth,
           gender: value.gender,

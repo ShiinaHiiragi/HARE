@@ -21,7 +21,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'build')));
 if (!process.argv.find(item => item === "--disable-cors"))
-  app.use(cors());
+  app.use(cors({
+    origin: ['http://localhost:3000'],
+    methods: ["GET", "POST"],
+    alloweHeaders: ['Conten-Type', 'Authorization', 'Accept', 'Origin'],
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+    credentials: true,
+  }));
 
 app.use('/', indexRouter);
 app.use('/src', srcRouter);
@@ -29,12 +35,12 @@ app.use('/data', dataRouter);
 app.use('/set', setRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
