@@ -119,6 +119,22 @@ const list = {
       title: "公式",
       text: "在文本框输入 LaTeX 公式并在下方预览。",
       label: "LaTeX 公式"
+    },
+    about: {
+      title: "关于 HARE",
+      tab: ["基本信息", "帮助"],
+      info: {
+      },
+      help: {
+        "关于服务器": {
+        },
+        "关于编辑器": {
+          "怎么在 MARKDOWN 编辑器内插入图片？": "一般来说我们有两种方法达成这个目标。第一种是直接使用 `![]()` 的方式引入图片，使用这种方式说明图片已经被您用某种方式存在了您指定的网址，而不需要存在我们的服务器上。同时您需要保证我们的 MARKDOWN 渲染器对于图片的请求不会被对方服务器由于 CORS 策略阻拦。第二种方式是使用右键菜单的上传图片，图片会以 img 标签的形式存储 BASE64 编码在编辑器中。一般来说，较大的图片会占据编辑器的大量空间，这么做会让编辑过程变得麻烦。",
+          "为什么编辑器右键菜单总是英文？": "我们使用的编辑器是微软开发的开源编辑器 Monaco 编辑器，现在暂不支持在 ESM 模块下的本地化设置，造成的诸多不便敬请谅解。",
+          "怎么在编辑器里面改变自动换行？": "您可以在 Monaco 编辑器用右键菜单或者快捷键 ALT+Z 设置编辑器内换行，浏览器 Cookie 将会记住这个设置。",
+          "编辑器现在支持高亮什么语言？": "我们在 Monaco 编辑器支持代码块中 C，C++，C#，Java，Rust，Lua，Python，Ruby，JavaScript，TypeScript，CoffeeScript，HTML，XML，YML，MARKDOWN，JSON，CSS，LESS，SCSS，SQL，MySQL，PostgreSQL，Verilog，SystemVerilog，HCL，MIPS，Shell 的代码高亮。而 MARKDOWN 渲染器支持几乎所有代码的高亮处理，比如 JavaScript 或者 Monaco 编辑器不支持的 Haskell 等语言。注：Monaco 编辑器实际支持高亮的语言比上述列出的语言更多。"
+        }
+      }
     }
   },
   menu: {
