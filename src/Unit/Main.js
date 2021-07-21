@@ -103,6 +103,7 @@ export default function Main(props) {
           data={{
             userID: data.userID,
             token: data.token,
+            pageDetail: pageDetail,
             itemList: itemList
           }}
           handle={{

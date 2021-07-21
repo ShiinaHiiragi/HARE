@@ -270,6 +270,7 @@ export default function View(props) {
         }}
         state={{
           open: newItem,
+          trackSize: data.pageDetail.trackSize,
           listLength: data.itemList.length,
         }}
         handle={{

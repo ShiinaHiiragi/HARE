@@ -223,7 +223,6 @@ export default function NewItem(props) {
       lang: lang
     }).then((createTime) => {
       handle.setItemList((itemList) => {
-        console.log(itemList);
         let newItemList = itemList.map((item) => item.id >= targetItemID
           ? { ...item, id: item.id + 1 } : item);
         newItemList.splice(targetItemID - 1, 0, {
@@ -232,6 +231,8 @@ export default function NewItem(props) {
           key: key,
           time: createTime,
         });
+        for (let index = 0; index < state.trackSize; index += 1)
+          newItemList[targetItemID - 1][index + 1] = "L";
         return newItemList;
       })
       clearClose(true);
