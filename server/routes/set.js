@@ -146,7 +146,6 @@ router.post('/unit', (req, res) => {
 
 // setting of unit and page
 router.post('/new-item', (req, res) => {
-  console.log(req.body)
   const { userID, unitID, pageID, itemID } = api.sqlNumber(
     req.body,
     ["userID", "unitID", "pageID", "itemID"],
