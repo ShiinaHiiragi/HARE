@@ -4,6 +4,7 @@ const isDevMode = window.location.port === "3000";
 const requestURL = isDevMode ? "http://localhost:8000" : "";
 
 const drawerWidth = 300;
+const logoutWait = 400;
 const nameMaxLength = 16, presentMaxLength = 512;
 const imageMaxBase = 2 * 1024 * 1024;
 const oneDayMillisecond = 24 * 3600 * 1000;
@@ -106,6 +107,7 @@ const timeFormat = (transDate, formatString) => {
 export {
   requestURL,
   drawerWidth,
+  logoutWait,
   nameMaxLength,
   presentMaxLength,
   imageMaxBase,

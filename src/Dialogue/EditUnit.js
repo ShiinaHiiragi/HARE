@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditUnit(props) {
   const classes = useStyles();
-  const { lang, open, userID, token, state, handle } = props;
+  const { lang, open, userID, state, handle } = props;
 
   const applyUnitChange = () => {
     const targetSize = state.editUnitNameValue.length;

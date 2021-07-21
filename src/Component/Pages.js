@@ -336,7 +336,7 @@ export default function Pages(props) {
       <EditUnit
         lang={lang}
         open={editUnit}
-        userID={userID} token={token}
+        userID={userID}
         state={{
           name: currentName,
           unitID: currentUnitID,

@@ -9,6 +9,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import requestURL from "../Interface/Constant";
 import SignIn from "../Page/SignIn";
+import { logoutWait } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -43,10 +44,10 @@ export default function LogoutComfirm(props) {
           onClick={() => {
             handleClose();
             axios.post(`${requestURL}/data/logout`, { userID: userID })
-              .then(() => setTimeout(logout, 400))
+              .then(() => setTimeout(logout, logoutWait))
               .catch((err) => {
                 if (err.response && err.response.status === 401)
-                  setTimeout(logout, 400);
+                  setTimeout(logout, logoutWait);
                 else handleToggleMessageBox(
                   `${err.response?.data || err}`,
                   "error"
