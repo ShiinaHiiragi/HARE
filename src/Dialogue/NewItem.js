@@ -28,7 +28,6 @@ import SubmitConfirm from "./SubmitConfirm";
 import NewItemHelp from "./NewItemHelp";
 import { packedPOST } from "../Interface/Request";
 import { stringFormat, cookieTime } from "../Interface/Constant";
-
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { vs } from "react-syntax-highlighter/dist/esm/styles/prism"
 
@@ -207,6 +206,7 @@ export default function NewItem(props) {
     else submit();
   }
   const submit = () => {
+    const targetItemID = Number(itemID) | 0
     packedPOST({
       uri: "/set/new-item",
       query: {
@@ -214,14 +214,28 @@ export default function NewItem(props) {
         token: data.token,
         unitID: data.unitID,
         pageID: data.pageID,
-        itemID: Number(itemID) | 0,
+        itemID: targetItemID,
         query: query,
         key: key
       },
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
       lang: lang
-    }).then(() => clearClose(true));
+    }).then((createTime) => {
+      console.log(createTime);
+      handle.setItemList((itemList) => {
+        let newItemList = itemList.map((item) => item >= targetItemID
+          ? { ...item, itemID: item.itemID + 1 } : item);
+        newItemList.splice(targetItemID - 1, 0, {
+          id: targetItemID,
+          query: query,
+          key: key,
+          time: createTime,
+        });
+        return newItemList;
+      })
+      clearClose(true);
+    });
   }
 
   return (

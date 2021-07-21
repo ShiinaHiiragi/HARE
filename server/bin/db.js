@@ -275,7 +275,9 @@ exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
           where userID = ${userID} and unitID = ${unitID}
           and pageID = ${pageID} and itemID = ${itemID}`);
     })
-    .then(resolve)
+    .then(() => query(`select itemCreateTime from item where userID = ${userID}
+    and unitID = ${unitID} and pageID = ${pageID} and itemID = ${itemID};`))
+    .then((out) => resolve(out[0].itemcreatetime.toISOString()))
     .catch(reject);
   });
 

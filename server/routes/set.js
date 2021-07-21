@@ -145,7 +145,6 @@ router.post('/unit', (req, res) => {
 
 // setting of unit and page
 router.post('/new-item', (req, res) => {
-  console.log(req.body);
   const { userID, unitID, pageID, itemID } = api.sqlNumber(
     req.body,
     ["userID", "unitID", "pageID", "itemID"],
@@ -160,7 +159,7 @@ router.post('/new-item', (req, res) => {
   db.checkToken(userID, token, res)
     .then(() => {
       db.newItem(userID, unitID, pageID, itemID, query, key)
-        .then(() => res.status(204).send())
+        .then((itemCreateTime) => res.status(200).send(itemCreateTime))
         .catch(() => api.internalServerError(res));
     })
 });

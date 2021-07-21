@@ -248,9 +248,7 @@ export default function View(props) {
           rows={data.itemList}
           columns={column}
           disableColumnMenu
-          components={{
-            Toolbar: InnerToolbar,
-          }}
+          components={{ Toolbar: InnerToolbar }}
           columnBuffer={16}
           apiRef={apiRef}
         />
@@ -277,7 +275,8 @@ export default function View(props) {
         handle={{
           close: () => setNewItem(false),
           toggleMessageBox: handle.toggleMessageBox,
-          toggleKick: handle.toggleKick
+          toggleKick: handle.toggleKick,
+          setItemList: handle.setItemList
         }}
       />
     </HotKeys>

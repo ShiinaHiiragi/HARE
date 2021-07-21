@@ -88,7 +88,8 @@ export default function Main(props) {
           handle={{
             toggleMessageBox: handle.toggleMessageBox,
             toggleKick: handle.toggleKick,
-            setCurrentRoute: handle.setCurrentRoute
+            setCurrentRoute: handle.setCurrentRoute,
+            setItemList: setItemList
           }}
         />
       </MainPage>
