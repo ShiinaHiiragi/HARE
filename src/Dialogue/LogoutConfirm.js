@@ -17,12 +17,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+axios.defaults.withCredentials = true;
 export default function LogoutComfirm(props) {
   const classes = useStyles();
-  const { lang, open, userID, token, handleClose } = props;
+  const { lang, open, userID, handleClose, handleToggleMessageBox } = props;
   const logout = () => {
-    // we don't use packedPOST because we don't need callback
-    axios.post(`${requestURL}/data/logout`, { userID: userID, token: token });
+    cookie.remove("userID");
+    cookie.remove("token");
     ReactDOM.render(<SignIn />, document.getElementById("root"));
   }
 
@@ -41,9 +42,16 @@ export default function LogoutComfirm(props) {
         <Button
           onClick={() => {
             handleClose();
-            cookie.remove("userID");
-            cookie.remove("token");
-            setTimeout(logout, 400);
+            axios.post(`${requestURL}/data/logout`, { userID: userID })
+              .then(() => setTimeout(logout, 400))
+              .catch((err) => {
+                if (err.response && err.response.status === 401)
+                  setTimeout(logout, 400);
+                else handleToggleMessageBox(
+                  `${err.response?.data || err}`,
+                  "error"
+                );
+              })
           }}
           color="secondary"
         >

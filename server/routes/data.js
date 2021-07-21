@@ -30,7 +30,7 @@ router.post('/logout', (req, res) => {
   const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
   if (!(userID && token)) return;
-  db.checkToken(userID, token)
+  db.checkToken(userID, token, res)
     .then(() => db.query(`delete from onlineUser where userID = ${userID}`))
     .then(() => res.status(204).send());
 });

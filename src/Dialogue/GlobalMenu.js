@@ -99,9 +99,11 @@ export default function GlobalMenu(props) {
         handleClose={() => setLicense(false)}
       />
       <LogoutConfirm
-        lang={lang} open={logout}
-        userID={data.userID} token={data.token}
+        lang={lang}
+        open={logout}
+        userID={data.userID}
         handleClose={() => setLogout(false)}
+        handleToggleMessageBox={handle.toggleMessageBox}
       />
     </Menu>
   );
