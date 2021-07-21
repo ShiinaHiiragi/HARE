@@ -14,7 +14,6 @@ import IconButton from "@material-ui/core/IconButton";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DoneIcon from "@material-ui/icons/Done";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -25,7 +24,6 @@ import gfm from "remark-gfm";
 import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
-import NewItemHelp from "./NewItemHelp";
 import { packedPOST } from "../Interface/Request";
 import { stringFormat, cookieTime } from "../Interface/Constant";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
@@ -135,7 +133,6 @@ export default function NewItem(props) {
   // the state of dialogue
   const [exit, setExit] = React.useState(false);
   const [apply, setApply] = React.useState(false);
-  const [help, setHelp] = React.useState(false);
 
   React.useEffect(() => {
     if (state.open) {
@@ -255,9 +252,6 @@ export default function NewItem(props) {
           <Typography variant="h6" className={classes.title}>
             {lang.popup.newItem.title}
           </Typography>
-          <IconButton color="inherit" onClick={() => setHelp(true)}>
-            <InfoOutlinedIcon />
-          </IconButton>
           <IconButton color="inherit" onClick={toggleApply}>
             <DoneIcon />
           </IconButton>
@@ -379,11 +373,6 @@ export default function NewItem(props) {
         open={apply}
         handleClose={() => setApply(false)}
         handleSubmit={submit}
-      />
-      <NewItemHelp
-        lang={lang}
-        open={help}
-        handleClose={() => setHelp(false)}
       />
     </Dialog>
   );

@@ -70,26 +70,7 @@ const list = {
       exitTitle: "Exit Confirm",
       exitText: "You are attempting to discard editing contents and quit. Please click 'YES' to continue.",
       applyTitle: "Submit Confirm",
-      applyText: "You are attempting to submit a new entry, though you didn't edit 'Answer'. Please click 'YES' to continue submitting.",
-      helpTitle: "Help",
-      helpText: [
-        [
-          "How to upload image in markdown editor?",
-          "There are two ways generally to upload your image. The one is to refer an address directly in `![]()` block, which means you have find a place to store your image other than our server and the request for the image won't be blocked by that server due to the CORS policy. The other way is to upload to your browser stored by using img tag and BASE64 coding, which may make the raw text input hard to read usually."
-        ],
-        [
-          "Why is the context menu of editors always English?",
-          "The Editor we are using is Monaco developed by Microsoft. The Monaco Editor doesn't support localization in ESM now. Sorry for inconvenience."
-        ],
-        [
-          "How to change the wrap attribute of text input in editor?",
-          "You can change the wrap attribute by clicking 'Word Wrap' in context menu or just pressing 'ALT+Z'. This setting will be remembered by your browser cookie."
-        ],
-        [
-          "What language does the editor support to highlight?",
-          "We now choose to support C, C++, C#, Java, Rust, Lua, Python, Ruby, JavaScript, TypeScript, CoffeeScript, HTML, XML, YML, MARKDOWN, JSON, CSS, LESS, SCSS, SQL, MySQL, PostgreSQL, Verilog, SystemVerilog, HCL, MIPS, Shell in Monaco Editor. And the markdown renderer support  highlighting of almost all language such as JavaScript or Haskell, which Monaco Editor may not support yet. PS: the actual languages the Monaco Editor supports is much more than what we listed above."
-        ]
-      ],
+      applyText: "You are attempting to submit a new entry, though you didn't edit 'Answer'. Please click 'YES' to continue submitting."
     },
     edit: {
       titleUnit: "Edit Group Information",
