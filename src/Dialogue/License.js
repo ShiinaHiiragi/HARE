@@ -23,6 +23,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { author, version, requestURL } from "../Interface/Constant"
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import { IndeterminateCheckBox } from "@material-ui/icons";
 const useStyles = makeStyles((theme) => ({
   noneSelect: {
     userSelect: "none"
@@ -104,8 +105,14 @@ export default function License(props) {
               <Table className={classes.table} size="small">
                 <TableHead>
                   <TableRow>
-                    {lang.popup.about.header.map((item) =>
-                      <TableCell align="center" key={item}>{item}</TableCell>)}
+                    {lang.popup.about.header.map((item, index) =>
+                      <TableCell
+                        align={index < 2 ? "left" : "right"}
+                        key={index}
+                      >
+                        {item}
+                      </TableCell>
+                    )}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -114,14 +121,14 @@ export default function License(props) {
                       <TableCell
                         component="th"
                         scope="row"
-                        align="center"
+                        align="left"
                       >
                         {item}
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell align="left">
                         {infoObject[item][0]}
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell align="right">
                         {infoObject[item][1]}
                       </TableCell>
                     </TableRow>
