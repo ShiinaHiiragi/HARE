@@ -84,8 +84,7 @@ router.get('/item', (req, res) => {
           }, initialObject);
         else return initialObject;
       })))
-      .catch(console.log);
-      // () => api.internalServerError(res)
+      .catch(() => api.internalServerError(res));
   });
 });
 

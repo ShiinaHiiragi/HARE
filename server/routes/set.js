@@ -160,7 +160,7 @@ router.post('/new-item', (req, res) => {
     .then(() => {
       db.newItem(userID, unitID, pageID, itemID, query, key)
         .then(() => res.status(204).send())
-        .catch(console.log);
+        .catch(() => api.internalServerError(res));
     })
 });
 
