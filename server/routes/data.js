@@ -26,12 +26,13 @@ router.post('/sign', (req, res) => {
     }).catch(() => api.internalServerError(res));
 });
 
-router.post('/logout', (req) => {
+router.post('/logout', (req, res) => {
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
   const { token } = api.sqlString(req.body, ["token"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token)
-    .then(() => db.query(`delete from onlineUser where userID = ${userID}`));
+    .then(() => db.query(`delete from onlineUser where userID = ${userID}`))
+    .then(() => res.status(204).send());
 });
 
 router.get('/unit', (req, res) => {

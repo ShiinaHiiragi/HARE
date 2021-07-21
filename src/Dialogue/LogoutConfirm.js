@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom";
 import axios from "axios";
+import cookie from "react-cookies";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -20,7 +21,7 @@ export default function LogoutComfirm(props) {
   const classes = useStyles();
   const { lang, open, userID, token, handleClose } = props;
   const logout = () => {
-    // we don't use POST becasuse we don't need callback
+    // we don't use packedPOST because we don't need callback
     axios.post(`${requestURL}/data/logout`, { userID: userID, token: token });
     ReactDOM.render(<SignIn />, document.getElementById("root"));
   }
@@ -40,6 +41,8 @@ export default function LogoutComfirm(props) {
         <Button
           onClick={() => {
             handleClose();
+            cookie.remove("userID");
+            cookie.remove("token");
             setTimeout(logout, 400);
           }}
           color="secondary"

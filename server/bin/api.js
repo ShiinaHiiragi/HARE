@@ -32,7 +32,7 @@ exports.sqlNumber = (query, keys, res) => {
   let invalid = false;
   keys.forEach(item => {
     if (query[item] === undefined) {
-      res.status(406).send("INVALID ARGUMENT");
+      if (res) res.status(406).send("INVALID ARGUMENT");
       invalid = true;
       return;
     }
@@ -46,7 +46,7 @@ exports.sqlString = (query, keys, res) => {
   let invalid = false;
   keys.forEach(item => {
     if (query[item] === undefined) {
-      res.status(406).send("INVALID ARGUMENT");
+      if (res) res.status(406).send("INVALID ARGUMENT");
       invalid = true;
       return;
     }
