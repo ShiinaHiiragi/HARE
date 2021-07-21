@@ -1,3 +1,4 @@
+import React from "react";
 import Typography from "@material-ui/core/Typography";
 import IntroGraph from "../Interface/intro.png"
 
@@ -23,7 +24,7 @@ const dice = (sub, sup) => {
   return Math.round(Math.random() * (sup - sub) + sub)
 }
 
-export default function Intro(props) {
+const Intro = React.memo((props) => {
   const classes = useStyles();
   const { lang } = props;
   const captions = lang.panel.intro;
@@ -36,4 +37,6 @@ export default function Intro(props) {
       </Typography>
     </div>
   );
-}
+});
+
+export default Intro;
