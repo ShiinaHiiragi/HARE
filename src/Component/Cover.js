@@ -72,10 +72,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Cover(props) {
   const classes = useStyles();
-  const { lang, current, data, handle } = props;
-  const [pageDetail, setPageDetail] = React.useState({
-    itemSize: 0, trackSize: 0, pageCreateTime: "2019-12-31T16:00:00.000Z"
-  });
+  const { lang, current, pageDetail, setCurrentRoute } = props;
   const iconProps = {
     color: "action",
     className: classes.pageCover
@@ -87,30 +84,6 @@ export default function Cover(props) {
     <AlarmOutlinedIcon {...iconProps}/>,
     <InboxOutlinedIcon {...iconProps}/>
   ];
-
-  React.useEffect(() => {
-    if (current.route === 1) {
-      packedGET({
-        uri: "/data/page",
-        query: {
-          userID: data.userID,
-          token: data.token,
-          unitID: current.unitID,
-          pageID: current.pageID
-        },
-        msgbox: handle.toggleMessageBox,
-        kick: handle.toggleKick,
-        lang: lang
-      })
-        .then((out) => {
-          setPageDetail({
-            itemSize: out.itemsize,
-            trackSize: out.tracksize,
-            pageCreateTime: out.pagecreatetime
-          })
-        });
-    }
-  }, [current]);
 
   return (
     <div className={classes.root}>
@@ -151,7 +124,7 @@ export default function Cover(props) {
             </Typography>
           </div>
           <div className={classes.button}>
-            <IconButton onClick={() => handle.setCurrentRoute(2)}>
+            <IconButton onClick={() => setCurrentRoute(2)}>
               <ViewCompactOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">

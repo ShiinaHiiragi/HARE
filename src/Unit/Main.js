@@ -37,6 +37,32 @@ export default function Main(props) {
   const { lang, data, current, state, handle } = props;
   const [itemList, setItemList] = React.useState([]);
 
+  const [pageDetail, setPageDetail] = React.useState({
+    itemSize: 0, trackSize: 0, pageCreateTime: "2019-12-31T16:00:00.000Z"
+  });
+
+  React.useEffect(() => {
+    packedGET({
+      uri: "/data/page",
+      query: {
+        userID: data.userID,
+        token: data.token,
+        unitID: current.unitID,
+        pageID: current.pageID
+      },
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
+      lang: lang
+    })
+      .then((out) => {
+        setPageDetail({
+          itemSize: out.itemsize,
+          trackSize: out.tracksize,
+          pageCreateTime: out.pagecreatetime
+        })
+      });
+  }, [current.unitID, current.pageID]);
+
   React.useEffect(() => {
     packedGET({
       uri: "/data/item",
@@ -65,16 +91,10 @@ export default function Main(props) {
       </MainPage>
       <MainPage index={1} route={current.route}>
         <Cover
-          lang={lang} current={current}
-          data={{
-            userID: data.userID,
-            token: data.token
-          }}
-          handle={{
-            toggleMessageBox: handle.toggleMessageBox,
-            toggleKick: handle.toggleKick,
-            setCurrentRoute: handle.setCurrentRoute
-          }}
+          lang={lang}
+          current={current}
+          pageDetail={pageDetail}
+          setCurrentRoute={handle.setCurrentRoute}
         />
       </MainPage>
       <MainPage index={2} route={current.route}>
