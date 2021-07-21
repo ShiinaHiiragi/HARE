@@ -46,7 +46,7 @@ router.post('/avatar', (req, res) => {
             path.join(basicPath, `${userID}${type === '.jpeg' ? '.jpg' : type}`),
             avatarBuffer,
             (err) => {
-              if (!err) res.send("");
+              if (!err) res.status(204).send();
               else api.internalServerError(res);
             }
           );
@@ -73,11 +73,11 @@ router.post('/new-up', (req, res) => {
         // the feature of OR in js
         db.newUnit(userID, type || 1, unitName)
           .then(() => db.newPage(userID, type || 1, 1, pageName, pagePresent))
-          .then(() => res.send(""))
+          .then(() => res.status(204).send())
           .catch(() => api.internalServerError(res));
       } else {
         db.newPage(userID, type[0], type[1], pageName, pagePresent)
-          .then(() => res.send(""))
+          .then(() => res.status(204).send())
           .catch(() => api.internalServerError(res));
       }
     });
@@ -121,11 +121,11 @@ router.post('/swap-up', (req, res) => {
     .then(() => {
       if (group) {
         db.moveUnit(userID, less)
-          .then(() => res.send(""))
+          .then(() => res.status(204).send())
           .catch(() => api.internalServerError(res));
       } else {
         db.movePage(userID, less[0], less[1])
-          .then(() => res.send(""))
+          .then(() => res.status(204).send())
           .catch(() => api.internalServerError(res));
       }
     });
@@ -138,11 +138,10 @@ router.post('/unit', (req, res) => {
   db.checkToken(userID, token, res)
     .then(() => {
       db.editUnit(userID, unitID, name)
-        .then(() => res.send(""))
+        .then(() => res.status(204).send())
         .catch(() => api.internalServerError(res));
     });
 });
-
 
 // setting of unit and page
 router.post('/new-item', (req, res) => {
