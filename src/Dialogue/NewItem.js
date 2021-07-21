@@ -222,10 +222,10 @@ export default function NewItem(props) {
       kick: handle.toggleKick,
       lang: lang
     }).then((createTime) => {
-      console.log(createTime);
       handle.setItemList((itemList) => {
-        let newItemList = itemList.map((item) => item >= targetItemID
-          ? { ...item, itemID: item.itemID + 1 } : item);
+        console.log(itemList);
+        let newItemList = itemList.map((item) => item.id >= targetItemID
+          ? { ...item, id: item.id + 1 } : item);
         newItemList.splice(targetItemID - 1, 0, {
           id: targetItemID,
           query: query,

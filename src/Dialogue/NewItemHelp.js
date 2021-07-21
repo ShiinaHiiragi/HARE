@@ -26,8 +26,8 @@ export default function NewItemHelp(props) {
     >
       <DialogTitle>{lang.popup.newItem.helpTitle}</DialogTitle>
       <DialogContent>
-        {lang.popup.newItem.helpText.map((item) => 
-          <div>
+        {lang.popup.newItem.helpText.map((item, index) => 
+          <div key={index}>
             <Typography variant="subtitle1">
               {item[0]}
             </Typography>
