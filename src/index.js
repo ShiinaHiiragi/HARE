@@ -9,8 +9,9 @@ import requestURL from "./Interface/Constant";
 const userID = Number(cookie.load("userID"));
 const token = cookie.load("token");
 
+axios.defaults.withCredentials = true;
 axios
-  .get(`${requestURL}/data/check?userID=${userID}&token=${token}`)
+  .get(`${requestURL}/data/check?userID=${userID}`)
   .then((res) => {
     if (res.data === "HARE")
       ReactDOM.render(

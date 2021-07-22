@@ -46,7 +46,6 @@ exports.sqlString = (query, keys, res) => {
   let invalid = false;
   keys.forEach(item => {
     if (query[item] === undefined) {
-      console.log(query, item);
       if (res) res.status(406).send("INVALID ARGUMENT");
       invalid = true;
       return;

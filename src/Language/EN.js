@@ -106,8 +106,30 @@ const list = {
       tab: ["Information", "Help"],
       header: ["Dependency", "Description", "Version"],
       info: {
-        "Express.js": ["Server for Node", "4.16.1"],
-        "Crypto-JS": ["Crypto Standards", "4.0.0"],
+        "Node.js": ["Script for Server", "12.15.4"],
+        "Express.js": ["Node.js Server", "4.16.1"],
+        "Node-Postgre": ["Connecting to PostgreSQL Database", "8.6.0"],
+        "Cookie Parser": ["Cookie Parser for Express", "1.4.4"],
+        "CORS": ["Cross-Origin Resource Sharing", "2.8.5"],
+        "Jade": ["Template Engine", "1.11.0"],
+        "Crypto-JS": ["Standard Encryption Library", "4.0.0"],
+        "React.js": ["Front-end Interface Rendering", "17.0.2"],
+        "Create React App": ["React Scaffold", "4.0.3"],
+        "Material UI": ["Component Library Meeting Specification of Material Design, including Core and Styles", "17.0.2"],
+        "Material UI Icons": ["Material UI Icons", "4.11.2"],
+        "Material UI Data Grid": ["Material UI Data Table", "4.0.0"],
+        "Material UI Pickers": ["Material UI Time Picker", "3.3.10"],
+        "Material UI Labs": ["Material UI Experimental Content", "4.0.0"],
+        "React Cookies": ["Cookie Operating", "0.1.1"],
+        "React Hotkeys": ["Shortcut Settings", "0.1.1"],
+        "React Monaco": ["Code Editor", "0.43.0"],
+        "React Markdown": ["MARKDOWN Renderer", "6.0.2"],
+        "Rehype Raw": ["HTML Renderer", "5.1.0"],
+        "Rehype KaTeX": ["LaTeX Renderer", "0.13.11"],
+        "React Syntax Highlighter": ["Code Highlight", "0.43.0"],
+        "Axios": ["Asynchronous HTTP Request", "0.21.1"],
+        "React App Rewired": ["Webpack Configuration Override", "2.1.8"],
+        "Date-fns": ["Date Tool", "2.22.1"]
       },
       help: {
         "About Account Security": {
@@ -122,7 +144,14 @@ const list = {
           "Why is the context menu of editors always English?": "The Editor we are using is Monaco developed by Microsoft. The Monaco Editor doesn't support localization in ESM now. Sorry for inconvenience.",
           "How to change the wrap attribute of text input in editor?": "You can change the wrap attribute by clicking 'Word Wrap' in context menu or just pressing 'ALT+Z'. This setting will be remembered by your browser cookie.",
           "What language does the editor support to highlight?": "We now choose to support C, C++, C#, Java, Rust, Lua, Python, Ruby, JavaScript, TypeScript, CoffeeScript, HTML, XML, YML, MARKDOWN, JSON, CSS, LESS, SCSS, SQL, MySQL, PostgreSQL, Verilog, SystemVerilog, HCL, MIPS, Shell in Monaco Editor. And the markdown renderer support  highlighting of almost all language such as JavaScript or Haskell, which Monaco Editor may not support yet. PS: the actual languages the Monaco Editor supports is much more than what we listed above."
-        }
+        },
+        "About Application": {
+          "How does HARE's name come from?": "HARE means 'sunny', which is the Romanization spelling of '晴れ'. This word can probably be pronounced as /hʌle/. When reading this word, the mouth will grow relatively large, giving reader a feeling of brightness. This is a word that the author likes very much.",
+          "Is there a fee for HARE's services? Is server storage reliable?": "HARE does not have a charge, but relatively the server is not a high-performance machine, so service provision is unstable. The stored data may be at a risk of loss. Please export the data and save it to your own device regularly just in case.",
+          "Is HARE open source? What should I do if I encounter an error message or bug?": "HARE is not open-source currently. If you encounter an error message, please follow the prompt content to perform the correct operation; if there is only one error message without solutions, this may be a bug. Please inform the author of that bug and the way to reproduce.",
+          "Why can't some content of the website be displayed fully on the screen?": "Because the author does not have a deep understanding of responsive layout, we cannot adapt the website layout to all platforms. Generally speaking, it is recommended that the screen width be greater than 700 pixels on the computer side to ensure a relatively good user experience; and the screen width on the mobile phone side must be at least 300 pixels to ensure the most basic user experience.",
+          "Why do I see an error such as '401 Unauthorized' when I open the console? Why can't this website go back or forward?": "Because Axios asynchronous HTTP requests will output error messages in the console, but this is a normal phenomenon of website operation (for example, '401 Unauthorized' is just because the UID and token in the cookie are inconsistent with the server's, triggering jumping to the login interface). In addition, since HARE is a Single Page Application, all page content changes are completed in one interface, so there will be no page jumps."
+        },
       }
     }
   },
