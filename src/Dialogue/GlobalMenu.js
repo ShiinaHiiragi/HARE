@@ -7,7 +7,15 @@ import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import { packedPOST } from "../Interface/Request";
 import { imageMaxBase } from "../Interface/Constant";
 
+import makeStyles from "@material-ui/core/styles/makeStyles";
+const useStyles = makeStyles((theme) => ({
+  alarm: {
+    color: theme.palette.secondary.main
+  }
+}));
+
 export default function GlobalMenu(props) {
+  const classes = useStyles();
   const { lang, anchor, data, handle } = props;
   const [languageSelector, setLanguageSelector] = React.useState(false);
   const [license, setLicense] = React.useState(false);
@@ -81,10 +89,13 @@ export default function GlobalMenu(props) {
       }}>
         {lang.menu.viewCopyright}
       </MenuItem>
-      <MenuItem onClick={() => {
-        handle.close();
-        setLogout(true);
-      }}>
+      <MenuItem
+        className={classes.alarm}
+        onClick={() => {
+          handle.close();
+          setLogout(true);
+        }}
+      >
         {lang.menu.logout}
       </MenuItem>
       <LanguageSelector
