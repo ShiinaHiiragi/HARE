@@ -2,15 +2,10 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
-import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
-import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
-import AlarmOutlinedIcon from "@material-ui/icons/AlarmOutlined";
-import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ViewCompactOutlinedIcon from "@material-ui/icons/ViewCompactOutlined";
 import DataUsageOutlinedIcon from "@material-ui/icons/DataUsageOutlined";
-import { timeFormat, stringFormat } from "../Interface/Constant";
+import { timeFormat, stringFormat, pageIcon } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -76,19 +71,12 @@ export default function Cover(props) {
     color: "action",
     className: classes.pageCover
   }
-  const pageIcon = [
-    <TurnedInNotIcon {...iconProps}/>,
-    <PlaylistAddCheckIcon {...iconProps}/>,
-    <InsertInvitationOutlinedIcon {...iconProps}/>,
-    <AlarmOutlinedIcon {...iconProps}/>,
-    <InboxOutlinedIcon {...iconProps}/>
-  ];
 
   return (
     <div className={classes.root}>
       <Card className={classes.basicInfo}>
         <div className={classes.imageInfo}>
-          {pageIcon[current.pageCover]}
+          {pageIcon(iconProps)[current.pageCover]}
         </div>
         <div className={classes.textInfo}>
           <Typography component="span" variant="h5" color="textPrimary">

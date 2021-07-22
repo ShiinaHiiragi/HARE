@@ -9,11 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import ListIcon from "@material-ui/icons/List";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
-import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
-import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
-import AlarmOutlinedIcon from "@material-ui/icons/AlarmOutlined";
-import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
 import AddIcon from '@material-ui/icons/Add';
 import UnitMenu from "../Dialogue/UnitMenu";
 import PageMenu from "../Dialogue/PageMenu";
@@ -21,7 +16,7 @@ import NewUnitPage from "../Dialogue/NewUnitPage";
 import EditUnit from "../Dialogue/EditUnit";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import { packedPOST } from "../Interface/Request";
-import { initMenu } from "../Interface/Constant";
+import { initMenu, pageIcon } from "../Interface/Constant";
 import clsx from "clsx";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -51,14 +46,8 @@ export default function Pages(props) {
     listObject,
     setListObject,
     navListMobile,
-    handle } = props;
-  const pageIcon = [
-    <TurnedInNotIcon />,
-    <PlaylistAddCheckIcon />,
-    <InsertInvitationOutlinedIcon />,
-    <AlarmOutlinedIcon />,
-    <InboxOutlinedIcon />
-  ];
+    handle
+  } = props;
 
   // fold and unfold the units
   const changeUnit = (targetID) => {
@@ -251,7 +240,7 @@ export default function Pages(props) {
                         button className={classes.nested}
                       >
                         <ListItemIcon>
-                          {pageIcon[subItem.pageCover]}
+                          {pageIcon()[subItem.pageCover]}
                         </ListItemIcon>
                         <ListItemText primary={subItem.pageName} />
                       </ListItem>
