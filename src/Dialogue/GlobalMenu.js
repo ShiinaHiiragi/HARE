@@ -97,6 +97,7 @@ export default function GlobalMenu(props) {
       <License
         lang={lang} open={license}
         handleClose={() => setLicense(false)}
+        handleToggleMessageBox={handle.toggleMessageBox}
       />
       <LogoutConfirm
         lang={lang}

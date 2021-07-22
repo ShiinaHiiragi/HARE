@@ -111,6 +111,7 @@ const list = {
         "Node-Postgre": ["PostgreSQL 数据库连接", "8.6.0"],
         "Cookie Parser": ["服务端 Cookie 解析", "1.4.4"],
         "CORS": ["跨域资源处理", "2.8.5"],
+        "Node Dev": ["Node.js 代码热更新", "7.0.0"],
         "Jade": ["模板引擎", "1.11.0"],
         "Crypto-JS": ["标准加密库", "4.0.0"],
         "React.js": ["前端界面渲染", "17.0.2"],
@@ -129,7 +130,8 @@ const list = {
         "React Syntax Highlighter": ["代码高亮", "0.43.0"],
         "Axios": ["异步 HTTP 请求", "0.21.1"],
         "React App Rewired": ["Webpack 配置覆写", "2.1.8"],
-        "Date-fns": ["日期工具", "2.22.1"]
+        "Date-fns": ["日期工具", "2.22.1"],
+        "Copy to Clipboard": ["剪切板复制", "3.3.1"]
       },
       help: {
         "关于账号安全": {
@@ -188,7 +190,8 @@ const list = {
     userNameInvalidError: "用户名只能包含 ASCII 字符",
     telError: "电话长度不能超过 16 个字符",
     cityError: "城市名长度不能超过 16 个字符",
-    invalidItemID: "指定的 ID 超出了范围"
+    invalidItemID: "指定的 ID 超出了范围",
+    copyEmail: "电子邮箱已经被复制到您的剪切板",
   },
   grid: {
     column: {

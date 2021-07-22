@@ -111,6 +111,7 @@ const list = {
         "Node-Postgre": ["Connecting to PostgreSQL Database", "8.6.0"],
         "Cookie Parser": ["Cookie Parser for Express", "1.4.4"],
         "CORS": ["Cross-Origin Resource Sharing", "2.8.5"],
+        "Node Dev": ["Node.js Code Hot Update", "7.0.0"],
         "Jade": ["Template Engine", "1.11.0"],
         "Crypto-JS": ["Standard Encryption Library", "4.0.0"],
         "React.js": ["Front-end Interface Rendering", "17.0.2"],
@@ -129,7 +130,8 @@ const list = {
         "React Syntax Highlighter": ["Code Highlight", "0.43.0"],
         "Axios": ["Asynchronous HTTP Request", "0.21.1"],
         "React App Rewired": ["Webpack Configuration Override", "2.1.8"],
-        "Date-fns": ["Date Tool", "2.22.1"]
+        "Date-fns": ["Date Tool", "2.22.1"],
+        "Copy to Clipboard": ["Clipboard Copying", "3.3.1"]
       },
       help: {
         "About Account Security": {
@@ -188,7 +190,8 @@ const list = {
     userNameInvalidError: "The username should only contain ASCII characters.",
     telError: "The name of the phone should be no more than 16 characters.",
     cityError: "The name of the city should be no more than 16 characters.",
-    invalidItemID: "The target entry ID is out of range."
+    invalidItemID: "The target entry ID is out of range.",
+    copyEmail: "The E-mail has been copied to your clipboard.",
   },
   grid: {
     column: {

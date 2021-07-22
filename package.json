@@ -14,6 +14,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
+    "copy-to-clipboard": "^3.3.1",
     "crypto-js": "^4.0.0",
     "date-fns": "^2.22.1",
     "katex": "^0.13.11",

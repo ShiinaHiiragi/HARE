@@ -2,6 +2,7 @@ import CryptoJS from "crypto-js";
 
 const author = "Ichinoe";
 const version = "1.0.0";
+const email = "IchinoeMizue@outlook.com"
 const isDevMode = window.location.port === "3000";
 const requestURL = isDevMode ? "http://localhost:8000" : "";
 
@@ -104,6 +105,7 @@ const timeFormat = (transDate, formatString) => {
 export {
   author,
   version,
+  email,
   requestURL,
   drawerWidth,
   logoutWait,

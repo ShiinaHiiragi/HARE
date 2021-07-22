@@ -5,6 +5,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Accordion from "@material-ui/core/Accordion";
@@ -20,10 +21,10 @@ import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { author, version, requestURL } from "../Interface/Constant"
+import copy from "copy-to-clipboard";
+import { author, version, email, requestURL } from "../Interface/Constant"
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { IndeterminateCheckBox } from "@material-ui/icons";
 const useStyles = makeStyles((theme) => ({
   noneSelect: {
     userSelect: "none"
@@ -35,6 +36,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
+  },
+  author: {
+    display: "flex",
+    alignItems: "center",
+    margin: theme.spacing(1, 0)
+  },
+  info: {
+    marginLeft: theme.spacing(2),
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -49,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
   largeAvatar: {
     width: theme.spacing(12),
     height: theme.spacing(12),
-    margin: theme.spacing(0, 0, 2, 0)
   },
   notLargeAvatar: {
     width: theme.spacing(8),
@@ -58,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function License(props) {
-  const { lang, open, handleClose } = props;
+  const { lang, open, handleClose, handleToggleMessageBox } = props;
   const classes = useStyles();
   const [tab, setTab] = React.useState(0);
   const [expand, setExpand] = React.useState(0);
@@ -92,15 +100,30 @@ export default function License(props) {
       {(function() {
         if (tab === 0) return (
           <DialogContent className={classes.content}>
-            <Avatar
-              src={`${requestURL}/src/about`}
-              className={classes.largeAvatar}
-            >
-              <PersonIcon className={classes.notLargeAvatar} />
-            </Avatar>
-            <Typography variant="subtitle1">
-              {`${author} @${version}`}
-            </Typography>
+            <div className={classes.author}>
+              <Avatar
+                src={`${requestURL}/src/about`}
+                className={classes.largeAvatar}
+              >
+                <PersonIcon className={classes.notLargeAvatar} />
+              </Avatar>
+              <div className={classes.info}>
+                <Typography variant="subtitle1">
+                  {`${author} v${version}`}
+                </Typography>
+                <Link
+                  variant="body2"
+                  color="inherit"
+                  href="#"
+                  onClick={() => {
+                    handleToggleMessageBox(lang.message.copyEmail, "info");
+                    copy(email);
+                  }}
+                >
+                  {`${email}`}
+                </Link>
+              </div>
+            </div>
             <TableContainer className={classes.tableField}>
               <Table className={classes.table} size="small">
                 <TableHead>

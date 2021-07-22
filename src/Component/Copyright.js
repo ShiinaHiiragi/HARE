@@ -5,7 +5,7 @@ import Link from "@material-ui/core/Link";
 import License from "../Dialogue/License";
 
 export default function Copyright(props) {
-  const { lang } = props;
+  const { lang, handleToggleMessageBox } = props;
   // the license information popup
   const [license, setLicense] = React.useState(false);
 
@@ -22,6 +22,7 @@ export default function Copyright(props) {
         lang={lang}
         open={license}
         handleClose={() => setLicense(false)}
+        handleToggleMessageBox={handleToggleMessageBox}
       />
     </Box>
   );
