@@ -39,7 +39,7 @@ export default function NavBar(props) {
         handleToggleNavListMobile={handle.toggleNavListMobile}
       />
       <NavTitle title={state.currentSelect.pageName} />
-      {state.currentSelect.unitID !== 0 && <LocalInfo />}
+      {state.currentSelect.unitID && <LocalInfo />}
     </Toolbar>
   );
 

@@ -116,8 +116,8 @@ export default function License(props) {
                   color="inherit"
                   href="#"
                   onClick={() => {
-                    handleToggleMessageBox(lang.message.copyEmail, "info");
-                    copy(email);
+                    if (copy(email))
+                      handleToggleMessageBox(lang.message.copyEmail, "info");
                   }}
                 >
                   {`${email}`}
