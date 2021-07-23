@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar(props) {
   const classes = useStyles();
-  const { state, handle } = props;
+  const { lang, state, handle } = props;
 
   const AppBarContent = (
     <Toolbar>
@@ -39,7 +39,7 @@ export default function NavBar(props) {
         handleToggleNavListMobile={handle.toggleNavListMobile}
       />
       <NavTitle title={state.currentSelect.pageName} />
-      {state.currentSelect.unitID && <LocalInfo />}
+      {state.currentSelect.unitID && <LocalInfo lang={lang} />}
     </Toolbar>
   );
 

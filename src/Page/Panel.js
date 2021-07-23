@@ -125,6 +125,7 @@ export default function Panel(props) {
     <Root>
       <CssBaseline />
       <NavBar
+        lang={globalLang}
         state={{
           navList: navListPC,
           currentSelect: currentSelect

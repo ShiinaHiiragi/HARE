@@ -41,6 +41,7 @@ const list = {
   },
   popup: {
     language: "Change the Displaying Language",
+    cover:  "Choose a Icon for this Booklet",
     kick: {
       title: "Disconnect from Server",
       text: "The server reject your request for invalid or expired token. Please re-login."

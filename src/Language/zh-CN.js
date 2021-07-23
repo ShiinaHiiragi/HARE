@@ -41,6 +41,7 @@ const list = {
   },
   popup: {
     language: "更换显示语言",
+    cover:  "为此记忆册选择一个图标",
     kick: {
       title: "与服务器断开连接",
       text: "由于令牌无效或过期，服务器拒绝了您的请求，请重新登录。"
