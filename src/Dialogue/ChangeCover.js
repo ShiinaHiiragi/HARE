@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
   noneSelect: {
     userSelect: "none"
   },
+  title: {
+    paddingBottom: theme.spacing(0)
+  },
   icons: {
     display: "flex",
     justifyContent: "center"
@@ -18,7 +21,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChangeCover(props) {
   const classes = useStyles();
-  const { lang, open, handleClose } = props;
+  const { lang, open, cover, handleClose, handleChange } = props;
+  const submit = (index) => {
+    if (index !== cover) handleChange(index);
+    handleClose();
+  }
 
   return (
     <Dialog
@@ -26,10 +33,13 @@ export default function ChangeCover(props) {
       onClose={handleClose}
       className={classes.noneSelect}
     >
-      <DialogTitle>{lang.popup.cover}</DialogTitle>
+      <DialogTitle className={classes.title}>{lang.popup.cover}</DialogTitle>
       <DialogContent className={classes.icons}>
-        {pageIcon().map((item) => (
-          <IconButton>
+        {pageIcon().map((item, index) => (
+          <IconButton
+            color={index === cover ? "primary" : "action"}
+            onClick={() => submit(index)}
+          >
             {item}
           </IconButton>
         ))}

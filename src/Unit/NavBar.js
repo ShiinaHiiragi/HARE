@@ -39,7 +39,18 @@ export default function NavBar(props) {
         handleToggleNavListMobile={handle.toggleNavListMobile}
       />
       <NavTitle title={state.currentSelect.pageName} />
-      {state.currentSelect.unitID && <LocalInfo lang={lang} />}
+      {state.currentSelect.unitID &&
+      <LocalInfo
+        lang={lang}
+        userID={state.userID}
+        current={state.currentSelect}
+        handle={{
+          setCurrent: handle.setCurrentSelect,
+          setList: handle.setListObject,
+          toggleMessageBox: handle.toggleMessageBox,
+          toggleKick: handle.toggleKick
+        }}
+      />}
     </Toolbar>
   );
 

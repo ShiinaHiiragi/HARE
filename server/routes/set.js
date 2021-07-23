@@ -147,6 +147,22 @@ router.post('/unit', (req, res) => {
     });
 });
 
+router.post('/cover', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ["token"], res);
+  const { userID, unitID, pageID, cover } = api.sqlNumber(
+    req.body,
+    ["userID", "unitID", "pageID", "cover"],
+    res
+  );
+  if (!(userID && token)) return;
+  db.checkToken(userID, token, res)
+    .then(() => {
+      db.editCover(userID, unitID, pageID, cover)
+        .then(() => res.status(204).send())
+        .catch(() => api.internalServerError(res));
+    });
+});
+
 // setting of unit and page
 router.post('/new-item', (req, res) => {
   const { token } = api.sqlString(req.cookies, ["token"], res);

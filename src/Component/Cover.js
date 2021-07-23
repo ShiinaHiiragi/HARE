@@ -76,7 +76,9 @@ export default function Cover(props) {
     <div className={classes.root}>
       <Card className={classes.basicInfo}>
         <div className={classes.imageInfo}>
-          {pageIcon(iconProps)[current.pageCover]}
+          {current.pageCover < pageIcon().length
+            ? pageIcon(iconProps)[current.pageCover]
+            : pageIcon(iconProps)[0]}
         </div>
         <div className={classes.textInfo}>
           <Typography component="span" variant="h5" color="textPrimary">

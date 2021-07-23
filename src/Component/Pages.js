@@ -268,7 +268,8 @@ export default function Pages(props) {
                       className={classes.nested}
                     >
                       <ListItemIcon>
-                        {pageIcon()[subItem.pageCover]}
+                        {subItem.pageCover < pageIcon().length
+                          ? pageIcon()[subItem.pageCover] : pageIcon()[0]}
                       </ListItemIcon>
                       <ListItemText primary={subItem.pageName} />
                     </ListItem>

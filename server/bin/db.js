@@ -251,6 +251,12 @@ exports.getPageDetail = (userID, unitID, pageID) => new Promise((resolve, reject
     .then(resolve).catch(reject);
 });
 
+exports.editCover = (userID, unitID, pageID, cover) => new Promise((resolve, reject) => {
+  query(`update page set pageCover = ${cover} where userID = ${userID}
+    and unitID = ${unitID} and pageID = ${pageID}`)
+    .then(resolve).catch(reject);
+});
+
 // db api for page view request
 exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
   new Promise((resolve, reject) => {

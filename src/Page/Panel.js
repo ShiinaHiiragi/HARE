@@ -127,13 +127,18 @@ export default function Panel(props) {
       <NavBar
         lang={globalLang}
         state={{
+          userID: userID,
           navList: navListPC,
           currentSelect: currentSelect
         }}
         handle={{
           toggleNavList: () => setNavListPC(true),
           closeNavList: () => setNavListPC(false),
-          toggleNavListMobile: () => setNavListMobile(true)
+          toggleNavListMobile: () => setNavListMobile(true),
+          toggleMessageBox: toggleMessageBox,
+          toggleKick: () => setKick(true),
+          setListObject: setListObject,
+          setCurrentSelect: setCurrentSelect
         }}
       />
       <NavList
