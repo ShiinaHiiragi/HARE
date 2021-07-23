@@ -41,7 +41,6 @@ const list = {
   },
   popup: {
     language: "Change the Displaying Language",
-    cover:  "Choose a Icon for this Booklet",
     kick: {
       title: "Disconnect from Server",
       text: "The server reject your request for invalid or expired token. Please re-login."
@@ -76,7 +75,12 @@ const list = {
     edit: {
       titleUnit: "Edit Group Information",
       labelUnit: "Group Name",
-      textUnit: "Type your desired name and click 'APPLY' to continue."
+      textUnit: "Type your desired name and click 'APPLY' to continue.",
+      titlePage: "Edit Booklet Information",
+      textPage: "Type your desired name and description and click 'APPLY' to continue.",
+      labelPageName: "Booklet Name",
+      labelPagePresent: "The Description of the Booklet",
+      cover:  "Choose a Icon for this Booklet"
     },
     logout: {
       title: "Logout Confirmation",

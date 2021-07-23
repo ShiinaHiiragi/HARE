@@ -33,10 +33,11 @@ export default function ChangeCover(props) {
       onClose={handleClose}
       className={classes.noneSelect}
     >
-      <DialogTitle className={classes.title}>{lang.popup.cover}</DialogTitle>
+      <DialogTitle className={classes.title}>{lang.popup.edit.cover}</DialogTitle>
       <DialogContent className={classes.icons}>
         {pageIcon().map((item, index) => (
           <IconButton
+            key={index}
             color={index === cover ? "primary" : "action"}
             onClick={() => submit(index)}
           >

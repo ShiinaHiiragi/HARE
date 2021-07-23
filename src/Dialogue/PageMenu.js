@@ -24,7 +24,14 @@ export default function PageMenu(props) {
           : undefined
       }
     >
-      <MenuItem onClick={handle.closeMenu}>{lang.menu.editPage}</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.closeMenu();
+          handle.toggleNewPage([state.unitID, state.pageID], true);
+        }}
+      >
+        {lang.menu.editPage}
+      </MenuItem>
       <MenuItem
         disabled={state.top}
         onClick={() => {

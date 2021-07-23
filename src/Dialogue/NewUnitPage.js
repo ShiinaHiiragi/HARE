@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewUnitPage(props) {
   const classes = useStyles();
-  const { lang, userID, token, open, group, type, text, handle } = props;
+  const { lang, edit, userID, token, open, group, type, text, handle } = props;
 
   const checkFormInput = () => {
     let errorMessage = "";
@@ -125,13 +125,17 @@ export default function NewUnitPage(props) {
       className={classes.noneSelect}
     >
       <DialogTitle>
-        {group
+        {edit
+          ? lang.popup.edit.titlePage
+          : group
           ? lang.popup.newUnitPage.titleUnit
           : lang.popup.newUnitPage.titlePage}
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {group
+          {edit
+            ? lang.popup.edit.textPage
+            : group
             ? lang.popup.newUnitPage.textUnit
             : lang.popup.newUnitPage.textPage}
         </DialogContentText>
@@ -149,7 +153,7 @@ export default function NewUnitPage(props) {
           )}
           <TextField
             required
-            label={lang.popup.newUnitPage.pageName}
+            label={edit ? lang.popup.edit.labelPageName : lang.popup.newUnitPage.pageName}
             className={classes.textInputHalf}
             error={text.pageNameCheck}
             value={text.pageNameValue}
@@ -160,7 +164,7 @@ export default function NewUnitPage(props) {
         <TextField
           multiline
           rows={4}
-          label={lang.popup.newUnitPage.pagePresent}
+          label={edit ? lang.popup.edit.labelPagePresent : lang.popup.newUnitPage.pagePresent}
           className={classes.textInput}
           error={text.pagePresentCheck}
           value={text.pagePresentValue}

@@ -41,7 +41,6 @@ const list = {
   },
   popup: {
     language: "更换显示语言",
-    cover:  "为此记忆册选择一个图标",
     kick: {
       title: "与服务器断开连接",
       text: "由于令牌无效或过期，服务器拒绝了您的请求，请重新登录。"
@@ -76,7 +75,12 @@ const list = {
     edit: {
       titleUnit: "编辑记忆组信息",
       labelUnit: "记忆组名",
-      textUnit: "更改当前记忆组名，然后点击「应用」以继续。"
+      textUnit: "更改当前记忆组名，然后点击「应用」以继续。",
+      titlePage: "编辑记忆册信息",
+      textPage: "更改当前记忆组名及其描述，然后点击「应用」以继续。",
+      labelPageName: "记忆册名",
+      labelPagePresent: "记忆册描述",
+      cover:  "为此记忆册选择一个图标"
     },
     logout: {
       title: "退出登录确认",

@@ -129,6 +129,7 @@ export default function Pages(props) {
   };
 
   // states used for inserting units or pages
+  const [edit, setEdit] = React.useState(false);
   const [newUnitPage, setNewUnitPage] = React.useState(false);
   const [newUnitPageGroup, setNewUnitPageGroup] = React.useState(false);
   const [newUnitPageType, setNewUnitPageType] = React.useState(0);
@@ -138,10 +139,15 @@ export default function Pages(props) {
   const [newUnitNameCheck, setNewUnitNameCheck] = React.useState(false);
   const [newPageNameCheck, setNewPageNameCheck] = React.useState(false);
   const [newPagePresentCheck, setNewPagePresentCheck] = React.useState(false);
-  const toggleNewUnitPage = (group, type) => {
+  const toggleNewUnitPage = (group, type, edit) => {
+    setEdit(!!edit);
     setNewUnitNameValue("");
-    setNewPageNameValue("");
-    setNewPagePresentValue("");
+    setNewPageNameValue(
+      edit ? listObject[type[0] - 1].pages[type[1] - 1].pageName : ""
+    );
+    setNewPagePresentValue(
+      edit ? listObject[type[0] - 1].pages[type[1] - 1].pagePresent : ""
+    );
     setNewUnitNameCheck(false);
     setNewPageNameCheck(false);
     setNewPagePresentCheck(false);
@@ -306,7 +312,7 @@ export default function Pages(props) {
               buttom: currentButtom
             }}
             handle={{
-              toggleNewPage: (pos) => toggleNewUnitPage(false, pos),
+              toggleNewPage: (pos, edit) => toggleNewUnitPage(false, pos, edit),
               toggleDeleteConfirm: toggleDeleteConfirm,
               closeMenu: () => setPageMenu(initMenu),
               movePage: (less) => changeMove(false, less)
@@ -327,6 +333,7 @@ export default function Pages(props) {
         lang={lang}
         userID={userID}
         token={token}
+        edit={edit}
         open={newUnitPage}
         group={newUnitPageGroup}
         type={newUnitPageType}
