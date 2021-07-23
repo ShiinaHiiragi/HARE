@@ -18,6 +18,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
+import Tooltip from "@material-ui/core/Tooltip";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -119,17 +120,19 @@ export default function License(props) {
                   <Typography variant="subtitle1">
                     {author}
                   </Typography>
-                  <Link
-                    variant="body2"
-                    color="inherit"
-                    href="#"
-                    onClick={() => {
-                      if (copy(email))
-                        handleToggleMessageBox(lang.message.copyEmail, "info");
-                    }}
-                  >
-                    {`${email}`}
-                  </Link>
+                  <Tooltip title={lang.popup.about.copyTip}>
+                    <Link
+                      variant="body2"
+                      color="inherit"
+                      href="#"
+                      onClick={() => {
+                        if (copy(email))
+                          handleToggleMessageBox(lang.message.copyEmail, "info");
+                      }}
+                    >
+                      {email}
+                    </Link>
+                  </Tooltip>
                 </div>
               </div>
               <TableContainer className={classes.tableField}>

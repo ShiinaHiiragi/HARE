@@ -110,6 +110,7 @@ const list = {
       title: "About HARE",
       tab: ["Information", "Help"],
       header: ["Dependency", "Description", "Version"],
+      copyTip: "Copy to Clipboard",
       info: {
         "Node.js": ["Script for Server", "12.15.4"],
         "Express.js": ["Node.js Server", "4.16.1"],
@@ -136,7 +137,8 @@ const list = {
         "Axios": ["Asynchronous HTTP Request", "0.21.1"],
         "React App Rewired": ["Webpack Configuration Override", "2.1.8"],
         "Date-fns": ["Date Tool", "2.22.1"],
-        "Copy to Clipboard": ["Clipboard Copying", "3.3.1"]
+        "Copy to Clipboard": ["Clipboard Copying", "3.3.1"],
+        "Github CSS": ["Stylesheet of Github Markdown", "4.0.0"]
       },
       help: {
         "About Account Security": {

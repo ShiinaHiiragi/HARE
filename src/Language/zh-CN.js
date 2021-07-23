@@ -110,6 +110,7 @@ const list = {
       title: "关于 HARE",
       tab: ["基本信息", "帮助"],
       header: ["依赖", "描述", "版本"],
+      copyTip: "复制到剪切板",
       info: {
         "Node.js": ["服务端脚本", "12.15.4"],
         "Express.js": ["Node.js 服务器", "4.16.1"],
@@ -136,7 +137,8 @@ const list = {
         "Axios": ["异步 HTTP 请求", "0.21.1"],
         "React App Rewired": ["Webpack 配置覆写", "2.1.8"],
         "Date-fns": ["日期工具", "2.22.1"],
-        "Copy to Clipboard": ["剪切板复制", "3.3.1"]
+        "Copy to Clipboard": ["剪切板复制", "3.3.1"],
+        "Github CSS": ["Github MARKDOWN 样式表", "4.0.0"]
       },
       help: {
         "关于账号安全": {
