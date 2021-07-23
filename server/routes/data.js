@@ -5,15 +5,15 @@ var api = require('../bin/api');
 var router = express.Router();
 
 router.get('/check', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ["token"], res);
-  const { userID } = api.sqlNumber(req.query, ["userID"], res);
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID } = api.sqlNumber(req.query, ['userID'], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
-    .then(() => res.send("HARE"));
+    .then(() => res.send('HARE'));
 });
 
 router.post('/sign', (req, res) => {
-  const { email, password } = api.sqlString(req.body, ["email", "password"], res);
+  const { email, password } = api.sqlString(req.body, ['email', 'password'], res);
   if (!email) return;
   db.query(`select userID from userInfo natural join userSetting
     where email = '${email}' and password = '${password}'`)
@@ -22,13 +22,13 @@ router.post('/sign', (req, res) => {
       if (out.length > 0) {
         db.newToken(out[0].userid, token).then(() =>
           res.send({ uid: out[0].userid, token: token }));
-      } else res.status(401).send("Incorrect E-mail or password.");
+      } else res.status(401).send('Incorrect E-mail or password.');
     }).catch(() => api.internalServerError(res));
 });
 
 router.post('/logout', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ["token"], res);
-  const { userID } = api.sqlNumber(req.body, ["userID"], res);
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID } = api.sqlNumber(req.body, ['userID'], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.query(`delete from onlineUser where userID = ${userID}`))
@@ -36,8 +36,8 @@ router.post('/logout', (req, res) => {
 });
 
 router.get('/unit', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ["token"], res);
-  const { userID } = api.sqlNumber(req.query, ["userID"], res);
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID } = api.sqlNumber(req.query, ['userID'], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.getUnitPage(userID))
@@ -46,10 +46,10 @@ router.get('/unit', (req, res) => {
 });
 
 router.get('/page', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ["token"], res);
+  const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID, pageID } = api.sqlNumber(
     req.query,
-    ["userID", "unitID", "pageID"],
+    ['userID', 'unitID', 'pageID'],
     res
   );
   if (!(userID && token)) return;
@@ -60,10 +60,10 @@ router.get('/page', (req, res) => {
 });
 
 router.get('/item', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ["token"], res);
+  const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID, pageID } = api.sqlNumber(
     req.query,
-    ["userID", "unitID", "pageID"],
+    ['userID', 'unitID', 'pageID'],
     res
   );
   if (!(userID && token)) return;
@@ -87,8 +87,8 @@ router.get('/item', (req, res) => {
 });
 
 router.get('/profile', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ["token"], res);
-  const { userID } = api.sqlNumber(req.query, ["userID"], res);
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID } = api.sqlNumber(req.query, ['userID'], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.getProfile(userID))

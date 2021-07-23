@@ -112,9 +112,9 @@ exports.checkToken = (userID, token, res) => new Promise((resolve) =>
     where userID = ${userID} and token = '${token}'`)
     .then(out => {
       if (out.length === 0) {
-        if (res) res.status(401).send("INVALID");
+        if (res) res.status(401).send('INVALID');
       } else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan) {
-        if (res) res.status(401).send("EXPIRED");
+        if (res) res.status(401).send('EXPIRED');
       } else newToken(userID).then(resolve);
     }).catch(() => {
       if (res) api.internalServerError(res)

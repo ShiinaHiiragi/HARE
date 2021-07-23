@@ -13,7 +13,7 @@ exports.checkRegister = (cmdLine) => new Promise((resolve, reject) => {
     reject('ERROR: too few arguments.\n  Try using sign <email> <username> <password>');
   else if (cmdLine[1].length > 32)
     reject('ERROR: The length of E-mail is out of range.');
-  else if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(cmdLine[1]))
+  else if (!/^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(cmdLine[1]))
     reject('ERROR: Unsupported E-mail address.');
   else if (cmdLine[2].length > 16)
     reject('ERROR: The length of username is out of range.');
@@ -46,7 +46,7 @@ exports.sqlNumber = (query, keys, res) => {
   let invalid = false;
   keys.forEach((item) => {
     if (query[item] === undefined) {
-      if (res) res.status(406).send("INVALID ARGUMENT");
+      if (res) res.status(406).send('INVALID ARGUMENT');
       invalid = true;
       return;
     }
@@ -61,7 +61,7 @@ exports.sqlString = (query, keys, res) => {
   let invalid = false;
   keys.forEach((item) => {
     if (query[item] === undefined) {
-      if (res) res.status(406).send("INVALID ARGUMENT");
+      if (res) res.status(406).send('INVALID ARGUMENT');
       invalid = true;
       return;
     }
@@ -71,24 +71,24 @@ exports.sqlString = (query, keys, res) => {
 }
 
 exports.internalServerError = (res) => {
-  res.status(500).send("INTERNAL SERVER ERROR");
+  res.status(500).send('INTERNAL SERVER ERROR');
 };
 
 exports.format = (transDate, formatString) => {
   var formatComponent = {
-    "M+": transDate.getMonth() + 1,
-    "d+": transDate.getDate(),
-    "h+": transDate.getHours(),
-    "m+": transDate.getMinutes(),
-    "s+": transDate.getSeconds(),
-    "q+": Math.floor((transDate.getMonth() + 3) / 3),
+    'M+': transDate.getMonth() + 1,
+    'd+': transDate.getDate(),
+    'h+': transDate.getHours(),
+    'm+': transDate.getMinutes(),
+    's+': transDate.getSeconds(),
+    'q+': Math.floor((transDate.getMonth() + 3) / 3),
     S: transDate.getMilliseconds()
   };
 
   if (/(y+)/.test(formatString))
     formatString = formatString.replace(
       RegExp.$1,
-      (transDate.getFullYear() + "").substr(4 - RegExp.$1.length)
+      (transDate.getFullYear() + '').substr(4 - RegExp.$1.length)
     );
 
   for (var index in formatComponent)
@@ -97,8 +97,8 @@ exports.format = (transDate, formatString) => {
         RegExp.$1,
         RegExp.$1.length === 1
           ? formatComponent[index]
-          : ("00" + formatComponent[index]).substr(
-              ("" + formatComponent[index]).length
+          : ('00' + formatComponent[index]).substr(
+              ('' + formatComponent[index]).length
             )
       );
   return formatString;
