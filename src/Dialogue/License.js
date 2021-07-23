@@ -89,6 +89,9 @@ export default function License(props) {
     >
       <DialogTitle style={{ paddingBottom: open === 2 ? 0 : 16 }}>
         {lang.popup.about.title}
+        <Typography component="span" variant="body2">
+          &ensp;{version}
+        </Typography>
       </DialogTitle>
       <Tabs
         value={tab}
@@ -114,7 +117,7 @@ export default function License(props) {
                 </Avatar>
                 <div className={classes.info}>
                   <Typography variant="subtitle1">
-                    {`${author} v${version}`}
+                    {author}
                   </Typography>
                   <Link
                     variant="body2"
