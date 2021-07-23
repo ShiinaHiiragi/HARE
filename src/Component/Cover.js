@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4),
     display: "flex",
     [theme.breakpoints.down("xs")]: {
-      flexDirection: "column",
+      flexDirection: "column"
     },
     [theme.breakpoints.up("sm")]: {
-      flexDirection: "row",
+      flexDirection: "row"
     },
     overflow: "visible"
   },
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonField: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   button: {
     flexGrow: 1,
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pageCover: {
     width: theme.spacing(16),
-    height: theme.spacing(16),
+    height: theme.spacing(16)
   }
 }));
 
@@ -70,7 +70,7 @@ export default function Cover(props) {
   const iconProps = {
     color: "action",
     className: classes.pageCover
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -87,13 +87,17 @@ export default function Cover(props) {
             &emsp;
             {`${pageDetail.itemSize} / ${pageDetail.trackSize}`}
             &emsp;
-            {stringFormat(
-              lang.panel.cover.createTime,
-              [timeFormat(new Date(pageDetail.pageCreateTime), "yyyy-MM-dd hh:mm:ss")]
-            )}
+            {stringFormat(lang.panel.cover.createTime, [
+              timeFormat(
+                new Date(pageDetail.pageCreateTime),
+                "yyyy-MM-dd hh:mm:ss"
+              )
+            ])}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {current.pagePresent.length ? current.pagePresent : lang.panel.cover.nilPresent}
+            {current.pagePresent.length
+              ? current.pagePresent
+              : lang.panel.cover.nilPresent}
           </Typography>
         </div>
       </Card>
@@ -104,7 +108,7 @@ export default function Cover(props) {
         <div className={classes.buttonField}>
           <div className={classes.button}>
             <IconButton>
-              <CheckCircleOutlinedIcon fontSize="large"/>
+              <CheckCircleOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">
               {lang.panel.cover.recall}

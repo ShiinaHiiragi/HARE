@@ -56,9 +56,10 @@ export default function Profile(props) {
   const { lang, open, data, value, check, handle } = props;
   const valueChange = (key, targetValue) => {
     handle.setValue((profileValue) => ({
-      ...profileValue, [key]: targetValue
+      ...profileValue,
+      [key]: targetValue
     }));
-  }
+  };
 
   const checkInput = () => {
     let errorMessage = "";
@@ -79,7 +80,7 @@ export default function Profile(props) {
       errorMessage = lang.message.userNameLengthError;
     }
     return errorMessage;
-  }
+  };
   const applyChange = () => {
     const errorMessage = checkInput();
     if (errorMessage === "") {
@@ -106,22 +107,15 @@ export default function Profile(props) {
           tel: value.tel
         }));
         handle.close();
-      })
+      });
     } else handle.toggleMessageBox(errorMessage, "warning");
-  }
+  };
 
   return (
-    <Dialog
-      fullWidth
-      open={open}
-      onClose={handle.close}
-    >
+    <Dialog fullWidth open={open} onClose={handle.close}>
       <DialogContent>
         <div className={classes.avatarProfile}>
-          <Avatar
-            src={data.avatar}
-            className={classes.largeAvatar}
-          >
+          <Avatar src={data.avatar} className={classes.largeAvatar}>
             <PersonIcon className={classes.notLargeAvatar} />
           </Avatar>
           <TextField
@@ -160,7 +154,8 @@ export default function Profile(props) {
                 value={value.birth}
                 onChange={(value) => {
                   handle.setValue((profileValue) => ({
-                    ...profileValue, birth: value
+                    ...profileValue,
+                    birth: value
                   }));
                 }}
               />

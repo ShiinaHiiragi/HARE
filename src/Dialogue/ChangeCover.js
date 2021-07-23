@@ -24,9 +24,7 @@ export default function DeleteConfirm(props) {
     >
       <DialogTitle>111222333</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          123
-        </DialogContentText>
+        <DialogContentText>123</DialogContentText>
       </DialogContent>
     </Dialog>
   );

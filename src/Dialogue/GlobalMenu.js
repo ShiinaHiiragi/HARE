@@ -27,8 +27,8 @@ export default function GlobalMenu(props) {
       if (/image\/.+/.test(targetImage[0].type)) {
         let reader = new FileReader();
         reader.readAsDataURL(targetImage[0]);
-        reader.onload = (event) => 
-          avatarOnload(event.target.result, targetImage[0].type)
+        reader.onload = (event) =>
+          avatarOnload(event.target.result, targetImage[0].type);
       } else handle.toggleMessageBox(lang.message.nonImage, "warning");
     }
   };
@@ -46,11 +46,10 @@ export default function GlobalMenu(props) {
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,
         lang: lang
-      })
-        .then(() => {
-          handle.refreshAvatar();
-          handle.toggleMessageBox(lang.message.changeAvatar, "success");
-        });
+      }).then(() => {
+        handle.refreshAvatar();
+        handle.toggleMessageBox(lang.message.changeAvatar, "success");
+      });
     }
   };
 
@@ -83,10 +82,12 @@ export default function GlobalMenu(props) {
       >
         {lang.menu.changeLanguage}
       </MenuItem>
-      <MenuItem onClick={() => {
-        handle.close();
-        setLicense(true);
-      }}>
+      <MenuItem
+        onClick={() => {
+          handle.close();
+          setLicense(true);
+        }}
+      >
         {lang.menu.viewCopyright}
       </MenuItem>
       <MenuItem
@@ -99,14 +100,16 @@ export default function GlobalMenu(props) {
         {lang.menu.logout}
       </MenuItem>
       <LanguageSelector
-        lang={lang} open={languageSelector}
+        lang={lang}
+        open={languageSelector}
         handleClose={(targetValue) => {
           setLanguageSelector(false);
           handle.changeGlobalLang(targetValue);
         }}
       />
       <License
-        lang={lang} open={license}
+        lang={lang}
+        open={license}
         handleClose={() => setLicense(false)}
         handleToggleMessageBox={handle.toggleMessageBox}
       />

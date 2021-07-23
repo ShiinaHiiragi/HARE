@@ -33,7 +33,7 @@ export default function PageMenu(props) {
         }}
       >
         {lang.menu.moveUp}
-        </MenuItem>
+      </MenuItem>
       <MenuItem
         disabled={state.buttom}
         onClick={() => {
@@ -43,23 +43,29 @@ export default function PageMenu(props) {
       >
         {lang.menu.moveDown}
       </MenuItem>
-      <MenuItem onClick={() => {
-        handle.closeMenu();
-        handle.toggleNewPage([state.unitID, state.pageID])
-      }}>
+      <MenuItem
+        onClick={() => {
+          handle.closeMenu();
+          handle.toggleNewPage([state.unitID, state.pageID]);
+        }}
+      >
         {lang.menu.addPageAbove}
       </MenuItem>
-      <MenuItem onClick={() => {
-        handle.closeMenu();
-        handle.toggleNewPage([state.unitID, state.pageID + 1])
-      }}>
+      <MenuItem
+        onClick={() => {
+          handle.closeMenu();
+          handle.toggleNewPage([state.unitID, state.pageID + 1]);
+        }}
+      >
         {lang.menu.addPageBelow}
       </MenuItem>
-      <MenuItem className={classes.alarm}
+      <MenuItem
+        className={classes.alarm}
         onClick={() => {
           handle.closeMenu();
           handle.toggleDeleteConfirm("page");
-        }}>
+        }}
+      >
         {lang.menu.deletePage}
       </MenuItem>
     </Menu>

@@ -36,12 +36,16 @@ export default function Panel(props) {
       msgbox: toggleMessageBox,
       kick: () => setKick(true),
       lang: globalLang
-    })
-      .then((res) => setProfile({
-        userName: res.username, email: res.email,
-        gender: res.gender, birth: res.birth,
-        city: res.city || "", tel: res.tel || ""
-      }));
+    }).then((res) =>
+      setProfile({
+        userName: res.username,
+        email: res.email,
+        gender: res.gender,
+        birth: res.birth,
+        city: res.city || "",
+        tel: res.tel || ""
+      })
+    );
   }, []);
 
   // the sharing state of response navigation bar and list
@@ -55,21 +59,25 @@ export default function Panel(props) {
       msgbox: toggleMessageBox,
       kick: () => setKick(true),
       lang: globalLang
-    })
-      .then((res) => setListObject(res));
+    }).then((res) => setListObject(res));
   }, []);
 
   // the sharing state of selected page
   const [currentSelect, setCurrentSelect] = React.useState({
-    pageName: "HARE", pagePresent: "", route: 0
+    pageName: "HARE",
+    pagePresent: "",
+    route: 0
   });
   const setCurrentRoute = (target) =>
     setCurrentSelect((currentSelect) => ({
-      ...currentSelect, route: target
+      ...currentSelect,
+      route: target
     }));
   React.useEffect(() => {
-    let selectedUnit = listObject.find((item) => item.selected), selectedPage;
-    if (selectedUnit) selectedPage = selectedUnit.pages.find((item) => item.selected);
+    let selectedUnit = listObject.find((item) => item.selected),
+      selectedPage;
+    if (selectedUnit)
+      selectedPage = selectedUnit.pages.find((item) => item.selected);
     if (selectedPage) {
       setCurrentSelect({
         unitID: selectedUnit.unitID,
@@ -80,20 +88,23 @@ export default function Panel(props) {
         pagePresent: selectedPage.pagePresent,
         route: selectedPage.route
       });
-    } else setCurrentSelect ({ pageName: "HARE", pagePresent: "", route: 0 });
+    } else setCurrentSelect({ pageName: "HARE", pagePresent: "", route: 0 });
   }, [listObject]);
 
   // the setting of disconnection message box
   const [kick, setKick] = React.useState(false);
   const [messageBoxInfo, setMessageBoxInfo] = React.useState({
-    open: false, type: "success", message: ""
+    open: false,
+    type: "success",
+    message: ""
   });
   const toggleMessageBox = (message, type) => {
     setMessageBoxInfo({ open: true, type: type, message: message });
   };
   const closeMessageBox = () => {
     setMessageBoxInfo((messageBoxInfo) => ({
-      ...messageBoxInfo, open: false
+      ...messageBoxInfo,
+      open: false
     }));
   };
 
@@ -145,7 +156,7 @@ export default function Panel(props) {
           closeNavListMobile: () => setNavListMobile(false),
           changeGlobalLang: changeGlobalLang,
           setListObject: setListObject,
-          setProfile: setProfile,
+          setProfile: setProfile
         }}
       />
       <Main
@@ -171,7 +182,7 @@ export default function Panel(props) {
         messageBoxMessage={messageBoxInfo.message}
       />
       <Load open={loading} />
-      <Kick lang={globalLang} open={kick} handleClose={() => setKick(false)}/>
+      <Kick lang={globalLang} open={kick} handleClose={() => setKick(false)} />
     </Root>
   );
 }

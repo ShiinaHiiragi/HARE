@@ -26,7 +26,7 @@ export default function LogoutComfirm(props) {
     cookie.remove("userID");
     cookie.remove("token");
     ReactDOM.render(<SignIn />, document.getElementById("root"));
-  }
+  };
 
   return (
     <Dialog
@@ -43,16 +43,18 @@ export default function LogoutComfirm(props) {
         <Button
           onClick={() => {
             handleClose();
-            axios.post(`${requestURL}/data/logout`, { userID: userID })
+            axios
+              .post(`${requestURL}/data/logout`, { userID: userID })
               .then(() => setTimeout(logout, logoutWait))
               .catch((err) => {
                 if (err.response && err.response.status === 401)
                   setTimeout(logout, logoutWait);
-                else handleToggleMessageBox(
-                  `${err.response?.data || err}`,
-                  "error"
-                );
-              })
+                else
+                  handleToggleMessageBox(
+                    `${err.response?.data || err}`,
+                    "error"
+                  );
+              });
           }}
           color="secondary"
         >

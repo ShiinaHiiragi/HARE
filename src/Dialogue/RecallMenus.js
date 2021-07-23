@@ -29,7 +29,9 @@ export default function RecallMenu(props) {
         paper: classes.hoverMenu
       }}
     >
-      <MenuItem onClick={handle.close}>{lang.grid.menu.recallSelected}</MenuItem>
+      <MenuItem onClick={handle.close}>
+        {lang.grid.menu.recallSelected}
+      </MenuItem>
       <MenuItem onClick={handle.close}>{lang.grid.menu.recallFar}</MenuItem>
     </Menu>
   );

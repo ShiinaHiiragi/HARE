@@ -1,6 +1,6 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import IntroGraph from "../Interface/intro.png"
+import IntroGraph from "../Interface/intro.png";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
 
 // get a number randomly in [sub, sup];
 const dice = (sub, sup) => {
-  return Math.round(Math.random() * (sup - sub) + sub)
-}
+  return Math.round(Math.random() * (sup - sub) + sub);
+};
 
 const Intro = React.memo((props) => {
   const classes = useStyles();

@@ -2,10 +2,10 @@ import React from "react";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import AddIcon from "@material-ui/icons/Add";
 import HeightIcon from "@material-ui/icons/Height";
 import CloseIcon from "@material-ui/icons/Close";
@@ -13,7 +13,7 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
-import ChangeHistoryIcon from '@material-ui/icons/ChangeHistory';
+import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 import { defaultColumn } from "../Interface/Constant";
 import RecallMenu from "../Dialogue/RecallMenus";
 import NewItem from "../Dialogue/NewItem";
@@ -33,13 +33,13 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "column"
   },
   buttonField: {
     margin: theme.spacing(2, 2, 1, 2),
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "center"
   },
   cardField: {
     flexGrow: 1,
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column"
   },
   button: {
-    borderRadius: 0,
+    borderRadius: 0
   },
   exportButton: {
     margin: theme.spacing(0, 2)
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 0,
     "& button": {
       padding: theme.spacing(0.5, 1),
-      fontSize: "0.825rem",
+      fontSize: "0.825rem"
     },
     "& svg": {
       width: 20,
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const keyMap = {
-  cancelSelected: "esc",
+  cancelSelected: "esc"
 };
 
 export default function View(props) {
@@ -87,19 +87,19 @@ export default function View(props) {
   const [newItem, setNewItem] = React.useState(false);
   const toggleNewItem = () => {
     setNewItem(true);
-  }
+  };
 
   const keyHandler = {
     cancelSelected: () => {
       apiRef.current.selectRows(apiRef.current.getAllRowIds(), false);
-    },
+    }
   };
 
   function InnerToolbar() {
     const classes = useStyles();
-  
+
     return (
-      <GridToolbarContainer className={classes.dataGridButton} >
+      <GridToolbarContainer className={classes.dataGridButton}>
         <GridToolbarDensitySelector
           className={classes.innerButton}
           variant="outlined"
@@ -152,13 +152,8 @@ export default function View(props) {
 
     return (
       <FormControl variant="standard">
-        <InputLabel>
-          {lang.grid.inherent.filterPanelInputLabel}
-        </InputLabel>
-        <Select
-          value={item.value || ""}
-          onChange={handleFilterChange}
-        >
+        <InputLabel>{lang.grid.inherent.filterPanelInputLabel}</InputLabel>
+        <Select value={item.value || ""} onChange={handleFilterChange}>
           <MenuItem value="">{lang.grid.inherent.filterValueAny}</MenuItem>
           <MenuItem value="P">{lang.grid.inherent.filterValuePure}</MenuItem>
           <MenuItem value="F">{lang.grid.inherent.filterValueFar}</MenuItem>
@@ -170,48 +165,41 @@ export default function View(props) {
 
   React.useEffect(() => {
     if (data.itemList.length) {
-      setColumn(defaultColumn(lang.grid).concat(
-        new Array(Object.keys(data.itemList[0]).length - 4)
-          .fill().map((_, index) => ({
-            field: `${index + 1}`,
-            headerName: lang.grid.ordinal[index],
-            renderCell: (param) => {
-              if (param.value === "P")
-                return <RadioButtonUncheckedIcon />
-              else if (param.value === "F")
-                return <CloseIcon />
-              else return <ChangeHistoryIcon />
-            },
-            filterOperators: [
-              {
-                label: lang.grid.inherent.filterOperatorIs,
-                value: "is",
-                getApplyFilterFn: (filterItem) => {
-                  if (!filterItem.value) 
-                    return null;
-                  else return (param) => param.value === filterItem.value;
-                },
-                InputComponent: TrackSelector
+      setColumn(
+        defaultColumn(lang.grid).concat(
+          new Array(Object.keys(data.itemList[0]).length - 4)
+            .fill()
+            .map((_, index) => ({
+              field: `${index + 1}`,
+              headerName: lang.grid.ordinal[index],
+              renderCell: (param) => {
+                if (param.value === "P") return <RadioButtonUncheckedIcon />;
+                else if (param.value === "F") return <CloseIcon />;
+                else return <ChangeHistoryIcon />;
               },
-            ],
-            width: 120,
-            align: "center",
-            headerAlign: "center",
-          }))
-      ))
+              filterOperators: [
+                {
+                  label: lang.grid.inherent.filterOperatorIs,
+                  value: "is",
+                  getApplyFilterFn: (filterItem) => {
+                    if (!filterItem.value) return null;
+                    else return (param) => param.value === filterItem.value;
+                  },
+                  InputComponent: TrackSelector
+                }
+              ],
+              width: 120,
+              align: "center",
+              headerAlign: "center"
+            }))
+        )
+      );
     } else setColumn(defaultColumn(lang.grid));
   }, [lang, data.itemList]);
 
   return (
-    <HotKeys
-      keyMap={keyMap}
-      handlers={keyHandler}
-      className={classes.root}
-    >
-      <div
-        tabIndex={-1}
-        className={classes.buttonField}
-      >
+    <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
+      <div tabIndex={-1} className={classes.buttonField}>
         <Button
           variant="outlined"
           color="primary"
@@ -271,7 +259,7 @@ export default function View(props) {
         state={{
           open: newItem,
           trackSize: data.pageDetail.trackSize,
-          listLength: data.itemList.length,
+          listLength: data.itemList.length
         }}
         handle={{
           close: () => setNewItem(false),

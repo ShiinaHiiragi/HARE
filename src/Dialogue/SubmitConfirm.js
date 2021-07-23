@@ -25,9 +25,7 @@ export default function SubmitConfirm(props) {
     >
       <DialogTitle>{lang.popup.newItem.applyTitle}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          {lang.popup.newItem.applyText}
-        </DialogContentText>
+        <DialogContentText>{lang.popup.newItem.applyText}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button

@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 const extendCookie = () => {
   cookie.save("userID", cookie.load("userID"), { expires: cookieTime(1) });
   cookie.save("token", cookie.load("token"), { expires: cookieTime(1) });
-}
+};
 
 const packedGET = (params) => {
   const { uri, query, msgbox, kick, lang } = params;
@@ -24,10 +24,7 @@ const packedGET = (params) => {
       .then((res) => resolve(res.data))
       .catch((err) => {
         if (err.response && err.response.status !== 401) {
-          msgbox(
-            `${lang.message.serverError}: ${err.response.data}`,
-            "error"
-          );
+          msgbox(`${lang.message.serverError}: ${err.response.data}`, "error");
           reject(err);
         } else if (err.response) kick();
         else msgbox(`${err}`, "error");
@@ -47,10 +44,7 @@ const packedPOST = (params, config) => {
       .then((res) => resolve(res.data))
       .catch((err) => {
         if (err.response && err.response.status !== 401) {
-          msgbox(
-            `${lang.message.serverError}: ${err.response.data}`,
-            "error"
-          );
+          msgbox(`${lang.message.serverError}: ${err.response.data}`, "error");
           reject(err);
         } else if (err.response) kick();
         else msgbox(`${err}`, "error");

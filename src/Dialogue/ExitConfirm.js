@@ -25,9 +25,7 @@ export default function ExitConfirm(props) {
     >
       <DialogTitle>{lang.popup.newItem.exitTitle}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          {lang.popup.newItem.exitText}
-        </DialogContentText>
+        <DialogContentText>{lang.popup.newItem.exitText}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button

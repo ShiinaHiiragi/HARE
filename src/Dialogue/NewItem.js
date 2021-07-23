@@ -1,6 +1,6 @@
 import React from "react";
-import clsx from "clsx"
-import ReactMarkdown from "react-markdown"
+import clsx from "clsx";
+import ReactMarkdown from "react-markdown";
 import MonacoEditor from "react-monaco-editor";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
@@ -26,19 +26,19 @@ import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
 import { packedPOST } from "../Interface/Request";
 import { stringFormat, cookieTime } from "../Interface/Constant";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { vs } from "react-syntax-highlighter/dist/esm/styles/prism"
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vs } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   noneSelect: {
-    userSelect: "none",
+    userSelect: "none"
   },
   container: {
-    overflowY: "hidden",
+    overflowY: "hidden"
   },
   bar: {
-    position: "relative",
+    position: "relative"
   },
   content: {
     padding: theme.spacing(4, 6),
@@ -53,13 +53,13 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginLeft: theme.spacing(2),
-    flex: 1,
+    flex: 1
   },
   textField: {
     margin: theme.spacing(0)
   },
   itemField: {
-    margin: theme.spacing(1, 0),
+    margin: theme.spacing(1, 0)
   },
   editorField: {
     display: "flex",
@@ -84,17 +84,17 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     flexGrow: 1,
     [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
+      flexDirection: "column"
     },
     [theme.breakpoints.up("md")]: {
       flexDirection: "row",
-      height: 0,
+      height: 0
     }
   },
   editorContainer: {
     [theme.breakpoints.down("sm")]: {
       width: "100%",
-      height: "49%",
+      height: "49%"
     },
     [theme.breakpoints.up("md")]: {
       width: "49%",
@@ -104,11 +104,11 @@ const useStyles = makeStyles((theme) => ({
   editorPreview: {
     [theme.breakpoints.down("sm")]: {
       height: "49%",
-      padding: theme.spacing(1, 4),
+      padding: theme.spacing(1, 4)
     },
     [theme.breakpoints.up("md")]: {
       height: "100%",
-      padding: theme.spacing(1, 2),
+      padding: theme.spacing(1, 2)
     },
     overflowY: "auto"
   }
@@ -157,39 +157,39 @@ export default function NewItem(props) {
           setWordWrap("off");
           closureWordWrap = "off";
           cookie.save("__wordWrap", "off", { expires: cookieTime(3650) });
-        }
-        else {
+        } else {
           setWordWrap("on");
           closureWordWrap = "on";
           cookie.save("__wordWrap", "on", { expires: cookieTime(3650) });
         }
       }
     });
-  }
+  };
 
   const tabChange = (_, index) => {
     if (index) setEditKey(true);
     setTab(index);
-  }
+  };
   const idChange = (event) => {
     const valueJudge = event.target.value;
-    if (/^[0-9]*$/.test(valueJudge))
-      setItemID(event.target.value);
-  }
+    if (/^[0-9]*$/.test(valueJudge)) setItemID(event.target.value);
+  };
 
   // the icon button of exit
   const toggleExit = () => {
-    if (query !== "" || key !== "")
-      setExit(true);
+    if (query !== "" || key !== "") setExit(true);
     else clearClose();
-  }
+  };
   const clearClose = (clear) => {
-    if (clear) { setQuery(""); setKey(""); }
+    if (clear) {
+      setQuery("");
+      setKey("");
+    }
     handle.close();
     setTab(0);
     setEditKey(false);
     setItemIDCheck(false);
-  }
+  };
 
   // the text button of continue
   const toggleApply = () => {
@@ -201,9 +201,9 @@ export default function NewItem(props) {
     } else setItemIDCheck(false);
     if (!editKey) setApply(true);
     else submit();
-  }
+  };
   const submit = () => {
-    const targetItemID = Number(itemID) | 0
+    const targetItemID = Number(itemID) | 0;
     packedPOST({
       uri: "/set/new-item",
       query: {
@@ -219,21 +219,22 @@ export default function NewItem(props) {
       lang: lang
     }).then((createTime) => {
       handle.setItemList((itemList) => {
-        let newItemList = itemList.map((item) => item.id >= targetItemID
-          ? { ...item, id: item.id + 1 } : item);
+        let newItemList = itemList.map((item) =>
+          item.id >= targetItemID ? { ...item, id: item.id + 1 } : item
+        );
         newItemList.splice(targetItemID - 1, 0, {
           id: targetItemID,
           query: query,
           key: key,
-          time: createTime,
+          time: createTime
         });
         for (let index = 0; index < state.trackSize; index += 1)
           newItemList[targetItemID - 1][index + 1] = "L";
         return newItemList;
-      })
+      });
       clearClose(true);
     });
-  }
+  };
 
   return (
     <Dialog
@@ -260,9 +261,11 @@ export default function NewItem(props) {
         <DialogContentText className={classes.textField}>
           {stringFormat(lang.popup.newItem.text, [
             state.listLength
-              ? stringFormat(lang.popup.newItem.aboveOne, [state.listLength + 1])
+              ? stringFormat(lang.popup.newItem.aboveOne, [
+                  state.listLength + 1
+                ])
               : lang.popup.newItem.onlyOne,
-            state.listLength ? lang.popup.newItem.supply : "",
+            state.listLength ? lang.popup.newItem.supply : ""
           ])}
         </DialogContentText>
         <div className={classes.itemField}>
@@ -277,11 +280,7 @@ export default function NewItem(props) {
             className={classes.itemInput}
           />
         </div>
-        <Paper
-          className={classes.editorField}
-          variant="outlined"
-          square
-        >
+        <Paper className={classes.editorField} variant="outlined" square>
           <Tabs
             value={tab}
             onChange={tabChange}
@@ -292,13 +291,13 @@ export default function NewItem(props) {
             <Tab label={lang.popup.newItem.key} />
           </Tabs>
           <div className={classes.editorInput}>
-            <div className={classes.editorContainer} >
+            <div className={classes.editorContainer}>
               <MonacoEditor
                 width="100%"
                 height="100%"
                 language="markdown"
                 value={tab ? key : query}
-                onChange={tab? setKey : setQuery}
+                onChange={tab ? setKey : setQuery}
                 editorDidMount={onEditorReady}
                 options={{
                   minimap: { enabled: false },
@@ -309,7 +308,11 @@ export default function NewItem(props) {
             </div>
             <div style={{ width: "2%", height: "2%" }}></div>
             <Typography
-              className={clsx(classes.editorContainer, classes.editorPreview, "markdown-body")}
+              className={clsx(
+                classes.editorContainer,
+                classes.editorPreview,
+                "markdown-body"
+              )}
               component="div"
               variant="body2"
             >
@@ -317,22 +320,24 @@ export default function NewItem(props) {
                 remarkPlugins={[gfm, remarkMath]}
                 rehypePlugins={[rehypeKatex, rehypeRaw]}
                 components={{
-                  img: ({node, ...props}) =>
+                  img: ({ node, ...props }) => (
                     <img
                       style={{ maxWidth: "100%" }}
                       alt={props.title}
                       {...props}
-                    />,
-                  a: ({node, ...props}) =>
+                    />
+                  ),
+                  a: ({ node, ...props }) => (
                     <a
                       target="_blank"
                       rel="noreferrer"
                       href={props.href}
                       children={props.children}
                       {...props}
-                    />,
-                  code:({node, inline, className, children, ...props}) => {
-                    const match = /language-(\w+)/.exec(className || "")
+                    />
+                  ),
+                  code: ({ node, inline, className, children, ...props }) => {
+                    const match = /language-(\w+)/.exec(className || "");
                     return !inline && match ? (
                       <SyntaxHighlighter
                         style={vs}
@@ -352,7 +357,7 @@ export default function NewItem(props) {
                       <code className={className} {...props}>
                         {children}
                       </code>
-                    )
+                    );
                   }
                 }}
                 children={tab ? key : query}

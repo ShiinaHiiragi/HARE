@@ -36,7 +36,7 @@ export default function PersonalInfo(props) {
         lang={lang}
         data={{
           userID: data.userID,
-          token: data.token,
+          token: data.token
         }}
         anchor={anchorGlobalMenu}
         handle={{

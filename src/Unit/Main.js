@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
-  },
+  }
 }));
 
 export default function Main(props) {
@@ -38,7 +38,9 @@ export default function Main(props) {
   const [itemList, setItemList] = React.useState([]);
 
   const [pageDetail, setPageDetail] = React.useState({
-    itemSize: 0, trackSize: 0, pageCreateTime: "2019-12-31T16:00:00.000Z"
+    itemSize: 0,
+    trackSize: 0,
+    pageCreateTime: "2019-12-31T16:00:00.000Z"
   });
 
   React.useEffect(() => {
@@ -53,14 +55,13 @@ export default function Main(props) {
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,
         lang: lang
-      })
-        .then((out) => {
-          setPageDetail({
-            itemSize: out.itemsize,
-            trackSize: out.tracksize,
-            pageCreateTime: out.pagecreatetime
-          })
+      }).then((out) => {
+        setPageDetail({
+          itemSize: out.itemsize,
+          trackSize: out.tracksize,
+          pageCreateTime: out.pagecreatetime
         });
+      });
   }, [current.unitID, current.pageID]);
 
   React.useEffect(() => {
@@ -80,10 +81,9 @@ export default function Main(props) {
 
   return (
     <main
-      className={clsx(
-        classes.content,
-        { [classes.contentShift]: state.navList }
-      )}
+      className={clsx(classes.content, {
+        [classes.contentShift]: state.navList
+      })}
     >
       <Header />
       <MainPage index={0} route={current.route}>
@@ -99,7 +99,8 @@ export default function Main(props) {
       </MainPage>
       <MainPage index={2} route={current.route}>
         <View
-          lang={lang} current={current}
+          lang={lang}
+          current={current}
           data={{
             userID: data.userID,
             token: data.token,

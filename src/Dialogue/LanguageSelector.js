@@ -31,7 +31,11 @@ export default function LanguageSelector(props) {
       <DialogTitle>{lang.popup.language}</DialogTitle>
       <List>
         {languageList.map((lang) => (
-          <ListItem onClick={() => handleClose(nameMap[lang])} button key={lang}>
+          <ListItem
+            onClick={() => handleClose(nameMap[lang])}
+            button
+            key={lang}
+          >
             <ListItemAvatar>
               <Avatar>{lang.charAt(0)}</Avatar>
             </ListItemAvatar>

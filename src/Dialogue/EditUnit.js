@@ -5,7 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { nameMaxLength } from "../Interface/Constant"
+import { nameMaxLength } from "../Interface/Constant";
 import { packedPOST } from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -36,14 +36,17 @@ export default function EditUnit(props) {
         kick: handle.toggleKick,
         lang: lang
       }).then((out) => {
-        handle.setListObject((listObject) => listObject.map(
-          (item) => item.unitID === state.unitID
-            ? { ...item, unitName: state.editUnitNameValue } : item
-        ));
+        handle.setListObject((listObject) =>
+          listObject.map((item) =>
+            item.unitID === state.unitID
+              ? { ...item, unitName: state.editUnitNameValue }
+              : item
+          )
+        );
         handle.close();
       });
     }
-  }
+  };
 
   return (
     <Dialog
@@ -54,16 +57,14 @@ export default function EditUnit(props) {
     >
       <DialogTitle>{lang.popup.edit.titleUnit}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          {lang.popup.edit.textUnit}
-        </DialogContentText>
+        <DialogContentText>{lang.popup.edit.textUnit}</DialogContentText>
         <TextField
-          fullWidth required
+          fullWidth
+          required
           label={lang.popup.edit.labelUnit}
           error={state.editUnitNameCheck}
           value={state.editUnitNameValue}
-          onChange={(event) =>
-            handle.setEditUnitNameValue(event.target.value)}
+          onChange={(event) => handle.setEditUnitNameValue(event.target.value)}
         />
       </DialogContent>
       <DialogActions>

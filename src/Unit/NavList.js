@@ -4,7 +4,7 @@ import Hidden from "@material-ui/core/Hidden";
 import PersonalInfo from "../Component/PersonalInfo";
 import Divider from "@material-ui/core/Divider";
 import Pages from "../Component/Pages";
-import Profile from "../Dialogue/Profile"
+import Profile from "../Dialogue/Profile";
 import requestURL from "../Interface/Constant";
 import {
   drawerWidth,
@@ -35,18 +35,21 @@ export default function NavList(props) {
   const [value, setValue] = React.useState(defaultProfile);
   const initValue = () => setValue({ ...state.profile });
   const [check, setCheck] = React.useState({
-    userName: false, city: false, tel: false
+    userName: false,
+    city: false,
+    tel: false
   });
   const clearCheck = () => {
-    setCheck({userName: false, city: false, tel: false});
-  }
+    setCheck({ userName: false, city: false, tel: false });
+  };
 
   const [avatarURL, setAvatarURL] = React.useState(
     `${requestURL}/src/avatar?userID=${data.userID}`
   );
-  const refreshAvatar = () => setAvatarURL(
-    `${requestURL}/src/avatar?userID=${data.userID}&t=${randomTimestamp()}`
-  );
+  const refreshAvatar = () =>
+    setAvatarURL(
+      `${requestURL}/src/avatar?userID=${data.userID}&t=${randomTimestamp()}`
+    );
 
   const drawerContent = (
     <div className={classes.sideList}>

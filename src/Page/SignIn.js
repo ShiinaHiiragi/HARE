@@ -99,7 +99,10 @@ export default function SignIn() {
             }}
             URL={requestURL}
           />
-          <Copyright lang={globalLang} handleToggleMessageBox={toggleMessageBox} />
+          <Copyright
+            lang={globalLang}
+            handleToggleMessageBox={toggleMessageBox}
+          />
         </div>
       </Grid>
       <Grid item xs={false} sm={4} md={7} className={classes.image} />

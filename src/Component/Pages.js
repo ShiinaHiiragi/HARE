@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import ListIcon from "@material-ui/icons/List";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from "@material-ui/icons/Add";
 import UnitMenu from "../Dialogue/UnitMenu";
 import PageMenu from "../Dialogue/PageMenu";
 import NewUnitPage from "../Dialogue/NewUnitPage";
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   list: {
     width: "100%",
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   nested: { paddingLeft: theme.spacing(4) },
   newPage: {
@@ -51,9 +51,11 @@ export default function Pages(props) {
 
   // fold and unfold the units
   const changeUnit = (targetID) => {
-    setListObject(listObject.map((item) => item.unitID === targetID
-      ? { ...item, open: !item.open } : item
-    ));
+    setListObject(
+      listObject.map((item) =>
+        item.unitID === targetID ? { ...item, open: !item.open } : item
+      )
+    );
   };
 
   // the states used for menus
@@ -96,24 +98,31 @@ export default function Pages(props) {
       if (group) {
         setListObject((listObject) => {
           listObject[less - 1] = listObject.splice(
-            less, 1,
+            less,
+            1,
             listObject[less - 1]
           )[0];
-          return listObject.map((item) => item.unitID === less
-            ? { ...item, unitID: less + 1} : item.unitID === less + 1
-            ? { ...item, unitID: less } : item);
+          return listObject.map((item) =>
+            item.unitID === less
+              ? { ...item, unitID: less + 1 }
+              : item.unitID === less + 1
+              ? { ...item, unitID: less }
+              : item
+          );
         });
       } else {
         setListObject((listObject) => {
           let tempPageItem = listObject[less[0] - 1].pages;
           tempPageItem[less[1] - 1] = tempPageItem.splice(
-            less[1], 1,
+            less[1],
+            1,
             tempPageItem[less[1] - 1]
           )[0];
           tempPageItem[less[1] - 1].pageID = less[1];
           tempPageItem[less[1]].pageID = less[1] + 1;
-          return listObject.map((item) => item.unitID === less[0]
-            ? { ...item, pages: tempPageItem } : item);
+          return listObject.map((item) =>
+            item.unitID === less[0] ? { ...item, pages: tempPageItem } : item
+          );
         });
       }
     });
@@ -139,7 +148,7 @@ export default function Pages(props) {
     setNewUnitPageGroup(group);
     setNewUnitPageType(type);
     setNewUnitPage(true);
-  }
+  };
 
   // state used for editing unit name
   const [editUnit, setEditUnit] = React.useState(false);
@@ -149,7 +158,7 @@ export default function Pages(props) {
     setEditUnitNameValue(currentName);
     setEditUnitNameCheck(false);
     setEditUnit(true);
-  }
+  };
 
   // states used for deleting units and pages
   const [deleteConfirm, setDeleteConfirm] = React.useState(false);
@@ -157,7 +166,7 @@ export default function Pages(props) {
   const toggleDeleteConfirm = (type) => {
     setDeleteConfirm(true);
     setDeleteConfirmType(type);
-  }
+  };
   const deleteUnitPage = (userID, unitID, pageID) => {
     packedPOST({
       uri: "/set/delete-up",
@@ -174,24 +183,34 @@ export default function Pages(props) {
       if (out === "unit") {
         setListObject((listObject) => {
           listObject.splice(unitID - 1, 1);
-          return listObject.map(item => item.unitID > unitID
-            ? { ...item, unitID: item.unitID - 1 } : item);
+          return listObject.map((item) =>
+            item.unitID > unitID ? { ...item, unitID: item.unitID - 1 } : item
+          );
         });
       } else {
         listObject[unitID - 1].pages.splice(pageID - 1, 1);
-        setListObject(listObject.map((item) => item.unitID === unitID
-          ? {
-            ...item,
-            pages: item.pages.map((subItem) => subItem.pageID > pageID
-              ? { ...subItem, pageID: subItem.pageID - 1 } : subItem)
-          } : item));
+        setListObject(
+          listObject.map((item) =>
+            item.unitID === unitID
+              ? {
+                  ...item,
+                  pages: item.pages.map((subItem) =>
+                    subItem.pageID > pageID
+                      ? { ...subItem, pageID: subItem.pageID - 1 }
+                      : subItem
+                  )
+                }
+              : item
+          )
+        );
       }
     });
   };
 
   const pageClick = (unitID, pageID) => {
     // clear the previous selected state first
-    let prevUnit = listObject.find((item) => item.selected), prevPage;
+    let prevUnit = listObject.find((item) => item.selected),
+      prevPage;
     if (prevUnit) {
       prevUnit.selected = false;
       prevPage = prevUnit.pages.find((item) => item.selected);
@@ -201,25 +220,34 @@ export default function Pages(props) {
       prevPage.route = route < 4 ? route : 1;
     }
     if (navListMobile) handle.closeNavListMobile();
-    setListObject(listObject.map((item) => item.unitID === unitID
-      ? {
-        ...item,
-        selected: true,
-        pages: item.pages.map((subItem) => subItem.pageID === pageID
-          ? { ...subItem, selected: true } : subItem)
-      } : item));
-  }
+    setListObject(
+      listObject.map((item) =>
+        item.unitID === unitID
+          ? {
+              ...item,
+              selected: true,
+              pages: item.pages.map((subItem) =>
+                subItem.pageID === pageID
+                  ? { ...subItem, selected: true }
+                  : subItem
+              )
+            }
+          : item
+      )
+    );
+  };
 
   return (
     <div className={classes.newPage}>
-      {listObject.length !== 0 ?
-      <List component="nav" className={classes.list}>
-        {
-          listObject.map((item, index) => (
+      {listObject.length !== 0 ? (
+        <List component="nav" className={classes.list}>
+          {listObject.map((item, index) => (
             <div key={index}>
               <ListItem
-                onContextMenu={(event) => toggleUnitMenu(event, item.unitID)} button
-                onClick={() => changeUnit(item.unitID)}>
+                onContextMenu={(event) => toggleUnitMenu(event, item.unitID)}
+                button
+                onClick={() => changeUnit(item.unitID)}
+              >
                 <ListItemIcon>
                   <ListIcon />
                 </ListItemIcon>
@@ -228,76 +256,79 @@ export default function Pages(props) {
               </ListItem>
               <Collapse in={item.open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  {
-                    item.pages.map((subItem, subIndex) => (
-                      <ListItem
-                        selected={subItem.selected}
-                        key={subIndex}
-                        onContextMenu={(event) => 
-                          togglePageMenu(event, item.unitID, subItem.pageID)}
-                        onClick={() => 
-                          pageClick(item.unitID, subItem.pageID)}
-                        button className={classes.nested}
-                      >
-                        <ListItemIcon>
-                          {pageIcon()[subItem.pageCover]}
-                        </ListItemIcon>
-                        <ListItemText primary={subItem.pageName} />
-                      </ListItem>
-                    ))
-                  }
+                  {item.pages.map((subItem, subIndex) => (
+                    <ListItem
+                      selected={subItem.selected}
+                      key={subIndex}
+                      onContextMenu={(event) =>
+                        togglePageMenu(event, item.unitID, subItem.pageID)
+                      }
+                      onClick={() => pageClick(item.unitID, subItem.pageID)}
+                      button
+                      className={classes.nested}
+                    >
+                      <ListItemIcon>
+                        {pageIcon()[subItem.pageCover]}
+                      </ListItemIcon>
+                      <ListItemText primary={subItem.pageName} />
+                    </ListItem>
+                  ))}
                 </List>
               </Collapse>
             </div>
-          ))
-        }
-        <UnitMenu
-          lang={lang}
-          state={{
-            unitMenu: unitMenu,
-            unitID: currentUnitID,
-            fold: currentFold,
-            top: currentTop,
-            buttom: currentButtom
-          }}
-          handle={{
-            toggleNewUnit: (pos) => toggleNewUnitPage(true, pos),
-            toggleDeleteConfirm: toggleDeleteConfirm,
-            toggleEditUnit: toggleEditUnit,
-            closeMenu: () => setUnitMenu(initMenu),
-            changeUnit: changeUnit,
-            moveUnit: (less) => changeMove(true, less)
-          }}
-        />
-        <PageMenu
-          lang={lang}
-          state={{
-            pageMenu: pageMenu,
-            unitID: currentUnitID,
-            pageID: currentPageID,
-            top: currentTop,
-            buttom: currentButtom
-          }}
-          handle={{
-            toggleNewPage: (pos) => toggleNewUnitPage(false, pos),
-            toggleDeleteConfirm: toggleDeleteConfirm,
-            closeMenu: () => setPageMenu(initMenu),
-            movePage: (less) => changeMove(false, less)
-          }}
-        />
-      </List> :
-      <div className={clsx(classes.newPage, classes.center)}>
-        <IconButton onClick={() => toggleNewUnitPage(true, 0)}>
-          <AddIcon fontSize="large"/>
-        </IconButton>
-        <Typography variant="button" color="textSecondary" align="center">
-          {lang.panel.initUnit}
-        </Typography>
-      </div>}
-      <NewUnitPage 
+          ))}
+          <UnitMenu
+            lang={lang}
+            state={{
+              unitMenu: unitMenu,
+              unitID: currentUnitID,
+              fold: currentFold,
+              top: currentTop,
+              buttom: currentButtom
+            }}
+            handle={{
+              toggleNewUnit: (pos) => toggleNewUnitPage(true, pos),
+              toggleDeleteConfirm: toggleDeleteConfirm,
+              toggleEditUnit: toggleEditUnit,
+              closeMenu: () => setUnitMenu(initMenu),
+              changeUnit: changeUnit,
+              moveUnit: (less) => changeMove(true, less)
+            }}
+          />
+          <PageMenu
+            lang={lang}
+            state={{
+              pageMenu: pageMenu,
+              unitID: currentUnitID,
+              pageID: currentPageID,
+              top: currentTop,
+              buttom: currentButtom
+            }}
+            handle={{
+              toggleNewPage: (pos) => toggleNewUnitPage(false, pos),
+              toggleDeleteConfirm: toggleDeleteConfirm,
+              closeMenu: () => setPageMenu(initMenu),
+              movePage: (less) => changeMove(false, less)
+            }}
+          />
+        </List>
+      ) : (
+        <div className={clsx(classes.newPage, classes.center)}>
+          <IconButton onClick={() => toggleNewUnitPage(true, 0)}>
+            <AddIcon fontSize="large" />
+          </IconButton>
+          <Typography variant="button" color="textSecondary" align="center">
+            {lang.panel.initUnit}
+          </Typography>
+        </div>
+      )}
+      <NewUnitPage
         lang={lang}
-        userID={userID} token={token}
-        open={newUnitPage} group={newUnitPageGroup} type={newUnitPageType}
+        userID={userID}
+        token={token}
+        open={newUnitPage}
+        group={newUnitPageGroup}
+        type={newUnitPageType}
         text={{
           listObject: listObject,
           unitNameValue: newUnitNameValue,
@@ -330,7 +361,7 @@ export default function Pages(props) {
           name: currentName,
           unitID: currentUnitID,
           editUnitNameValue: editUnitNameValue,
-          editUnitNameCheck: editUnitNameCheck,
+          editUnitNameCheck: editUnitNameCheck
         }}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
@@ -338,7 +369,7 @@ export default function Pages(props) {
           setEditUnitNameValue: setEditUnitNameValue,
           setEditUnitNameCheck: setEditUnitNameCheck,
           setListObject: setListObject,
-          close: () => setEditUnit(false),
+          close: () => setEditUnit(false)
         }}
       />
       <DeleteConfirm
@@ -347,8 +378,9 @@ export default function Pages(props) {
         type={deleteConfirmType}
         name={currentName}
         handleClose={() => setDeleteConfirm(false)}
-        handleDeleteTarget={() => 
-          deleteUnitPage(userID, currentUnitID, currentPageID)}
+        handleDeleteTarget={() =>
+          deleteUnitPage(userID, currentUnitID, currentPageID)
+        }
       />
     </div>
   );

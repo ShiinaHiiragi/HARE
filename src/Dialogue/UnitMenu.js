@@ -58,23 +58,29 @@ export default function UnitMenu(props) {
       >
         {lang.menu.moveDown}
       </MenuItem>
-      <MenuItem onClick={() => {
-        handle.closeMenu();
-        handle.toggleNewUnit(state.unitID);
-      }}>
+      <MenuItem
+        onClick={() => {
+          handle.closeMenu();
+          handle.toggleNewUnit(state.unitID);
+        }}
+      >
         {lang.menu.addUnitAbove}
       </MenuItem>
-      <MenuItem onClick={() => {
-        handle.closeMenu();
-        handle.toggleNewUnit(state.unitID + 1);
-      }}>
+      <MenuItem
+        onClick={() => {
+          handle.closeMenu();
+          handle.toggleNewUnit(state.unitID + 1);
+        }}
+      >
         {lang.menu.addUnitBelow}
       </MenuItem>
-      <MenuItem className={classes.alarm}
+      <MenuItem
+        className={classes.alarm}
         onClick={() => {
           handle.closeMenu();
           handle.toggleDeleteConfirm("unit");
-        }}>
+        }}
+      >
         {lang.menu.deleteUnit}
       </MenuItem>
     </Menu>

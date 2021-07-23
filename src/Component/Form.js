@@ -28,8 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 let emailCookie = cookie.load("email");
 const setEmailCookie = (boxChecked, email) => {
-  if (boxChecked)
-    cookie.save("email", email, { expires: cookieTime(3650) });
+  if (boxChecked) cookie.save("email", email, { expires: cookieTime(3650) });
   else cookie.remove("email");
 };
 
@@ -109,7 +108,10 @@ export default function SignInForm(props) {
 
       // we don't use packedPOST for it didn't check token
       axios
-        .post(`${requestURL}/data/sign`, { email: value.email, password: encryptedPassword })
+        .post(`${requestURL}/data/sign`, {
+          email: value.email,
+          password: encryptedPassword
+        })
         .then((res) => {
           props.handle.closeLoading();
           cookie.save("userID", res.data.uid, { expires: cookieTime(1) });
@@ -122,8 +124,9 @@ export default function SignInForm(props) {
         .catch((err) => {
           props.handle.closeLoading();
           props.handle.toggleMessageBox(
-            `${props.lang.message.serverError}: ${err.response
-              ? err.response.data : err}`,
+            `${props.lang.message.serverError}: ${
+              err.response ? err.response.data : err
+            }`,
             "error"
           );
         });
