@@ -47,11 +47,14 @@ export default function NewUnitPage(props) {
     return errorMessage;
   };
 
-  const submit = () => {
+  const submitEdit = () => {
+
+  };
+
+  const submitNew = () => {
     const errorMessage = checkFormInput();
     if (errorMessage !== "") handle.toggleMessageBox(errorMessage, "warning");
     else {
-      handle.toggleLoading();
       packedPOST({
         uri: "/set/new-up",
         query: {
@@ -68,7 +71,6 @@ export default function NewUnitPage(props) {
         lang: lang
       }).then(() => {
         handle.close();
-        handle.closeLoading();
         if (group) {
           let tempListObject = text.listObject.map((item) =>
             item.unitID >= type ? { ...item, unitID: item.unitID + 1 } : item
@@ -172,7 +174,13 @@ export default function NewUnitPage(props) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={submit} color="secondary">
+        <Button
+          onClick={() => {
+            if (edit) submitEdit();
+            else submitNew();
+          }}
+          color="secondary"
+        >
           {lang.common.apply}
         </Button>
         <Button onClick={handle.close} color="primary">

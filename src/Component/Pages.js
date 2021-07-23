@@ -355,9 +355,7 @@ export default function Pages(props) {
           setPageNameCheck: setNewPageNameCheck,
           setPagePresentCheck: setNewPagePresentCheck,
           toggleMessageBox: handle.toggleMessageBox,
-          toggleLoading: handle.toggleLoading,
           toggleKick: handle.toggleKick,
-          closeLoading: handle.closeLoading,
           close: () => setNewUnitPage(false)
         }}
       />

@@ -108,19 +108,6 @@ export default function Panel(props) {
     }));
   };
 
-  // the state of loading scene
-  let clockLoading = null;
-  const [loading, setLoading] = React.useState(false);
-  const toggleLoading = () =>
-    (clockLoading = setTimeout(() => {
-      clockLoading = null;
-      setLoading(true);
-    }, 1000));
-  const closeLoading = () => {
-    if (clockLoading) clearTimeout(clockLoading);
-    setLoading(false);
-  };
-
   return (
     <Root>
       <CssBaseline />
@@ -156,8 +143,6 @@ export default function Panel(props) {
         }}
         handle={{
           toggleMessageBox: toggleMessageBox,
-          toggleLoading: toggleLoading,
-          closeLoading: closeLoading,
           toggleKick: () => setKick(true),
           closeNavListMobile: () => setNavListMobile(false),
           changeGlobalLang: changeGlobalLang,
@@ -187,7 +172,6 @@ export default function Panel(props) {
         messageBoxType={messageBoxInfo.type}
         messageBoxMessage={messageBoxInfo.message}
       />
-      <Load open={loading} />
       <Kick lang={globalLang} open={kick} handleClose={() => setKick(false)} />
     </Root>
   );
