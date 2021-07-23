@@ -251,6 +251,13 @@ exports.getPageDetail = (userID, unitID, pageID) => new Promise((resolve, reject
     .then(resolve).catch(reject);
 });
 
+exports.editPage = (userID, unitID, pageID, pageName, pagePresent) =>
+  new Promise((resolve, reject) => {
+    query(`update page set pageName = '${pageName}', pagePresent = '${pagePresent}'
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+      .then(resolve).catch(reject);
+  });
+
 exports.editCover = (userID, unitID, pageID, cover) => new Promise((resolve, reject) => {
   query(`update page set pageCover = ${cover} where userID = ${userID}
     and unitID = ${unitID} and pageID = ${pageID}`)

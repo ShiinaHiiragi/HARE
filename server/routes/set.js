@@ -16,10 +16,8 @@ router.post('/profile', (req, res) => {
   ], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
-    .then(() => {
-      db.saveProfile(userID, userName, birth, gender, tel, city)
-        .then(() => res.send('ok'));
-    });
+    .then(() => db.saveProfile(userID, userName, birth, gender, tel, city))
+    .then(() => res.status(204).send());
 });
 
 router.post('/avatar', (req, res) => {
@@ -122,16 +120,11 @@ router.post('/swap-up', (req, res) => {
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => {
-      if (group) {
-        db.moveUnit(userID, less)
-          .then(() => res.status(204).send())
-          .catch(() => api.internalServerError(res));
-      } else {
-        db.movePage(userID, less[0], less[1])
-          .then(() => res.status(204).send())
-          .catch(() => api.internalServerError(res));
-      }
-    });
+      if (group) return  db.moveUnit(userID, less)
+      else return db.movePage(userID, less[0], less[1])
+    })
+    .then(() => res.status(204).send())
+    .catch(() => api.internalServerError(res));;
 });
 
 router.post('/unit', (req, res) => {
@@ -140,11 +133,28 @@ router.post('/unit', (req, res) => {
   const { name } = api.sqlString(req.body, ["name"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
-    .then(() => {
-      db.editUnit(userID, unitID, name)
-        .then(() => res.status(204).send())
-        .catch(() => api.internalServerError(res));
-    });
+    .then(() => db.editUnit(userID, unitID, name))
+    .then(() => res.status(204).send())
+    .catch(() => api.internalServerError(res));
+});
+
+router.post('/page', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ["token"], res);
+  const { userID, unitID, pageID } = api.sqlNumber(
+    req.body,
+    ["userID", "unitID", "pageID"],
+    res
+  );
+  const { pageName, pagePresent } = api.sqlString(
+    req.body,
+    ["pageName", "pagePresent"],
+    res
+  );
+  if (!(userID && token)) return;
+  db.checkToken(userID, token, res)
+    .then(() => db.editPage(userID, unitID, pageID, pageName, pagePresent))
+    .then(() => res.status(204).send())
+    .catch(() => api.internalServerError(res));;
 });
 
 router.post('/cover', (req, res) => {
@@ -156,11 +166,9 @@ router.post('/cover', (req, res) => {
   );
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
-    .then(() => {
-      db.editCover(userID, unitID, pageID, cover)
-        .then(() => res.status(204).send())
-        .catch(() => api.internalServerError(res));
-    });
+    .then(() => db.editCover(userID, unitID, pageID, cover))
+    .then(() => res.status(204).send())
+    .catch(() => api.internalServerError(res));
 });
 
 // setting of unit and page
@@ -174,11 +182,9 @@ router.post('/new-item', (req, res) => {
   const { query, key } = api.sqlString(req.body, ["query", "key"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
-    .then(() => {
-      db.newItem(userID, unitID, pageID, itemID, query, key)
-        .then((itemCreateTime) => res.status(200).send(itemCreateTime))
-        .catch(() => api.internalServerError(res));
-    })
+    .then(() => db.newItem(userID, unitID, pageID, itemID, query, key))
+    .then((itemCreateTime) => res.status(200).send(itemCreateTime))
+    .catch(() => api.internalServerError(res));
 });
 
 module.exports = router;

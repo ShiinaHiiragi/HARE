@@ -97,7 +97,7 @@ export default function Profile(props) {
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,
         lang: lang
-      }).then((out) => {
+      }).then(() => {
         handle.setProfile((profile) => ({
           ...profile,
           userName: value.userName,

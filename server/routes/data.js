@@ -39,11 +39,10 @@ router.get('/unit', (req, res) => {
   const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
   if (!(userID && token)) return;
-  db.checkToken(userID, token, res).then(() => {
-    db.getUnitPage(userID)
-      .then(out => res.send(out))
-      .catch(() => api.internalServerError(res));
-  });
+  db.checkToken(userID, token, res)
+    .then(() => db.getUnitPage(userID))
+    .then(out => res.send(out))
+    .catch(() => api.internalServerError(res));
 });
 
 router.get('/page', (req, res) => {
@@ -54,11 +53,10 @@ router.get('/page', (req, res) => {
     res
   );
   if (!(userID && token)) return;
-  db.checkToken(userID, token, res).then(() => {
-    db.getPageDetail(userID, unitID, pageID)
-      .then(out => res.send(out[0]))
-      .catch(() => api.internalServerError(res));
-  });
+  db.checkToken(userID, token, res)
+    .then(() => db.getPageDetail(userID, unitID, pageID))
+    .then((out) => res.send(out[0]))
+    .catch(() => api.internalServerError(res));
 });
 
 router.get('/item', (req, res) => {
@@ -69,35 +67,33 @@ router.get('/item', (req, res) => {
     res
   );
   if (!(userID && token)) return;
-  db.checkToken(userID, token, res).then(() => {
-    db.getItem(userID, unitID, pageID)
-      .then(out => res.send(out.map((each) => {
-        let initialObject = {
-          id: each.itemid,
-          query: each.itemquery,
-          key: each.itemkey,
-          time: each.itemcreatetime,
-        };
-        if (each.itemrecord)
-          return each.itemrecord.reduce((obj, value, index) => {
-            obj[index + 1] = value
-            return obj;
-          }, initialObject);
-        else return initialObject;
-      })))
-      .catch(() => api.internalServerError(res));
-  });
+  db.checkToken(userID, token, res)
+    .then(() => db.getItem(userID, unitID, pageID))
+    .then((out) => res.send(out.map((each) => {
+      let initialObject = {
+        id: each.itemid,
+        query: each.itemquery,
+        key: each.itemkey,
+        time: each.itemcreatetime,
+      };
+      if (each.itemrecord)
+        return each.itemrecord.reduce((obj, value, index) => {
+          obj[index + 1] = value
+          return obj;
+        }, initialObject);
+      else return initialObject;
+    })))
+    .catch(() => api.internalServerError(res));
 });
 
 router.get('/profile', (req, res) => {
   const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
   if (!(userID && token)) return;
-  db.checkToken(userID, token, res).then(() => {
-    db.getProfile(userID)
-      .then(out => res.send(out[0]))
-      .catch(() => api.internalServerError(res));
-  });
+  db.checkToken(userID, token, res)
+    .then(() => db.getProfile(userID))
+    .then(out => res.send(out[0]))
+    .catch(() => api.internalServerError(res));
 });
 
 module.exports = router;

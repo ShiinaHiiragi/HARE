@@ -48,75 +48,93 @@ export default function NewUnitPage(props) {
   };
 
   const submitEdit = () => {
-
+    const errorMessage = checkFormInput();
+    if (errorMessage !== "") {
+      handle.toggleMessageBox(errorMessage, "warning");
+      return;
+    }
+    packedPOST({
+      uri: "/set/page",
+      query: {
+        userID: userID,
+        unitID: type[0],
+        pageID: type[1],
+        pageName: text.pageNameValue,
+        pagePresent: text.pagePresentValue
+      },
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
+      lang: lang
+    })
   };
 
   const submitNew = () => {
     const errorMessage = checkFormInput();
-    if (errorMessage !== "") handle.toggleMessageBox(errorMessage, "warning");
-    else {
-      packedPOST({
-        uri: "/set/new-up",
-        query: {
-          userID: userID,
-          token: token,
-          group: group,
-          type: type,
-          unitName: text.unitNameValue,
-          pageName: text.pageNameValue,
-          pagePresent: text.pagePresentValue
-        },
-        msgbox: handle.toggleMessageBox,
-        kick: handle.toggleKick,
-        lang: lang
-      }).then(() => {
-        handle.close();
-        if (group) {
-          let tempListObject = text.listObject.map((item) =>
-            item.unitID >= type ? { ...item, unitID: item.unitID + 1 } : item
-          );
-          tempListObject.splice((type || 1) - 1, 0, {
-            unitID: type || 1,
-            unitName: text.unitNameValue,
-            open: true,
-            selected: false,
-            pages: [
-              {
-                seleted: false,
-                route: 1,
-                pageID: 1,
-                pageName: text.pageNameValue,
-                pageCover: 0,
-                pagePresent: text.pagePresentValue
-              }
-            ]
-          });
-          handle.setListObject(tempListObject);
-        } else {
-          let tempPageObject = text.listObject[type[0] - 1].pages.map((item) =>
-            item.pageID >= type[1] ? { ...item, pageID: item.pageID + 1 } : item
-          );
-          tempPageObject.splice(type[1] - 1, 0, {
-            seleted: false,
-            route: 1,
-            pageID: type[1],
-            pageName: text.pageNameValue,
-            pageCover: 0,
-            pagePresent: text.pagePresentValue
-          });
-          handle.setListObject((listObject) =>
-            listObject.map((item) =>
-              item.unitID === type[0]
-                ? {
-                    ...item,
-                    pages: tempPageObject
-                  }
-                : item
-            )
-          );
-        }
-      });
+    if (errorMessage !== "") {
+      handle.toggleMessageBox(errorMessage, "warning");
+      return;
     }
+    packedPOST({
+      uri: "/set/new-up",
+      query: {
+        userID: userID,
+        token: token,
+        group: group,
+        type: type,
+        unitName: text.unitNameValue,
+        pageName: text.pageNameValue,
+        pagePresent: text.pagePresentValue
+      },
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
+      lang: lang
+    }).then(() => {
+      handle.close();
+      if (group) {
+        let tempListObject = text.listObject.map((item) =>
+          item.unitID >= type ? { ...item, unitID: item.unitID + 1 } : item
+        );
+        tempListObject.splice((type || 1) - 1, 0, {
+          unitID: type || 1,
+          unitName: text.unitNameValue,
+          open: true,
+          selected: false,
+          pages: [
+            {
+              seleted: false,
+              route: 1,
+              pageID: 1,
+              pageName: text.pageNameValue,
+              pageCover: 0,
+              pagePresent: text.pagePresentValue
+            }
+          ]
+        });
+        handle.setListObject(tempListObject);
+      } else {
+        let tempPageObject = text.listObject[type[0] - 1].pages.map((item) =>
+          item.pageID >= type[1] ? { ...item, pageID: item.pageID + 1 } : item
+        );
+        tempPageObject.splice(type[1] - 1, 0, {
+          seleted: false,
+          route: 1,
+          pageID: type[1],
+          pageName: text.pageNameValue,
+          pageCover: 0,
+          pagePresent: text.pagePresentValue
+        });
+        handle.setListObject((listObject) =>
+          listObject.map((item) =>
+            item.unitID === type[0]
+              ? {
+                  ...item,
+                  pages: tempPageObject
+                }
+              : item
+          )
+        );
+      }
+    });
   };
 
   return (
