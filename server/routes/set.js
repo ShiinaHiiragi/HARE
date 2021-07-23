@@ -59,7 +59,8 @@ router.post('/avatar', (req, res) => {
 // setting of unit and page
 router.post('/new-up', (req, res) => {
   // TODO: check the validity of type in new-up & swap & delete
-  const { group, type } = req.body;
+  const group = !!req.body.group;
+  const type = api.sqlNumberArray(req.body.type);
   const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
   const { unitName, pageName, pagePresent } = api.sqlString(
@@ -68,6 +69,9 @@ router.post('/new-up', (req, res) => {
     res
   );
   if (!(userID && token)) return;
+  if ((group && typeof type !== 'number') ||
+    (!group && (!(type instanceof Array) || type.length !== 2)))
+    res.status(406).send("INVALID ARGUMENT");
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
@@ -85,7 +89,7 @@ router.post('/new-up', (req, res) => {
 });
 
 router.post('/delete-up', (req, res) => {
-  const { group } = req.body;
+  const group = !!req.body.group;
   const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID, unitID, pageID } = api.sqlNumber(
     req.body,
@@ -114,10 +118,14 @@ router.post('/delete-up', (req, res) => {
 });
 
 router.post('/swap-up', (req, res) => {
-  const { group, less } = req.body;
+  const group = !!req.body.group;
+  const less = api.sqlNumberArray(req.body.less);
   const { token } = api.sqlString(req.cookies, ["token"], res);
   const { userID } = api.sqlNumber(req.body, ["userID"], res);
   if (!(userID && token)) return;
+  if ((group && typeof less !== 'number') ||
+    (!group && (!(less instanceof Array) || less.length !== 2)))
+    res.status(406).send("INVALID ARGUMENT");
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) return  db.moveUnit(userID, less)

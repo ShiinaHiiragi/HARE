@@ -115,7 +115,7 @@ exports.checkToken = (userID, token, res) => new Promise((resolve) =>
         if (res) res.status(401).send("INVALID");
       } else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan) {
         if (res) res.status(401).send("EXPIRED");
-      } else resolve();
+      } else newToken(userID).then(resolve);
     }).catch(() => {
       if (res) api.internalServerError(res)
     })

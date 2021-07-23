@@ -9,7 +9,7 @@ router.get('/check', (req, res) => {
   const { userID } = api.sqlNumber(req.query, ["userID"], res);
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
-    .then(() => db.updateToken(userID).then(() => res.send("HARE")));
+    .then(() => res.send("HARE"));
 });
 
 router.post('/sign', (req, res) => {

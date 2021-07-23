@@ -27,16 +27,31 @@ exports.checkRegister = (cmdLine) => new Promise((resolve, reject) => {
   }
 })
 
+exports.sqlNumberArray = (query) => {
+  if (!(query instanceof Array)) {
+    const numberVerify = Number(query);
+    return isNaN(numberVerify) ? -1 : numberVerify;
+  }
+  let sql = new Array(query.length).fill();
+  let invalid = false;
+  query.forEach((item, index) => {
+    const numberVerify = Number(item);
+    sql[index] = isNaN(numberVerify) ? -1 : numberVerify;
+  });
+  return invalid ? new Array() : sql;
+}
+
 exports.sqlNumber = (query, keys, res) => {
   let sql = new Object();
   let invalid = false;
-  keys.forEach(item => {
+  keys.forEach((item) => {
     if (query[item] === undefined) {
       if (res) res.status(406).send("INVALID ARGUMENT");
       invalid = true;
       return;
     }
-    sql[item] = isNaN(Number(query[item])) ? -1 : Number(query[item]);
+    const numberVerify = Number(query[item]);
+    sql[item] = isNaN(numberVerify) ? -1 : numberVerify;
   });
   return invalid ? new Object() : sql;
 }
@@ -44,7 +59,7 @@ exports.sqlNumber = (query, keys, res) => {
 exports.sqlString = (query, keys, res) => {
   let sql = new Object();
   let invalid = false;
-  keys.forEach(item => {
+  keys.forEach((item) => {
     if (query[item] === undefined) {
       if (res) res.status(406).send("INVALID ARGUMENT");
       invalid = true;
