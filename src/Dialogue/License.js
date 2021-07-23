@@ -87,7 +87,7 @@ export default function License(props) {
       onClose={handleClose}
       className={classes.noneSelect}
     >
-      <DialogTitle className={classes.title}>
+      <DialogTitle style={{ paddingBottom: open === 2 ? 0 : 16 }}>
         {lang.popup.about.title}
       </DialogTitle>
       <Tabs
@@ -96,6 +96,7 @@ export default function License(props) {
         indicatorColor="primary"
         textColor="primary"
         onChange={(_, index) => setTab(index)}
+        style={{  display: open === 2 ? "flex" : "none" }}
       >
         <Tab label={lang.popup.about.tab[0]} />
         <Tab label={lang.popup.about.tab[1]} />

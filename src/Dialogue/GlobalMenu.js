@@ -18,7 +18,7 @@ export default function GlobalMenu(props) {
   const classes = useStyles();
   const { lang, anchor, data, handle } = props;
   const [languageSelector, setLanguageSelector] = React.useState(false);
-  const [license, setLicense] = React.useState(false);
+  const [license, setLicense] = React.useState(0);
   const [logout, setLogout] = React.useState(false);
 
   const uploadAvatar = (event) => {
@@ -85,7 +85,7 @@ export default function GlobalMenu(props) {
       <MenuItem
         onClick={() => {
           handle.close();
-          setLicense(true);
+          setLicense(2);
         }}
       >
         {lang.menu.viewCopyright}
@@ -110,7 +110,7 @@ export default function GlobalMenu(props) {
       <License
         lang={lang}
         open={license}
-        handleClose={() => setLicense(false)}
+        handleClose={() => setLicense(0)}
         handleToggleMessageBox={handle.toggleMessageBox}
       />
       <LogoutConfirm
