@@ -65,6 +65,29 @@ export default function NewUnitPage(props) {
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
       lang: lang
+    }).then(() => {
+      handle.setListObject((listObject) =>
+        listObject.map((item) => item.unitID === type[0]
+          ? {
+            ...item,
+            pages: item.pages.map((subItem) => subItem.pageID === type[1]
+              ? {
+                ...subItem,
+                pageName: text.pageNameValue,
+                pagePresent: text.pagePresentValue
+              } : subItem)
+          } : item)
+      );
+      handle.setCurrentSelect((currentSelect) => {
+        if (currentSelect.unitID === type[0] && currentSelect.pageID === type[1])
+          return {
+            ...currentSelect,
+            pageName: text.pageNameValue,
+            pagePresent: text.pagePresentValue
+          }
+        else return currentSelect;
+      });
+      handle.close();
     })
   };
 

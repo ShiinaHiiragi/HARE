@@ -356,6 +356,7 @@ export default function Pages(props) {
           setPagePresentCheck: setNewPagePresentCheck,
           toggleMessageBox: handle.toggleMessageBox,
           toggleKick: handle.toggleKick,
+          setCurrentSelect: handle.setCurrentSelect,
           close: () => setNewUnitPage(false)
         }}
       />

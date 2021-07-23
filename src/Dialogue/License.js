@@ -83,7 +83,7 @@ export default function License(props) {
   return (
     <Dialog
       fullWidth
-      open={open}
+      open={!!open}
       onClose={handleClose}
       className={classes.noneSelect}
     >

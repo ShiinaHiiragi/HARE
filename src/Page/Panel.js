@@ -147,7 +147,8 @@ export default function Panel(props) {
           closeNavListMobile: () => setNavListMobile(false),
           changeGlobalLang: changeGlobalLang,
           setListObject: setListObject,
-          setProfile: setProfile
+          setProfile: setProfile,
+          setCurrentSelect: setCurrentSelect
         }}
       />
       <Main
