@@ -164,6 +164,12 @@ export default function View(props) {
   }
 
   React.useEffect(() => {
+    return apiRef.current.subscribeEvent("cellDoubleClick", (params) => {
+      console.log(params);
+    });
+  }, [apiRef]);
+
+  React.useEffect(() => {
     if (data.itemList.length) {
       setColumn(
         defaultColumn(lang.grid).concat(
