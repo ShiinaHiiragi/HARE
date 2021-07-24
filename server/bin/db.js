@@ -296,9 +296,26 @@ exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
 
 exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
   query(`select itemID, itemQuery, itemKey, itemCreateTime, itemRecord
-    from item where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
-    .then(resolve).catch(reject);
+    from item where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}
+    order by itemID asc`).then(resolve).catch(reject);
 });
+
+exports.moveItem = (userID, unitID, pageID, src, dst) =>
+  new Promise((resolve, reject) => {
+    const direction = src < dst ? -1 : 1;
+    const left = direction < 0 ? src + 1 : dst;
+    const right = direction < 0 ? dst : src - 1;
+    query(`begin; update item set itemID = 0
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID = ${src};
+      update item set itemID = -(itemID + (${direction}))
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}
+      and itemID >= ${left} and itemID <= ${right};
+      update item set itemID = -itemID
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID < 0;
+      update item set itemID = ${dst}
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID = 0;
+      commit;`).then(resolve).catch(reject);
+  });
 
 // update item set itemRecord = array['P', 'N', 'N', 'P']
 // update item set itemRecord = array_append(itemRecord, 'U')

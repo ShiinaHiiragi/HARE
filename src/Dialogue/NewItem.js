@@ -172,7 +172,11 @@ export default function NewItem(props) {
   };
   const idChange = (event) => {
     const valueJudge = event.target.value;
-    if (/^[0-9]*$/.test(valueJudge)) setItemID(event.target.value);
+    setItemID((itemID) => {
+      if (/^[0-9]*$/.test(valueJudge))
+        return valueJudge;
+      else return itemID;
+    });
   };
 
   // the icon button of exit

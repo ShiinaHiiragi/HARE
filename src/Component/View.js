@@ -17,6 +17,7 @@ import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 import { defaultColumn } from "../Interface/Constant";
 import RecallMenu from "../Dialogue/RecallMenus";
 import NewItem from "../Dialogue/NewItem";
+import Move from "../Dialogue/Move";
 import { HotKeys } from "react-hotkeys";
 import {
   XGrid,
@@ -83,11 +84,17 @@ export default function View(props) {
 
   const [column, setColumn] = React.useState(defaultColumn(lang.grid));
   const [anchorRecallMenu, setAnchorRecallMenu] = React.useState(null);
+  const [invalidDelete, setInvalidDelete] = React.useState(true);
+  const [invalidMove, setInvalidMove] = React.useState(true);
 
   const [newItem, setNewItem] = React.useState(false);
-  const toggleNewItem = () => {
-    setNewItem(true);
-  };
+  const [move, setMove] = React.useState(false);
+  const [itemSelect, setItemSelect] = React.useState(0);
+  const toggleMove = () => {
+    const selected = [...apiRef.current.getSelectedRows().keys()][0];
+    setItemSelect(selected);
+    setMove(true);
+  }
 
   const keyHandler = {
     cancelSelected: () => {
@@ -116,6 +123,7 @@ export default function View(props) {
         <Button
           variant="outlined"
           color="secondary"
+          disabled={invalidDelete}
           startIcon={<CloseIcon />}
           className={classes.innerButton}
           onClick={() => {}}
@@ -125,9 +133,10 @@ export default function View(props) {
         <Button
           variant="outlined"
           color="primary"
+          disabled={invalidMove}
           startIcon={<HeightIcon />}
           className={classes.innerButton}
-          onClick={() => {}}
+          onClick={toggleMove}
         >
           {lang.grid.buttons.move}
         </Button>
@@ -136,7 +145,7 @@ export default function View(props) {
           color="primary"
           startIcon={<AddIcon />}
           className={classes.innerButton}
-          onClick={toggleNewItem}
+          onClick={() => setNewItem(true)}
         >
           {lang.grid.buttons.newItem}
         </Button>
@@ -168,6 +177,13 @@ export default function View(props) {
       console.log(params);
     });
   }, [apiRef]);
+
+  React.useEffect(() => {
+    return apiRef.current.subscribeEvent("selectionChange", (params) => {
+      setInvalidDelete(params.length === 0);
+      setInvalidMove(data.itemList.length < 2 || params.length !== 1);
+    });
+  }, [apiRef, data.itemList.length]);
 
   React.useEffect(() => {
     if (data.itemList.length) {
@@ -269,6 +285,23 @@ export default function View(props) {
         }}
         handle={{
           close: () => setNewItem(false),
+          toggleMessageBox: handle.toggleMessageBox,
+          toggleKick: handle.toggleKick,
+          setItemList: handle.setItemList
+        }}
+      />
+      <Move
+        lang={lang}
+        open={move}
+        data={{
+          userID: data.userID,
+          listLength: data.itemList.length,
+          unitID: current.unitID,
+          pageID: current.pageID,
+          select: itemSelect
+        }}
+        handle={{
+          close: () => setMove(false),
           toggleMessageBox: handle.toggleMessageBox,
           toggleKick: handle.toggleKick,
           setItemList: handle.setItemList

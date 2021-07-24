@@ -195,4 +195,18 @@ router.post('/new-item', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
+router.post('/move', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID, unitID, pageID, src, dst } = api.sqlNumber(
+    req.body,
+    ['userID', 'unitID', 'pageID', 'src', 'dst'],
+    res
+  );
+  if (!(userID && token)) return;
+  db.checkToken(userID, token, res)
+    .then(() => db.moveItem(userID, unitID, pageID, src, dst))
+    .then(() => res.status(204).send())
+    .catch(() => api.internalServerError(res));
+});
+
 module.exports = router;

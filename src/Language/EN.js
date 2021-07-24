@@ -80,6 +80,9 @@ const list = {
       textPage: "Type your desired name and description and click 'APPLY' to continue.",
       labelPageName: "Booklet Name",
       labelPagePresent: "The Description of the Booklet",
+      titleMove: "Move Entry",
+      textMove: "Type your desired target entry ID and click 'APPLY' to continue. The range of ID is 1 ~ {0}",
+      labelMove: "Entry ID",
       cover:  "Choose a Icon for this Booklet"
     },
     logout: {
@@ -199,7 +202,7 @@ const list = {
     telError: "The name of the phone should be no more than 16 characters.",
     cityError: "The name of the city should be no more than 16 characters.",
     invalidItemID: "The target entry ID is out of range.",
-    copyEmail: "The E-mail has been copied to your clipboard.",
+    copyEmail: "The E-mail has been copied to your clipboard."
   },
   grid: {
     column: {

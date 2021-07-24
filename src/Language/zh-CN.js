@@ -80,6 +80,9 @@ const list = {
       textPage: "更改当前记忆组名及其描述，然后点击「应用」以继续。",
       labelPageName: "记忆册名",
       labelPagePresent: "记忆册描述",
+      titleMove: "移动词条",
+      textMove: "输入指定的词条 ID，然后点击「应用」以继续。ID 的范围是 1 ~ {0}",
+      labelMove: "词条 ID",
       cover:  "为此记忆册选择一个图标"
     },
     logout: {
@@ -205,7 +208,7 @@ const list = {
     telError: "电话长度不能超过 16 个字符",
     cityError: "城市名长度不能超过 16 个字符",
     invalidItemID: "指定的 ID 超出了范围",
-    copyEmail: "电子邮箱已被复制到剪切板",
+    copyEmail: "电子邮箱已被复制到剪切板"
   },
   grid: {
     column: {
