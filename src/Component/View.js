@@ -15,7 +15,6 @@ import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 import { defaultColumn } from "../Interface/Constant";
-import RecallMenu from "../Dialogue/RecallMenus";
 import NewItem from "../Dialogue/NewItem";
 import Move from "../Dialogue/Move";
 import { HotKeys } from "react-hotkeys";
@@ -83,7 +82,6 @@ export default function View(props) {
   const { lang, current, data, handle } = props;
 
   const [column, setColumn] = React.useState(defaultColumn(lang.grid));
-  const [anchorRecallMenu, setAnchorRecallMenu] = React.useState(null);
   const [invalidDelete, setInvalidDelete] = React.useState(true);
   const [invalidMove, setInvalidMove] = React.useState(true);
 
@@ -235,6 +233,7 @@ export default function View(props) {
         <Button
           variant="outlined"
           color="primary"
+          disabled={invalidDelete}
           startIcon={<GetAppOutlinedIcon />}
           className={clsx(classes.button, classes.exportButton)}
           onClick={() => {}}
@@ -244,10 +243,10 @@ export default function View(props) {
         <Button
           variant="outlined"
           color="primary"
+          disabled={invalidDelete}
           startIcon={<CheckCircleOutlinedIcon />}
           className={classes.button}
-          onClick={(event) => setAnchorRecallMenu(event.currentTarget)}
-          onMouseOver={(event) => setAnchorRecallMenu(event.currentTarget)}
+          onClick={() => {}}
         >
           {lang.grid.buttons.recollect}
         </Button>
@@ -263,13 +262,6 @@ export default function View(props) {
           apiRef={apiRef}
         />
       </Card>
-      <RecallMenu
-        lang={lang}
-        anchor={anchorRecallMenu}
-        handle={{
-          close: () => setAnchorRecallMenu(null)
-        }}
-      />
       <NewItem
         lang={lang}
         data={{
