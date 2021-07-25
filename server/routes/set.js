@@ -206,7 +206,7 @@ router.post('/delete-item', (req, res) => {
   );
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
-    .then(() => console.log(itemID))
+    .then(() => db.deleteItem(userID, unitID, pageID, itemID, track))
     .then(() => res.status(204).send())
     .catch(() => api.internalServerError(res));
 });

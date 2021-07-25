@@ -300,6 +300,41 @@ exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
     order by itemID asc`).then(resolve).catch(reject);
 });
 
+exports.deleteItem = (userID, unitID, pageID, itemID, track) =>
+  new Promise((onsuccess, onerror) => {
+    const tuple = JSON.stringify(itemID).replace(/\[/, '(').replace(/\]/, ')');
+    Promise.all([
+      new Promise((resolve) => {
+        query(`select itemSize from page where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID}`)
+          .then((out) => {
+            let remain = new Array(out[0].itemsize).fill().map((_, index) => index + 1);
+            remain = itemID.reduce((current, item, index) => {
+              current.splice(item - index - 1, 1);
+              return current;
+            }, remain)
+            resolve(remain);
+          });
+      }),
+      query(`delete from item where userID = ${userID} and unitID = ${unitID}
+        and pageID = ${pageID} and itemID in ${tuple}`),
+    ]).then((arg) => {
+      const remain = arg[0];
+      Promise.all(remain.map((value, index) => new Promise((resolve, reject) => {
+        query(`update item set itemID = ${index + 1} where userID = ${userID}
+        and unitID = ${unitID} and pageID = ${pageID} and itemID = ${value}`)
+          .then(resolve).catch(reject);
+      }))).then(() => {
+        if (track) query(`begin; delete from track where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID};
+          update page set trackSize = 0 where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID}; commit`)
+          .then(onsuccess).catch(onerror);
+        else onsuccess();
+      }).catch(onerror)
+    });
+  });
+
 exports.moveItem = (userID, unitID, pageID, src, dst) =>
   new Promise((resolve, reject) => {
     const direction = src < dst ? -1 : 1;
