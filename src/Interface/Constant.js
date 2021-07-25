@@ -1,4 +1,5 @@
 import CryptoJS from "crypto-js";
+import markdownToTxt from "markdown-to-txt";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
@@ -60,12 +61,14 @@ const defaultColumn = (langGrid) => [
     field: "query",
     headerName: langGrid.column.query,
     width: 200,
+    valueFormatter: (param) => markdownToTxt(param.value),
     headerAlign: "center"
   },
   {
     field: "key",
     headerName: langGrid.column.key,
     width: 200,
+    valueFormatter: (param) => markdownToTxt(param.value),
     headerAlign: "center"
   }
 ];

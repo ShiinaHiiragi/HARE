@@ -144,6 +144,7 @@ const list = {
         "React App Rewired": ["Webpack 配置覆写", "2.1.8"],
         "Date-fns": ["日期工具", "2.22.1"],
         "Copy to Clipboard": ["剪切板复制", "3.3.1"],
+        "Markdown to Text": ["MAKRDOWN 转换为纯文本", "1.0.1"],
         "Github CSS": ["Github MARKDOWN 样式表", "4.0.0"]
       },
       help: {

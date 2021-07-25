@@ -144,6 +144,7 @@ const list = {
         "React App Rewired": ["Webpack Configuration Override", "2.1.8"],
         "Date-fns": ["Date Tool", "2.22.1"],
         "Copy to Clipboard": ["Clipboard Copying", "3.3.1"],
+        "Markdown to Text": ["Convert MARKDOWN String to Plain Text", "1.0.1"],
         "Github CSS": ["Stylesheet of Github Markdown", "4.0.0"]
       },
       help: {

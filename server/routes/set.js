@@ -205,6 +205,8 @@ router.post('/delete-item', (req, res) => {
     res
   );
   if (!(userID && token)) return;
+  if (!(itemID instanceof Array))
+    res.status(406).send('INVALID ARGUMENT');
   db.checkToken(userID, token, res)
     .then(() => db.deleteItem(userID, unitID, pageID, itemID, track))
     .then(() => res.status(204).send())
