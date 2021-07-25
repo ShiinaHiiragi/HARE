@@ -301,7 +301,8 @@ exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
 });
 
 exports.deleteItem = (userID, unitID, pageID, itemID, track) =>
-  new Promise((onsuccess, onerror) => {
+  new Promise((outerSuccess, outerError) => {
+    const deleteSize = itemID.length;
     const tuple = JSON.stringify(itemID).replace(/\[/, '(').replace(/\]/, ')');
     Promise.all([
       new Promise((resolve) => {
@@ -316,23 +317,25 @@ exports.deleteItem = (userID, unitID, pageID, itemID, track) =>
             resolve(remain);
           });
       }),
-      query(`delete from item where userID = ${userID} and unitID = ${unitID}
-        and pageID = ${pageID} and itemID in ${tuple}`),
+      query(`begin; delete from item where userID = ${userID} and unitID = ${unitID}
+        and pageID = ${pageID} and itemID in ${tuple};
+        update page set itemSize = itemSize - ${deleteSize} where userID = ${userID}
+        and unitID = ${unitID} and pageID = ${pageID}; commit;`),
     ]).then((arg) => {
       const remain = arg[0];
-      Promise.all(remain.map((value, index) => new Promise((resolve, reject) => {
-        query(`update item set itemID = ${index + 1} where userID = ${userID}
-        and unitID = ${unitID} and pageID = ${pageID} and itemID = ${value}`)
-          .then(resolve).catch(reject);
-      }))).then(() => {
+      api.syncEachChain(remain, (arrayItem, onsuccess, onerror, arrayIndex) => {
+        query(`update item set itemID = ${arrayIndex + 1} where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID} and itemID = ${arrayItem}`)
+          .then(onsuccess).catch(onerror)
+      }).then(() => {
         if (track) query(`begin; delete from track where userID = ${userID}
           and unitID = ${unitID} and pageID = ${pageID};
           update page set trackSize = 0 where userID = ${userID}
           and unitID = ${unitID} and pageID = ${pageID}; commit`)
-          .then(onsuccess).catch(onerror);
-        else onsuccess();
-      }).catch(onerror)
-    });
+          .then(outerSuccess).catch(outerError);
+        else outerSuccess();
+      }).catch(outerError);
+    }).catch(outerError);
   });
 
 exports.moveItem = (userID, unitID, pageID, src, dst) =>

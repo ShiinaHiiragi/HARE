@@ -107,20 +107,38 @@ export default function View(props) {
   }
 
   const deleteItem = () => {
+    const itemID = [...apiRef.current.getSelectedRows().keys()];
     packedPOST({
       uri: "/set/delete-item",
       query: {
         userID: data.userID,
         unitID: current.unitID,
         pageID: current.pageID,
-        itemID: [...apiRef.current.getSelectedRows().keys()],
+        itemID: itemID,
         track: deleteTrack === "track"
       },
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
       lang: lang
     }).then(() => {
-      console.log("OK");
+      handle.setItemList((itemList) => {
+        let remain = new Array(data.itemList.length).fill().map((_, index) => index + 1);
+        remain = itemID.reduce((current, item, index) => {
+          current.splice(item - index - 1, 1);
+          return current;
+        }, remain);
+        return remain.map((item, index) => ({
+          ...data.itemList[item - 1],
+          id: index + 1
+        }))
+      });
+      handle.setPageDetail((pageDetail) => ({
+        ...pageDetail,
+        itemSize: pageDetail.itemSize - itemID.length,
+        trackSize: deleteTrack === "track" ? 0 : pageDetail.trackSize
+      }))
+      setDeleteConfirm(false);
+      apiRef.current.selectRows(apiRef.current.getAllRowIds(), false);
     });
   }
 
@@ -309,6 +327,7 @@ export default function View(props) {
           close: () => setNewItem(false),
           toggleMessageBox: handle.toggleMessageBox,
           toggleKick: handle.toggleKick,
+          setPageDetail: handle.setPageDetail,
           setItemList: handle.setItemList
         }}
       />

@@ -111,6 +111,7 @@ export default function Main(props) {
             toggleMessageBox: handle.toggleMessageBox,
             toggleKick: handle.toggleKick,
             setCurrentRoute: handle.setCurrentRoute,
+            setPageDetail: setPageDetail,
             setItemList: setItemList
           }}
         />

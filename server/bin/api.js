@@ -2,9 +2,9 @@ const SHA256 = require('crypto-js').SHA256;
 
 exports.syncEachChain = (arrayObject, eachTemp) =>
   arrayObject.reduce(
-    (promiseChain, arrayItem) =>
+    (promiseChain, arrayItem, arrayIndex) =>
       promiseChain.then(() => new Promise((resolve, reject) =>
-        eachTemp(arrayItem, resolve, reject))),
+        eachTemp(arrayItem, resolve, reject, arrayIndex))),
     Promise.resolve()
   );
 

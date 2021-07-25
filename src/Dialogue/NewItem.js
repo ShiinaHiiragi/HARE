@@ -236,6 +236,10 @@ export default function NewItem(props) {
           newItemList[targetItemID - 1][index + 1] = "L";
         return newItemList;
       });
+      handle.setPageDetail((pageDetail) => ({
+        ...pageDetail,
+        itemSize: pageDetail.itemSize + 1
+      }))
       clearClose(true);
     });
   };
