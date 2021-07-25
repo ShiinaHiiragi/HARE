@@ -17,6 +17,8 @@ import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 import { defaultColumn } from "../Interface/Constant";
 import NewItem from "../Dialogue/NewItem";
 import Move from "../Dialogue/Move";
+import DeleteConfirm from "../Dialogue/DeleteConfirm";
+import { packedPOST } from "../Interface/Request";
 import { HotKeys } from "react-hotkeys";
 import {
   XGrid,
@@ -87,11 +89,39 @@ export default function View(props) {
 
   const [newItem, setNewItem] = React.useState(false);
   const [move, setMove] = React.useState(false);
+  const [deleteConfirm, setDeleteConfirm] = React.useState(false);
+  const [deleteTrack, setDeleteTrack] = React.useState("part");
   const [itemSelect, setItemSelect] = React.useState(0);
   const toggleMove = () => {
     const selected = [...apiRef.current.getSelectedRows().keys()][0];
     setItemSelect(selected);
     setMove(true);
+  }
+  const toggleDeleteComfirm = () => {
+    if (apiRef.current.getSelectedRows().size === data.itemList.length) {
+      if (column.length > 4)
+        setDeleteTrack("track");
+      else setDeleteTrack("all");
+    } else setDeleteTrack("part");
+    setDeleteConfirm(true);
+  }
+
+  const deleteItem = () => {
+    packedPOST({
+      uri: "/set/delete-item",
+      query: {
+        userID: data.userID,
+        unitID: current.unitID,
+        pageID: current.pageID,
+        itemID: [...apiRef.current.getSelectedRows().keys()],
+        track: deleteTrack === "track"
+      },
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
+      lang: lang
+    }).then(() => {
+      console.log("OK");
+    });
   }
 
   const keyHandler = {
@@ -124,7 +154,7 @@ export default function View(props) {
           disabled={invalidDelete}
           startIcon={<CloseIcon />}
           className={classes.innerButton}
-          onClick={() => {}}
+          onClick={toggleDeleteComfirm}
         >
           {lang.grid.buttons.delete}
         </Button>
@@ -298,6 +328,14 @@ export default function View(props) {
           toggleKick: handle.toggleKick,
           setItemList: handle.setItemList
         }}
+      />
+      <DeleteConfirm
+        lang={lang}
+        open={deleteConfirm}
+        type="item"
+        name={lang.popup.delete[deleteTrack]}
+        handleClose={() => setDeleteConfirm(false)}
+        handleDeleteTarget={deleteItem}
       />
     </HotKeys>
   );

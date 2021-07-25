@@ -93,7 +93,10 @@ const list = {
       title: "Deletion Confirmation",
       unit: "You are attempting to delete the unit '{0}'. Please click 'YES' to continue.",
       page: "You are attempting to delete the booklet '{0}'. Please click 'YES' to continue.",
-      item: "You are attempting to delete this entry. Please click 'YES' to continue."
+      item: "You are attempting to delete {0}. Please click 'YES' to continue.",
+      part: "selected entries",
+      all: "all entries",
+      track: "all entries including records",
     },
     profile: {
       userName: "Username",

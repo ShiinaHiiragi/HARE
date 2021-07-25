@@ -195,6 +195,22 @@ router.post('/new-item', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
+router.post('/delete-item', (req, res) => {
+  const track = !!req.body.track;
+  const itemID = api.sqlNumberArray(req.body.itemID);
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID, unitID, pageID } = api.sqlNumber(
+    req.body,
+    ['userID', 'unitID', 'pageID'],
+    res
+  );
+  if (!(userID && token)) return;
+  db.checkToken(userID, token, res)
+    .then(() => console.log(itemID))
+    .then(() => res.status(204).send())
+    .catch(() => api.internalServerError(res));
+});
+
 router.post('/move', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID, pageID, src, dst } = api.sqlNumber(
