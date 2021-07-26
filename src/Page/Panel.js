@@ -68,6 +68,9 @@ export default function Panel(props) {
     pagePresent: "",
     route: 0
   });
+  // ATTENTION: we don't need pass setCurrentSelect to child node because of
+  // the effect hook; but we need to pass setRoute because the change on route
+  // don't update listObject immediately
   const setCurrentRoute = (target) =>
     setCurrentSelect((currentSelect) => ({
       ...currentSelect,
@@ -79,6 +82,7 @@ export default function Panel(props) {
     if (selectedUnit)
       selectedPage = selectedUnit.pages.find((item) => item.selected);
     if (selectedPage) {
+      console.log(selectedPage);
       setCurrentSelect({
         unitID: selectedUnit.unitID,
         unitName: selectedUnit.unitName,
@@ -124,8 +128,7 @@ export default function Panel(props) {
           toggleNavListMobile: () => setNavListMobile(true),
           toggleMessageBox: toggleMessageBox,
           toggleKick: () => setKick(true),
-          setListObject: setListObject,
-          setCurrentSelect: setCurrentSelect
+          setListObject: setListObject
         }}
       />
       <NavList
@@ -147,8 +150,7 @@ export default function Panel(props) {
           closeNavListMobile: () => setNavListMobile(false),
           changeGlobalLang: changeGlobalLang,
           setListObject: setListObject,
-          setProfile: setProfile,
-          setCurrentSelect: setCurrentSelect
+          setProfile: setProfile
         }}
       />
       <Main
@@ -158,9 +160,7 @@ export default function Panel(props) {
           token: token
         }}
         current={currentSelect}
-        state={{
-          navList: navListPC
-        }}
+        navList={navListPC}
         handle={{
           toggleMessageBox: toggleMessageBox,
           toggleKick: () => setKick(true),

@@ -83,8 +83,7 @@ export default function NavList(props) {
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
           closeNavListMobile: handle.closeNavListMobile,
-          toggleKick: handle.toggleKick,
-          setCurrentSelect: handle.setCurrentSelect
+          toggleKick: handle.toggleKick
         }}
       />
     </div>

@@ -45,7 +45,6 @@ export default function NavBar(props) {
         userID={state.userID}
         current={state.currentSelect}
         handle={{
-          setCurrent: handle.setCurrentSelect,
           setList: handle.setListObject,
           toggleMessageBox: handle.toggleMessageBox,
           toggleKick: handle.toggleKick

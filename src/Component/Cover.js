@@ -109,7 +109,7 @@ export default function Cover(props) {
         </Typography>
         <div className={classes.buttonField}>
           <div className={classes.button}>
-            <IconButton>
+            <IconButton onClick={() => setCurrentRoute(4)}>
               <CheckCircleOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">

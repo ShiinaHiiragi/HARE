@@ -6,6 +6,7 @@ import MainPage from "../Interface/MainPage";
 import Intro from "../Component/Intro";
 import Cover from "../Component/Cover";
 import View from "../Component/View";
+import Recall from "../Component/Recall";
 import packedGET from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Main(props) {
   const classes = useStyles();
-  const { lang, data, current, state, handle } = props;
+  const { lang, data, current, navList, handle } = props;
   const [itemList, setItemList] = React.useState([]);
 
   const [pageDetail, setPageDetail] = React.useState({
@@ -82,7 +83,7 @@ export default function Main(props) {
   return (
     <main
       className={clsx(classes.content, {
-        [classes.contentShift]: state.navList
+        [classes.contentShift]: navList
       })}
     >
       <Header />
@@ -120,7 +121,12 @@ export default function Main(props) {
         3 - Statistics
       </MainPage>
       <MainPage index={4} route={current.route}>
-        4 - Recall
+        <Recall
+          lang={lang}
+          handle={{
+            setCurrentRoute: handle.setCurrentRoute,
+          }}
+        />
       </MainPage>
       <MainPage index={5} route={current.route}>
         5 - Ranking

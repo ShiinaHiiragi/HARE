@@ -78,15 +78,6 @@ export default function NewUnitPage(props) {
               } : subItem)
           } : item)
       );
-      handle.setCurrentSelect((currentSelect) => {
-        if (currentSelect.unitID === type[0] && currentSelect.pageID === type[1])
-          return {
-            ...currentSelect,
-            pageName: text.pageNameValue,
-            pagePresent: text.pagePresentValue
-          }
-        else return currentSelect;
-      });
       handle.close();
     })
   };

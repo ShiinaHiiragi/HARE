@@ -20,15 +20,11 @@ export default function LocalInfo(props) {
       kick: handle.toggleKick,
       lang: lang
     }).then(() => {
-      handle.setCurrent((current) => ({
-        ...current,
-        pageCover: index
-      }));
       handle.setList((list) => list.map((item) => item.unitID === current.unitID
         ? {
           ...item,
           pages: item.pages.map((subItem) => subItem.pageID === current.pageID
-            ? { ...subItem, pageCover: index } : subItem)
+            ? { ...subItem, pageCover: index, route: current.route } : subItem)
         } : item))
     });
   }
