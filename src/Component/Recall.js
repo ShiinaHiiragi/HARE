@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -11,10 +12,9 @@ import FlipIcon from "@material-ui/icons/Flip";
 import CloseIcon from "@material-ui/icons/Close";
 import PackedMarkdown from "../Component/Markdown";
 import { HotKeys } from "react-hotkeys";
-import { routeIndex } from "../Interface/Constant";
+import { routeIndex, maxLog } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { ParameterDescriptionMessage } from "pg-protocol/dist/messages";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -95,6 +95,8 @@ export default function Recall(props) {
       setPointer((pointer) => (pointer + param + size) % size);
     else if (type === "string") {
       log.push(param);
+      // the length of log cannot exceed maxLog (may be 256)
+      if (log.length > maxLog) log.shift();
       handle.setRecall((recall) => {
         const deleted = recall.lost.splice(pointer, 1);
         recall[param].push(deleted[0]);
@@ -121,25 +123,33 @@ export default function Recall(props) {
       </div>
       <div className={classes.main}>
         <div className={classes.sideBar}>
-          <IconButton
-            className={classes.iconButton}
-            onClick={() => setReverse((reverse) => reverse === "query" ? "key" : "query")}
-          >
-            <CompareArrowsIcon />
-          </IconButton>
-          <IconButton
-            className={classes.iconButton}
-            onClick={() => changeItem(-1)}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-          <IconButton
-            className={classes.iconButton}
-            disabled={!log.length}
-            onClick={cancel}
-          >
-            <FlipIcon />
-          </IconButton>
+          <Tooltip title={lang.panel.recall.switch}>
+            <IconButton
+              className={classes.iconButton}
+              onClick={() => setReverse((reverse) => reverse === "query" ? "key" : "query")}
+            >
+              <CompareArrowsIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={lang.panel.recall.previous}>
+            <IconButton
+              className={classes.iconButton}
+              onClick={() => changeItem(-1)}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={lang.panel.recall.revoke}>
+            <span>
+              <IconButton
+                className={classes.iconButton}
+                disabled={!log.length}
+                onClick={cancel}
+              >
+                <FlipIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
         </div>
         <Card className={classes.middle}>
           <Typography
@@ -152,24 +162,30 @@ export default function Recall(props) {
           </Typography>
         </Card>
         <div className={classes.sideBar}>
-          <IconButton
-            className={classes.iconButton}
-            onClick={() => changeItem("pure")}
-          >
-            <RadioButtonUncheckedIcon  />
-          </IconButton>
-          <IconButton
-            className={classes.iconButton}
-            onClick={() => changeItem(1)}
-          >
-            <ArrowForwardIcon />
-          </IconButton>
-          <IconButton
-            className={classes.iconButton}
-            onClick={() => changeItem("far")}
-          >
-            <CloseIcon />
-          </IconButton>
+          <Tooltip title={lang.panel.recall.pure}>
+            <IconButton
+              className={classes.iconButton}
+              onClick={() => changeItem("pure")}
+            >
+              <RadioButtonUncheckedIcon  />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={lang.panel.recall.next}>
+            <IconButton
+              className={classes.iconButton}
+              onClick={() => changeItem(1)}
+            >
+              <ArrowForwardIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={lang.panel.recall.far}>
+            <IconButton
+              className={classes.iconButton}
+              onClick={() => changeItem("far")}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
     </HotKeys>

@@ -37,6 +37,14 @@ const list = {
       view: "View Items",
       stat: "Statistics",
       nilPresent: "No Description"
+    },
+    recall: {
+      switch: "Switch Question/Answer",
+      revoke: "Revoke Latest Mark",
+      previous: "Previous",
+      next: "Next",
+      pure: "Mark as Correct",
+      far: "Mark as Fault"
     }
   },
   popup: {
