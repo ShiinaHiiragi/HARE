@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+let log = [];
 const keyMap = { };
 
 export default function Recall(props) {
@@ -64,16 +65,28 @@ export default function Recall(props) {
   const { lang, data, handle } = props;
   const keyHandler = { };
  
-  const [log, setLog] = React.useState([]);
   const [pointer, setPointer] = React.useState(0);
   const [reverse, setReverse] = React.useState("query");
   React.useEffect(() => {
     if (data.route === routeIndex.recall) {
-      setLog([]);
+      log = [];
       setPointer(0);
       setReverse("query");
     }
   }, [data.route]);
+
+  const cancel = () => {
+    const lastType = log.pop();
+    handle.setRecall((recall) => {
+      const lastIndex = recall[lastType].pop();
+      const lostIndex = recall.lost.findIndex((item, index, arr) =>
+        item >= lastIndex && (!index || arr[index - 1] <= lastIndex));
+      recall.lost.splice(lostIndex, 0, lastIndex);
+      setPointer(lostIndex);
+      return { ...recall, [lastType]: recall[lastType], lost: recall.lost };
+    })
+    setReverse("query");
+  }
 
   const changeItem = (param) => {
     const type = typeof param;
@@ -81,7 +94,7 @@ export default function Recall(props) {
     if (type === "number")
       setPointer((pointer) => (pointer + param + size) % size);
     else if (type === "string") {
-      setLog((log) => [...log, param]);
+      log.push(param);
       handle.setRecall((recall) => {
         const deleted = recall.lost.splice(pointer, 1);
         recall[param].push(deleted[0]);
@@ -120,7 +133,11 @@ export default function Recall(props) {
           >
             <ArrowBackIcon />
           </IconButton>
-          <IconButton className={classes.iconButton} disabled={!log.length}>
+          <IconButton
+            className={classes.iconButton}
+            disabled={!log.length}
+            onClick={cancel}
+          >
             <FlipIcon />
           </IconButton>
         </div>
@@ -129,7 +146,9 @@ export default function Recall(props) {
             component="div"
             variant="body2"
           >
-            <PackedMarkdown children={data.itemList[data.recall.lost[pointer] - 1]?.[reverse]} />
+            <PackedMarkdown>
+              {data.itemList[data.recall.lost[pointer] - 1]?.[reverse]}
+            </PackedMarkdown>
           </Typography>
         </Card>
         <div className={classes.sideBar}>

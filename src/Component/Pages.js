@@ -222,8 +222,9 @@ export default function Pages(props) {
       prevPage = prevUnit.pages.find((item) => item.selected);
     }
     if (prevPage) {
+      prevPage.route = (prevUnit.unitID === unitID && prevPage.pageID === pageID)
+        ? route : route < 4 ? route : 1;
       prevPage.selected = false;
-      prevPage.route = route < 4 ? route : 1;
     }
     if (navListMobile) handle.closeNavListMobile();
     setListObject(
