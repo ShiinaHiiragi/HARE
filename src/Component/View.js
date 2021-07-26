@@ -14,7 +14,7 @@ import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
-import { defaultColumn } from "../Interface/Constant";
+import { defaultColumn, routeIndex } from "../Interface/Constant";
 import NewItem from "../Dialogue/NewItem";
 import Move from "../Dialogue/Move";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
@@ -273,7 +273,7 @@ export default function View(props) {
           color="primary"
           startIcon={<ArrowBackOutlinedIcon />}
           className={classes.button}
-          onClick={() => handle.setCurrentRoute(1)}
+          onClick={() => handle.setCurrentRoute(routeIndex.cover)}
         >
           {lang.common.back}
         </Button>

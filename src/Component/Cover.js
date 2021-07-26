@@ -5,7 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ViewCompactOutlinedIcon from "@material-ui/icons/ViewCompactOutlined";
 import DataUsageOutlinedIcon from "@material-ui/icons/DataUsageOutlined";
-import { timeFormat, stringFormat, pageIcon } from "../Interface/Constant";
+import { timeFormat, stringFormat, pageIcon, routeIndex } from "../Interface/Constant";
 import packedGET from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -86,7 +86,7 @@ export default function Cover(props) {
       lang: lang
     }).then((out) => {
       handle.setRecall({ pure: [], far: [], lost: out });
-      handle.setCurrentRoute(4);
+      handle.setCurrentRoute(routeIndex.recall);
     }); 
   }
 
@@ -135,7 +135,7 @@ export default function Cover(props) {
             </Typography>
           </div>
           <div className={classes.button}>
-            <IconButton onClick={() => handle.setCurrentRoute(2)}>
+            <IconButton onClick={() => handle.setCurrentRoute(routeIndex.view)}>
               <ViewCompactOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">

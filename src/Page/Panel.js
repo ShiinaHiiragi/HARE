@@ -7,11 +7,9 @@ import NavList from "../Unit/NavList";
 import Main from "../Unit/Main";
 import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
-import Load from "../Dialogue/Load";
 import Kick from "../Dialogue/Kick";
 import packedGET from "../Interface/Request";
-import { cookieTime } from "../Interface/Constant";
-import { defaultProfile } from "../Interface/Constant";
+import { cookieTime, defaultProfile, routeIndex } from "../Interface/Constant";
 
 export default function Panel(props) {
   const { userID, token } = props;
@@ -66,7 +64,7 @@ export default function Panel(props) {
   const [currentSelect, setCurrentSelect] = React.useState({
     pageName: "HARE",
     pagePresent: "",
-    route: 0
+    route: routeIndex.intro
   });
   // ATTENTION: we don't need pass setCurrentSelect to child node because of
   // the effect hook; but we need to pass setRoute because the change on route
@@ -92,7 +90,7 @@ export default function Panel(props) {
         pagePresent: selectedPage.pagePresent,
         route: selectedPage.route
       });
-    } else setCurrentSelect({ pageName: "HARE", pagePresent: "", route: 0 });
+    } else setCurrentSelect({ pageName: "HARE", pagePresent: "", route: routeIndex.intro });
   }, [listObject]);
 
   // the setting of disconnection message box

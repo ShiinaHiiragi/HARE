@@ -8,6 +8,7 @@ import Cover from "../Component/Cover";
 import View from "../Component/View";
 import Recall from "../Component/Recall";
 import packedGET from "../Interface/Request";
+import { routeIndex } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -87,10 +88,10 @@ export default function Main(props) {
       })}
     >
       <Header />
-      <MainPage index={0} route={state.current.route}>
+      <MainPage index={routeIndex.intro} route={state.current.route}>
         <Intro lang={lang} />
       </MainPage>
-      <MainPage index={1} route={state.current.route}>
+      <MainPage index={routeIndex.cover} route={state.current.route}>
         <Cover
           lang={lang}
           data={{
@@ -105,12 +106,9 @@ export default function Main(props) {
             toggleKick: handle.toggleKick,
             setRecall: handle.setRecall
           }}
-          setCurrentRoute={handle.setCurrentRoute}
-          toggleMessageBox={handle.toggleMessageBox}
-          toggleKick={handle.toggleKick}
         />
       </MainPage>
-      <MainPage index={2} route={state.current.route}>
+      <MainPage index={routeIndex.view} route={state.current.route}>
         <View
           lang={lang}
           current={state.current}
@@ -129,14 +127,16 @@ export default function Main(props) {
           }}
         />
       </MainPage>
-      <MainPage index={3} route={state.current.route}>
+      <MainPage index={routeIndex.stat} route={state.current.route}>
         3 - Statistics
       </MainPage>
-      <MainPage index={4} route={state.current.route}>
+      <MainPage index={routeIndex.recall} route={state.current.route}>
         <Recall
           lang={lang}
           data={{
-            recall: state.recall
+            recall: state.recall,
+            itemList: itemList,
+            route: state.current.route,
           }}
           handle={{
             setCurrentRoute: handle.setCurrentRoute,
@@ -144,7 +144,7 @@ export default function Main(props) {
           }}
         />
       </MainPage>
-      <MainPage index={5} route={state.current.route}>
+      <MainPage index={routeIndex.rank} route={state.current.route}>
         5 - Ranking
       </MainPage>
     </main>

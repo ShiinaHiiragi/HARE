@@ -1,3 +1,4 @@
+import React from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,6 +9,7 @@ import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 import FlipIcon from "@material-ui/icons/Flip";
 import CloseIcon from "@material-ui/icons/Close";
 import { HotKeys } from "react-hotkeys";
+import { routeIndex } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -54,8 +56,15 @@ const keyMap = { };
 
 export default function Recall(props) {
   const classes = useStyles();
-  const { lang, handle } = props;
+  const { lang, data, handle } = props;
   const keyHandler = { };
+ 
+  const [pointer, setPointer] = React.useState(0);
+  React.useState(() => {
+    if (data.route === routeIndex.recall) {
+      setPointer(0);
+    }
+  }, [data.route])
 
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
@@ -65,7 +74,7 @@ export default function Recall(props) {
           color="primary"
           startIcon={<ArrowBackIcon />}
           className={classes.button}
-          onClick={() => handle.setCurrentRoute(1)}
+          onClick={() => handle.setCurrentRoute(routeIndex.cover)}
         >
           {lang.common.back}
         </Button>
