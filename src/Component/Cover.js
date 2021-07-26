@@ -72,6 +72,10 @@ export default function Cover(props) {
     className: classes.pageCover
   };
 
+  const toggleRecall = () => {
+    setCurrentRoute(4);
+  }
+
   return (
     <div className={classes.root}>
       <Card className={classes.basicInfo}>
@@ -109,7 +113,7 @@ export default function Cover(props) {
         </Typography>
         <div className={classes.buttonField}>
           <div className={classes.button}>
-            <IconButton onClick={() => setCurrentRoute(4)}>
+            <IconButton onClick={toggleRecall} disabled={!pageDetail.itemSize}>
               <CheckCircleOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">
