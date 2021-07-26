@@ -112,6 +112,11 @@ export default function Panel(props) {
     }));
   };
 
+  // maintain the state of recall
+  const [recall, setRecall] = React.useState({
+    pure: [], far: [], lost: []
+  });
+
   return (
     <Root>
       <CssBaseline />
@@ -161,10 +166,16 @@ export default function Panel(props) {
         }}
         current={currentSelect}
         navList={navListPC}
+        state={{
+          current: currentSelect,
+          navList: navListPC,
+          recall: recall
+        }}
         handle={{
           toggleMessageBox: toggleMessageBox,
           toggleKick: () => setKick(true),
-          setCurrentRoute: setCurrentRoute
+          setCurrentRoute: setCurrentRoute,
+          setRecall: setRecall
         }}
       />
       <MessageBox

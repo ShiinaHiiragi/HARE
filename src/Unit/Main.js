@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Main(props) {
   const classes = useStyles();
-  const { lang, data, current, navList, handle } = props;
+  const { lang, data, state, handle } = props;
   const [itemList, setItemList] = React.useState([]);
 
   const [pageDetail, setPageDetail] = React.useState({
@@ -45,13 +45,13 @@ export default function Main(props) {
   });
 
   React.useEffect(() => {
-    if (current.unitID && current.pageID)
+    if (state.current.unitID && state.current.pageID)
       packedGET({
         uri: "/data/page",
         query: {
           userID: data.userID,
-          unitID: current.unitID,
-          pageID: current.pageID
+          unitID: state.current.unitID,
+          pageID: state.current.pageID
         },
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,
@@ -63,45 +63,57 @@ export default function Main(props) {
           pageCreateTime: out.pagecreatetime
         });
       });
-  }, [current.unitID, current.pageID]);
+  }, [state.current.unitID, state.current.pageID]);
 
   React.useEffect(() => {
-    if (current.unitID && current.pageID)
+    if (state.current.unitID && state.current.pageID)
       packedGET({
         uri: "/data/item",
         query: {
           userID: data.userID,
-          unitID: current.unitID,
-          pageID: current.pageID
+          unitID: state.current.unitID,
+          pageID: state.current.pageID
         },
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,
         lang: lang
       }).then((out) => setItemList(out));
-  }, [current.unitID, current.pageID]);
+  }, [state.current.unitID, state.current.pageID]);
 
   return (
     <main
       className={clsx(classes.content, {
-        [classes.contentShift]: navList
+        [classes.contentShift]: state.navList
       })}
     >
       <Header />
-      <MainPage index={0} route={current.route}>
+      <MainPage index={0} route={state.current.route}>
         <Intro lang={lang} />
       </MainPage>
-      <MainPage index={1} route={current.route}>
+      <MainPage index={1} route={state.current.route}>
         <Cover
           lang={lang}
-          current={current}
-          pageDetail={pageDetail}
+          data={{
+            userID: data.userID,
+            token: data.token,
+            current: state.current,
+            pageDetail: pageDetail,
+          }}
+          handle={{
+            setCurrentRoute: handle.setCurrentRoute,
+            toggleMessageBox: handle.toggleMessageBox,
+            toggleKick: handle.toggleKick,
+            setRecall: handle.setRecall
+          }}
           setCurrentRoute={handle.setCurrentRoute}
+          toggleMessageBox={handle.toggleMessageBox}
+          toggleKick={handle.toggleKick}
         />
       </MainPage>
-      <MainPage index={2} route={current.route}>
+      <MainPage index={2} route={state.current.route}>
         <View
           lang={lang}
-          current={current}
+          current={state.current}
           data={{
             userID: data.userID,
             token: data.token,
@@ -117,18 +129,22 @@ export default function Main(props) {
           }}
         />
       </MainPage>
-      <MainPage index={3} route={current.route}>
+      <MainPage index={3} route={state.current.route}>
         3 - Statistics
       </MainPage>
-      <MainPage index={4} route={current.route}>
+      <MainPage index={4} route={state.current.route}>
         <Recall
           lang={lang}
+          data={{
+            recall: state.recall
+          }}
           handle={{
             setCurrentRoute: handle.setCurrentRoute,
+            setRecall: handle.setRecall
           }}
         />
       </MainPage>
-      <MainPage index={5} route={current.route}>
+      <MainPage index={5} route={state.current.route}>
         5 - Ranking
       </MainPage>
     </main>

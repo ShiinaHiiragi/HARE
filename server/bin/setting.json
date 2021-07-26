@@ -45,6 +45,7 @@
       "pageCover smallint not null default 0,",
       "itemSize integer not null default 0,",
       "trackSize integer not null default 0,",
+      "timeThis timestamp default null,",
       "foreign key(userID, unitID) references unit(userID, unitID)",
       "on update cascade on delete cascade,",
       "primary key(userID, unitID, pageID));"

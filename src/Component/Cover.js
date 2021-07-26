@@ -6,6 +6,7 @@ import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ViewCompactOutlinedIcon from "@material-ui/icons/ViewCompactOutlined";
 import DataUsageOutlinedIcon from "@material-ui/icons/DataUsageOutlined";
 import { timeFormat, stringFormat, pageIcon } from "../Interface/Constant";
+import packedGET from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -66,43 +67,56 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Cover(props) {
   const classes = useStyles();
-  const { lang, current, pageDetail, setCurrentRoute } = props;
+  const { lang, data, handle } = props;
   const iconProps = {
     color: "action",
     className: classes.pageCover
   };
 
   const toggleRecall = () => {
-    setCurrentRoute(4);
+    packedGET({
+      uri: "/data/this",
+      query: {
+        userID: data.userID,
+        unitID: data.current.unitID,
+        pageID: data.current.pageID
+      },
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
+      lang: lang
+    }).then((out) => {
+      handle.setRecall({ pure: [], far: [], lost: out });
+      handle.setCurrentRoute(4);
+    }); 
   }
 
   return (
     <div className={classes.root}>
       <Card className={classes.basicInfo}>
         <div className={classes.imageInfo}>
-          {current.pageCover < pageIcon().length
-            ? pageIcon(iconProps)[current.pageCover]
+          {data.current.pageCover < pageIcon().length
+            ? pageIcon(iconProps)[data.current.pageCover]
             : pageIcon(iconProps)[0]}
         </div>
         <div className={classes.textInfo}>
           <Typography component="span" variant="h5" color="textPrimary">
-            {current.pageName}
+            {data.current.pageName}
           </Typography>
           <Typography variant="subtitle2" color="textSecondary">
-            {current.unitName}
+            {data.current.unitName}
             &emsp;
-            {`${pageDetail.itemSize} / ${pageDetail.trackSize}`}
+            {`${data.pageDetail.itemSize} / ${data.pageDetail.trackSize}`}
             &emsp;
             {stringFormat(lang.panel.cover.createTime, [
               timeFormat(
-                new Date(pageDetail.pageCreateTime),
+                new Date(data.pageDetail.pageCreateTime),
                 "yyyy-MM-dd hh:mm:ss"
               )
             ])}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {current.pagePresent.length
-              ? current.pagePresent
+            {data.current.pagePresent.length
+              ? data.current.pagePresent
               : lang.panel.cover.nilPresent}
           </Typography>
         </div>
@@ -113,7 +127,7 @@ export default function Cover(props) {
         </Typography>
         <div className={classes.buttonField}>
           <div className={classes.button}>
-            <IconButton onClick={toggleRecall} disabled={!pageDetail.itemSize}>
+            <IconButton onClick={toggleRecall} disabled={!data.pageDetail.itemSize}>
               <CheckCircleOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">
@@ -121,7 +135,7 @@ export default function Cover(props) {
             </Typography>
           </div>
           <div className={classes.button}>
-            <IconButton onClick={() => setCurrentRoute(2)}>
+            <IconButton onClick={() => handle.setCurrentRoute(2)}>
               <ViewCompactOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">
