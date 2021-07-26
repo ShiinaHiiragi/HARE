@@ -14,6 +14,7 @@ import { HotKeys } from "react-hotkeys";
 import { routeIndex } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import { ParameterDescriptionMessage } from "pg-protocol/dist/messages";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -46,6 +47,8 @@ const useStyles = makeStyles((theme) => ({
   middle: {
     flexGrow: 1,
     borderRadius: 0,
+    width: 0,
+    overflow: "auto",
     margin: theme.spacing(0, 2),
     padding: theme.spacing(2, 4)
   },
@@ -63,11 +66,32 @@ export default function Recall(props) {
  
   const [log, setLog] = React.useState([]);
   const [pointer, setPointer] = React.useState(0);
-  React.useState(() => {
+  const [reverse, setReverse] = React.useState("query");
+  React.useEffect(() => {
     if (data.route === routeIndex.recall) {
       setPointer(0);
+      setReverse("query");
     }
-  }, [data.route])
+  }, [data.route]);
+
+  const changeItem = (param) => {
+    const type = typeof param;
+    const size = data.recall.lost.length;
+    if (type === "number") {
+      setReverse("query");
+      setPointer((pointer) => (pointer + param + size) % size);
+    }
+    else if (type === "string") {
+      handle.setRecall((recall) => {
+        const deleted = recall.lost.splice(pointer, 1);
+        recall[param].splice(0, 0, deleted[0]);
+        return { ...recall, [param]: recall[param], lost: recall.lost };
+      })
+      setReverse("query");
+      setPointer((pointer) => pointer % (size - 1));
+      if (size === 1) handle.setCurrentRoute(routeIndex.rank);
+    }
+  }
 
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
@@ -84,10 +108,16 @@ export default function Recall(props) {
       </div>
       <div className={classes.main}>
         <div className={classes.sideBar}>
-          <IconButton className={classes.iconButton}>
+          <IconButton
+            className={classes.iconButton}
+            onClick={() => setReverse((reverse) => reverse === "query" ? "key" : "query")}
+          >
             <CompareArrowsIcon />
           </IconButton>
-          <IconButton className={classes.iconButton}>
+          <IconButton
+            className={classes.iconButton}
+            onClick={() => changeItem(-1)}
+          >
             <ArrowBackIcon />
           </IconButton>
           <IconButton className={classes.iconButton} disabled={!log.length}>
@@ -99,17 +129,26 @@ export default function Recall(props) {
             component="div"
             variant="body2"
           >
-            <PackedMarkdown children={data.itemList[data.recall.lost[pointer] - 1]?.query} />
+            <PackedMarkdown children={data.itemList[data.recall.lost[pointer] - 1]?.[reverse]} />
           </Typography>
         </Card>
         <div className={classes.sideBar}>
-          <IconButton className={classes.iconButton}>
+          <IconButton
+            className={classes.iconButton}
+            onClick={() => changeItem("pure")}
+          >
             <RadioButtonUncheckedIcon  />
           </IconButton>
-          <IconButton className={classes.iconButton}>
+          <IconButton
+            className={classes.iconButton}
+            onClick={() => changeItem(1)}
+          >
             <ArrowForwardIcon />
           </IconButton>
-          <IconButton className={classes.iconButton}>
+          <IconButton
+            className={classes.iconButton}
+            onClick={() => changeItem("far")}
+          >
             <CloseIcon />
           </IconButton>
         </div>

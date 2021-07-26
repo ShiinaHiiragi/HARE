@@ -357,8 +357,8 @@ exports.moveItem = (userID, unitID, pageID, src, dst) =>
 
 // about recall
 exports.getThis = (userID, unitID, pageID) => new Promise((resolve, reject) => {
-  query(`select itemID from item where userID = ${userID}
-    and unitID = ${unitID} and pageID = ${pageID} and itemThis = 'L'`)
+  query(`select itemID from item where userID = ${userID} and unitID = ${unitID}
+    and pageID = ${pageID} and itemThis = 'L' order by itemID asc`)
     .then(resolve).catch(reject);
 });
 
