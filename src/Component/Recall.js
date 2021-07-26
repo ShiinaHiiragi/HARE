@@ -69,6 +69,7 @@ export default function Recall(props) {
   const [reverse, setReverse] = React.useState("query");
   React.useEffect(() => {
     if (data.route === routeIndex.recall) {
+      setLog([]);
       setPointer(0);
       setReverse("query");
     }
@@ -77,20 +78,19 @@ export default function Recall(props) {
   const changeItem = (param) => {
     const type = typeof param;
     const size = data.recall.lost.length;
-    if (type === "number") {
-      setReverse("query");
+    if (type === "number")
       setPointer((pointer) => (pointer + param + size) % size);
-    }
     else if (type === "string") {
+      setLog((log) => [...log, param]);
       handle.setRecall((recall) => {
         const deleted = recall.lost.splice(pointer, 1);
-        recall[param].splice(0, 0, deleted[0]);
+        recall[param].push(deleted[0]);
         return { ...recall, [param]: recall[param], lost: recall.lost };
       })
-      setReverse("query");
-      setPointer((pointer) => pointer % (size - 1));
       if (size === 1) handle.setCurrentRoute(routeIndex.rank);
+      else setPointer((pointer) => pointer % (size - 1));
     }
+    setReverse("query");
   }
 
   return (
