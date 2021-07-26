@@ -1,6 +1,5 @@
 import React from "react";
 import clsx from "clsx";
-import ReactMarkdown from "react-markdown";
 import MonacoEditor from "react-monaco-editor";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
@@ -15,19 +14,12 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import rehypeRaw from "rehype-raw";
-import "katex/dist/katex.min.css";
-import "../Interface/Markdown.css";
-import gfm from "remark-gfm";
+import PackedMarkdown from "../Component/Markdown";
 import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
 import { packedPOST } from "../Interface/Request";
 import { stringFormat, cookieTime } from "../Interface/Constant";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vs } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -324,52 +316,7 @@ export default function NewItem(props) {
               component="div"
               variant="body2"
             >
-              <ReactMarkdown
-                remarkPlugins={[gfm, remarkMath]}
-                rehypePlugins={[rehypeKatex, rehypeRaw]}
-                components={{
-                  img: ({ node, ...props }) => (
-                    <img
-                      style={{ maxWidth: "100%" }}
-                      alt={props.title}
-                      {...props}
-                    />
-                  ),
-                  a: ({ node, ...props }) => (
-                    <a
-                      target="_blank"
-                      rel="noreferrer"
-                      href={props.href}
-                      children={props.children}
-                      {...props}
-                    />
-                  ),
-                  code: ({ node, inline, className, children, ...props }) => {
-                    const match = /language-(\w+)/.exec(className || "");
-                    return !inline && match ? (
-                      <SyntaxHighlighter
-                        style={vs}
-                        customStyle={{
-                          padding: "0",
-                          margin: "0",
-                          border: "0",
-                          fontSize: "0.9rem",
-                          backgroundColor: "rgb(246, 248, 250)"
-                        }}
-                        language={match[1]}
-                        PreTag="div"
-                        children={String(children).replace(/\n$/, "")}
-                        {...props}
-                      />
-                    ) : (
-                      <code className={className} {...props}>
-                        {children}
-                      </code>
-                    );
-                  }
-                }}
-                children={tab ? key : query}
-              />
+              <PackedMarkdown children={tab ? key : query} />
             </Typography>
           </div>
         </Paper>
