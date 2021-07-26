@@ -355,6 +355,13 @@ exports.moveItem = (userID, unitID, pageID, src, dst) =>
       commit;`).then(resolve).catch(reject);
   });
 
+// about recall
+exports.getThis = (userID, unitID, pageID) => new Promise((resolve, reject) => {
+  query(`select itemID from item where userID = ${userID}
+    and unitID = ${unitID} and pageID = ${pageID} and itemThis = 'L'`)
+    .then(resolve).catch(reject);
+});
+
 // update item set itemRecord = array['P', 'N', 'N', 'P']
 // update item set itemRecord = array_append(itemRecord, 'U')
 // select * from item where cast(array['N'] as char[]) <@ itemRecord

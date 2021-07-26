@@ -86,6 +86,20 @@ router.get('/item', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
+router.get('/this', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID, unitID, pageID } = api.sqlNumber(
+    req.query,
+    ['userID', 'unitID', 'pageID'],
+    res
+  );
+  if (!(userID && token)) return;
+  db.checkToken(userID, token, res)
+    .then(() => db.getThis(userID, unitID, pageID))
+    .then((out) => res.send(out.map(item => item.itemid)))
+    .catch(() => api.internalServerError(res));
+});
+
 router.get('/profile', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.query, ['userID'], res);
