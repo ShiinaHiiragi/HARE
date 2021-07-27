@@ -107,6 +107,12 @@ const list = {
       all: "all entries",
       track: "all entries including records",
     },
+    clear: {
+      title: "Progress Choosing",
+      text: "It's detected that the timing has been started. Will you start from scratch or continue the last progress?",
+      restart: "Restart",
+      continue: "Continue"
+    },
     profile: {
       userName: "Username",
       userID: "UID",

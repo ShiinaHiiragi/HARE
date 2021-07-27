@@ -42,7 +42,8 @@ export default function Main(props) {
   const [pageDetail, setPageDetail] = React.useState({
     itemSize: 0,
     trackSize: 0,
-    pageCreateTime: "2019-12-31T16:00:00.000Z"
+    pageCreateTime: "2019-12-31T16:00:00.000Z",
+    timeThis: null,
   });
 
   React.useEffect(() => {
@@ -61,7 +62,8 @@ export default function Main(props) {
         setPageDetail({
           itemSize: out.itemsize,
           trackSize: out.tracksize,
-          pageCreateTime: out.pagecreatetime
+          pageCreateTime: out.pagecreatetime,
+          timeThis: out.timethis
         });
       });
   }, [state.current.unitID, state.current.pageID]);
@@ -104,7 +106,8 @@ export default function Main(props) {
             setCurrentRoute: handle.setCurrentRoute,
             toggleMessageBox: handle.toggleMessageBox,
             toggleKick: handle.toggleKick,
-            setRecall: handle.setRecall
+            setRecall: handle.setRecall,
+            setPageDetail: setPageDetail
           }}
         />
       </MainPage>

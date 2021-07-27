@@ -86,17 +86,18 @@ router.get('/item', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
-router.get('/this', (req, res) => {
+router.post('/this', (req, res) => {
+  const clear = !!req.body.clear;
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID, pageID } = api.sqlNumber(
-    req.query,
+    req.body,
     ['userID', 'unitID', 'pageID'],
     res
   );
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
-    .then(() => db.getThis(userID, unitID, pageID))
-    .then((out) => res.send(out.map(item => item.itemid)))
+    .then(() => db.getThis(userID, unitID, pageID, clear))
+    .then((out) => res.send(out))
     .catch(() => api.internalServerError(res));
 });
 

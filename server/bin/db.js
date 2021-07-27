@@ -246,7 +246,7 @@ exports.editUnit = (userID, unitID, unitName) => new Promise((resolve, reject) =
 
 // db api for cover page detail
 exports.getPageDetail = (userID, unitID, pageID) => new Promise((resolve, reject) => {
-  query(`select itemSize, trackSize, pageCreateTime from page
+  query(`select itemSize, trackSize, pageCreateTime, timeThis from page
     where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
     .then(resolve).catch(reject);
 });
@@ -356,10 +356,38 @@ exports.moveItem = (userID, unitID, pageID, src, dst) =>
   });
 
 // about recall
-exports.getThis = (userID, unitID, pageID) => new Promise((resolve, reject) => {
-  query(`select itemID from item where userID = ${userID} and unitID = ${unitID}
-    and pageID = ${pageID} and itemThis = 'L' order by itemID asc`)
-    .then(resolve).catch(reject);
+exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, reject) => {
+  let timeThis, trackSize;
+  query(`select timeThis, trackSize from page
+    where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+    .then((out) => {
+      timeThis = out[0].timethis;
+      trackSize = out[0].tracksize;
+    })
+    .then(() => {
+      const queryString = (timeThis && clear)
+        ? `update item set itemRecord[${trackSize}] = 'L' where
+          userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`
+        : (timeThis && !clear)
+        ? `select itemID from item where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID}
+          and itemRecord[${trackSize}] = 'L'`
+        : `begin; update item set itemRecord = array_append(itemRecord, 'L') where
+          userID = ${userID} and unitID = ${unitID} and pageID = ${pageID};
+          update page set trackSize = trackSize + 1 where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID}; commit;`;
+        return query(queryString);
+    })
+    .then((out) => {
+      if (timeThis && !clear) {
+        resolve(out.map((item) => item.itemid));
+      } else {
+        query(`update page set timeThis = now() where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID} returning timeThis;`)
+          .then((out) => resolve(out[0].timethis))
+      }
+    })
+    .catch(reject);
 });
 
 // update item set itemRecord = array['P', 'N', 'N', 'P']

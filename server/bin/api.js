@@ -109,3 +109,9 @@ exports.arrayString = (size) => {
   if (size) res += ', \'L\''.repeat(size - 1);
   return res + ']';
 }
+
+exports.sqlID = (userID, unitID, pageID) => {
+  return (userID ? `userID = ${userID}` : "")
+    + (unitID ? ` and unitID = ${unitID}` : "")
+    + (pageID ? ` and pageID = ${pageID}` : "");
+}

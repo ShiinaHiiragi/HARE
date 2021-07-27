@@ -5,8 +5,9 @@ import IconButton from "@material-ui/core/IconButton";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ViewCompactOutlinedIcon from "@material-ui/icons/ViewCompactOutlined";
 import DataUsageOutlinedIcon from "@material-ui/icons/DataUsageOutlined";
+import ClearConfirm from "../Dialogue/ClearComfirm";
 import { timeFormat, stringFormat, pageIcon, routeIndex } from "../Interface/Constant";
-import packedGET from "../Interface/Request";
+import { packedPOST } from "../Interface/Request";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -73,21 +74,40 @@ export default function Cover(props) {
     className: classes.pageCover
   };
 
-  const toggleRecall = () => {
-    packedGET({
+  const [clear, setClear] = React.useState(false);
+
+  const verifyTime = () => {
+    if (data.pageDetail.timeThis) setClear(true);
+    else toggleRecall();
+  }
+
+  const toggleRecall = (clear) => {
+    packedPOST({
       uri: "/data/this",
       query: {
         userID: data.userID,
         unitID: data.current.unitID,
-        pageID: data.current.pageID
+        pageID: data.current.pageID,
+        clear: clear
       },
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
       lang: lang
     }).then((out) => {
-      handle.setRecall({ pure: [], far: [], lost: out });
+      if (clear === false)
+        handle.setRecall({ pure: [], far: [], lost: out });
+      else {
+        handle.setRecall({
+          pure: [],
+          far: [],
+          lost: new Array(data.pageDetail.itemSize).fill().map((_, index) => index + 1)
+        });
+        handle.setPageDetail((pageDetail) => ({
+          ...pageDetail, timeThis: out
+        }))
+      }
       handle.setCurrentRoute(routeIndex.recall);
-    }); 
+    });
   }
 
   return (
@@ -127,7 +147,7 @@ export default function Cover(props) {
         </Typography>
         <div className={classes.buttonField}>
           <div className={classes.button}>
-            <IconButton onClick={toggleRecall} disabled={!data.pageDetail.itemSize}>
+            <IconButton onClick={verifyTime} disabled={!data.pageDetail.itemSize}>
               <CheckCircleOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">
@@ -152,6 +172,12 @@ export default function Cover(props) {
           </div>
         </div>
       </Card>
+      <ClearConfirm
+        lang={lang}
+        open={clear}
+        handleClose={() => setClear(false)}
+        handleRecall={toggleRecall}
+      />
     </div>
   );
 }

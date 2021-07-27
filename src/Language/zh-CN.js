@@ -107,6 +107,12 @@ const list = {
       all: "所有词条",
       track: "所有词条（包括记忆记录）"
     },
+    clear: {
+      title: "选择进度",
+      text: "检测到已经有记忆计时，您想要继续上次记录还是清空记录重新开始？",
+      restart: "重新开始",
+      continue: "继续"
+    },
     profile: {
       userName: "用户名",
       userID: "UID",

@@ -60,7 +60,6 @@
       "itemQuery text not null,",
       "itemKey text not null,",
       "itemRecord char(1)[],",
-      "itemThis char(1) default 'L',",
       "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID)",
       "on update cascade on delete cascade,",
       "primary key(userID, unitID, pageID, itemID));"
