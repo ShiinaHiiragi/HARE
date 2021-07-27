@@ -82,6 +82,7 @@ export default function NavList(props) {
         navListMobile={state.navListMobile}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
+          submitRecall: handle.submitRecall,
           closeNavListMobile: handle.closeNavListMobile,
           toggleKick: handle.toggleKick
         }}

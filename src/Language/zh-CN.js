@@ -44,7 +44,8 @@ const list = {
       previous: "上一个",
       next: "下一个",
       pure: "标记为正确",
-      far: "标记为错误"
+      far: "标记为错误",
+      unload: "您的进度尚未提交"
     }
   },
   popup: {

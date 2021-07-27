@@ -137,10 +137,13 @@ export default function Main(props) {
             recall: state.recall,
             itemList: itemList,
             route: state.current.route,
+            unitID: state.current.unitID,
+            pageID: state.current.pageID
           }}
           handle={{
             setCurrentRoute: handle.setCurrentRoute,
-            setRecall: handle.setRecall
+            setRecall: handle.setRecall,
+            submitRecall: handle.submitRecall
           }}
         />
       </MainPage>

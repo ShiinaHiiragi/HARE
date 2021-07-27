@@ -227,4 +227,21 @@ router.post('/move', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
+router.post('/recall', (req, res) => {
+  const lost = !!req.body.lost
+  const pure = api.sqlNumberArray(req.body.pure);
+  const far = api.sqlNumberArray(req.body.far);
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID, unitID, pageID } = api.sqlNumber(
+    req.body, ['userID', 'unitID', 'pageID'], res
+  );
+  if (!(userID && token)) return;
+  if (!(pure instanceof Array) || !(far instanceof Array))
+    res.status(406).send('INVALID ARGUMENT');
+  db.checkToken(userID, token, res)
+    .then(() => console.log(req.body))
+    .then(() => res.status(204).send())
+    .catch(() => api.internalServerError(res));
+});
+
 module.exports = router;

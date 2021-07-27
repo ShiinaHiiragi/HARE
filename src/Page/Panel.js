@@ -8,7 +8,7 @@ import Main from "../Unit/Main";
 import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Kick from "../Dialogue/Kick";
-import packedGET from "../Interface/Request";
+import { packedGET, packedPOST } from "../Interface/Request";
 import { cookieTime, defaultProfile, routeIndex } from "../Interface/Constant";
 
 export default function Panel(props) {
@@ -92,6 +92,27 @@ export default function Panel(props) {
     } else setCurrentSelect({ pageName: "HARE", pagePresent: "", route: routeIndex.intro });
   }, [listObject]);
 
+  // maintain the state of recall
+  const [recall, setRecall] = React.useState({ pure: [], far: [], lost: [] });
+  const submitRecall = (unitID, pageID) => {
+    if (!recall.pure.length && !recall.far.length) return;
+    console.log(unitID, pageID);
+    packedPOST({
+      uri: "/set/recall",
+      query: {
+        userID: userID,
+        unitID: unitID,
+        pageID: pageID,
+        pure: recall.pure,
+        far: recall.far,
+        lost: !!recall.lost.length
+      },
+      msgbox: toggleMessageBox,
+      kick: () => setKick(true),
+      lang: globalLang
+    })
+  }
+
   // the setting of disconnection message box
   const [kick, setKick] = React.useState(false);
   const [messageBoxInfo, setMessageBoxInfo] = React.useState({
@@ -108,11 +129,6 @@ export default function Panel(props) {
       open: false
     }));
   };
-
-  // maintain the state of recall
-  const [recall, setRecall] = React.useState({
-    pure: [], far: [], lost: []
-  });
 
   return (
     <Root>
@@ -151,6 +167,7 @@ export default function Panel(props) {
           toggleKick: () => setKick(true),
           closeNavListMobile: () => setNavListMobile(false),
           changeGlobalLang: changeGlobalLang,
+          submitRecall: submitRecall,
           setListObject: setListObject,
           setProfile: setProfile
         }}
@@ -172,6 +189,7 @@ export default function Panel(props) {
           toggleMessageBox: toggleMessageBox,
           toggleKick: () => setKick(true),
           setCurrentRoute: setCurrentRoute,
+          submitRecall: submitRecall,
           setRecall: setRecall
         }}
       />

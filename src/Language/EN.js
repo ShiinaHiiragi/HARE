@@ -44,7 +44,8 @@ const list = {
       previous: "Previous",
       next: "Next",
       pure: "Mark as Correct",
-      far: "Mark as Fault"
+      far: "Mark as Fault",
+      unload: "Your progress hasn't been upload."
     }
   },
   popup: {

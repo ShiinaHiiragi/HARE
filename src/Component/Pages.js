@@ -16,7 +16,7 @@ import NewUnitPage from "../Dialogue/NewUnitPage";
 import EditUnit from "../Dialogue/EditUnit";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import { packedPOST } from "../Interface/Request";
-import { initMenu, pageIcon } from "../Interface/Constant";
+import { initMenu, pageIcon, routeIndex } from "../Interface/Constant";
 import clsx from "clsx";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -222,9 +222,11 @@ export default function Pages(props) {
       prevPage = prevUnit.pages.find((item) => item.selected);
     }
     if (prevPage) {
-      prevPage.route = (prevUnit.unitID === unitID && prevPage.pageID === pageID)
-        ? route : route < 4 ? route : 1;
+      const samePage = prevUnit.unitID === unitID && prevPage.pageID === pageID;
+      prevPage.route = samePage ? route : route < 4 ? route : 1;
       prevPage.selected = false;
+      if (!samePage && route === routeIndex.recall)
+        handle.submitRecall(prevUnit.unitID, prevPage.pageID);
     }
     if (navListMobile) handle.closeNavListMobile();
     setListObject(

@@ -75,6 +75,25 @@ export default function Recall(props) {
     }
   }, [data.route]);
 
+  const unloadListener = (event) => {
+    event.preventDefault();
+    console.log(data.route, data.recall);
+    if (data.route === routeIndex.recall && (data.recall.pure.length || data.recall.far.length)) {
+      event.returnValue = lang.panel.recall.unload;
+      return lang.panel.recall.unload;
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("beforeunload", unloadListener);
+    return () => window.removeEventListener("beforeunload", unloadListener);
+  }, [data.route, data.recall]);
+
+  const back = () => {
+    handle.setCurrentRoute(routeIndex.cover);
+    handle.submitRecall(data.unitID, data.pageID);
+  }
+
   const cancel = () => {
     const lastType = log.pop();
     handle.setRecall((recall) => {
@@ -116,7 +135,7 @@ export default function Recall(props) {
           color="primary"
           startIcon={<ArrowBackIcon />}
           className={classes.button}
-          onClick={() => handle.setCurrentRoute(routeIndex.cover)}
+          onClick={back}
         >
           {lang.common.back}
         </Button>
