@@ -94,9 +94,8 @@ export default function Panel(props) {
 
   // maintain the state of recall
   const [recall, setRecall] = React.useState({ pure: [], far: [], lost: [] });
-  const submitRecall = (unitID, pageID) => {
+  const submitRecall = (unitID, pageID, disableMessage) => {
     if (!recall.pure.length && !recall.far.length) return;
-    console.log(unitID, pageID);
     packedPOST({
       uri: "/set/recall",
       query: {
@@ -110,6 +109,9 @@ export default function Panel(props) {
       msgbox: toggleMessageBox,
       kick: () => setKick(true),
       lang: globalLang
+    }).then(() => {
+      if (!disableMessage)
+        toggleMessageBox(globalLang.message.saveRecall, "info")
     })
   }
 

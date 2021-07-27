@@ -94,6 +94,7 @@ export default function Cover(props) {
       kick: handle.toggleKick,
       lang: lang
     }).then((out) => {
+      console.log(out);
       if (clear === false)
         handle.setRecall({ pure: [], far: [], lost: out });
       else {

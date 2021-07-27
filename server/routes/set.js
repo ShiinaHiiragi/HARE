@@ -239,7 +239,7 @@ router.post('/recall', (req, res) => {
   if (!(pure instanceof Array) || !(far instanceof Array))
     res.status(406).send('INVALID ARGUMENT');
   db.checkToken(userID, token, res)
-    .then(() => console.log(req.body))
+    .then(() => db.updateThis(userID, unitID, pageID, pure, far, lost))
     .then(() => res.status(204).send())
     .catch(() => api.internalServerError(res));
 });

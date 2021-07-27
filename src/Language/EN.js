@@ -221,7 +221,8 @@ const list = {
     telError: "The name of the phone should be no more than 16 characters.",
     cityError: "The name of the city should be no more than 16 characters.",
     invalidItemID: "The target entry ID is out of range.",
-    copyEmail: "The E-mail has been copied to your clipboard."
+    copyEmail: "The E-mail has been copied to your clipboard.",
+    saveRecall: "The progress has been uploaded to server."
   },
   grid: {
     column: {

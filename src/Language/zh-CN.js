@@ -229,7 +229,8 @@ const list = {
     telError: "电话长度不能超过 16 个字符",
     cityError: "城市名长度不能超过 16 个字符",
     invalidItemID: "指定的 ID 超出了范围",
-    copyEmail: "电子邮箱已被复制到剪切板"
+    copyEmail: "电子邮箱已被复制到剪切板",
+    saveRecall: "进度已被保存到服务器"
   },
   grid: {
     column: {

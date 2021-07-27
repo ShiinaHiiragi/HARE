@@ -303,7 +303,7 @@ exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
 exports.deleteItem = (userID, unitID, pageID, itemID, track) =>
   new Promise((outerSuccess, outerError) => {
     const deleteSize = itemID.length;
-    const tuple = JSON.stringify(itemID).replace(/\[/, '(').replace(/\]/, ')');
+    const tuple = api.arrayTupleString(itemID);
     Promise.all([
       new Promise((resolve) => {
         query(`select itemSize from page where userID = ${userID}
@@ -389,6 +389,34 @@ exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, rejec
     })
     .catch(reject);
 });
+
+exports.updateThis = (userID, unitID, pageID, pure, far, lost) => {
+  const pureTuple = api.arrayTupleString(pure);
+  const farTuple = api.arrayTupleString(far);
+
+  return new Promise((resolve, reject) => {
+    query(`select trackSize from page where userID = ${userID}
+      and unitID = ${unitID} and pageID = ${pageID}`)
+      .then((out) => {
+        let promiseArray = [], trackSize = out[0].tracksize;
+        if (pure.length) promiseArray.push(
+          query(`update item set itemRecord[${trackSize}] = 'P' where userID = ${userID}
+            and unitID = ${unitID} and pageID = ${pageID} and itemID in ${pureTuple}`)
+        );
+        if (far.length) promiseArray.push(
+          query(`update item set itemRecord[${trackSize}] = 'F' where userID = ${userID}
+            and unitID = ${unitID} and pageID = ${pageID} and itemID in ${farTuple}`)
+        );
+        return Promise.all(promiseArray)
+      })
+      .then(() => {
+        if (lost) return;
+        else return query(`update page set timeThis = null where
+          userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`);
+      })
+      .then(resolve).catch(reject);
+  });
+}
 
 // update item set itemRecord = array['P', 'N', 'N', 'P']
 // update item set itemRecord = array_append(itemRecord, 'U')

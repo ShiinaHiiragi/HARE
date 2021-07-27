@@ -121,7 +121,10 @@ export default function Recall(props) {
         recall[param].push(deleted[0]);
         return { ...recall, [param]: recall[param], lost: recall.lost };
       })
-      if (size === 1) handle.setCurrentRoute(routeIndex.rank);
+      if (size === 1) {
+        handle.setCurrentRoute(routeIndex.rank);
+        handle.submitRecall(data.unitID, data.pageID, true);
+      }
       else setPointer((pointer) => pointer % (size - 1));
     }
     setReverse("query");

@@ -115,3 +115,6 @@ exports.sqlID = (userID, unitID, pageID) => {
     + (unitID ? ` and unitID = ${unitID}` : "")
     + (pageID ? ` and pageID = ${pageID}` : "");
 }
+
+exports.arrayTupleString = (arr) =>
+  JSON.stringify(arr).replace(/\[/, '(').replace(/\]/, ')');
