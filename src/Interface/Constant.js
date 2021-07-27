@@ -19,6 +19,7 @@ const logoutWait = 400;
 const nameMaxLength = 16;
 const presentMaxLength = 512;
 const imageMaxBase = 2 * 1024 * 1024;
+const maxRecall = 64;
 
 const routeIndex = { intro: 0, cover: 1, view: 2, stat: 3, recall: 4, rank: 5 }
 const pageIcon = (iconProps) => [
@@ -130,6 +131,7 @@ export {
   nameMaxLength,
   presentMaxLength,
   imageMaxBase,
+  maxRecall,
   routeIndex,
   pageIcon,
   initMenu,

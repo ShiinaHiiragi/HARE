@@ -6,8 +6,14 @@ import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ViewCompactOutlinedIcon from "@material-ui/icons/ViewCompactOutlined";
 import DataUsageOutlinedIcon from "@material-ui/icons/DataUsageOutlined";
 import ClearConfirm from "../Dialogue/ClearComfirm";
-import { timeFormat, stringFormat, pageIcon, routeIndex } from "../Interface/Constant";
 import { packedPOST } from "../Interface/Request";
+import {
+  timeFormat,
+  stringFormat,
+  pageIcon,
+  routeIndex,
+  maxRecall
+} from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -148,7 +154,10 @@ export default function Cover(props) {
         </Typography>
         <div className={classes.buttonField}>
           <div className={classes.button}>
-            <IconButton onClick={verifyTime} disabled={!data.pageDetail.itemSize}>
+            <IconButton
+              onClick={verifyTime}
+              disabled={!data.pageDetail.itemSize || data.pageDetail.trackSize >= maxRecall}
+            >
               <CheckCircleOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">

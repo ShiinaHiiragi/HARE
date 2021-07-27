@@ -20,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    [theme.breakpoints.down("xs")]: {
+      maxHeight: "100%",
+    },
   },
   header: {
     margin: theme.spacing(2, 2, 1, 2),
@@ -31,29 +34,58 @@ const useStyles = makeStyles((theme) => ({
   main: {
     flexGrow: 1,
     height: 0,
-    margin: theme.spacing(1, 2, 2, 2),
     display: "flex",
-    flexDirection: "row"
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column",
+      width: "100%",
+      padding: theme.spacing(1, 2, 2, 2),
+    },
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+      margin: theme.spacing(1, 2, 2, 2),
+    }
   },
   button: {
     borderRadius: 0
   },
+  timer: {
+    marginRight: theme.spacing(2)
+  },
   sideBar: {
     display: "flex",
-    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "row"
+    },
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "column"
+    }
+  },
+  middleField: {
+    display: "flex",
+    flexGrow: 1,
+    [theme.breakpoints.down("xs")]: {
+      height: 0
+    },
+    [theme.breakpoints.up("sm")]: {
+      margin: theme.spacing(0, 2),
+    }
   },
   middle: {
     flexGrow: 1,
     borderRadius: 0,
-    width: 0,
+    padding: theme.spacing(2, 4),
     overflow: "auto",
-    margin: theme.spacing(0, 2),
-    padding: theme.spacing(2, 4)
+    width: 0,
+    [theme.breakpoints.up("sm")]: {
+      height: "100%"
+    }
   },
   iconButton: {
-    margin: theme.spacing(2, 0)
+    [theme.breakpoints.up("sm")]: {
+      margin: theme.spacing(2, 0)
+    } 
   }
 }));
 
@@ -142,6 +174,14 @@ export default function Recall(props) {
         >
           {lang.common.back}
         </Button>
+        <div style={{ flexGrow: 1 }} />
+        <Typography
+          variant="subtitle2"
+          color="textSecondary"
+          className={classes.timer}
+        >
+          {pointer + 1} / {data.recall.lost.length}
+        </Typography>
       </div>
       <div className={classes.main}>
         <div className={classes.sideBar}>
@@ -173,16 +213,17 @@ export default function Recall(props) {
             </span>
           </Tooltip>
         </div>
-        <Card className={classes.middle}>
-          <Typography
-            component="div"
-            variant="body2"
-          >
-            <PackedMarkdown>
-              {data.itemList[data.recall.lost[pointer] - 1]?.[reverse]}
-            </PackedMarkdown>
-          </Typography>
-        </Card>
+        <div className={classes.middleField}>
+          <Card className={classes.middle}>
+            <Typography
+              component="div"
+              variant="body2"
+              className="markdown-body"
+            >
+              <PackedMarkdown children={data.itemList[data.recall.lost[pointer] - 1]?.[reverse]} />
+            </Typography>
+          </Card>
+        </div>
         <div className={classes.sideBar}>
           <Tooltip title={lang.panel.recall.pure}>
             <IconButton
