@@ -105,10 +105,6 @@ export default function Cover(props) {
         handle.setItemList((itemList) => itemList.map((item) => ({
           ...item, [attribute]: "L"
         })));
-      if (clear === undefined)
-        handle.setPageDetail((pageDetail) => ({
-          ...pageDetail, trackSize: pageDetail.trackSize + 1
-        }));
       const startTime = out.time;
       handle.setRecall({
         pure: [],
@@ -118,7 +114,9 @@ export default function Cover(props) {
           : new Array(data.pageDetail.itemSize).fill().map((_, index) => index + 1)
       });
       handle.setPageDetail((pageDetail) => ({
-        ...pageDetail, timeThis: true
+        ...pageDetail,
+        timeThis: true,
+        trackSize: pageDetail.trackSize + (clear === undefined ? 1 : 0)
       }))
       handle.setCurrentRoute(routeIndex.recall);
       handle.setTimerInitial(startTime);

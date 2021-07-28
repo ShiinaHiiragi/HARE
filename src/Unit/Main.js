@@ -7,6 +7,7 @@ import Intro from "../Component/Intro";
 import Cover from "../Component/Cover";
 import View from "../Component/View";
 import Recall from "../Component/Recall";
+import Rank from "../Component/Rank";
 import packedGET from "../Interface/Request";
 import { routeIndex } from "../Interface/Constant";
 
@@ -39,13 +40,6 @@ export default function Main(props) {
   const { lang, data, state, handle } = props;
 
   const [timerInitial, setTimerInitial] = React.useState(0);
-  const [pageDetail, setPageDetail] = React.useState({
-    pageCreateTime: "2019-12-31T16:00:00.000Z",
-    itemSize: 0,
-    trackSize: 0,
-    timeThis: null
-  });
-
   React.useEffect(() => {
     if (state.current.unitID && state.current.pageID)
       packedGET({
@@ -59,7 +53,7 @@ export default function Main(props) {
         kick: handle.toggleKick,
         lang: lang
       }).then((out) => {
-        setPageDetail({
+        handle.setPageDetail({
           itemSize: out.itemsize,
           trackSize: out.tracksize,
           pageCreateTime: out.pagecreatetime,
@@ -100,7 +94,7 @@ export default function Main(props) {
             userID: data.userID,
             token: data.token,
             current: state.current,
-            pageDetail: pageDetail,
+            pageDetail: state.pageDetail,
           }}
           handle={{
             setCurrentRoute: handle.setCurrentRoute,
@@ -109,7 +103,7 @@ export default function Main(props) {
             setRecall: handle.setRecall,
             setTimerInitial: setTimerInitial,
             setItemList: handle.setItemList,
-            setPageDetail: setPageDetail
+            setPageDetail: handle.setPageDetail
           }}
         />
       </MainPage>
@@ -120,14 +114,14 @@ export default function Main(props) {
           data={{
             userID: data.userID,
             token: data.token,
-            pageDetail: pageDetail,
+            pageDetail: state.pageDetail,
             itemList: state.itemList
           }}
           handle={{
             toggleMessageBox: handle.toggleMessageBox,
             toggleKick: handle.toggleKick,
             setCurrentRoute: handle.setCurrentRoute,
-            setPageDetail: setPageDetail,
+            setPageDetail: handle.setPageDetail,
             setItemList: handle.setItemList
           }}
         />
@@ -154,9 +148,13 @@ export default function Main(props) {
           }}
         />
       </MainPage>
-      {/* TODO: ranking panel */}
       <MainPage index={routeIndex.rank} route={state.current.route}>
-        5 - Ranking
+        <Rank
+          lang={lang}
+          handle={{
+            setCurrentRoute: handle.setCurrentRoute,
+          }}
+        />
       </MainPage>
     </main>
   );

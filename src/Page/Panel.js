@@ -67,6 +67,12 @@ export default function Panel(props) {
 
   // the sharing state of selected page
   const [itemList, setItemList] = React.useState([]);
+  const [pageDetail, setPageDetail] = React.useState({
+    pageCreateTime: "2019-12-31T16:00:00.000Z",
+    itemSize: 0,
+    trackSize: 0,
+    timeThis: null
+  });
   const [currentSelect, setCurrentSelect] = React.useState({
     pageName: "HARE",
     pagePresent: "",
@@ -126,7 +132,10 @@ export default function Panel(props) {
       if (!disableMessage)
         toggleMessageBox(globalLang.message.saveRecall, "info")
       // TODO: setState of endTime here
-      if (out) console.log(out)
+      if (out) {
+        setPageDetail((pageDetail) => ({ ...pageDetail, timeThis: null }))
+        console.log(out);
+      }
     })
   }
 
@@ -199,7 +208,8 @@ export default function Panel(props) {
           current: currentSelect,
           navList: navListPC,
           recall: recall,
-          itemList: itemList
+          itemList: itemList,
+          pageDetail: pageDetail
         }}
         handle={{
           toggleMessageBox: toggleMessageBox,
@@ -207,7 +217,8 @@ export default function Panel(props) {
           setCurrentRoute: setCurrentRoute,
           submitRecall: submitRecall,
           setItemList: setItemList,
-          setRecall: setRecall
+          setRecall: setRecall,
+          setPageDetail: setPageDetail
         }}
       />
       <MessageBox
