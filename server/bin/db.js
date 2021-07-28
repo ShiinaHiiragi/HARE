@@ -358,6 +358,7 @@ exports.moveItem = (userID, unitID, pageID, src, dst) =>
 // about recall
 exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, reject) => {
   let timeThis, trackSize;
+
   query(`select timeThis, trackSize from page
     where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
     .then((out) => {
@@ -371,7 +372,7 @@ exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, rejec
         : (timeThis && !clear)
         ? `select itemID from item where userID = ${userID}
           and unitID = ${unitID} and pageID = ${pageID}
-          and itemRecord[${trackSize}] = 'L'`
+          and itemRecord[${trackSize}] = 'L' order by itemID asc`
         : `begin; update item set itemRecord = array_append(itemRecord, 'L') where
           userID = ${userID} and unitID = ${unitID} and pageID = ${pageID};
           update page set trackSize = trackSize + 1 where userID = ${userID}
