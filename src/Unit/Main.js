@@ -6,6 +6,7 @@ import MainPage from "../Interface/MainPage";
 import Intro from "../Component/Intro";
 import Cover from "../Component/Cover";
 import View from "../Component/View";
+import Statistics from "../Component/Statistics";
 import Recall from "../Component/Recall";
 import packedGET from "../Interface/Request";
 import { routeIndex } from "../Interface/Constant";
@@ -38,6 +39,7 @@ export default function Main(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
 
+  const [statInfo, setStatInfo] = React.useState([]);
   const [timerInitial, setTimerInitial] = React.useState(0);
   React.useEffect(() => {
     if (state.current.unitID && state.current.pageID)
@@ -102,7 +104,8 @@ export default function Main(props) {
             setRecall: handle.setRecall,
             setTimerInitial: setTimerInitial,
             setItemList: handle.setItemList,
-            setPageDetail: handle.setPageDetail
+            setPageDetail: handle.setPageDetail,
+            setStatInfo: setStatInfo,
           }}
         />
       </MainPage>
@@ -125,9 +128,16 @@ export default function Main(props) {
           }}
         />
       </MainPage>
-      {/* TODO: statistics panel */}
       <MainPage index={routeIndex.stat} route={state.current.route}>
-        3 - Statistics
+        <Statistics
+          lang={lang}
+          data={{
+            statInfo: statInfo
+          }}
+          handle={{
+            setCurrentRoute: handle.setCurrentRoute
+          }}
+        />
       </MainPage>
       <MainPage index={routeIndex.recall} route={state.current.route}>
         <Recall

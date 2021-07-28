@@ -6,7 +6,7 @@ import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ViewCompactOutlinedIcon from "@material-ui/icons/ViewCompactOutlined";
 import DataUsageOutlinedIcon from "@material-ui/icons/DataUsageOutlined";
 import ClearConfirm from "../Dialogue/ClearComfirm";
-import { packedPOST } from "../Interface/Request";
+import { packedGET, packedPOST } from "../Interface/Request";
 import {
   timeFormat,
   stringFormat,
@@ -81,7 +81,6 @@ export default function Cover(props) {
   };
 
   const [clear, setClear] = React.useState(false);
-
   const verifyTime = () => {
     if (data.pageDetail.timeThis) setClear(true);
     else toggleRecall();
@@ -121,7 +120,24 @@ export default function Cover(props) {
       handle.setCurrentRoute(routeIndex.recall);
       handle.setTimerInitial(startTime);
     });
-  }
+  };
+
+  const toggleStat = () => {
+    packedGET({
+      uri: "/data/stat",
+      query: {
+        userID: data.userID,
+        unitID: data.current.unitID,
+        pageID: data.current.pageID,
+      },
+      msgbox: handle.toggleMessageBox,
+      kick: handle.toggleKick,
+      lang: lang
+    }).then((out) => {
+      handle.setStatInfo(out);
+      handle.setCurrentRoute(routeIndex.stat);
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -181,6 +197,7 @@ export default function Cover(props) {
           <div className={classes.button}>
             <IconButton
               disabled={!data.pageDetail.trackSize}
+              onClick={toggleStat}
             >
               <DataUsageOutlinedIcon fontSize="large" />
             </IconButton>
