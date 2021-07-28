@@ -239,7 +239,10 @@ router.post('/recall', (req, res) => {
     res.status(406).send('INVALID ARGUMENT');
   db.checkToken(userID, token, res)
     .then(() => db.updateThis(userID, unitID, pageID, pure, far, lost))
-    .then(() => res.status(204).send())
+    .then((out) => {
+      if (out) res.send(out);
+      else res.status(204).send();
+    })
     .catch(() => api.internalServerError(res));
 });
 

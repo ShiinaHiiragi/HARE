@@ -407,12 +407,14 @@ exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, rejec
 exports.updateThis = (userID, unitID, pageID, pure, far, lost) => {
   const pureTuple = api.arrayTupleString(pure);
   const farTuple = api.arrayTupleString(far);
+  let outerTrackSize;
 
   return new Promise((resolve, reject) => {
     query(`select trackSize from page where userID = ${userID}
       and unitID = ${unitID} and pageID = ${pageID}`)
       .then((out) => {
         let promiseArray = [], trackSize = out[0].tracksize;
+        outerTrackSize = trackSize;
         if (pure.length) promiseArray.push(
           query(`update item set itemRecord[${trackSize}] = 'P' where userID = ${userID}
             and unitID = ${unitID} and pageID = ${pageID} and itemID in ${pureTuple}`)
@@ -428,10 +430,13 @@ exports.updateThis = (userID, unitID, pageID, pure, far, lost) => {
         else return Promise.all([
           query(`update page set timeThis = null where
           userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`),
-          query(`update track`)
+          query(`update track set endTime = now() where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID} and trackID = ${outerTrackSize}
+          returning endTime`)
         ]);
       })
-      .then(resolve).catch(reject);
+      .then((out) => resolve(out && out[1][0].endtime))
+      .catch(reject);
   });
 }
 
