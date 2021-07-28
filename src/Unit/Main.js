@@ -39,6 +39,7 @@ export default function Main(props) {
   const { lang, data, state, handle } = props;
   const [itemList, setItemList] = React.useState([]);
 
+  const [timerInitial, setTimerInitial] = React.useState(0);
   const [pageDetail, setPageDetail] = React.useState({
     itemSize: 0,
     trackSize: 0,
@@ -107,6 +108,7 @@ export default function Main(props) {
             toggleMessageBox: handle.toggleMessageBox,
             toggleKick: handle.toggleKick,
             setRecall: handle.setRecall,
+            setTimerInitial: setTimerInitial,
             setPageDetail: setPageDetail
           }}
         />
@@ -141,7 +143,8 @@ export default function Main(props) {
             itemList: itemList,
             route: state.current.route,
             unitID: state.current.unitID,
-            pageID: state.current.pageID
+            pageID: state.current.pageID,
+            timerInitial: timerInitial
           }}
           handle={{
             setCurrentRoute: handle.setCurrentRoute,

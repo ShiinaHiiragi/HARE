@@ -11,6 +11,7 @@ import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 import FlipIcon from "@material-ui/icons/Flip";
 import CloseIcon from "@material-ui/icons/Close";
 import PackedMarkdown from "../Component/Markdown";
+import ForwardTimer from "../Interface/Timer";
 import { HotKeys } from "react-hotkeys";
 import { routeIndex, maxLog } from "../Interface/Constant";
 
@@ -180,6 +181,8 @@ export default function Recall(props) {
           color="textSecondary"
           className={classes.timer}
         >
+          <ForwardTimer initialTime={data.timerInitial}/>
+          {"　"}
           {pointer + 1} / {data.recall.lost.length}
         </Typography>
       </div>

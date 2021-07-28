@@ -100,9 +100,11 @@ export default function Cover(props) {
       kick: handle.toggleKick,
       lang: lang
     }).then((out) => {
-      console.log(out);
-      if (clear === false)
+      let startTime;
+      if (clear === false) {
         handle.setRecall({ pure: [], far: [], lost: out });
+        startTime = new Date(data.pageDetail.timeThis);
+      }
       else {
         handle.setRecall({
           pure: [],
@@ -112,8 +114,11 @@ export default function Cover(props) {
         handle.setPageDetail((pageDetail) => ({
           ...pageDetail, timeThis: out
         }))
+        startTime = new Date(out);
       }
       handle.setCurrentRoute(routeIndex.recall);
+      console.log(startTime.toISOString());
+      handle.setTimerInitial(new Date() - startTime);
     });
   }
 
