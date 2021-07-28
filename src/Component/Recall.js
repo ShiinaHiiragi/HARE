@@ -91,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 let log = [];
+// TODO: add shortcuts here
 const keyMap = { };
 
 export default function Recall(props) {

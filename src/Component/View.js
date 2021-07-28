@@ -74,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// TODO: add shortcuts here
 const keyMap = {
   cancelSelected: "esc"
 };
@@ -218,6 +219,7 @@ export default function View(props) {
     );
   }
 
+  // TODO: edit grid on double click
   React.useEffect(() => {
     return apiRef.current.subscribeEvent("cellDoubleClick", (params) => {
       console.log(params);

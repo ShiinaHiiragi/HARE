@@ -132,6 +132,7 @@ export default function Main(props) {
           }}
         />
       </MainPage>
+      {/* TODO: statistics panel */}
       <MainPage index={routeIndex.stat} route={state.current.route}>
         3 - Statistics
       </MainPage>
@@ -153,6 +154,7 @@ export default function Main(props) {
           }}
         />
       </MainPage>
+      {/* TODO: ranking panel */}
       <MainPage index={routeIndex.rank} route={state.current.route}>
         5 - Ranking
       </MainPage>
