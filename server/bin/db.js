@@ -376,16 +376,26 @@ exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, rejec
         : `begin; update item set itemRecord = array_append(itemRecord, 'L') where
           userID = ${userID} and unitID = ${unitID} and pageID = ${pageID};
           update page set trackSize = trackSize + 1 where userID = ${userID}
-          and unitID = ${unitID} and pageID = ${pageID}; commit;`;
+          and unitID = ${unitID} and pageID = ${pageID};
+          insert into track(userID, unitID, pageID, trackID)
+          values(${userID}, ${unitID}, ${pageID}, ${trackSize + 1}); commit;`;
         return query(queryString);
     })
     .then((out) => {
       if (timeThis && !clear) {
         resolve(out.map((item) => item.itemid));
       } else {
+        let resolveTime;
         query(`update page set timeThis = now() where userID = ${userID}
           and unitID = ${unitID} and pageID = ${pageID} returning timeThis;`)
-          .then((out) => resolve(out[0].timethis))
+          .then((out) => {
+            resolveTime = out[0].timethis;
+            return query(`update track set startTime = (select timeThis from page
+              where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID})
+              where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}
+              and trackID = ${timeThis ? trackSize : trackSize + 1}`);
+          })
+          .then(() => resolve(resolveTime))
       }
     })
     .catch(reject);
@@ -412,8 +422,11 @@ exports.updateThis = (userID, unitID, pageID, pure, far, lost) => {
       })
       .then(() => {
         if (lost) return;
-        else return query(`update page set timeThis = null where
-          userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`);
+        else return Promise.all([
+          query(`update page set timeThis = null where
+          userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`),
+          query(`update track`)
+        ]);
       })
       .then(resolve).catch(reject);
   });

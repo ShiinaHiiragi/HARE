@@ -70,8 +70,8 @@
       "unitID integer not null,",
       "pageID integer not null,",
       "trackID integer not null,",
-      "startTime timestamp not null,",
-      "endTime timestamp not null,",
+      "startTime timestamp,",
+      "endTime timestamp,",
       "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID)",
       "on update cascade on delete cascade,",
       "primary key(userID, unitID, pageID, trackID));"
