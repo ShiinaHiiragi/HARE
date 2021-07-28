@@ -58,7 +58,6 @@ router.post('/avatar', (req, res) => {
 
 // setting of unit and page
 router.post('/new-up', (req, res) => {
-  // TODO: check the validity of type in new-up & swap & delete
   const group = !!req.body.group;
   const type = api.sqlNumberArray(req.body.type);
   const { token } = api.sqlString(req.cookies, ['token'], res);
