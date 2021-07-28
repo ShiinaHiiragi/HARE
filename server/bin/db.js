@@ -439,6 +439,31 @@ exports.updateThis = (userID, unitID, pageID, pure, far, lost) => {
   });
 }
 
+exports.getStat = (userID, unitID, pageID) => new Promise((resolve, reject) => {
+  query(`select trackID, startTime, endTime from track where
+    userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+    .then((out) => Promise.all(out.map((item) => new Promise((resolve, reject) => {
+      Promise.all([
+        query(`select count(itemID) from item where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID}
+          and itemRecord[${item.trackid}] = 'P'`),
+        query(`select count(itemID) from item where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID}
+          and itemRecord[${item.trackid}] = 'F'`)
+      ])
+        .then((out) => resolve({
+          id: item.trackid,
+          startTime: item.starttime,
+          endTime: item.endtime,
+          pure: Number(out[0][0].count),
+          far: Number(out[1][0].count)
+        }))
+        .catch(reject)
+    }))))
+    .then((out) => resolve(out))
+    .catch(reject);
+});
+
 // update item set itemRecord = array['P', 'N', 'N', 'P']
 // update item set itemRecord = array_append(itemRecord, 'U')
 // select * from item where cast(array['N'] as char[]) <@ itemRecord

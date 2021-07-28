@@ -179,7 +179,9 @@ export default function Cover(props) {
             </Typography>
           </div>
           <div className={classes.button}>
-            <IconButton>
+            <IconButton
+              disabled={!data.pageDetail.trackSize}
+            >
               <DataUsageOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">
