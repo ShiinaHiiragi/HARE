@@ -7,13 +7,13 @@ import License from "../Dialogue/License";
 export default function Copyright(props) {
   const { lang, handleToggleMessageBox } = props;
   // the license information popup
-  const [license, setLicense] = React.useState(0);
+  const [license, setLicense] = React.useState(false);
 
   return (
     <Box mt={5}>
       <Typography variant="body2" color="textSecondary" align="center">
         {`${lang.signIn.copyright} ©`}
-        <Link color="inherit" href="#" onClick={() => setLicense(1)}>
+        <Link color="inherit" href="#" onClick={() => setLicense(true)}>
           HARE
         </Link>
         {` ${new Date().getFullYear()}`}
@@ -21,7 +21,7 @@ export default function Copyright(props) {
       <License
         lang={lang}
         open={license}
-        handleClose={() => setLicense(0)}
+        handleClose={() => setLicense(false)}
         handleToggleMessageBox={handleToggleMessageBox}
       />
     </Box>

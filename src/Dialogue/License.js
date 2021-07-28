@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function License(props) {
-  const { lang, open, handleClose, handleToggleMessageBox } = props;
+  const { lang, withTab, open, handleClose, handleToggleMessageBox } = props;
   const classes = useStyles();
   const [tab, setTab] = React.useState(0);
   const [expand, setExpand] = React.useState(0);
@@ -84,11 +84,11 @@ export default function License(props) {
   return (
     <Dialog
       fullWidth
-      open={!!open}
+      open={open}
       onClose={handleClose}
       className={classes.noneSelect}
     >
-      <DialogTitle style={{ paddingBottom: open === 2 ? 0 : 16 }}>
+      <DialogTitle style={{ paddingBottom: withTab ? 0 : 16 }}>
         {lang.popup.about.title}
         <Typography component="span" variant="body2">
           &ensp;{version}
@@ -100,7 +100,7 @@ export default function License(props) {
         indicatorColor="primary"
         textColor="primary"
         onChange={(_, index) => setTab(index)}
-        style={{  display: open === 2 ? "flex" : "none" }}
+        style={{  display: withTab ? "flex" : "none" }}
       >
         <Tab label={lang.popup.about.tab[0]} />
         <Tab label={lang.popup.about.tab[1]} />
