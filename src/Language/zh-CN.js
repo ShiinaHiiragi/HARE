@@ -155,6 +155,7 @@ const list = {
         "Rehype Raw": ["HTML 语法渲染", "5.1.0"],
         "Rehype KaTeX": ["LaTeX 公式渲染", "0.13.11"],
         "React Syntax Highlighter": ["代码高亮", "0.43.0"],
+        "React Compound Timer": ["计时器", "1.2.0"],
         "Axios": ["异步 HTTP 请求", "0.21.1"],
         "React App Rewired": ["Webpack 配置覆写", "2.1.8"],
         "Date-fns": ["日期工具", "2.22.1"],
