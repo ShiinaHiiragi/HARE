@@ -91,16 +91,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 let log = [];
-// TODO: add shortcuts here
-const keyMap = { };
+const keyMap = { 
+  backToMenu: "esc",
+  pure: "ctrl+enter",
+  fault: "ctrl+backspace",
+  next: "right",
+  previous: "left",
+  switch: "ctrl+space",
+  revoke: "ctrl+z"
+};
 
 export default function Recall(props) {
   const classes = useStyles();
   const { lang, data, handle } = props;
-  const keyHandler = { };
- 
   const [pointer, setPointer] = React.useState(0);
   const [reverse, setReverse] = React.useState("query");
+
   React.useEffect(() => {
     if (data.route === routeIndex.recall) {
       log = [];
@@ -108,6 +114,11 @@ export default function Recall(props) {
       setReverse("query");
     }
   }, [data.route]);
+
+  React.useEffect(() => {
+    window.addEventListener("beforeunload", unloadListener);
+    return () => window.removeEventListener("beforeunload", unloadListener);
+  }, [data.route, data.recall]);
 
   const unloadListener = (event) => {
     event.preventDefault();
@@ -117,10 +128,9 @@ export default function Recall(props) {
     }
   };
 
-  React.useEffect(() => {
-    window.addEventListener("beforeunload", unloadListener);
-    return () => window.removeEventListener("beforeunload", unloadListener);
-  }, [data.route, data.recall]);
+  const switcher = () => {
+    setReverse((reverse) => reverse === "query" ? "key" : "query");
+  }
 
   const back = () => {
     handle.setCurrentRoute(routeIndex.cover);
@@ -128,6 +138,7 @@ export default function Recall(props) {
   }
 
   const cancel = () => {
+    if (!log.length) return;
     const lastType = log.pop();
     handle.setRecall((recall) => {
       const lastIndex = recall[lastType].pop();
@@ -163,6 +174,16 @@ export default function Recall(props) {
     setReverse("query");
   }
 
+  const keyHandler = {
+    backToMenu: back,
+    pure: () => changeItem("pure"),
+    fault: () => changeItem("far"),
+    next: () => changeItem(1),
+    previous: () => changeItem(-1),
+    switch: switcher,
+    revoke: cancel
+  };
+
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
       <div className={classes.header}>
@@ -191,7 +212,7 @@ export default function Recall(props) {
           <Tooltip title={lang.panel.recall.switch}>
             <IconButton
               className={classes.iconButton}
-              onClick={() => setReverse((reverse) => reverse === "query" ? "key" : "query")}
+              onClick={switcher}
             >
               <CompareArrowsIcon />
             </IconButton>

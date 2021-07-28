@@ -145,7 +145,9 @@ export default function View(props) {
 
   const keyHandler = {
     cancelSelected: () => {
-      apiRef.current.selectRows(apiRef.current.getAllRowIds(), false);
+      if (apiRef.current.getSelectedRows().size)
+        apiRef.current.selectRows(apiRef.current.getAllRowIds(), false);
+      else handle.setCurrentRoute(routeIndex.cover);
     }
   };
 
