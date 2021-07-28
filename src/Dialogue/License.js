@@ -100,7 +100,7 @@ export default function License(props) {
         indicatorColor="primary"
         textColor="primary"
         onChange={(_, index) => setTab(index)}
-        style={{  display: withTab ? "flex" : "none" }}
+        style={{ display: withTab ? "flex" : "none" }}
       >
         <Tab label={lang.popup.about.tab[0]} />
         <Tab label={lang.popup.about.tab[1]} />
@@ -117,9 +117,7 @@ export default function License(props) {
                   <PersonIcon className={classes.notLargeAvatar} />
                 </Avatar>
                 <div className={classes.info}>
-                  <Typography variant="subtitle1">
-                    {author}
-                  </Typography>
+                  <Typography variant="subtitle1">{author}</Typography>
                   <Tooltip title={lang.popup.about.copyTip}>
                     <Link
                       variant="body2"
@@ -127,7 +125,10 @@ export default function License(props) {
                       href="#"
                       onClick={() => {
                         if (copy(email))
-                          handleToggleMessageBox(lang.message.copyEmail, "info");
+                          handleToggleMessageBox(
+                            lang.message.copyEmail,
+                            "info"
+                          );
                       }}
                     >
                       {email}
@@ -135,37 +136,39 @@ export default function License(props) {
                   </Tooltip>
                 </div>
               </div>
-              <TableContainer className={classes.tableField}>
-                <Table className={classes.table} size="small">
-                  <TableHead>
-                    <TableRow>
-                      {lang.popup.about.header.map((item, index) => (
-                        <TableCell
-                          align={index < 2 ? "left" : "right"}
-                          key={index}
-                        >
-                          {item}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {Object.keys(infoObject).map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell component="th" scope="row" align="left">
-                          {item}
-                        </TableCell>
-                        <TableCell align="left">
-                          {infoObject[item][0]}
-                        </TableCell>
-                        <TableCell align="right">
-                          {infoObject[item][1]}
-                        </TableCell>
+              {withTab && (
+                <TableContainer className={classes.tableField}>
+                  <Table className={classes.table} size="small">
+                    <TableHead>
+                      <TableRow>
+                        {lang.popup.about.header.map((item, index) => (
+                          <TableCell
+                            align={index < 2 ? "left" : "right"}
+                            key={index}
+                          >
+                            {item}
+                          </TableCell>
+                        ))}
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                      {Object.keys(infoObject).map((item, index) => (
+                        <TableRow key={index}>
+                          <TableCell component="th" scope="row" align="left">
+                            {item}
+                          </TableCell>
+                          <TableCell align="left">
+                            {infoObject[item][0]}
+                          </TableCell>
+                          <TableCell align="right">
+                            {infoObject[item][1]}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}
             </DialogContent>
           );
         else
