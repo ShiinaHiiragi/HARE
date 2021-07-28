@@ -110,6 +110,7 @@ export default function Panel(props) {
       kick: () => setKick(true),
       lang: globalLang
     }).then((out) => {
+      
       if (!disableMessage)
         toggleMessageBox(globalLang.message.saveRecall, "info")
       // TODO: setState of endTime here

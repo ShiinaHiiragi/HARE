@@ -109,6 +109,7 @@ export default function Main(props) {
             toggleKick: handle.toggleKick,
             setRecall: handle.setRecall,
             setTimerInitial: setTimerInitial,
+            setItemList, setItemList,
             setPageDetail: setPageDetail
           }}
         />

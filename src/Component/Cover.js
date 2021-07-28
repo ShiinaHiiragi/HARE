@@ -100,6 +100,11 @@ export default function Cover(props) {
       kick: handle.toggleKick,
       lang: lang
     }).then((out) => {
+      const attribute = clear ? data.pageDetail.trackSize : data.pageDetail.trackSize + 1;
+      if (clear !== false)
+        handle.setItemList((itemList) => itemList.map((item) => ({
+          ...item, [attribute]: "L"
+        })));
       const startTime = out.time;
       handle.setRecall({
         pure: [],
