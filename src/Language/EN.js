@@ -231,7 +231,8 @@ const list = {
     cityError: "The name of the city should be no more than 16 characters.",
     invalidItemID: "The target entry ID is out of range.",
     copyEmail: "The E-mail has been copied to your clipboard.",
-    saveRecall: "The progress has been uploaded to server."
+    saveRecall: "The progress has been uploaded to server.",
+    completeRecall: "The recall has been completed successfully. Your accuracy is {0}%"
   },
   grid: {
     column: {

@@ -310,6 +310,7 @@ export default function View(props) {
           components={{ Toolbar: InnerToolbar }}
           columnBuffer={16}
           apiRef={apiRef}
+          style={{ borderRadius: 0 }}
         />
       </Card>
       <NewItem

@@ -7,7 +7,6 @@ import Intro from "../Component/Intro";
 import Cover from "../Component/Cover";
 import View from "../Component/View";
 import Recall from "../Component/Recall";
-import Rank from "../Component/Rank";
 import packedGET from "../Interface/Request";
 import { routeIndex } from "../Interface/Constant";
 
@@ -145,14 +144,6 @@ export default function Main(props) {
             setCurrentRoute: handle.setCurrentRoute,
             setRecall: handle.setRecall,
             submitRecall: handle.submitRecall
-          }}
-        />
-      </MainPage>
-      <MainPage index={routeIndex.rank} route={state.current.route}>
-        <Rank
-          lang={lang}
-          handle={{
-            setCurrentRoute: handle.setCurrentRoute,
           }}
         />
       </MainPage>

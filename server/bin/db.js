@@ -435,8 +435,7 @@ exports.updateThis = (userID, unitID, pageID, pure, far, lost) => {
           returning endTime`)
         ]);
       })
-      .then((out) => resolve(out && out[1][0].endtime))
-      .catch(reject);
+      .then(resolve).catch(reject);
   });
 }
 

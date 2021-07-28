@@ -13,7 +13,8 @@ import {
   cookieTime,
   defaultProfile,
   routeIndex,
-  defaultColumn
+  defaultColumn,
+  stringFormat
 } from "../Interface/Constant";
 
 export default function Panel(props) {
@@ -121,7 +122,7 @@ export default function Panel(props) {
       msgbox: toggleMessageBox,
       kick: () => setKick(true),
       lang: globalLang
-    }).then((out) => {
+    }).then(() => {
       setItemList((itemList) => {
         const lastIndex = Object.keys(itemList[0]).length - defaultColumn().length;
         recall.pure.forEach((id) => itemList[id - 1][lastIndex] = "P");
@@ -129,12 +130,15 @@ export default function Panel(props) {
         console.log(itemList);
         return itemList.map((_) => _);
       })
-      if (!disableMessage)
-        toggleMessageBox(globalLang.message.saveRecall, "info")
-      // TODO: setState of endTime here
-      if (out) {
+      if (disableMessage) {
+        toggleMessageBox(
+          stringFormat(globalLang.message.completeRecall, ["80.74"]),
+          "success"
+        );
         setPageDetail((pageDetail) => ({ ...pageDetail, timeThis: null }))
-        console.log(out);
+      }
+      else {
+        toggleMessageBox(globalLang.message.saveRecall, "info");
       }
     })
   }
