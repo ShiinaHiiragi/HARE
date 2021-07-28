@@ -9,7 +9,12 @@ import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Kick from "../Dialogue/Kick";
 import { packedGET, packedPOST } from "../Interface/Request";
-import { cookieTime, defaultProfile, routeIndex } from "../Interface/Constant";
+import {
+  cookieTime,
+  defaultProfile,
+  routeIndex,
+  defaultColumn
+} from "../Interface/Constant";
 
 export default function Panel(props) {
   const { userID, token } = props;
@@ -61,6 +66,7 @@ export default function Panel(props) {
   }, []);
 
   // the sharing state of selected page
+  const [itemList, setItemList] = React.useState([]);
   const [currentSelect, setCurrentSelect] = React.useState({
     pageName: "HARE",
     pagePresent: "",
@@ -110,7 +116,13 @@ export default function Panel(props) {
       kick: () => setKick(true),
       lang: globalLang
     }).then((out) => {
-      
+      setItemList((itemList) => {
+        const lastIndex = Object.keys(itemList[0]).length - defaultColumn().length;
+        recall.pure.forEach((id) => itemList[id - 1][lastIndex] = "P");
+        recall.far.forEach((id) => itemList[id - 1][lastIndex] = "F");
+        console.log(itemList);
+        return itemList.map((_) => _);
+      })
       if (!disableMessage)
         toggleMessageBox(globalLang.message.saveRecall, "info")
       // TODO: setState of endTime here
@@ -183,18 +195,18 @@ export default function Panel(props) {
           userID: userID,
           token: token
         }}
-        current={currentSelect}
-        navList={navListPC}
         state={{
           current: currentSelect,
           navList: navListPC,
-          recall: recall
+          recall: recall,
+          itemList: itemList
         }}
         handle={{
           toggleMessageBox: toggleMessageBox,
           toggleKick: () => setKick(true),
           setCurrentRoute: setCurrentRoute,
           submitRecall: submitRecall,
+          setItemList: setItemList,
           setRecall: setRecall
         }}
       />

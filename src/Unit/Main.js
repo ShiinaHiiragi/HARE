@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Main(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
-  const [itemList, setItemList] = React.useState([]);
 
   const [timerInitial, setTimerInitial] = React.useState(0);
   const [pageDetail, setPageDetail] = React.useState({
@@ -81,7 +80,7 @@ export default function Main(props) {
         msgbox: handle.toggleMessageBox,
         kick: handle.toggleKick,
         lang: lang
-      }).then((out) => setItemList(out));
+      }).then((out) => handle.setItemList(out));
   }, [state.current.unitID, state.current.pageID]);
 
   return (
@@ -109,7 +108,7 @@ export default function Main(props) {
             toggleKick: handle.toggleKick,
             setRecall: handle.setRecall,
             setTimerInitial: setTimerInitial,
-            setItemList, setItemList,
+            setItemList: handle.setItemList,
             setPageDetail: setPageDetail
           }}
         />
@@ -122,14 +121,14 @@ export default function Main(props) {
             userID: data.userID,
             token: data.token,
             pageDetail: pageDetail,
-            itemList: itemList
+            itemList: state.itemList
           }}
           handle={{
             toggleMessageBox: handle.toggleMessageBox,
             toggleKick: handle.toggleKick,
             setCurrentRoute: handle.setCurrentRoute,
             setPageDetail: setPageDetail,
-            setItemList: setItemList
+            setItemList: handle.setItemList
           }}
         />
       </MainPage>
@@ -142,7 +141,7 @@ export default function Main(props) {
           lang={lang}
           data={{
             recall: state.recall,
-            itemList: itemList,
+            itemList: state.itemList,
             route: state.current.route,
             unitID: state.current.unitID,
             pageID: state.current.pageID,
