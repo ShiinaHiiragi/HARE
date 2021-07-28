@@ -46,11 +46,14 @@ export default function Pages(props) {
     listObject,
     setListObject,
     navListMobile,
+    currentSelect,
     handle
   } = props;
 
   // fold and unfold the units
   const changeUnit = (targetID) => {
+    listObject[currentSelect.unitID - 1].pages[currentSelect.pageID - 1]
+      .route = currentSelect.route;
     setListObject(
       listObject.map((item) =>
         item.unitID === targetID ? { ...item, open: !item.open } : item

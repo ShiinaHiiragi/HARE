@@ -192,6 +192,7 @@ export default function Panel(props) {
         state={{
           profile: profile,
           navList: navListPC,
+          currentSelect: currentSelect,
           route: currentSelect.route,
           navListMobile: navListMobile,
           listObject: listObject
