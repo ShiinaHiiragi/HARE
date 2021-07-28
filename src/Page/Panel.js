@@ -123,19 +123,23 @@ export default function Panel(props) {
       kick: () => setKick(true),
       lang: globalLang
     }).then(() => {
+      const lastIndex = pageDetail.trackSize;
       setItemList((itemList) => {
-        const lastIndex = Object.keys(itemList[0]).length - defaultColumn().length;
         recall.pure.forEach((id) => itemList[id - 1][lastIndex] = "P");
         recall.far.forEach((id) => itemList[id - 1][lastIndex] = "F");
-        console.log(itemList);
         return itemList.map((_) => _);
       })
       if (disableMessage) {
+        let counter = 0;
+        itemList.forEach((item) => counter += Number(item[lastIndex] === "P"));
+        setPageDetail((pageDetail) => ({ ...pageDetail, timeThis: null }));
         toggleMessageBox(
-          stringFormat(globalLang.message.completeRecall, ["80.74"]),
+          stringFormat(
+            globalLang.message.completeRecall,
+            [(counter / pageDetail.itemSize * 100).toFixed(2)]
+          ),
           "success"
         );
-        setPageDetail((pageDetail) => ({ ...pageDetail, timeThis: null }))
       }
       else {
         toggleMessageBox(globalLang.message.saveRecall, "info");
