@@ -100,25 +100,19 @@ export default function Cover(props) {
       kick: handle.toggleKick,
       lang: lang
     }).then((out) => {
-      let startTime;
-      if (clear === false) {
-        handle.setRecall({ pure: [], far: [], lost: out });
-        startTime = new Date(data.pageDetail.timeThis);
-      }
-      else {
-        handle.setRecall({
-          pure: [],
-          far: [],
-          lost: new Array(data.pageDetail.itemSize).fill().map((_, index) => index + 1)
-        });
-        handle.setPageDetail((pageDetail) => ({
-          ...pageDetail, timeThis: out
-        }))
-        startTime = new Date(out);
-      }
+      const startTime = out.time;
+      handle.setRecall({
+        pure: [],
+        far: [],
+        lost: clear === false
+          ? out.lost
+          : new Array(data.pageDetail.itemSize).fill().map((_, index) => index + 1)
+      });
+      handle.setPageDetail((pageDetail) => ({
+        ...pageDetail, timeThis: true
+      }))
       handle.setCurrentRoute(routeIndex.recall);
-      console.log(startTime.toISOString());
-      handle.setTimerInitial(new Date() - startTime);
+      handle.setTimerInitial(startTime);
     });
   }
 

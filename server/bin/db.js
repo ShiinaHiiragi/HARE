@@ -383,19 +383,22 @@ exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, rejec
     })
     .then((out) => {
       if (timeThis && !clear) {
-        resolve(out.map((item) => item.itemid));
+        resolve({
+          lost: out.map((item) => item.itemid),
+          time: new Date() - new Date(timeThis)
+        });
       } else {
         let resolveTime;
         query(`update page set timeThis = now() where userID = ${userID}
           and unitID = ${unitID} and pageID = ${pageID} returning timeThis;`)
           .then((out) => {
-            resolveTime = out[0].timethis;
+            resolveTime = new Date(out[0].timethis);
             return query(`update track set startTime = (select timeThis from page
               where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID})
               where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}
               and trackID = ${timeThis ? trackSize : trackSize + 1}`);
           })
-          .then(() => resolve(resolveTime))
+          .then(() => resolve({ time: new Date() - resolveTime }))
       }
     })
     .catch(reject);

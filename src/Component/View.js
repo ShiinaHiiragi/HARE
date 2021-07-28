@@ -222,7 +222,7 @@ export default function View(props) {
   // TODO: edit grid on double click
   React.useEffect(() => {
     return apiRef.current.subscribeEvent("cellDoubleClick", (params) => {
-      console.log(params);
+      // console.log(params);
     });
   }, [apiRef]);
 

@@ -111,7 +111,6 @@ export default function Recall(props) {
 
   const unloadListener = (event) => {
     event.preventDefault();
-    console.log(data.route, data.recall);
     if (data.route === routeIndex.recall && (data.recall.pure.length || data.recall.far.length)) {
       event.returnValue = lang.panel.recall.unload;
       return lang.panel.recall.unload;

@@ -41,10 +41,10 @@ export default function Main(props) {
 
   const [timerInitial, setTimerInitial] = React.useState(0);
   const [pageDetail, setPageDetail] = React.useState({
+    pageCreateTime: "2019-12-31T16:00:00.000Z",
     itemSize: 0,
     trackSize: 0,
-    pageCreateTime: "2019-12-31T16:00:00.000Z",
-    timeThis: null,
+    timeThis: null
   });
 
   React.useEffect(() => {
@@ -64,7 +64,7 @@ export default function Main(props) {
           itemSize: out.itemsize,
           trackSize: out.tracksize,
           pageCreateTime: out.pagecreatetime,
-          timeThis: out.timethis
+          timeThis: out.timethis && true
         });
       });
   }, [state.current.unitID, state.current.pageID]);
