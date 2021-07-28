@@ -105,6 +105,10 @@ export default function Cover(props) {
         handle.setItemList((itemList) => itemList.map((item) => ({
           ...item, [attribute]: "L"
         })));
+      if (clear === undefined)
+        handle.setPageDetail((pageDetail) => ({
+          ...pageDetail, trackSize: pageDetail.trackSize + 1
+        }));
       const startTime = out.time;
       handle.setRecall({
         pure: [],
