@@ -14,6 +14,7 @@ const list = {
     intro: [
       "Welcome to HARE!",
       "It's said that pressing '?' may toggle shortcut list.",
+      "Want higher ranking? Increasing the number of entries may work!",
       "Do not study anymore. Let's have fun!",
       "Are you Friends who want to study?",
       "Why do you log in? Do you have exams in the near future?",
