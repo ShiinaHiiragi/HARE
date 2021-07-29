@@ -52,7 +52,8 @@ const list = {
       eachTitle: "The {0} Recall",
       timeFormatString: "MM/dd/yyyy hh:mm:ss",
       ongoing: " (Ongoing)",
-      class: ["Correct: ", "Fault: ", "Unknown: "]
+      class: "Correct / Fault / Unknown: ",
+      acc: "Accuracy: "
     }
   },
   popup: {

@@ -3,9 +3,9 @@ import Box from "@material-ui/core/Box";
 import { PieChart, Pie, Sector, Cell } from "recharts";
 
 const colors = {
-  S: "rgb(255, 198, 88)",
-  A: "rgb(164, 222, 108)",
-  B: "rgb(130, 202, 157)",
+  S: "rgb(164, 222, 108)",
+  A: "rgb(130, 202, 157)",
+  B: "rgb(141, 209, 225)",
   C: "rgb(131, 166, 237)",
   D: "rgb(136, 132, 216)",
   F: "rgb(240, 240, 240)"
@@ -24,7 +24,7 @@ const getRank = (value) =>
     : "X";
 
 export default function Accuracy(props) {
-  const { value, key } = props;
+  const { value, anime } = props;
   const data = [
     { name: "D", value: Math.min(72, value) },
     { name: "C", value: Math.min(12, Math.max(0, value - 72)) },
@@ -36,7 +36,7 @@ export default function Accuracy(props) {
 
   return (
     <Box position="relative" display="inline-flex">
-      <PieChart width={144} height={144} key={key}>
+      <PieChart width={144} height={144} key={anime}>
         <Pie
           data={data}
           startAngle={90}

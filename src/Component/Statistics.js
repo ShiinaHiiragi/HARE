@@ -25,15 +25,29 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 2, 2, 2),
     padding: theme.spacing(2, 4),
     display: "flex",
-    flexDirection: "row",
     overflow: "visible",
-    alignItems: "center"
+    alignItems: "center",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column"
+    },
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row"
+    }
   },
   textField: {
     flexGrow: 1,
-    padding: theme.spacing(2, 2, 2, 4)
+    [theme.breakpoints.down("xs")]: {
+      padding: theme.spacing(2)
+    },
+    [theme.breakpoints.up("sm")]: {
+      padding: theme.spacing(2, 2, 2, 4)
+    }
   }
 }));
+
+const accDiff = (freq, avg, sum) => {
+  return (avg > freq ? "-" : "+") + (Math.abs(avg - freq) / sum * 100).toFixed(2);
+}
 
 export default function Statistics(props) {
   const classes = useStyles();
@@ -42,6 +56,12 @@ export default function Statistics(props) {
   React.useEffect(() => {
     if (data.current.route === routeIndex.stat) setAnime(Math.random());
   }, [data.current.route === routeIndex.stat]);
+
+  // 最好 最差 平均 平均等级
+  // 每一次的曲线图，错误频数直方图 方差 下次目标（建议）
+  const itemSize = data.pageDetail.itemSize;
+  const averagePure = data.statInfo.reduce((total, item) => total + item.pure, 0) / itemSize;
+  const averageFar = data.statInfo.reduce((total, item) => total + item.far, 0) / itemSize;
 
   return (
     <div className={classes.root}>
@@ -60,8 +80,8 @@ export default function Statistics(props) {
       {data.statInfo.map((item, index) => (
         <Card className={classes.rankingPanel} key={index}>
           <Accuracy
-            key={anime}
-            value={(item.pure / data.pageDetail.itemSize) * 100}
+            anime={anime}
+            value={(item.pure / itemSize) * 100}
           />
           <div className={classes.textField}>
             <Typography variant="h6">
@@ -82,32 +102,22 @@ export default function Statistics(props) {
                   )
                 : lang.panel.stat.ongoing}
             </Typography>
-            {lang.panel.stat.class.map((subItem, index) => (
-              <Typography variant="body2" color="textSecondary" key={index}>
-                {subItem}
-                {index === 0 ? (
-                  <span>
-                    {item.pure}
-                    <b>
-                      {" ("}
-                      {((item.pure / data.pageDetail.itemSize) * 100).toFixed(
-                        2
-                      )}
-                      {"%)"}
-                    </b>
-                  </span>
-                ) : index === 1 ? (
-                  <span>
-                    {item.far}
-                    {" ("}
-                    {((item.far / data.pageDetail.itemSize) * 100).toFixed(2)}
-                    {"%)"}
-                  </span>
-                ) : (
-                  `${data.pageDetail.itemSize - item.pure - item.far}`
-                )}
-              </Typography>
-            ))}
+            <Typography variant="body2" color="textSecondary">
+              {lang.panel.stat.acc}
+              <b>{((item.pure / itemSize) * 100).toFixed(2)}{"%"}</b>
+              {` (${accDiff(item.pure, averagePure, itemSize)}%)`}
+              {" / "}
+              {`${((item.far / itemSize) * 100).toFixed(2)}%`}
+              {` (${accDiff(item.far, averageFar, itemSize)}%)`}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {lang.panel.stat.class}
+              {item.pure}
+              {" / "}
+              {item.far}
+              {" / "}
+              {itemSize - item.pure - item.far}
+            </Typography>
           </div>
         </Card>
       ))}

@@ -52,7 +52,8 @@ const list = {
       eachTitle: "{0}回忆",
       timeFormatString: "yyyy-MM-dd hh:mm:ss",
       ongoing: "（正在进行）",
-      class: ["正确：", "错误：", "未知："]
+      class: "正确 / 错误 / 未知：",
+      acc: "准确率："
     }
   },
   popup: {
