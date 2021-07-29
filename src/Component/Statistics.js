@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4),
     display: "flex",
     flexDirection: "row",
-    overflow: "visible"
+    overflow: "visible",
+    alignItems: "center"
   },
   textField: {
     flexGrow: 1,
