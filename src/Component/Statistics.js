@@ -60,8 +60,11 @@ export default function Statistics(props) {
   // 最好 最差 平均 平均等级 时长 间隔
   // 每一次的曲线图，错误频数直方图 方差 下次目标（建议）
   const itemSize = data.pageDetail.itemSize;
-  const averagePure = data.statInfo.reduce((total, item) => total + item.pure, 0) / itemSize;
-  const averageFar = data.statInfo.reduce((total, item) => total + item.far, 0) / itemSize;
+  const trackSize = data.pageDetail.trackSize;
+  const averagePure = data.statInfo.reduce((total, item) => total + item.pure, 0) / trackSize;
+  const averageFar = data.statInfo.reduce((total, item) => total + item.far, 0) / trackSize;
+  const eachPure = data.statInfo.map((item) => item.pure);
+  const eachFar = data.statInfo.map((item) => item.far);
 
   return (
     <div className={classes.root}>
@@ -77,6 +80,7 @@ export default function Statistics(props) {
           {lang.common.back}
         </Button>
       </div>
+
       <Card className={classes.rankingPanel} >
         <Accuracy
           anime={anime}
@@ -93,12 +97,18 @@ export default function Statistics(props) {
             {`${((averageFar / itemSize) * 100).toFixed(2)}%`}
           </Typography>
           <Typography variant="body2" color="textSecondary">
+            {lang.panel.stat.bestWorst}
+            {`${((Math.max(...eachPure) / itemSize) * 100).toFixed(2)}%`}
+            {" / "}
+            {`${((Math.max(...eachFar) / itemSize) * 100).toFixed(2)}%`}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
             {lang.panel.stat.avgClass}
             {Math.round(averagePure * 100) / 100}
             {" / "}
             {Math.round(averageFar * 100) / 100}
             {" / "}
-            {itemSize - averagePure - averageFar}
+            {Math.round((itemSize - averagePure - averageFar) * 100) / 100}
           </Typography>
         </div>
       </Card>

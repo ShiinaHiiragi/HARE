@@ -54,8 +54,9 @@ const list = {
       timeFormatString: "MM/dd/yyyy hh:mm:ss",
       ongoing: " (Ongoing)",
       avgClass: "Average Correct / Average Fault / Average Unknown: ",
-      class: "Correct / Fault / Unknown: ",
-      avgAcc: "Average Accuracy: ",
+      avgAcc: "Average Correct Rate / Average Fault Rate: ",
+      bestWorst: "Best Correct Rate / Worst Fault Rate: ",
+      class: "Frequency: ",
       acc: "Accuracy: "
     }
   },

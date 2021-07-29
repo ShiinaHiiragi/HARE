@@ -54,8 +54,9 @@ const list = {
       timeFormatString: "yyyy-MM-dd hh:mm:ss",
       ongoing: "（正在进行）",
       avgClass: "平均正确 / 平均错误 / 平均未知：",
-      class: "正确 / 错误 / 未知：",
-      avgAcc: "平均准确率：",
+      avgAcc: "平均正确率 / 平均错误率：",
+      bestWorst: "最大正确率 / 最大错误率：",
+      class: "频数：",
       acc: "准确率："
     }
   },
