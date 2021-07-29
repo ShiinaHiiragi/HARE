@@ -57,7 +57,7 @@ export default function Statistics(props) {
     if (data.current.route === routeIndex.stat) setAnime(Math.random());
   }, [data.current.route === routeIndex.stat]);
 
-  // 最好 最差 平均 平均等级
+  // 最好 最差 平均 平均等级 时长 间隔
   // 每一次的曲线图，错误频数直方图 方差 下次目标（建议）
   const itemSize = data.pageDetail.itemSize;
   const averagePure = data.statInfo.reduce((total, item) => total + item.pure, 0) / itemSize;
@@ -77,6 +77,32 @@ export default function Statistics(props) {
           {lang.common.back}
         </Button>
       </div>
+      <Card className={classes.rankingPanel} >
+        <Accuracy
+          anime={anime}
+          value={(averagePure / itemSize) * 100}
+        />
+        <div className={classes.textField}>
+          <Typography variant="h6">
+            {lang.panel.stat.totalTitle}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {lang.panel.stat.avgAcc}
+            <b>{((averagePure / itemSize) * 100).toFixed(2)}{"%"}</b>
+            {" / "}
+            {`${((averageFar / itemSize) * 100).toFixed(2)}%`}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {lang.panel.stat.avgClass}
+            {Math.round(averagePure * 100) / 100}
+            {" / "}
+            {Math.round(averageFar * 100) / 100}
+            {" / "}
+            {itemSize - averagePure - averageFar}
+          </Typography>
+        </div>
+      </Card>
+      
       {data.statInfo.map((item, index) => (
         <Card className={classes.rankingPanel} key={index}>
           <Accuracy

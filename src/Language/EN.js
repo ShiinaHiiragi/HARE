@@ -49,10 +49,13 @@ const list = {
       unload: "Your progress hasn't been upload."
     },
     stat: {
+      totalTitle: "Overall Data",
       eachTitle: "The {0} Recall",
       timeFormatString: "MM/dd/yyyy hh:mm:ss",
       ongoing: " (Ongoing)",
+      avgClass: "Average Correct / Average Fault / Average Unknown: ",
       class: "Correct / Fault / Unknown: ",
+      avgAcc: "Average Accuracy: ",
       acc: "Accuracy: "
     }
   },

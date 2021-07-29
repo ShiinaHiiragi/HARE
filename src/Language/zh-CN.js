@@ -49,10 +49,13 @@ const list = {
       unload: "您的进度尚未提交"
     },
     stat: {
+      totalTitle: "总体数据",
       eachTitle: "{0}回忆",
       timeFormatString: "yyyy-MM-dd hh:mm:ss",
       ongoing: "（正在进行）",
+      avgClass: "平均正确 / 平均错误 / 平均未知：",
       class: "正确 / 错误 / 未知：",
+      avgAcc: "平均准确率：",
       acc: "准确率："
     }
   },
