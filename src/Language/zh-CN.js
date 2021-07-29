@@ -47,6 +47,12 @@ const list = {
       pure: "标记为正确",
       far: "标记为错误",
       unload: "您的进度尚未提交"
+    },
+    stat: {
+      eachTitle: "{0}回忆",
+      timeFormatString: "yyyy-MM-dd hh:mm:ss",
+      ongoing: "（正在进行）",
+      class: ["正确：", "错误：", "未知："]
     }
   },
   popup: {

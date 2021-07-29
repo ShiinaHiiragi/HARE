@@ -47,6 +47,12 @@ const list = {
       pure: "Mark as Correct",
       far: "Mark as Fault",
       unload: "Your progress hasn't been upload."
+    },
+    stat: {
+      eachTitle: "The {0} Recall",
+      timeFormatString: "MM/dd/yyyy hh:mm:ss",
+      ongoing: " (Ongoing)",
+      class: ["Correct: ", "Fault: ", "Unknown: "]
     }
   },
   popup: {

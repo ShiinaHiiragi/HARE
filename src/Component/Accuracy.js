@@ -8,7 +8,7 @@ const colors = {
   B: "rgb(130, 202, 157)",
   C: "rgb(131, 166, 237)",
   D: "rgb(136, 132, 216)",
-  F: "rgb(255, 255, 255)"
+  F: "rgb(240, 240, 240)"
 }
 const getRank = (value) =>
   value < 72
