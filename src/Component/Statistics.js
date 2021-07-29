@@ -29,12 +29,18 @@ const useStyles = makeStyles((theme) => ({
   },
   textField: {
     flexGrow: 1,
+    padding: theme.spacing(2)
   }
 }));
 
 export default function Statistics(props) {
   const classes = useStyles();
   const { lang, data, handle } = props;
+  const [anime, setAnime] = React.useState(0);
+  React.useEffect(() => {
+    if (data.current.route === routeIndex.stat)
+      setAnime(Math.random());
+  }, [data.current.route === routeIndex.stat]);
 
   return (
     <div className={classes.root}>
@@ -50,12 +56,14 @@ export default function Statistics(props) {
           {lang.common.back}
         </Button>
       </div>
-      <Card className={classes.rankingPanel}>
-        <Accuracy value={100} />
-        <div className={classes.textField}>
-          
-        </div>
-      </Card>
+      {data.statInfo.map((item) => (
+        <Card className={classes.rankingPanel}>
+          <Accuracy key={anime} value={(item.pure / data.pageDetail.itemSize) * 100} />
+          <div className={classes.textField}>
+            {JSON.stringify(item)}
+          </div>
+        </Card>
+      ))}
     </div>
   );
 }

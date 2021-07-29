@@ -132,7 +132,9 @@ export default function Main(props) {
         <Statistics
           lang={lang}
           data={{
-            statInfo: statInfo
+            statInfo: statInfo,
+            pageDetail: state.pageDetail,
+            current: state.current
           }}
           handle={{
             setCurrentRoute: handle.setCurrentRoute

@@ -24,7 +24,7 @@ const getRank = (value) =>
     : "X";
 
 export default function Accuracy(props) {
-  const { value } = props;
+  const { value, key } = props;
   const data = [
     { name: "D", value: Math.min(72, value) },
     { name: "C", value: Math.min(12, Math.max(0, value - 72)) },
@@ -36,8 +36,7 @@ export default function Accuracy(props) {
 
   return (
     <Box position="relative" display="inline-flex">
-      <PieChart width={144} height={144} key={9}>
-
+      <PieChart width={144} height={144} key={key}>
         <Pie
           data={data}
           startAngle={90}
