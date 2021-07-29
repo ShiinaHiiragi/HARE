@@ -168,6 +168,7 @@ const list = {
         "Rehype KaTeX": ["LaTeX Renderer", "0.13.11"],
         "React Syntax Highlighter": ["Code Highlight", "0.43.0"],
         "React Compound Timer": ["Timer when recalling", "1.2.0"],
+        "Recharts": ["Statistics Charts Drawing", "2.0.10"],
         "Axios": ["Asynchronous HTTP Request", "0.21.1"],
         "React App Rewired": ["Webpack Configuration Override", "2.1.8"],
         "Date-fns": ["Date Tool", "2.22.1"],

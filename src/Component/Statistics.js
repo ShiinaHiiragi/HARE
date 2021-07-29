@@ -2,7 +2,9 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Accuracy from "./Accuracy";
 import { stringFormat, timeFormat, routeIndex } from "../Interface/Constant";
 
@@ -37,10 +39,22 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     flexGrow: 1,
     [theme.breakpoints.down("xs")]: {
-      padding: theme.spacing(2)
+      padding: theme.spacing(2),
+      alignSelf: "flex-start"
     },
     [theme.breakpoints.up("sm")]: {
       padding: theme.spacing(2, 2, 2, 4)
+    }
+  },
+  buttonField: {
+    display: "flex",
+    alignSelf: "flex-end",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "row",
+      padding: theme.spacing(1, 2),
+    },
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "column",
     }
   }
 }));
@@ -154,6 +168,11 @@ export default function Statistics(props) {
               {" / "}
               {itemSize - item.pure - item.far}
             </Typography>
+          </div>
+          <div className={classes.buttonField}>
+            <IconButton color="secondary">
+              <DeleteOutlineIcon />
+            </IconButton>
           </div>
         </Card>
       ))}
