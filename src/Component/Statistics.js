@@ -78,8 +78,14 @@ const Stat = {
   },
   timestampCount: (start, end, suffix) => {
     const milliseconds = new Date(end) - new Date(start);
-    if (milliseconds < 60000)
-      return `${(milliseconds / 60000).toFixed()}`
+    const split = [1000, 60000, 3600000, 86400000, Infinity];
+    for (let index = 0; index < split.length; index += 1) {
+      if (milliseconds < split[index])
+        return index
+          ? Stat.atMostDigits(milliseconds / split[index - 1], Stat.digit)
+            + " " + suffix[index](milliseconds / split[index - 1])
+          : suffix[index];
+    }
   }
 };
 
@@ -179,7 +185,8 @@ export default function Statistics(props) {
                   timeFormat(
                     new Date(item.endTime),
                     lang.panel.stat.timeFormatString
-                  )
+                  ) +
+                  ` (${Stat.timestampCount(item.startTime, item.endTime, lang.panel.stat.timeSpan)})`
                 : lang.panel.stat.ongoing}
             </Typography>
             <Typography variant="body2" color="textSecondary">

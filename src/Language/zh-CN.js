@@ -58,6 +58,7 @@ const list = {
       bestWorst: "最大正确率 / 最大错误率：",
       class: "频数：",
       acc: "准确率：",
+      timeSpan: ["少于一秒", () => "秒", () => "分", () => "小时", () => "天"],
       clearRecall: "清空所有"
     }
   },

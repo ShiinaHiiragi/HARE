@@ -58,6 +58,13 @@ const list = {
       bestWorst: "Best Correct Rate / Worst Fault Rate: ",
       class: "Frequency: ",
       acc: "Accuracy: ",
+      timeSpan: [
+        "Less than one second",
+        (value) => value <= 1 ? "Second" : "Seconds",
+        (value) => value <= 1 ? "Minute" : "Minutes",
+        (value) => value <= 1 ? "Hour" : "Hours",
+        (value) => value <= 1 ? "Day" : "Days",
+      ],
       clearRecall: "Clear All"
     }
   },
