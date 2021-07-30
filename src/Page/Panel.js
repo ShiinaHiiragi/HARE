@@ -29,7 +29,7 @@ export default function Panel(props) {
   }, []);
   const changeGlobalLang = (targetValue) => {
     if (targetValue)
-      setTimeout(() => setGlobalLang(languagePicker(targetValue)), setStateDelay);
+      setTimeout(() => setGlobalLang(languagePicker(targetValue)), setStateDelay * 0.5);
     cookie.save("lang", targetValue, { expires: cookieTime(3650) });
   };
 

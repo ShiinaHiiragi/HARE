@@ -65,14 +65,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end"
   },
   invisibleGraph: {
-    width: "75%",
     [theme.breakpoints.only("xs")]: {
+      width: "96%",
       height: 160
     },
     [theme.breakpoints.only("sm")]: {
+      width: "84%",
       height: 200
     },
     [theme.breakpoints.up("md")]: {
+      width: "72%",
       height: 240
     }
   },
@@ -119,6 +121,7 @@ export default function Statistics(props) {
   const classes = useStyles();
   const { lang, data, handle } = props;
   const [anime, setAnime] = React.useState(0);
+  const [lineData, setLineData] = React.useState([]);
   const [expandAll, setExpandAll] = React.useState(false);
   React.useEffect(() => {
     if (data.current.route === routeIndex.stat) {
@@ -200,14 +203,13 @@ export default function Statistics(props) {
   const spanJudge = Stat.judgeTime(averageSpan, true, lang.panel.stat.judge);
   const intervalJudge = Stat.judgeTime(averageInterval, false, lang.panel.stat.judge);
 
-  const toggleExpandAll = () => {
-    setExpandAll((expandAll) => {
-      if (!expandAll) {
-
-      }
-      return !expandAll;
-    });
-  }
+  React.useEffect(() => {
+    if (expandAll)
+      setLineData(eachPure.map((item, index) => ({
+        name: lang.grid.ordinal[index],
+        acc: item / itemSize * 100
+      })));
+  }, [expandAll, lang]);
 
   return (
     <div className={classes.root}>
@@ -292,7 +294,7 @@ export default function Statistics(props) {
               className={clsx(classes.expand, {
                 [classes.expandOpen]: expandAll,
               })}
-              onClick={toggleExpandAll}
+              onClick={() => setExpandAll((expandAll) => !expandAll)}
             >
               <ExpandMoreIcon />
             </IconButton>
@@ -315,7 +317,7 @@ export default function Statistics(props) {
             </Button>
           </div>
           <div className={classes.invisibleGraph}>
-            <Chart />
+            <Chart data={lineData} />
           </div>
         </Collapse>
       </Card>
