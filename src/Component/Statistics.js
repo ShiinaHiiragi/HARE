@@ -102,12 +102,17 @@ export default function Statistics(props) {
   // 每一次的曲线图，错误频数直方图 方差 下次目标（建议）
   // span: start -> end, interval: start -> next start
   const itemSize = data.pageDetail.itemSize;
-  const trackSize = data.pageDetail.trackSize;
   const eachPure = data.statInfo.map((item) => item.pure);
   const eachFar = data.statInfo.map((item) => item.far);
   const eachSpan = data.statInfo.reduce((total, item) => {
     if (item.endTime) {
       total.push(new Date(item.endTime) - new Date(item.startTime))
+      return total;
+    } else return total;
+  }, []);
+  const eachInterval = data.statInfo.reduce((total, item, index, arr) => {
+    if (index) {
+      total.push(new Date(item.startTime) - new Date(arr[index - 1].startTime));
       return total;
     } else return total;
   }, []);
@@ -151,6 +156,10 @@ export default function Statistics(props) {
             {lang.panel.stat.avgTime}
             {Stat.timestampCount(
               Stat.average(eachSpan), lang.panel.stat.timeSpan
+            )}
+            {" / "}
+            {Stat.timestampCount(
+              Stat.average(eachInterval), lang.panel.stat.timeSpan
             )}
           </Typography>
           <Typography variant="body2" color="textSecondary">
@@ -221,11 +230,11 @@ export default function Statistics(props) {
             </Typography>
             <Typography variant="body2" color="textSecondary">
               {lang.panel.stat.acc}
-              <b>{((item.pure / itemSize) * 100).toFixed(2)}{"%"}</b>
-              {` (${Stat.accDiff(item.pure, averagePure, itemSize)}%)`}
+              <b>{Stat.digitsPercentage(item.pure, itemSize, Stat.digit)}</b>
+              {` (${Stat.accDiff(item.pure, averagePure, itemSize)})`}
               {" / "}
-              {`${((item.far / itemSize) * 100).toFixed(2)}%`}
-              {` (${Stat.accDiff(item.far, averageFar, itemSize)}%)`}
+              {Stat.digitsPercentage(item.far, itemSize, Stat.digit)}
+              {` (${Stat.accDiff(item.far, averageFar, itemSize)})`}
             </Typography>
           </div>
           <div className={classes.buttonField}>
