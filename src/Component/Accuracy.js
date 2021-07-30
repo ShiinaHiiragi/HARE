@@ -3,13 +3,14 @@ import Box from "@material-ui/core/Box";
 import { PieChart, Pie, Sector, Cell } from "recharts";
 
 const colors = {
-  S: "rgb(164, 222, 108)",
-  A: "rgb(130, 202, 157)",
-  B: "rgb(141, 209, 225)",
-  C: "rgb(131, 166, 237)",
+  S: "rgb(130, 202, 157)",
+  A: "rgb(141, 209, 225)",
+  B: "rgb(131, 166, 237)",
+  C: "rgb(71, 145, 219)",
   D: "rgb(136, 132, 216)",
   F: "rgb(240, 240, 240)"
 }
+
 const getRank = (value) =>
   value < 72
     ? "D"
