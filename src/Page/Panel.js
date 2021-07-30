@@ -1,5 +1,6 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import cookie from "react-cookies";
 import Root from "../Interface/Root";
 import NavBar from "../Unit/NavBar";
@@ -65,6 +66,15 @@ export default function Panel(props) {
       lang: globalLang
     }).then((res) => setListObject(res));
   }, []);
+
+  // change navList when change screen size
+  const matches = useMediaQuery("(min-width:960px)");
+  React.useEffect(() => {
+    if (matches) {
+      setNavListPC(true);
+      setNavListMobile(false);
+    } else setNavListPC(true);
+  }, [matches]);
 
   // the sharing state of selected page
   const [itemList, setItemList] = React.useState([]);
