@@ -10,7 +10,7 @@ import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
 import requestURL from "../Interface/Constant";
-import { cookieTime } from "../Interface/Constant";
+import { cookieTime, setStateDelay } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,8 @@ export default function SignIn() {
     changeGlobalLang(storageLang || "en");
   }, []);
   const changeGlobalLang = (targetValue) => {
-    if (targetValue) setGlobalLang(languagePicker(targetValue));
+    if (targetValue)
+      setTimeout(() => setGlobalLang(languagePicker(targetValue)), setStateDelay);
     cookie.save("lang", targetValue, { expires: cookieTime(3650) });
   };
 

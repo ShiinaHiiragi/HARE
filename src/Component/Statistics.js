@@ -10,7 +10,13 @@ import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Accuracy from "./Accuracy";
 import Collapse from "@material-ui/core/Collapse";
-import { stringFormat, timeFormat, routeIndex, defaultDigit } from "../Interface/Constant";
+import {
+  stringFormat,
+  timeFormat,
+  routeIndex,
+  defaultDigit,
+  setStateDelay
+} from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +50,15 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       flexDirection: "row"
     }
+  },
+  invisibleButton: {
+    padding: theme.spacing(1, 0),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end"
+  },
+  invisibleGraph: {
+
   },
   slider: {
     width: 144,
@@ -90,7 +105,11 @@ export default function Statistics(props) {
   const [anime, setAnime] = React.useState(0);
   const [expandAll, setExpandAll] = React.useState(false);
   React.useEffect(() => {
-    if (data.current.route === routeIndex.stat) setAnime(Math.random());
+    if (data.current.route === routeIndex.stat) {
+      setAnime(Math.random());
+    } else {
+      setTimeout(() => setExpandAll(false), setStateDelay);
+    };
   }, [data.current.route === routeIndex.stat]);
 
   const [precision, setPrecision] = React.useState(defaultDigit);
@@ -253,14 +272,19 @@ export default function Statistics(props) {
           </div>
         </div>
         <Collapse in={expandAll} timeout="auto" unmountOnExit>
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<CloseIcon />}
-            style={{ borderRadius: 0 }}
-          >
-            {lang.panel.stat.clearRecall}
-          </Button>
+          <div className={classes.invisibleButton}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<CloseIcon />}
+              style={{ borderRadius: 0 }}
+            >
+              {lang.panel.stat.clearRecall}
+            </Button>
+          </div>
+          <div className={classes.invisibleGraph}>
+            GRAPH
+          </div>
         </Collapse>
       </Card>
       

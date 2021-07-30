@@ -14,7 +14,7 @@ import {
   cookieTime,
   defaultProfile,
   routeIndex,
-  defaultColumn,
+  setStateDelay,
   stringFormat
 } from "../Interface/Constant";
 
@@ -28,7 +28,8 @@ export default function Panel(props) {
     changeGlobalLang(storageLang || "en");
   }, []);
   const changeGlobalLang = (targetValue) => {
-    if (targetValue) setGlobalLang(languagePicker(targetValue));
+    if (targetValue)
+      setTimeout(() => setGlobalLang(languagePicker(targetValue)), setStateDelay);
     cookie.save("lang", targetValue, { expires: cookieTime(3650) });
   };
 
