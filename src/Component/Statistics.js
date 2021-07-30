@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Slider from "@material-ui/core/Slider";
@@ -6,8 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CloseIcon from "@material-ui/icons/Close";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Accuracy from "./Accuracy";
+import Collapse from "@material-ui/core/Collapse";
 import { stringFormat, timeFormat, routeIndex, defaultDigit } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -30,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4),
     display: "flex",
     overflow: "visible",
+    flexDirection: "column"
+  },
+  visible: {
+    display: "flex",
+    overflow: "visible",
     alignItems: "center",
     [theme.breakpoints.down("xs")]: {
       flexDirection: "column"
@@ -40,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   slider: {
     width: 144,
-    margin: theme.spacing(0, 2)
+    margin: theme.spacing(0, 1, 0, 2)
   },
   textField: {
     flexGrow: 1,
@@ -64,6 +71,16 @@ const useStyles = makeStyles((theme) => ({
       height: "100%",
       flexDirection: "column",
     }
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
   }
 }));
 
@@ -71,6 +88,7 @@ export default function Statistics(props) {
   const classes = useStyles();
   const { lang, data, handle } = props;
   const [anime, setAnime] = React.useState(0);
+  const [expandAll, setExpandAll] = React.useState(false);
   React.useEffect(() => {
     if (data.current.route === routeIndex.stat) setAnime(Math.random());
   }, [data.current.route === routeIndex.stat]);
@@ -171,123 +189,134 @@ export default function Statistics(props) {
           className={classes.slider}
           onChange={(_, value) => setPrecision(value)}
         />
-        <Button
-          variant="outlined"
-          color="secondary"
-          startIcon={<CloseIcon />}
-          style={{ borderRadius: 0 }}
-        >
-          {lang.panel.stat.clearRecall}
-        </Button>
       </div>
 
       <Card className={classes.rankingPanel} >
-        <Accuracy
-          anime={anime}
-          times={0.92}
-          value={(averagePure / itemSize) * 100}
-        />
-        <div className={classes.textField}>
-          <Typography variant="h6">
-            {lang.panel.stat.totalTitle}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {lang.panel.stat.avgSpan}
-            {Stat.timestampCount(
-              averageSpan, lang.panel.stat.timeSpan
-            )}
-            {" / "}
-            {Stat.timestampCount(
-              averageSpan / itemSize, lang.panel.stat.timeSpan
-            )}
-            {spanJudge && ` (${spanJudge})`}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {lang.panel.stat.avgInterval}
-            {Stat.timestampCount(
-              averageInterval, lang.panel.stat.timeSpan
-            )}
-            {intervalJudge && ` (${intervalJudge})`}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {lang.panel.stat.avgClass}
-            {Stat.atMostDigits(averagePure, precision)}
-            {" / "}
-            {Stat.atMostDigits(averageFar, precision)}
-            {" / "}
-            {Stat.atMostDigits(itemSize - averagePure - averageFar, precision)}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {lang.panel.stat.avgAcc}
-            <b>{Stat.digitsPercentage(averagePure, itemSize, precision)}</b>
-            {" / "}
-            {Stat.digitsPercentage(averageFar, itemSize, precision)}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {lang.panel.stat.bestWorst}
-            {Stat.digitsPercentage(Math.max(...eachPure), itemSize, precision)}
-            {" / "}
-            {Stat.digitsPercentage(Math.max(...eachFar), itemSize, precision)}
-          </Typography>
+        <div className={classes.visible}>
+          <Accuracy
+            anime={anime}
+            times={0.92}
+            value={(averagePure / itemSize) * 100}
+          />
+          <div className={classes.textField}>
+            <Typography variant="h6">
+              {lang.panel.stat.totalTitle}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {lang.panel.stat.avgSpan}
+              {Stat.timestampCount(
+                averageSpan, lang.panel.stat.timeSpan
+              )}
+              {" / "}
+              {Stat.timestampCount(
+                averageSpan / itemSize, lang.panel.stat.timeSpan
+              )}
+              {spanJudge && ` (${spanJudge})`}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {lang.panel.stat.avgInterval}
+              {Stat.timestampCount(
+                averageInterval, lang.panel.stat.timeSpan
+              )}
+              {intervalJudge && ` (${intervalJudge})`}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {lang.panel.stat.avgClass}
+              {Stat.atMostDigits(averagePure, precision)}
+              {" / "}
+              {Stat.atMostDigits(averageFar, precision)}
+              {" / "}
+              {Stat.atMostDigits(itemSize - averagePure - averageFar, precision)}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {lang.panel.stat.avgAcc}
+              <b>{Stat.digitsPercentage(averagePure, itemSize, precision)}</b>
+              {" / "}
+              {Stat.digitsPercentage(averageFar, itemSize, precision)}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {lang.panel.stat.bestWorst}
+              {Stat.digitsPercentage(Math.max(...eachPure), itemSize, precision)}
+              {" / "}
+              {Stat.digitsPercentage(Math.max(...eachFar), itemSize, precision)}
+            </Typography>
+          </div>
+          <div className={classes.buttonField}>
+            <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: expandAll,
+              })}
+              onClick={() => setExpandAll((expandAll) => !expandAll)}
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          </div>
         </div>
-        <div className={classes.buttonField}>
-          <IconButton>
-            <ExpandMoreIcon />
-          </IconButton>
-        </div>
+        <Collapse in={expandAll} timeout="auto" unmountOnExit>
+          <Button
+            variant="outlined"
+            color="secondary"
+            startIcon={<CloseIcon />}
+            style={{ borderRadius: 0 }}
+          >
+            {lang.panel.stat.clearRecall}
+          </Button>
+        </Collapse>
       </Card>
       
       {data.statInfo.map((item, index) => (
         <Card className={classes.rankingPanel} key={index}>
-          <Accuracy
-            anime={anime}
-            times={0.75}
-            value={(item.pure / itemSize) * 100}
-          />
-          <div className={classes.textField}>
-            <Typography variant="h6">
-              {stringFormat(lang.panel.stat.eachTitle, [
-                lang.grid.ordinal[index]
-              ])}
-            </Typography>
-            <Typography variant="subtitle2" color="textSecondary">
-              {timeFormat(
-                new Date(item.startTime),
-                lang.panel.stat.timeFormatString
-              )}
-              {item.endTime
-                ? " ~ " +
-                  timeFormat(
-                    new Date(item.endTime),
-                    lang.panel.stat.timeFormatString
-                  ) +
-                  ` (${Stat.timestampCount(
-                      new Date(item.endTime) - new Date(item.startTime),
-                      lang.panel.stat.timeSpan
-                    )})`
-                : lang.panel.stat.ongoing}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              {lang.panel.stat.class}
-              {item.pure}
-              {" / "}
-              {item.far}
-              {" / "}
-              {itemSize - item.pure - item.far}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              {lang.panel.stat.acc}
-              <b>{Stat.digitsPercentage(item.pure, itemSize, precision)}</b>
-              {` (${Stat.accDiff(item.pure, averagePure, itemSize)})`}
-              {" / "}
-              {Stat.digitsPercentage(item.far, itemSize, precision)}
-              {` (${Stat.accDiff(item.far, averageFar, itemSize)})`}
-            </Typography>
-          </div>
-          <div className={classes.buttonField}>
-            <IconButton>
-              <ExpandMoreIcon />
-            </IconButton>
+          <div className={classes.visible}>
+            <Accuracy
+              anime={anime}
+              times={0.75}
+              value={(item.pure / itemSize) * 100}
+            />
+            <div className={classes.textField}>
+              <Typography variant="h6">
+                {stringFormat(lang.panel.stat.eachTitle, [
+                  lang.grid.ordinal[index]
+                ])}
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {timeFormat(
+                  new Date(item.startTime),
+                  lang.panel.stat.timeFormatString
+                )}
+                {item.endTime
+                  ? " ~ " +
+                    timeFormat(
+                      new Date(item.endTime),
+                      lang.panel.stat.timeFormatString
+                    ) +
+                    ` (${Stat.timestampCount(
+                        new Date(item.endTime) - new Date(item.startTime),
+                        lang.panel.stat.timeSpan
+                      )})`
+                  : lang.panel.stat.ongoing}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                {lang.panel.stat.class}
+                {item.pure}
+                {" / "}
+                {item.far}
+                {" / "}
+                {itemSize - item.pure - item.far}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                {lang.panel.stat.acc}
+                <b>{Stat.digitsPercentage(item.pure, itemSize, precision)}</b>
+                {` (${Stat.accDiff(item.pure, averagePure, itemSize)})`}
+                {" / "}
+                {Stat.digitsPercentage(item.far, itemSize, precision)}
+                {` (${Stat.accDiff(item.far, averageFar, itemSize)})`}
+              </Typography>
+            </div>
+            <div className={classes.buttonField}>
+              <IconButton>
+                <ExpandMoreIcon />
+              </IconButton>
+            </div>
           </div>
         </Card>
       ))}
