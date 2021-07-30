@@ -64,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Stat = {
   digit: 2,
+  average: (array) => {
+    return array.reduce((total, item) => total + item, 0) / array.length;
+  },
   atMostDigits: (number, digit) => {
     const base = Math.pow(10, digit);
     return Math.round(number * base) / base;
@@ -75,8 +78,7 @@ const Stat = {
     return (avg > freq ? "-" : "+")
       + Stat.digitsPercentage(Math.abs(avg - freq), sum, Stat.digit);
   },
-  timestampCount: (start, end, suffix) => {
-    const milliseconds = new Date(end) - new Date(start);
+  timestampCount: (milliseconds, suffix) => {
     const split = [1000, 60000, 3600000, 86400000, Infinity];
     for (let index = 0; index < split.length; index += 1) {
       if (milliseconds < split[index])
@@ -98,16 +100,20 @@ export default function Statistics(props) {
 
   // 最好 最差 平均 平均等级 时长 间隔
   // 每一次的曲线图，错误频数直方图 方差 下次目标（建议）
+  // span: start -> end, interval: start -> next start
   const itemSize = data.pageDetail.itemSize;
   const trackSize = data.pageDetail.trackSize;
   const eachPure = data.statInfo.map((item) => item.pure);
   const eachFar = data.statInfo.map((item) => item.far);
+  const eachSpan = data.statInfo.reduce((total, item) => {
+    if (item.endTime) {
+      total.push(new Date(item.endTime) - new Date(item.startTime))
+      return total;
+    } else return total;
+  }, []);
 
-  // span: start -> end, interval: start -> next start
-  const averagePure = eachPure.reduce((total, item) => total + item, 0) / trackSize;
-  const averageFar = eachFar.reduce((total, item) => total + item, 0) / trackSize;
-  // const eachSpan = data.statInfo.map((item) => ?);
-
+  const averagePure = Stat.average(eachPure);
+  const averageFar = Stat.average(eachFar);
   return (
     <div className={classes.root}>
       <div className={classes.buttonPanel}>
@@ -140,6 +146,12 @@ export default function Statistics(props) {
         <div className={classes.textField}>
           <Typography variant="h6">
             {lang.panel.stat.totalTitle}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {lang.panel.stat.avgTime}
+            {Stat.timestampCount(
+              Stat.average(eachSpan), lang.panel.stat.timeSpan
+            )}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {lang.panel.stat.avgClass}
@@ -193,7 +205,10 @@ export default function Statistics(props) {
                     new Date(item.endTime),
                     lang.panel.stat.timeFormatString
                   ) +
-                  ` (${Stat.timestampCount(item.startTime, item.endTime, lang.panel.stat.timeSpan)})`
+                  ` (${Stat.timestampCount(
+                      new Date(item.endTime) - new Date(item.startTime),
+                      lang.panel.stat.timeSpan
+                    )})`
                 : lang.panel.stat.ongoing}
             </Typography>
             <Typography variant="body2" color="textSecondary">
