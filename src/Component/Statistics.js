@@ -5,7 +5,6 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CloseIcon from "@material-ui/icons/Close";
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accuracy from "./Accuracy";
 import { stringFormat, timeFormat, routeIndex } from "../Interface/Constant";
@@ -101,10 +100,13 @@ export default function Statistics(props) {
   // 每一次的曲线图，错误频数直方图 方差 下次目标（建议）
   const itemSize = data.pageDetail.itemSize;
   const trackSize = data.pageDetail.trackSize;
-  const averagePure = data.statInfo.reduce((total, item) => total + item.pure, 0) / trackSize;
-  const averageFar = data.statInfo.reduce((total, item) => total + item.far, 0) / trackSize;
   const eachPure = data.statInfo.map((item) => item.pure);
   const eachFar = data.statInfo.map((item) => item.far);
+
+  // span: start -> end, interval: start -> next start
+  const averagePure = eachPure.reduce((total, item) => total + item, 0) / trackSize;
+  const averageFar = eachFar.reduce((total, item) => total + item, 0) / trackSize;
+  // const eachSpan = data.statInfo.map((item) => ?);
 
   return (
     <div className={classes.root}>
@@ -132,7 +134,7 @@ export default function Statistics(props) {
       <Card className={classes.rankingPanel} >
         <Accuracy
           anime={anime}
-          times={1}
+          times={0.92}
           value={(averagePure / itemSize) * 100}
         />
         <div className={classes.textField}>
@@ -160,13 +162,18 @@ export default function Statistics(props) {
             {Stat.digitsPercentage(Math.max(...eachFar), itemSize, Stat.digit)}
           </Typography>
         </div>
+        <div className={classes.buttonField}>
+          <IconButton>
+            <ExpandMoreIcon />
+          </IconButton>
+        </div>
       </Card>
       
       {data.statInfo.map((item, index) => (
         <Card className={classes.rankingPanel} key={index}>
           <Accuracy
             anime={anime}
-            times={0.8}
+            times={0.75}
             value={(item.pure / itemSize) * 100}
           />
           <div className={classes.textField}>

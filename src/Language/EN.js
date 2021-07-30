@@ -60,10 +60,10 @@ const list = {
       acc: "Accuracy: ",
       timeSpan: [
         "Less than one second",
-        (value) => value <= 1 ? "Second" : "Seconds",
-        (value) => value <= 1 ? "Minute" : "Minutes",
-        (value) => value <= 1 ? "Hour" : "Hours",
-        (value) => value <= 1 ? "Day" : "Days",
+        (value) => value <= 1 ? "second" : "seconds",
+        (value) => value <= 1 ? "minute" : "minutes",
+        (value) => value <= 1 ? "hour" : "hours",
+        (value) => value <= 1 ? "day" : "days",
       ],
       clearRecall: "Clear All"
     }
