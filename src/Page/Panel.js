@@ -57,7 +57,6 @@ export default function Panel(props) {
   // the sharing state of response navigation bar and list
   const [navListPC, setNavListPC] = React.useState(true);
   const [navListMobile, setNavListMobile] = React.useState(false);
-  const [listObject, setListObject] = React.useState([]);
   React.useEffect(() => {
     packedGET({
       uri: "/data/unit",
@@ -77,7 +76,9 @@ export default function Panel(props) {
     } else setNavListPC(true);
   }, [matches]);
 
-  // the sharing state of selected page
+  // the sharing state of pages
+  const [listObject, setListObject] = React.useState([]);
+  const [statInfo, setStatInfo] = React.useState([]);
   const [itemList, setItemList] = React.useState([]);
   const [pageDetail, setPageDetail] = React.useState({
     pageCreateTime: "2019-12-31T16:00:00.000Z",
@@ -215,6 +216,7 @@ export default function Panel(props) {
           changeGlobalLang: changeGlobalLang,
           submitRecall: submitRecall,
           setListObject: setListObject,
+          setStatInfo: setStatInfo,
           setProfile: setProfile
         }}
       />
@@ -229,6 +231,7 @@ export default function Panel(props) {
           navList: navListPC,
           recall: recall,
           itemList: itemList,
+          statInfo: statInfo,
           pageDetail: pageDetail
         }}
         handle={{
@@ -238,6 +241,7 @@ export default function Panel(props) {
           submitRecall: submitRecall,
           setItemList: setItemList,
           setRecall: setRecall,
+          setStatInfo: setStatInfo,
           setPageDetail: setPageDetail
         }}
       />

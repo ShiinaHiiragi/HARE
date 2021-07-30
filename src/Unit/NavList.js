@@ -77,6 +77,7 @@ export default function NavList(props) {
         userID={data.userID}
         token={data.token}
         listObject={state.listObject}
+        setStatInfo={handle.setStatInfo}
         setListObject={handle.setListObject}
         route={state.route}
         navListMobile={state.navListMobile}

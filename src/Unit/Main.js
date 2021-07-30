@@ -39,7 +39,6 @@ export default function Main(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
 
-  const [statInfo, setStatInfo] = React.useState([]);
   const [timerInitial, setTimerInitial] = React.useState(0);
   React.useEffect(() => {
     if (state.current.unitID && state.current.pageID)
@@ -105,7 +104,7 @@ export default function Main(props) {
             setTimerInitial: setTimerInitial,
             setItemList: handle.setItemList,
             setPageDetail: handle.setPageDetail,
-            setStatInfo: setStatInfo,
+            setStatInfo: handle.setStatInfo,
           }}
         />
       </MainPage>
@@ -132,7 +131,7 @@ export default function Main(props) {
         <Statistics
           lang={lang}
           data={{
-            statInfo: statInfo,
+            statInfo: state.statInfo,
             pageDetail: state.pageDetail,
             current: state.current
           }}

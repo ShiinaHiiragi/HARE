@@ -15,7 +15,7 @@ import PageMenu from "../Dialogue/PageMenu";
 import NewUnitPage from "../Dialogue/NewUnitPage";
 import EditUnit from "../Dialogue/EditUnit";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
-import { packedPOST } from "../Interface/Request";
+import { packedGET, packedPOST } from "../Interface/Request";
 import { initMenu, pageIcon, routeIndex } from "../Interface/Constant";
 import clsx from "clsx";
 
@@ -45,6 +45,7 @@ export default function Pages(props) {
     route,
     listObject,
     setListObject,
+    setStatInfo,
     navListMobile,
     currentSelect,
     handle
@@ -216,6 +217,22 @@ export default function Pages(props) {
     });
   };
 
+  const listSelected = (unitID, pageID) => setListObject(
+    listObject.map((item) =>
+      item.unitID === unitID
+        ? {
+            ...item,
+            selected: true,
+            pages: item.pages.map((subItem) =>
+              subItem.pageID === pageID
+                ? { ...subItem, selected: true }
+                : subItem
+            )
+          }
+        : item
+    )
+  );
+
   const pageClick = (unitID, pageID) => {
     // clear the previous selected state first
     let prevUnit = listObject.find((item) => item.selected),
@@ -232,21 +249,22 @@ export default function Pages(props) {
         handle.submitRecall(prevUnit.unitID, prevPage.pageID);
     }
     if (navListMobile) handle.closeNavListMobile();
-    setListObject(
-      listObject.map((item) =>
-        item.unitID === unitID
-          ? {
-              ...item,
-              selected: true,
-              pages: item.pages.map((subItem) =>
-                subItem.pageID === pageID
-                  ? { ...subItem, selected: true }
-                  : subItem
-              )
-            }
-          : item
-      )
-    );
+    if (listObject[unitID - 1].pages[pageID - 1].route === routeIndex.stat)
+      packedGET({
+        uri: "/data/stat",
+        query: {
+          userID: userID,
+          unitID: unitID,
+          pageID: pageID,
+        },
+        msgbox: handle.toggleMessageBox,
+        kick: handle.toggleKick,
+        lang: lang
+      }).then((out) => {
+        setStatInfo(out);
+        listSelected(unitID, pageID)
+      });
+    else listSelected(unitID, pageID);
   };
 
   return (
