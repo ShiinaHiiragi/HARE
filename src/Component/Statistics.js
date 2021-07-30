@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accuracy from "./Accuracy";
 import { stringFormat, timeFormat, routeIndex } from "../Interface/Constant";
 
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     flexGrow: 1,
     [theme.breakpoints.down("xs")]: {
-      padding: theme.spacing(2),
+      padding: theme.spacing(2, 2, 1, 2),
       alignSelf: "flex-start"
     },
     [theme.breakpoints.up("sm")]: {
@@ -49,20 +50,38 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonField: {
     display: "flex",
-    alignSelf: "flex-end",
+    justifyContent: "flex-end",
     [theme.breakpoints.down("xs")]: {
+      width: "100%",
       flexDirection: "row",
-      padding: theme.spacing(1, 2),
+      padding: theme.spacing(0, 2),
     },
     [theme.breakpoints.up("sm")]: {
+      height: "100%",
       flexDirection: "column",
     }
   }
 }));
 
-const accDiff = (freq, avg, sum) => {
-  return (avg > freq ? "-" : "+") + (Math.abs(avg - freq) / sum * 100).toFixed(2);
-}
+const Stat = {
+  digit: 2,
+  atMostDigits: (number, digit) => {
+    const base = Math.pow(10, digit);
+    return Math.round(number * base) / base;
+  },
+  digitsPercentage: (numerator, denominator, digit) => {
+    return `${(numerator / denominator * 100).toFixed(digit)}%`;
+  },
+  accDiff: (freq, avg, sum) => {
+    return (avg > freq ? "-" : "+")
+      + Stat.digitsPercentage(Math.abs(avg - freq), sum, Stat.digit);
+  },
+  timestampCount: (start, end, suffix) => {
+    const milliseconds = new Date(end) - new Date(start);
+    if (milliseconds < 60000)
+      return `${(milliseconds / 60000).toFixed()}`
+  }
+};
 
 export default function Statistics(props) {
   const classes = useStyles();
@@ -116,23 +135,23 @@ export default function Statistics(props) {
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {lang.panel.stat.avgClass}
-            {Math.round(averagePure * 100) / 100}
+            {Stat.atMostDigits(averagePure, Stat.digit)}
             {" / "}
-            {Math.round(averageFar * 100) / 100}
+            {Stat.atMostDigits(averageFar, Stat.digit)}
             {" / "}
-            {Math.round((itemSize - averagePure - averageFar) * 100) / 100}
+            {Stat.atMostDigits(itemSize - averagePure - averageFar, Stat.digit)}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {lang.panel.stat.avgAcc}
-            <b>{((averagePure / itemSize) * 100).toFixed(2)}{"%"}</b>
+            <b>{Stat.digitsPercentage(averagePure, itemSize, Stat.digit)}</b>
             {" / "}
-            {`${((averageFar / itemSize) * 100).toFixed(2)}%`}
+            {Stat.digitsPercentage(averageFar, itemSize, Stat.digit)}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {lang.panel.stat.bestWorst}
-            {`${((Math.max(...eachPure) / itemSize) * 100).toFixed(2)}%`}
+            {Stat.digitsPercentage(Math.max(...eachPure), itemSize, Stat.digit)}
             {" / "}
-            {`${((Math.max(...eachFar) / itemSize) * 100).toFixed(2)}%`}
+            {Stat.digitsPercentage(Math.max(...eachFar), itemSize, Stat.digit)}
           </Typography>
         </div>
       </Card>
@@ -174,15 +193,15 @@ export default function Statistics(props) {
             <Typography variant="body2" color="textSecondary">
               {lang.panel.stat.acc}
               <b>{((item.pure / itemSize) * 100).toFixed(2)}{"%"}</b>
-              {` (${accDiff(item.pure, averagePure, itemSize)}%)`}
+              {` (${Stat.accDiff(item.pure, averagePure, itemSize)}%)`}
               {" / "}
               {`${((item.far / itemSize) * 100).toFixed(2)}%`}
-              {` (${accDiff(item.far, averageFar, itemSize)}%)`}
+              {` (${Stat.accDiff(item.far, averageFar, itemSize)}%)`}
             </Typography>
           </div>
           <div className={classes.buttonField}>
-            <IconButton color="secondary">
-              <DeleteOutlineIcon />
+            <IconButton>
+              <ExpandMoreIcon />
             </IconButton>
           </div>
         </Card>
