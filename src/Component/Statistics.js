@@ -131,6 +131,13 @@ export default function Statistics(props) {
     };
   }, [data.current.route === routeIndex.stat]);
 
+  const itemSize = data.pageDetail.itemSize;
+  const trackSize = data.pageDetail.trackSize;
+  const eachPure = data.statInfo.map((item) => item.pure);
+  const eachFar = data.statInfo.map((item) => item.far);
+  const averagePure = eachPure.reduce((total, item) => total + item, 0) / trackSize;
+  const averageFar = eachFar.reduce((total, item) => total + item, 0) / trackSize;
+
   const [precision, setPrecision] = React.useState(defaultDigit);
   const Stat = React.useMemo(() => ({
     split: [1000, 60000, 3600000, 86400000, Infinity],
@@ -176,14 +183,10 @@ export default function Statistics(props) {
       }
     },
     judgeRank: () => (itemSize < 25 && averagePure * 100 < itemSize * 84)
-  }), [precision]);
+  }), [precision, averagePure, itemSize]);
 
-  // 最好 最差 平均 平均等级 时长 间隔
   // 每一次的曲线图，错误频数直方图 方差 下次目标（建议）
   // span: start -> end, interval: start -> next start
-  const itemSize = data.pageDetail.itemSize;
-  const eachPure = data.statInfo.map((item) => item.pure);
-  const eachFar = data.statInfo.map((item) => item.far);
   const eachSpan = data.statInfo.reduce((total, item) => {
     if (item.endTime) {
       total.push(new Date(item.endTime) - new Date(item.startTime))
@@ -196,9 +199,6 @@ export default function Statistics(props) {
       return total;
     } else return total;
   }, []);
-
-  const averagePure = Stat.average(eachPure);
-  const averageFar = Stat.average(eachFar);
   const averageSpan = Stat.average(eachSpan);
   const averageInterval = Stat.average(eachInterval);
   const spanJudge = Stat.judgeTime(averageSpan, true, lang.panel.stat.judge);
