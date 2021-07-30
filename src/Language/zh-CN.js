@@ -57,7 +57,8 @@ const list = {
       avgAcc: "平均正确率 / 平均错误率：",
       bestWorst: "最大正确率 / 最大错误率：",
       class: "频数：",
-      acc: "准确率："
+      acc: "准确率：",
+      clearRecall: "清空所有"
     }
   },
   popup: {

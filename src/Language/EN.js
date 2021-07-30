@@ -57,7 +57,8 @@ const list = {
       avgAcc: "Average Correct Rate / Average Fault Rate: ",
       bestWorst: "Best Correct Rate / Worst Fault Rate: ",
       class: "Frequency: ",
-      acc: "Accuracy: "
+      acc: "Accuracy: ",
+      clearRecall: "Clear All"
     }
   },
   popup: {

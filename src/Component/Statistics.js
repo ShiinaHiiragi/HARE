@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
+import CloseIcon from "@material-ui/icons/Close";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Accuracy from "./Accuracy";
 import { stringFormat, timeFormat, routeIndex } from "../Interface/Constant";
@@ -87,22 +88,39 @@ export default function Statistics(props) {
           variant="outlined"
           color="primary"
           startIcon={<ArrowBackOutlinedIcon />}
-          className={classes.button}
           onClick={() => handle.setCurrentRoute(routeIndex.cover)}
           style={{ borderRadius: 0 }}
         >
           {lang.common.back}
+        </Button>
+        <div style={{ flexGrow: 1 }} />
+        <Button
+          variant="outlined"
+          color="secondary"
+          startIcon={<CloseIcon />}
+          style={{ borderRadius: 0 }}
+        >
+          {lang.panel.stat.clearRecall}
         </Button>
       </div>
 
       <Card className={classes.rankingPanel} >
         <Accuracy
           anime={anime}
+          times={1}
           value={(averagePure / itemSize) * 100}
         />
         <div className={classes.textField}>
           <Typography variant="h6">
             {lang.panel.stat.totalTitle}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {lang.panel.stat.avgClass}
+            {Math.round(averagePure * 100) / 100}
+            {" / "}
+            {Math.round(averageFar * 100) / 100}
+            {" / "}
+            {Math.round((itemSize - averagePure - averageFar) * 100) / 100}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {lang.panel.stat.avgAcc}
@@ -116,14 +134,6 @@ export default function Statistics(props) {
             {" / "}
             {`${((Math.max(...eachFar) / itemSize) * 100).toFixed(2)}%`}
           </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {lang.panel.stat.avgClass}
-            {Math.round(averagePure * 100) / 100}
-            {" / "}
-            {Math.round(averageFar * 100) / 100}
-            {" / "}
-            {Math.round((itemSize - averagePure - averageFar) * 100) / 100}
-          </Typography>
         </div>
       </Card>
       
@@ -131,6 +141,7 @@ export default function Statistics(props) {
         <Card className={classes.rankingPanel} key={index}>
           <Accuracy
             anime={anime}
+            times={0.8}
             value={(item.pure / itemSize) * 100}
           />
           <div className={classes.textField}>
@@ -153,20 +164,20 @@ export default function Statistics(props) {
                 : lang.panel.stat.ongoing}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {lang.panel.stat.acc}
-              <b>{((item.pure / itemSize) * 100).toFixed(2)}{"%"}</b>
-              {` (${accDiff(item.pure, averagePure, itemSize)}%)`}
-              {" / "}
-              {`${((item.far / itemSize) * 100).toFixed(2)}%`}
-              {` (${accDiff(item.far, averageFar, itemSize)}%)`}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
               {lang.panel.stat.class}
               {item.pure}
               {" / "}
               {item.far}
               {" / "}
               {itemSize - item.pure - item.far}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {lang.panel.stat.acc}
+              <b>{((item.pure / itemSize) * 100).toFixed(2)}{"%"}</b>
+              {` (${accDiff(item.pure, averagePure, itemSize)}%)`}
+              {" / "}
+              {`${((item.far / itemSize) * 100).toFixed(2)}%`}
+              {` (${accDiff(item.far, averageFar, itemSize)}%)`}
             </Typography>
           </div>
           <div className={classes.buttonField}>

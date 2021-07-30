@@ -24,7 +24,7 @@ const getRank = (value) =>
     : "X";
 
 export default function Accuracy(props) {
-  const { value, anime } = props;
+  const { value, times, anime } = props;
   const data = [
     { name: "D", value: Math.min(72, value) },
     { name: "C", value: Math.min(12, Math.max(0, value - 72)) },
@@ -39,10 +39,12 @@ export default function Accuracy(props) {
       <PieChart width={144} height={144} key={anime}>
         <Pie
           data={data}
+          cx="50%"
+          cy="50%"
           startAngle={90}
           endAngle={-270}
-          innerRadius={60}
-          outerRadius={72}
+          innerRadius={60 * times}
+          outerRadius={72 * times}
           dataKey="value"
         >
           {data.map((entry, index) => (
@@ -64,7 +66,7 @@ export default function Accuracy(props) {
           variant="h2"
           component="div"
           color="textSecondary"
-          style={{ fontSize: 72 }}
+          style={{ fontSize: 72 * times }}
         >
           {getRank(value)}
         </Typography>
