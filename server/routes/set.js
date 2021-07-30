@@ -17,7 +17,7 @@ router.post('/profile', (req, res) => {
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.saveProfile(userID, userName, birth, gender, tel, city))
-    .then(() => res.status(204).send());
+    .then(() => api.noContent(res));
 });
 
 router.post('/avatar', (req, res) => {
@@ -46,7 +46,7 @@ router.post('/avatar', (req, res) => {
             path.join(basicPath, `${userID}${type === '.jpeg' ? '.jpg' : type}`),
             avatarBuffer,
             (err) => {
-              if (!err) res.status(204).send();
+              if (!err) api.noContent(res);
               else api.internalServerError(res);
             }
           );
@@ -70,18 +70,18 @@ router.post('/new-up', (req, res) => {
   if (!(userID && token)) return;
   if ((group && typeof type !== 'number') ||
     (!group && (!(type instanceof Array) || type.length !== 2)))
-    res.status(406).send('INVALID ARGUMENT');
+    api.invalidArgument(res);
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
         // the feature of OR in js
         db.newUnit(userID, type || 1, unitName)
           .then(() => db.newPage(userID, type || 1, 1, pageName, pagePresent))
-          .then(() => res.status(204).send())
+          .then(() => api.noContent(res))
           .catch(() => api.internalServerError(res));
       } else {
         db.newPage(userID, type[0], type[1], pageName, pagePresent)
-          .then(() => res.status(204).send())
+          .then(() => api.noContent(res))
           .catch(() => api.internalServerError(res));
       }
     });
@@ -124,13 +124,13 @@ router.post('/swap-up', (req, res) => {
   if (!(userID && token)) return;
   if ((group && typeof less !== 'number') ||
     (!group && (!(less instanceof Array) || less.length !== 2)))
-    res.status(406).send('INVALID ARGUMENT');
+    api.invalidArgument(res);
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) return  db.moveUnit(userID, less)
       else return db.movePage(userID, less[0], less[1])
     })
-    .then(() => res.status(204).send())
+    .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));;
 });
 
@@ -141,7 +141,7 @@ router.post('/unit', (req, res) => {
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.editUnit(userID, unitID, name))
-    .then(() => res.status(204).send())
+    .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
 
@@ -160,7 +160,7 @@ router.post('/page', (req, res) => {
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.editPage(userID, unitID, pageID, pageName, pagePresent))
-    .then(() => res.status(204).send())
+    .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));;
 });
 
@@ -174,7 +174,7 @@ router.post('/cover', (req, res) => {
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.editCover(userID, unitID, pageID, cover))
-    .then(() => res.status(204).send())
+    .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
 
@@ -190,7 +190,7 @@ router.post('/new-item', (req, res) => {
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.newItem(userID, unitID, pageID, itemID, query, key))
-    .then((itemCreateTime) => res.status(200).send(itemCreateTime))
+    .then((itemCreateTime) => res.send(itemCreateTime))
     .catch(() => api.internalServerError(res));
 });
 
@@ -205,10 +205,10 @@ router.post('/delete-item', (req, res) => {
   );
   if (!(userID && token)) return;
   if (!(itemID instanceof Array))
-    res.status(406).send('INVALID ARGUMENT');
+    api.invalidArgument(res);
   db.checkToken(userID, token, res)
     .then(() => db.deleteItem(userID, unitID, pageID, itemID, track))
-    .then(() => res.status(204).send())
+    .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
 
@@ -222,7 +222,7 @@ router.post('/move', (req, res) => {
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.moveItem(userID, unitID, pageID, src, dst))
-    .then(() => res.status(204).send())
+    .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
 
@@ -236,10 +236,10 @@ router.post('/recall', (req, res) => {
   );
   if (!(userID && token)) return;
   if (!(pure instanceof Array) || !(far instanceof Array))
-    res.status(406).send('INVALID ARGUMENT');
+    api.invalidArgument(res);
   db.checkToken(userID, token, res)
     .then(() => db.updateThis(userID, unitID, pageID, pure, far, lost))
-    .then(() => res.status(204).send())
+    .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
 

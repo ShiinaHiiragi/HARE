@@ -9,6 +9,7 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Accuracy from "./Accuracy";
+import Chart from "./Chart";
 import Collapse from "@material-ui/core/Collapse";
 import {
   stringFormat,
@@ -51,14 +52,29 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "row"
     }
   },
+  invisible: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
   invisibleButton: {
     padding: theme.spacing(1, 0),
+    width: "100%",
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end"
   },
   invisibleGraph: {
-
+    width: "75%",
+    [theme.breakpoints.only("xs")]: {
+      height: 160
+    },
+    [theme.breakpoints.only("sm")]: {
+      height: 200
+    },
+    [theme.breakpoints.up("md")]: {
+      height: 240
+    }
   },
   slider: {
     width: 144,
@@ -151,6 +167,8 @@ export default function Statistics(props) {
           ? suffix.tooOften
           : deltaTime > 14 * Stat.split[3]
           ? suffix.tooRare
+          : isNaN(deltaTime)
+          ? suffix.noData
           : null;
       }
     },
@@ -181,6 +199,15 @@ export default function Statistics(props) {
   const averageInterval = Stat.average(eachInterval);
   const spanJudge = Stat.judgeTime(averageSpan, true, lang.panel.stat.judge);
   const intervalJudge = Stat.judgeTime(averageInterval, false, lang.panel.stat.judge);
+
+  const toggleExpandAll = () => {
+    setExpandAll((expandAll) => {
+      if (!expandAll) {
+
+      }
+      return !expandAll;
+    });
+  }
 
   return (
     <div className={classes.root}>
@@ -265,13 +292,18 @@ export default function Statistics(props) {
               className={clsx(classes.expand, {
                 [classes.expandOpen]: expandAll,
               })}
-              onClick={() => setExpandAll((expandAll) => !expandAll)}
+              onClick={toggleExpandAll}
             >
               <ExpandMoreIcon />
             </IconButton>
           </div>
         </div>
-        <Collapse in={expandAll} timeout="auto" unmountOnExit>
+        <Collapse
+          classes={{ wrapperInner: classes.invisible }}
+          in={expandAll}
+          timeout="auto"
+          unmountOnExit
+        >
           <div className={classes.invisibleButton}>
             <Button
               variant="outlined"
@@ -283,7 +315,7 @@ export default function Statistics(props) {
             </Button>
           </div>
           <div className={classes.invisibleGraph}>
-            GRAPH
+            <Chart />
           </div>
         </Collapse>
       </Card>

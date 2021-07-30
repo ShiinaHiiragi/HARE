@@ -56,7 +56,8 @@ const list = {
         tooLong: "过长",
         tooShort: "过短",
         tooOften: "过于频繁",
-        tooRare: "间隔过长"
+        tooRare: "间隔过长",
+        noData: "暂无数据"
       },
       timeFormatString: "yyyy-MM-dd hh:mm:ss",
       ongoing: "（正在进行）",

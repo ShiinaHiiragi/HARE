@@ -22,7 +22,7 @@ router.post('/sign', (req, res) => {
       if (out.length > 0) {
         db.newToken(out[0].userid, token).then(() =>
           res.send({ uid: out[0].userid, token: token }));
-      } else res.status(401).send('Incorrect E-mail or password.');
+      } else res.status(403).send('Incorrect E-mail or password.');
     }).catch(() => api.internalServerError(res));
 });
 
@@ -32,7 +32,7 @@ router.post('/logout', (req, res) => {
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
     .then(() => db.query(`delete from onlineUser where userID = ${userID}`))
-    .then(() => res.status(204).send());
+    .then(() => api.noContent(res));
 });
 
 router.get('/unit', (req, res) => {

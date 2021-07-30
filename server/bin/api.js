@@ -46,7 +46,7 @@ exports.sqlNumber = (query, keys, res) => {
   let invalid = false;
   keys.forEach((item) => {
     if (query[item] === undefined) {
-      if (res) res.status(406).send('INVALID ARGUMENT');
+      if (res) invalidArgument(res);
       invalid = true;
       return;
     }
@@ -61,7 +61,7 @@ exports.sqlString = (query, keys, res) => {
   let invalid = false;
   keys.forEach((item) => {
     if (query[item] === undefined) {
-      if (res) res.status(406).send('INVALID ARGUMENT');
+      if (res) invalidArgument(res);
       invalid = true;
       return;
     }
@@ -70,9 +70,10 @@ exports.sqlString = (query, keys, res) => {
   return invalid ? new Object() : sql;
 }
 
-exports.internalServerError = (res) => {
-  res.status(500).send('INTERNAL SERVER ERROR');
-};
+const invalidArgument = (res) => res.status(406).send('INVALID ARGUMENT');
+exports.invalidArgument = invalidArgument;
+exports.noContent = (res) => res.status(204).send();
+exports.internalServerError = (res) => res.status(500).send('INTERNAL SERVER ERROR');
 
 exports.format = (transDate, formatString) => {
   var formatComponent = {
