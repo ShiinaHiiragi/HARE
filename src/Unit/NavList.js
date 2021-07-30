@@ -74,19 +74,23 @@ export default function NavList(props) {
       <Divider />
       <Pages
         lang={lang}
-        userID={data.userID}
-        token={data.token}
-        listObject={state.listObject}
-        setStatInfo={handle.setStatInfo}
-        setListObject={handle.setListObject}
-        route={state.route}
-        navListMobile={state.navListMobile}
-        currentSelect={state.currentSelect}
+        data={{
+          userID: data.userID,
+          token: data.token
+        }}
+        state={{
+          listObject: state.listObject,
+          route: state.route,
+          navListMobile: state.navListMobile,
+          currentSelect: state.currentSelect
+        }}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
           submitRecall: handle.submitRecall,
           closeNavListMobile: handle.closeNavListMobile,
-          toggleKick: handle.toggleKick
+          toggleKick: handle.toggleKick,
+          setStatInfo: handle.setStatInfo,
+          setListObject: handle.setListObject
         }}
       />
     </div>

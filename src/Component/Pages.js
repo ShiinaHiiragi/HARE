@@ -38,25 +38,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Pages(props) {
   const classes = useStyles();
-  const {
-    lang,
-    userID,
-    token,
-    route,
-    listObject,
-    setListObject,
-    setStatInfo,
-    navListMobile,
-    currentSelect,
-    handle
-  } = props;
+  const { lang, data, state, handle } = props;
 
   // fold and unfold the units
   const changeUnit = (targetID) => {
-    listObject[currentSelect.unitID - 1].pages[currentSelect.pageID - 1]
-      .route = currentSelect.route;
-    setListObject(
-      listObject.map((item) =>
+    state.listObject[state.currentSelect.unitID - 1].pages[state.currentSelect.pageID - 1]
+      .route = state.currentSelect.route;
+    handle.setListObject(
+      state.listObject.map((item) =>
         item.unitID === targetID ? { ...item, open: !item.open } : item
       )
     );
@@ -75,32 +64,32 @@ export default function Pages(props) {
     event.preventDefault();
     setCurrentUnitID(unitID);
     setCurrentPageID(-1);
-    setCurrentFold(listObject[unitID - 1].open);
-    setCurrentName(listObject[unitID - 1].unitName);
+    setCurrentFold(state.listObject[unitID - 1].open);
+    setCurrentName(state.listObject[unitID - 1].unitName);
     setCurrentTop(unitID === 1);
-    setCurrentButtom(unitID === listObject.length);
+    setCurrentButtom(unitID === state.listObject.length);
     setUnitMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
   const togglePageMenu = (event, unitID, pageID) => {
     event.preventDefault();
     setCurrentUnitID(unitID);
     setCurrentPageID(pageID);
-    setCurrentName(listObject[unitID - 1].pages[pageID - 1].pageName);
+    setCurrentName(state.listObject[unitID - 1].pages[pageID - 1].pageName);
     setCurrentTop(pageID === 1);
-    setCurrentButtom(pageID === listObject[unitID - 1].pages.length);
+    setCurrentButtom(pageID === state.listObject[unitID - 1].pages.length);
     setPageMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
   };
 
   const changeMove = (group, less) => {
     packedPOST({
       uri: "/set/swap-up",
-      query: { userID: userID, group: group, less: less },
+      query: { userID: data.userID, group: group, less: less },
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
       lang: lang
     }).then(() => {
       if (group) {
-        setListObject((listObject) => {
+        handle.setListObject((listObject) => {
           listObject[less - 1] = listObject.splice(
             less,
             1,
@@ -115,7 +104,7 @@ export default function Pages(props) {
           );
         });
       } else {
-        setListObject((listObject) => {
+        handle.setListObject((listObject) => {
           let tempPageItem = listObject[less[0] - 1].pages;
           tempPageItem[less[1] - 1] = tempPageItem.splice(
             less[1],
@@ -147,10 +136,10 @@ export default function Pages(props) {
     setEdit(!!edit);
     setNewUnitNameValue("");
     setNewPageNameValue(
-      edit ? listObject[type[0] - 1].pages[type[1] - 1].pageName : ""
+      edit ? state.listObject[type[0] - 1].pages[type[1] - 1].pageName : ""
     );
     setNewPagePresentValue(
-      edit ? listObject[type[0] - 1].pages[type[1] - 1].pagePresent : ""
+      edit ? state.listObject[type[0] - 1].pages[type[1] - 1].pagePresent : ""
     );
     setNewUnitNameCheck(false);
     setNewPageNameCheck(false);
@@ -191,16 +180,16 @@ export default function Pages(props) {
       lang: lang
     }).then((out) => {
       if (out === "unit") {
-        setListObject((listObject) => {
+        handle.setListObject((listObject) => {
           listObject.splice(unitID - 1, 1);
           return listObject.map((item) =>
             item.unitID > unitID ? { ...item, unitID: item.unitID - 1 } : item
           );
         });
       } else {
-        listObject[unitID - 1].pages.splice(pageID - 1, 1);
-        setListObject(
-          listObject.map((item) =>
+        state.listObject[unitID - 1].pages.splice(pageID - 1, 1);
+        handle.setListObject(
+          state.listObject.map((item) =>
             item.unitID === unitID
               ? {
                   ...item,
@@ -217,8 +206,8 @@ export default function Pages(props) {
     });
   };
 
-  const listSelected = (unitID, pageID) => setListObject(
-    listObject.map((item) =>
+  const listSelected = (unitID, pageID) => handle.setListObject(
+    state.listObject.map((item) =>
       item.unitID === unitID
         ? {
             ...item,
@@ -235,7 +224,7 @@ export default function Pages(props) {
 
   const pageClick = (unitID, pageID) => {
     // clear the previous selected state first
-    let prevUnit = listObject.find((item) => item.selected),
+    let prevUnit = state.listObject.find((item) => item.selected),
       prevPage;
     if (prevUnit) {
       prevUnit.selected = false;
@@ -243,17 +232,17 @@ export default function Pages(props) {
     }
     if (prevPage) {
       const samePage = prevUnit.unitID === unitID && prevPage.pageID === pageID;
-      prevPage.route = samePage ? route : route < 4 ? route : 1;
+      prevPage.route = samePage ? state.route : state.route < 4 ? state.route : 1;
       prevPage.selected = false;
-      if (!samePage && route === routeIndex.recall)
+      if (!samePage && state.route === routeIndex.recall)
         handle.submitRecall(prevUnit.unitID, prevPage.pageID);
     }
-    if (navListMobile) handle.closeNavListMobile();
-    if (listObject[unitID - 1].pages[pageID - 1].route === routeIndex.stat)
+    if (state.navListMobile) handle.closeNavListMobile();
+    if (state.listObject[unitID - 1].pages[pageID - 1].route === routeIndex.stat)
       packedGET({
         uri: "/data/stat",
         query: {
-          userID: userID,
+          userID: data.userID,
           unitID: unitID,
           pageID: pageID,
         },
@@ -261,7 +250,7 @@ export default function Pages(props) {
         kick: handle.toggleKick,
         lang: lang
       }).then((out) => {
-        setStatInfo(out);
+        handle.setStatInfo(out);
         listSelected(unitID, pageID)
       });
     else listSelected(unitID, pageID);
@@ -269,9 +258,9 @@ export default function Pages(props) {
 
   return (
     <div className={classes.newPage}>
-      {listObject.length !== 0 ? (
+      {state.listObject.length !== 0 ? (
         <List component="nav" className={classes.list}>
-          {listObject.map((item, index) => (
+          {state.listObject.map((item, index) => (
             <div key={index}>
               <ListItem
                 onContextMenu={(event) => toggleUnitMenu(event, item.unitID)}
@@ -355,14 +344,14 @@ export default function Pages(props) {
       )}
       <NewUnitPage
         lang={lang}
-        userID={userID}
-        token={token}
+        userID={data.userID}
+        token={data.token}
         edit={edit}
         open={newUnitPage}
         group={newUnitPageGroup}
         type={newUnitPageType}
         text={{
-          listObject: listObject,
+          listObject: state.listObject,
           unitNameValue: newUnitNameValue,
           pageNameValue: newPageNameValue,
           pagePresentValue: newPagePresentValue,
@@ -371,7 +360,7 @@ export default function Pages(props) {
           pagePresentCheck: newPagePresentCheck
         }}
         handle={{
-          setListObject: setListObject,
+          setListObject: handle.setListObject,
           setUnitNameValue: setNewUnitNameValue,
           setPageNameValue: setNewPageNameValue,
           setPagePresentValue: setNewPagePresentValue,
@@ -386,7 +375,7 @@ export default function Pages(props) {
       <EditUnit
         lang={lang}
         open={editUnit}
-        userID={userID}
+        userID={data.userID}
         state={{
           name: currentName,
           unitID: currentUnitID,
@@ -398,7 +387,7 @@ export default function Pages(props) {
           toggleKick: handle.toggleKick,
           setEditUnitNameValue: setEditUnitNameValue,
           setEditUnitNameCheck: setEditUnitNameCheck,
-          setListObject: setListObject,
+          setListObject: handle.setListObject,
           close: () => setEditUnit(false)
         }}
       />
@@ -409,7 +398,7 @@ export default function Pages(props) {
         name={currentName}
         handleClose={() => setDeleteConfirm(false)}
         handleDeleteTarget={() =>
-          deleteUnitPage(userID, currentUnitID, currentPageID)
+          deleteUnitPage(data.userID, currentUnitID, currentPageID)
         }
       />
     </div>
