@@ -52,9 +52,16 @@ const list = {
       totalTitle: "总体数据",
       eachTitle: "{0}回忆",
       precision: "精度",
+      judge: {
+        tooLong: "过长",
+        tooShort: "过短",
+        tooOften: "过于频繁",
+        tooRare: "间隔过长"
+      },
       timeFormatString: "yyyy-MM-dd hh:mm:ss",
       ongoing: "（正在进行）",
-      avgTime: "平均用时 / 平均间隔：",
+      avgSpan: "平均用时 / 平均每词条用时：",
+      avgInterval: "平均间隔：",
       avgClass: "平均正确 / 平均错误 / 平均未知：",
       avgAcc: "平均正确率 / 平均错误率：",
       bestWorst: "最大正确率 / 最大错误率：",

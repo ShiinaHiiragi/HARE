@@ -77,6 +77,7 @@ export default function Statistics(props) {
 
   const [precision, setPrecision] = React.useState(defaultDigit);
   const Stat = React.useMemo(() => ({
+    split: [1000, 60000, 3600000, 86400000, Infinity],
     average: (array) => {
       return array.reduce((total, item) => total + item, 0) / array.length;
     },
@@ -91,16 +92,31 @@ export default function Statistics(props) {
       return (avg > freq ? "-" : "+")
         + Stat.digitsPercentage(Math.abs(avg - freq), sum, precision);
     },
-    timestampCount: (milliseconds, suffix) => {
-      const split = [1000, 60000, 3600000, 86400000, Infinity];
-      for (let index = 0; index < split.length; index += 1) {
-        if (milliseconds < split[index])
+    timestampCount: (deltaTime, suffix) => {
+      for (let index = 0; index < Stat.split.length; index += 1) {
+        if (deltaTime < Stat.split[index])
           return index
-            ? Stat.atMostDigits(milliseconds / split[index - 1], precision)
-              + " " + suffix[index](milliseconds / split[index - 1])
+            ? Stat.atMostDigits(deltaTime / Stat.split[index - 1], precision)
+              + " " + suffix[index](deltaTime / Stat.split[index - 1])
             : suffix[index];
       }
-    }
+    },
+    judgeTime: (deltaTime, isSpan, suffix) => {
+      if (isSpan) {
+        deltaTime /= itemSize;
+        return deltaTime < Stat.split[0]
+          ? suffix.tooShort
+          : deltaTime > Stat.split[1]
+          ? suffix.tooLong
+          : null;
+      } else {
+        return deltaTime < Stat.split[3]
+          ? suffix.tooOften
+          : deltaTime > 14 * Stat.split[3]
+          ? suffix.tooRare
+          : null;
+      }
+    },
   }), [precision]);
 
   // 最好 最差 平均 平均等级 时长 间隔
@@ -124,6 +140,11 @@ export default function Statistics(props) {
 
   const averagePure = Stat.average(eachPure);
   const averageFar = Stat.average(eachFar);
+  const averageSpan = Stat.average(eachSpan);
+  const averageInterval = Stat.average(eachInterval);
+  const spanJudge = Stat.judgeTime(averageSpan, true, lang.panel.stat.judge);
+  const intervalJudge = Stat.judgeTime(averageInterval, false, lang.panel.stat.judge);
+
   return (
     <div className={classes.root}>
       <div className={classes.buttonPanel}>
@@ -171,14 +192,22 @@ export default function Statistics(props) {
             {lang.panel.stat.totalTitle}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {lang.panel.stat.avgTime}
+            {lang.panel.stat.avgSpan}
             {Stat.timestampCount(
-              Stat.average(eachSpan), lang.panel.stat.timeSpan
+              averageSpan, lang.panel.stat.timeSpan
             )}
             {" / "}
             {Stat.timestampCount(
-              Stat.average(eachInterval), lang.panel.stat.timeSpan
+              averageSpan / itemSize, lang.panel.stat.timeSpan
             )}
+            {spanJudge && ` (${spanJudge})`}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {lang.panel.stat.avgInterval}
+            {Stat.timestampCount(
+              averageInterval, lang.panel.stat.timeSpan
+            )}
+            {intervalJudge && ` (${intervalJudge})`}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {lang.panel.stat.avgClass}

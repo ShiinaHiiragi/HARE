@@ -52,9 +52,16 @@ const list = {
       totalTitle: "Overall Data",
       eachTitle: "The {0} Recall",
       precision: "Precision",
+      judge: {
+        tooLong: "Too Long",
+        tooShort: "Too Short",
+        tooOften: "Too Often",
+        tooRare: "Too Rarely"
+      },
       timeFormatString: "MM/dd/yyyy hh:mm:ss",
       ongoing: " (Ongoing)",
-      avgTime: "Average Timespan / Average Interval: ",
+      avgSpan: "Average Timespan / Per Entry: ",
+      avgInterval: "Average Interval: ",
       avgClass: "Average Correct / Average Fault / Average Unknown: ",
       avgAcc: "Average Correct Rate / Average Fault Rate: ",
       bestWorst: "Best Correct Rate / Worst Fault Rate: ",
