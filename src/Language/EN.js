@@ -57,6 +57,7 @@ const list = {
         tooShort: "Too Short",
         tooOften: "Too Often",
         tooRare: "Too Rarely",
+        tooFew: "Too Few Entries",
         noData: "No Data"
       },
       timeFormatString: "MM/dd/yyyy hh:mm:ss",

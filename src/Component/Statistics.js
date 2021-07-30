@@ -175,6 +175,7 @@ export default function Statistics(props) {
           : null;
       }
     },
+    judgeRank: () => (itemSize < 25 && averagePure * 100 < itemSize * 84)
   }), [precision]);
 
   // 最好 最差 平均 平均等级 时长 间隔
@@ -281,6 +282,7 @@ export default function Statistics(props) {
               <b>{Stat.digitsPercentage(averagePure, itemSize, precision)}</b>
               {" / "}
               {Stat.digitsPercentage(averageFar, itemSize, precision)}
+              {Stat.judgeRank() && ` (${lang.panel.stat.judge.tooFew})`}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               {lang.panel.stat.bestWorst}

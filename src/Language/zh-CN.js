@@ -57,6 +57,7 @@ const list = {
         tooShort: "过短",
         tooOften: "过于频繁",
         tooRare: "间隔过长",
+        tooFew: "词条过少",
         noData: "暂无数据"
       },
       timeFormatString: "yyyy-MM-dd hh:mm:ss",
