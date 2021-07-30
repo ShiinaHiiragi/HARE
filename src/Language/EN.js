@@ -51,6 +51,7 @@ const list = {
     stat: {
       totalTitle: "Overall Data",
       eachTitle: "The {0} Recall",
+      precision: "Precision",
       timeFormatString: "MM/dd/yyyy hh:mm:ss",
       ongoing: " (Ongoing)",
       avgTime: "Average Timespan / Average Interval: ",

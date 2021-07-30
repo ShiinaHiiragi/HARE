@@ -13,6 +13,7 @@ const author = "Ichinoe";
 const version = "1.0.0";
 const email = "IchinoeMizue@outlook.com";
 
+const defaultDigit = 2;
 const maxLog = 256;
 const drawerWidth = 300;
 const logoutWait = 400;
@@ -125,6 +126,7 @@ export {
   author,
   version,
   email,
+  defaultDigit,
   maxLog,
   drawerWidth,
   logoutWait,

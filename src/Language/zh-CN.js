@@ -51,6 +51,7 @@ const list = {
     stat: {
       totalTitle: "总体数据",
       eachTitle: "{0}回忆",
+      precision: "精度",
       timeFormatString: "yyyy-MM-dd hh:mm:ss",
       ongoing: "（正在进行）",
       avgTime: "平均用时 / 平均间隔：",

@@ -1,13 +1,14 @@
 import React from "react";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
+import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accuracy from "./Accuracy";
-import { stringFormat, timeFormat, routeIndex } from "../Interface/Constant";
+import { stringFormat, timeFormat, routeIndex, defaultDigit } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "row"
     }
   },
+  slider: {
+    width: 144,
+    margin: theme.spacing(0, 2)
+  },
   textField: {
     flexGrow: 1,
     [theme.breakpoints.down("xs")]: {
@@ -62,34 +67,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Stat = {
-  digit: 2,
-  average: (array) => {
-    return array.reduce((total, item) => total + item, 0) / array.length;
-  },
-  atMostDigits: (number, digit) => {
-    const base = Math.pow(10, digit);
-    return Math.round(number * base) / base;
-  },
-  digitsPercentage: (numerator, denominator, digit) => {
-    return `${(numerator / denominator * 100).toFixed(digit)}%`;
-  },
-  accDiff: (freq, avg, sum) => {
-    return (avg > freq ? "-" : "+")
-      + Stat.digitsPercentage(Math.abs(avg - freq), sum, Stat.digit);
-  },
-  timestampCount: (milliseconds, suffix) => {
-    const split = [1000, 60000, 3600000, 86400000, Infinity];
-    for (let index = 0; index < split.length; index += 1) {
-      if (milliseconds < split[index])
-        return index
-          ? Stat.atMostDigits(milliseconds / split[index - 1], Stat.digit)
-            + " " + suffix[index](milliseconds / split[index - 1])
-          : suffix[index];
-    }
-  }
-};
-
 export default function Statistics(props) {
   const classes = useStyles();
   const { lang, data, handle } = props;
@@ -97,6 +74,34 @@ export default function Statistics(props) {
   React.useEffect(() => {
     if (data.current.route === routeIndex.stat) setAnime(Math.random());
   }, [data.current.route === routeIndex.stat]);
+
+  const [precision, setPrecision] = React.useState(defaultDigit);
+  const Stat = React.useMemo(() => ({
+    average: (array) => {
+      return array.reduce((total, item) => total + item, 0) / array.length;
+    },
+    atMostDigits: (number, digit) => {
+      const base = Math.pow(10, digit);
+      return Math.round(number * base) / base;
+    },
+    digitsPercentage: (numerator, denominator, digit) => {
+      return `${(numerator / denominator * 100).toFixed(digit)}%`;
+    },
+    accDiff: (freq, avg, sum) => {
+      return (avg > freq ? "-" : "+")
+        + Stat.digitsPercentage(Math.abs(avg - freq), sum, precision);
+    },
+    timestampCount: (milliseconds, suffix) => {
+      const split = [1000, 60000, 3600000, 86400000, Infinity];
+      for (let index = 0; index < split.length; index += 1) {
+        if (milliseconds < split[index])
+          return index
+            ? Stat.atMostDigits(milliseconds / split[index - 1], precision)
+              + " " + suffix[index](milliseconds / split[index - 1])
+            : suffix[index];
+      }
+    }
+  }), [precision]);
 
   // 最好 最差 平均 平均等级 时长 间隔
   // 每一次的曲线图，错误频数直方图 方差 下次目标（建议）
@@ -132,6 +137,19 @@ export default function Statistics(props) {
           {lang.common.back}
         </Button>
         <div style={{ flexGrow: 1 }} />
+        <Typography variant="subtitle2" color="textSecondary">
+          {lang.panel.stat.precision}
+        </Typography>
+        <Slider
+          marks
+          value={precision}
+          step={1}
+          min={0}
+          max={6}
+          valueLabelDisplay="off"
+          className={classes.slider}
+          onChange={(_, value) => setPrecision(value)}
+        />
         <Button
           variant="outlined"
           color="secondary"
@@ -164,23 +182,23 @@ export default function Statistics(props) {
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {lang.panel.stat.avgClass}
-            {Stat.atMostDigits(averagePure, Stat.digit)}
+            {Stat.atMostDigits(averagePure, precision)}
             {" / "}
-            {Stat.atMostDigits(averageFar, Stat.digit)}
+            {Stat.atMostDigits(averageFar, precision)}
             {" / "}
-            {Stat.atMostDigits(itemSize - averagePure - averageFar, Stat.digit)}
+            {Stat.atMostDigits(itemSize - averagePure - averageFar, precision)}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {lang.panel.stat.avgAcc}
-            <b>{Stat.digitsPercentage(averagePure, itemSize, Stat.digit)}</b>
+            <b>{Stat.digitsPercentage(averagePure, itemSize, precision)}</b>
             {" / "}
-            {Stat.digitsPercentage(averageFar, itemSize, Stat.digit)}
+            {Stat.digitsPercentage(averageFar, itemSize, precision)}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {lang.panel.stat.bestWorst}
-            {Stat.digitsPercentage(Math.max(...eachPure), itemSize, Stat.digit)}
+            {Stat.digitsPercentage(Math.max(...eachPure), itemSize, precision)}
             {" / "}
-            {Stat.digitsPercentage(Math.max(...eachFar), itemSize, Stat.digit)}
+            {Stat.digitsPercentage(Math.max(...eachFar), itemSize, precision)}
           </Typography>
         </div>
         <div className={classes.buttonField}>
@@ -230,10 +248,10 @@ export default function Statistics(props) {
             </Typography>
             <Typography variant="body2" color="textSecondary">
               {lang.panel.stat.acc}
-              <b>{Stat.digitsPercentage(item.pure, itemSize, Stat.digit)}</b>
+              <b>{Stat.digitsPercentage(item.pure, itemSize, precision)}</b>
               {` (${Stat.accDiff(item.pure, averagePure, itemSize)})`}
               {" / "}
-              {Stat.digitsPercentage(item.far, itemSize, Stat.digit)}
+              {Stat.digitsPercentage(item.far, itemSize, precision)}
               {` (${Stat.accDiff(item.far, averageFar, itemSize)})`}
             </Typography>
           </div>
