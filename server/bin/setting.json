@@ -21,7 +21,11 @@
       "city varchar(16),",
       "tel varchar(16),",
       "gender char(1) default 'U',",
-      "birth date default '2020-01-01');"
+      "birth date default '2020-01-01',",
+      "maxUnit integer default 16 not null,",
+      "maxPage integer default 16 not null,",
+      "maxItem integer default 64 not null,",
+      "maxImg integer default 16 not null);"
     ],
     "unit": [
       "create table unit(",

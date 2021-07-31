@@ -56,6 +56,30 @@ exports.exec = (cmdLine) => new Promise((resolve, reject) => {
   } else reject('ERROR: cannot parse the command.');
 });
 
+// exports.verify = (param, res) => new Promise((resolve, reject) => {
+//   let withError = false;
+//   Promise.all(Object.keys(param).map((item) => {
+//     if (param[item]) {
+//       return Promise.all(Object.keys(param[item]).map((id) => {
+//         const attribute = item === 'track' ? "startTime" : `${item}CreateTime`
+//         query(`select ${attribute} from ${item} where ${item}ID = ${id}`)
+//           .then((out) => {
+//             if (out[0][attribute.toLowerCase()].toISOString() !== param[item][id]) {
+//               console.log(out[0][attribute.toLowerCase()].toISOString());
+//               console.log(param[item][id]);
+//               withError = true;
+//             }
+//           })
+//       }))
+//     } else return Promise.resolve();
+//   }))
+//     .then(() => {
+//       if (withError) console.log("TIMESTAMP ERROR");
+//       else resolve();
+//     })
+//     .catch(reject)
+// });
+
 const insertUser = (cmdLine, onsuccess, onerror) => {
   let returnUserID;
   query(`insert into userInfo(email)
