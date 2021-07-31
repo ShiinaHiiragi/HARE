@@ -105,15 +105,18 @@ export default function Panel(props) {
     if (selectedUnit)
       selectedPage = selectedUnit.pages.find((item) => item.selected);
     if (selectedPage) {
-      setCurrentSelect({
+      setCurrentSelect((currentSelect) => ({
         unitID: selectedUnit.unitID,
         unitName: selectedUnit.unitName,
         pageID: selectedPage.pageID,
         pageName: selectedPage.pageName,
         pageCover: selectedPage.pageCover,
         pagePresent: selectedPage.pagePresent,
-        route: selectedPage.route
-      });
+        route: (selectedUnit.unitID === currentSelect.unitID
+          && selectedPage.pageID === currentSelect.pageID)
+          ? currentSelect.route
+          : selectedPage.route
+      }));
     } else setCurrentSelect({ pageName: "HARE", pagePresent: "", route: routeIndex.intro });
   }, [listObject]);
 

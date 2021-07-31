@@ -42,8 +42,6 @@ export default function Pages(props) {
 
   // fold and unfold the units
   const changeUnit = (targetID) => {
-    state.listObject[state.currentSelect.unitID - 1].pages[state.currentSelect.pageID - 1]
-      .route = state.currentSelect.route;
     handle.setListObject(
       state.listObject.map((item) =>
         item.unitID === targetID ? { ...item, open: !item.open } : item
