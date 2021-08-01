@@ -76,6 +76,10 @@ const list = {
         (value) => value <= 1 ? "hour" : "hours",
         (value) => value <= 1 ? "day" : "days",
       ],
+      line: "Accuracy Changing Trend",
+      bar: "Most Fault",
+      barPure: "Correct",
+      barFar: "Fault",
       clearRecall: "Clear All"
     }
   },

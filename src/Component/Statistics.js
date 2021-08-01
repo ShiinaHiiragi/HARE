@@ -5,6 +5,9 @@ import Button from "@material-ui/core/Button";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -63,8 +66,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 0),
     width: "100%",
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end"
+    flexDirection: "row"
   },
   invisibleGraph: {
     [theme.breakpoints.only("xs")]: {
@@ -108,23 +110,29 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest,
     }),
   },
   expandOpen: {
-    transform: 'rotate(180deg)',
+    transform: "rotate(180deg)",
+  },
+  selector: {
+    flexDirection: "row"
   }
 }));
 
 export default function Statistics(props) {
   const classes = useStyles();
   const { lang, data, handle } = props;
+
   const [anime, setAnime] = React.useState(0);
   const [lineData, setLineData] = React.useState([]);
   const [barData, setBarData] = React.useState([]);
+  const [graph, setGraph] = React.useState("line");
+
   const [expandAll, setExpandAll] = React.useState(false);
   React.useEffect(() => {
     if (data.current.route === routeIndex.stat) {
@@ -224,16 +232,13 @@ export default function Statistics(props) {
             }
           })
           return {
-            id: item.id,
+            name: item.id,
             far: farCount,
             pure: pureCount
           };
         })
-        let freq = rawFreq.sort((left, right) => {
-          console.log(left.far, right.far);
-          return right.far - left.far;
-        });
-        return freq.slice(0, Math.min(freq.length, maxFrequency));
+        let freq = rawFreq.sort((left, right) => right.far - left.far);
+        return freq.slice(0, maxFrequency);
       })
     }
 
@@ -336,6 +341,23 @@ export default function Statistics(props) {
           unmountOnExit
         >
           <div className={classes.invisibleButton}>
+            <RadioGroup
+              className={classes.selector}
+              value={graph}
+              onChange={(event) => setGraph(event.target.value)}
+            >
+              <FormControlLabel
+                value="line"
+                label={lang.panel.stat.line}
+                control={<Radio color="primary" />}
+              />
+              <FormControlLabel
+                value="bar"
+                label={lang.panel.stat.bar}
+                control={<Radio color="primary" />}
+              />
+            </RadioGroup>
+            <div style={{ flexGrow: 1 }}/>
             <Button
               variant="outlined"
               color="secondary"
@@ -346,8 +368,9 @@ export default function Statistics(props) {
             </Button>
           </div>
           <div className={classes.invisibleGraph}>
-            {/* <Chart data={lineData} /> */}
-            <Frequency data={barData} />
+            {graph === "line"
+              ? <Chart data={lineData} />
+              : <Frequency lang={lang} data={barData} />}
           </div>
         </Collapse>
       </Card>

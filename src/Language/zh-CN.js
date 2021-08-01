@@ -70,6 +70,10 @@ const list = {
       class: "频数：",
       acc: "准确率：",
       timeSpan: ["少于一秒", () => "秒", () => "分钟", () => "小时", () => "天"],
+      line: "准确率变化趋势",
+      bar: "错误最多",
+      barPure: "正确",
+      barFar: "错误",
       clearRecall: "清空所有"
     }
   },
