@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// TODO: add gallery
 export default function Main(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;

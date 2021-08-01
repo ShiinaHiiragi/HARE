@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// TODO: scrollbar and image upload
+// TODO: scrollbar
 // TODO: add shortcuts here
 export default function NewItem(props) {
   const classes = useStyles();
