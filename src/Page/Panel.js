@@ -8,6 +8,7 @@ import NavList from "../Unit/NavList";
 import Main from "../Unit/Main";
 import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
+import Load from "../Dialogue/Load";
 import Kick from "../Dialogue/Kick";
 import { packedGET, packedPOST } from "../Interface/Request";
 import {
@@ -164,6 +165,7 @@ export default function Panel(props) {
 
   // the setting of disconnection message box
   const [kick, setKick] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [messageBoxInfo, setMessageBoxInfo] = React.useState({
     open: false,
     type: "success",
@@ -177,6 +179,15 @@ export default function Panel(props) {
       ...messageBoxInfo,
       open: false
     }));
+  };
+  const toggleLoading = () =>
+  (clockLoading = setTimeout(() => {
+    clockLoading = null;
+    setLoading(true);
+  }, 1000));
+  const closeLoading = () => {
+    if (clockLoading) clearTimeout(clockLoading);
+    setLoading(false);
   };
 
   return (
@@ -245,7 +256,9 @@ export default function Panel(props) {
           setItemList: setItemList,
           setRecall: setRecall,
           setStatInfo: setStatInfo,
-          setPageDetail: setPageDetail
+          setPageDetail: setPageDetail,
+          toggleLoading: toggleLoading,
+          closeLoading: closeLoading
         }}
       />
       <MessageBox
@@ -254,6 +267,7 @@ export default function Panel(props) {
         messageBoxType={messageBoxInfo.type}
         messageBoxMessage={messageBoxInfo.message}
       />
+      <Load open={loading} />
       <Kick lang={globalLang} open={kick} handleClose={() => setKick(false)} />
     </Root>
   );

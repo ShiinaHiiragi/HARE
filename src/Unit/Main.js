@@ -106,6 +106,8 @@ export default function Main(props) {
             setItemList: handle.setItemList,
             setPageDetail: handle.setPageDetail,
             setStatInfo: handle.setStatInfo,
+            toggleLoading: handle.toggleLoading,
+            closeLoading: handle.closeLoading
           }}
         />
       </MainPage>
