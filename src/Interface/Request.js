@@ -10,9 +10,10 @@ const extendCookie = () => {
 };
 
 const packedGET = (params) => {
-  const { uri, query, msgbox, kick, lang } = params;
+  const { uri, query, msgbox, kick, lang, toggleLoading, closeLoading } = params;
   let request = `${requestURL}${uri}`;
   extendCookie();
+  if (toggleLoading) toggleLoading();
   Object.keys(query).forEach((item, index) => {
     request += index === 0 ? "?" : "&";
     request += `${item}=${query[item]}`;
@@ -21,8 +22,12 @@ const packedGET = (params) => {
   return new Promise((resolve, reject) => {
     axios
       .get(request)
-      .then((res) => resolve(res.data))
+      .then((res) => {
+        if (closeLoading) closeLoading();
+        resolve(res.data);
+      })
       .catch((err) => {
+        if (closeLoading) closeLoading();
         if (err.response && err.response.status !== 401) {
           msgbox(`${lang.message.serverError}: ${err.response.data}`, "error");
           reject(err);
@@ -34,15 +39,20 @@ const packedGET = (params) => {
 
 // config: { headers: { "Content-Type": "multipart/form-data" } }
 const packedPOST = (params, config) => {
-  const { uri, query, msgbox, kick, lang } = params;
+  const { uri, query, msgbox, kick, lang, toggleLoading, closeLoading } = params;
   let request = `${requestURL}${uri}`;
   extendCookie();
+  if (toggleLoading) toggleLoading();
 
   return new Promise((resolve, reject) => {
     axios
       .post(request, query, config)
-      .then((res) => resolve(res.data))
+      .then((res) => {
+        if (closeLoading) closeLoading();
+        resolve(res.data);
+      })
       .catch((err) => {
+        if (closeLoading) closeLoading();
         if (err.response && err.response.status !== 401) {
           msgbox(`${lang.message.serverError}: ${err.response.data}`, "error");
           reject(err);

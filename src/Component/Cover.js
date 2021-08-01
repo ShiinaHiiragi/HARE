@@ -87,7 +87,6 @@ export default function Cover(props) {
   }
 
   const toggleRecall = (clear) => {
-    handle.toggleLoading();
     packedPOST({
       uri: "/data/this",
       query: {
@@ -98,7 +97,9 @@ export default function Cover(props) {
       },
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
-      lang: lang
+      lang: lang,
+      toggleLoading: handle.toggleLoading,
+      closeLoading: handle.closeLoading
     }).then((out) => {
       const attribute = clear ? data.pageDetail.trackSize : data.pageDetail.trackSize + 1;
       if (clear !== false)
@@ -118,14 +119,12 @@ export default function Cover(props) {
         timeThis: true,
         trackSize: pageDetail.trackSize + (clear === undefined ? 1 : 0)
       }))
-      handle.closeLoading();
       handle.setCurrentRoute(routeIndex.recall);
       handle.setTimerInitial(startTime);
     });
   };
 
   const toggleStat = () => {
-    handle.toggleLoading();
     packedGET({
       uri: "/data/stat",
       query: {
@@ -135,9 +134,10 @@ export default function Cover(props) {
       },
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
-      lang: lang
+      lang: lang,
+      toggleLoading: handle.toggleLoading,
+      closeLoading: handle.closeLoading
     }).then((out) => {
-      handle.closeLoading();
       handle.setStatInfo(out);
       handle.setCurrentRoute(routeIndex.stat);
     });

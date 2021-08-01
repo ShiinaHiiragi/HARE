@@ -164,6 +164,7 @@ export default function Panel(props) {
   }
 
   // the setting of disconnection message box
+  let clockLoading = null;
   const [kick, setKick] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [messageBoxInfo, setMessageBoxInfo] = React.useState({
