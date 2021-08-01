@@ -180,7 +180,7 @@ export default function Panel(props) {
   };
 
   return (
-    <Root>
+    <Root lang={globalLang}>
       <CssBaseline />
       <NavBar
         lang={globalLang}

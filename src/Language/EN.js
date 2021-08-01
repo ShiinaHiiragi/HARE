@@ -148,6 +148,9 @@ const list = {
       restart: "Restart",
       continue: "Continue"
     },
+    shortcut: {
+      title: "Shortcuts List"
+    },
     profile: {
       userName: "Username",
       userID: "UID",

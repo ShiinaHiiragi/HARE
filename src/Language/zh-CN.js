@@ -142,6 +142,9 @@ const list = {
       restart: "重新开始",
       continue: "继续"
     },
+    shortcut: {
+      title: "快捷键列表"
+    },
     profile: {
       userName: "用户名",
       userID: "UID",
