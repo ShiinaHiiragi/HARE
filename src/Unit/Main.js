@@ -132,6 +132,7 @@ export default function Main(props) {
           lang={lang}
           data={{
             statInfo: state.statInfo,
+            itemList: state.itemList,
             pageDetail: state.pageDetail,
             current: state.current
           }}

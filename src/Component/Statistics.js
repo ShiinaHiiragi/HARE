@@ -9,6 +9,7 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Accuracy from "./Accuracy";
+import Frequency from "./Frequency";
 import Chart from "./Chart";
 import Collapse from "@material-ui/core/Collapse";
 import {
@@ -16,7 +17,8 @@ import {
   timeFormat,
   routeIndex,
   defaultDigit,
-  setStateDelay
+  setStateDelay,
+  maxFrequency
 } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -122,6 +124,7 @@ export default function Statistics(props) {
   const { lang, data, handle } = props;
   const [anime, setAnime] = React.useState(0);
   const [lineData, setLineData] = React.useState([]);
+  const [barData, setBarData] = React.useState([]);
   const [expandAll, setExpandAll] = React.useState(false);
   React.useEffect(() => {
     if (data.current.route === routeIndex.stat) {
@@ -205,11 +208,35 @@ export default function Statistics(props) {
   const intervalJudge = Stat.judgeTime(averageInterval, false, lang.panel.stat.judge);
 
   React.useEffect(() => {
-    if (expandAll)
+    if (expandAll) {
       setLineData(eachPure.map((item, index) => ({
         name: lang.grid.ordinal[index],
         acc: item / itemSize * 100
       })));
+      setBarData(() => {
+        let rawFreq = data.itemList.map((item) => {
+          let farCount = 0, pureCount = 0;
+          Object.keys(item).forEach((subItem) => {
+            const times = Number(subItem);
+            if (!isNaN(times)) {
+              farCount += Number(item[times] === "F");
+              pureCount += Number(item[times] === "P");
+            }
+          })
+          return {
+            id: item.id,
+            far: farCount,
+            pure: pureCount
+          };
+        })
+        let freq = rawFreq.sort((left, right) => {
+          console.log(left.far, right.far);
+          return right.far - left.far;
+        });
+        return freq.slice(0, Math.min(freq.length, maxFrequency));
+      })
+    }
+
   }, [expandAll, lang]);
 
   return (
@@ -319,7 +346,8 @@ export default function Statistics(props) {
             </Button>
           </div>
           <div className={classes.invisibleGraph}>
-            <Chart data={lineData} />
+            {/* <Chart data={lineData} /> */}
+            <Frequency data={barData} />
           </div>
         </Collapse>
       </Card>
