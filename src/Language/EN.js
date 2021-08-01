@@ -154,17 +154,23 @@ const list = {
       title: "Shortcuts List",
       table: {
         "Global": {
-          "Shift+/": "Toggle Shortcut Dialogue",
-          "Esc": "Back to Cover Page"
+          "SHIFT+/": "Toggle Shortcut Dialogue",
+          "ESC": "Back to Cover Page"
         },
         "Recall Page": {
-          "Ctrl+A": "Switch Answer and Question",
-          "Ctrl+Z": "Revoke Latest Mark",
-          "Ctrl+X": "Mark as Fault",
-          "Ctrl+C": "Mark as Correct",
+          "CTRL+A": "Switch Answer and Question",
+          "CTRL+Z": "Revoke Latest Mark",
+          "CTRL+X": "Mark as Fault",
+          "CTRL+C": "Mark as Correct",
           "→": "Next",
           "←": "Previous"
         },
+        "Data Grid Page": {
+          "ESC": "Calcel entries' selected state",
+          "DEL": "Delete entries selected",
+          "CTRL+C": "Create new entry",
+          "CTRL+M": "Move selected entry",
+        }
       }
     },
     profile: {

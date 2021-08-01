@@ -74,9 +74,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// TODO: add shortcuts here
 const keyMap = {
-  cancelSelected: "esc"
+  cancelSelected: "esc",
+  deleteSelected: "del",
+  newItem: "ctrl+c",
+  moveItem: "ctrl+m"
 };
 
 export default function View(props) {
@@ -94,16 +96,20 @@ export default function View(props) {
   const [deleteTrack, setDeleteTrack] = React.useState("part");
   const [itemSelect, setItemSelect] = React.useState(0);
   const toggleMove = () => {
-    const selected = [...apiRef.current.getSelectedRows().keys()][0];
+    const selectedList = [...apiRef.current.getSelectedRows().keys()];
+    if (selectedList.length !== 1) return;
+    const selected = selectedList[0];
     setItemSelect(selected);
     setMove(true);
   }
   const toggleDeleteComfirm = () => {
-    if (apiRef.current.getSelectedRows().size === data.itemList.length) {
+    const itemSize = apiRef.current.getSelectedRows().size;
+    if (itemSize === data.itemList.length) {
       if (column.length > 4)
         setDeleteTrack("track");
       else setDeleteTrack("all");
-    } else setDeleteTrack("part");
+    } else if (itemSize) setDeleteTrack("part");
+    else return;
     setDeleteConfirm(true);
   }
 
@@ -148,7 +154,13 @@ export default function View(props) {
       if (apiRef.current.getSelectedRows().size)
         apiRef.current.selectRows(apiRef.current.getAllRowIds(), false);
       else handle.setCurrentRoute(routeIndex.cover);
-    }
+    },
+    newItem: (event) => {
+      event.preventDefault();
+      setNewItem(true);
+    },
+    moveItem: toggleMove,
+    deleteSelected: toggleDeleteComfirm
   };
 
   function InnerToolbar() {
