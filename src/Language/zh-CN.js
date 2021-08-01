@@ -143,7 +143,21 @@ const list = {
       continue: "继续"
     },
     shortcut: {
-      title: "快捷键列表"
+      title: "快捷键列表",
+      table: {
+        "全局": {
+          "Shift+/": "唤出快捷键页面",
+          "Esc": "回到册封面"
+        },
+        "回忆页面": {
+          "Ctrl+A": "切换问题/答案",
+          "Ctrl+Z": "撤销最近一次标记",
+          "Ctrl+X": "标记为错误",
+          "Ctrl+C": "标记为正确",
+          "→": "下一个",
+          "←": "上一个"
+        },
+      }
     },
     profile: {
       userName: "用户名",

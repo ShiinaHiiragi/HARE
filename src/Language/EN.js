@@ -149,7 +149,21 @@ const list = {
       continue: "Continue"
     },
     shortcut: {
-      title: "Shortcuts List"
+      title: "Shortcuts List",
+      table: {
+        "Global": {
+          "Shift+/": "Toggle Shortcut Dialogue",
+          "Esc": "Back to Cover Page"
+        },
+        "Recall Page": {
+          "Ctrl+A": "Switch Answer and Question",
+          "Ctrl+Z": "Revoke Latest Mark",
+          "Ctrl+X": "Mark as Fault",
+          "Ctrl+C": "Mark as Correct",
+          "→": "Next",
+          "←": "Previous"
+        },
+      }
     },
     profile: {
       userName: "Username",
