@@ -93,11 +93,11 @@ const useStyles = makeStyles((theme) => ({
 let log = [];
 const keyMap = { 
   backToMenu: "esc",
-  pure: "ctrl+enter",
-  fault: "ctrl+backspace",
+  pure: "ctrl+c",
+  fault: "ctrl+x",
   next: "right",
   previous: "left",
-  switch: "ctrl+space",
+  switch: "ctrl+a",
   revoke: "ctrl+z"
 };
 
