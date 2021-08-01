@@ -65,6 +65,8 @@ const list = {
       avgSpan: "Average Timespan / Per Entry: ",
       avgInterval: "Average Interval: ",
       avgClass: "Average Correct / Average Fault / Average Unknown: ",
+      variance: "Variance of Correct / Variance of Fault: ",
+      varianceSame: "Variance: ",
       avgAcc: "Average Correct Rate / Average Fault Rate: ",
       bestWorst: "Best Correct Rate / Worst Fault Rate: ",
       class: "Frequency: ",

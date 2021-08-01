@@ -65,6 +65,8 @@ const list = {
       avgSpan: "平均用时 / 平均每词条用时：",
       avgInterval: "平均间隔：",
       avgClass: "平均正确 / 平均错误 / 平均未知：",
+      variance: "正确数方差 / 错误数方差：",
+      varianceSame: "频数方差：",
       avgAcc: "平均正确率 / 平均错误率：",
       bestWorst: "最大正确率 / 最大错误率：",
       class: "频数：",

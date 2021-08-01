@@ -148,6 +148,11 @@ export default function Statistics(props) {
   const eachFar = data.statInfo.map((item) => item.far);
   const averagePure = eachPure.reduce((total, item) => total + item, 0) / trackSize;
   const averageFar = eachFar.reduce((total, item) => total + item, 0) / trackSize;
+  const variancePure = eachPure.reduce((total, item) =>
+    total + Math.pow(item - averagePure, 2), 0) / itemSize;
+  const varianceFar = eachFar.reduce((total, item) =>
+    total + Math.pow(item - averageFar, 2), 0) / itemSize;
+  const varianceSame = variancePure === varianceFar;
 
   const [precision, setPrecision] = React.useState(defaultDigit);
   const Stat = React.useMemo(() => ({
@@ -302,6 +307,12 @@ export default function Statistics(props) {
                 averageInterval, lang.panel.stat.timeSpan
               )}
               {intervalJudge && ` (${intervalJudge})`}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {varianceSame ? lang.panel.stat.varianceSame : lang.panel.stat.variance}
+              {Stat.atMostDigits(variancePure, precision)}
+              {!varianceSame && " / "}
+              {!varianceSame && Stat.atMostDigits(varianceFar, precision)}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               {lang.panel.stat.avgClass}
