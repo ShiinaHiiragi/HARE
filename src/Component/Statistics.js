@@ -196,7 +196,6 @@ export default function Statistics(props) {
     judgeRank: () => (itemSize < 25 && averagePure * 100 < itemSize * 84)
   }), [precision, averagePure, itemSize]);
 
-  // 每一次的曲线图，错误频数直方图 方差 下次目标（建议）
   // span: start -> end, interval: start -> next start
   const eachSpan = data.statInfo.reduce((total, item) => {
     if (item.endTime) {
@@ -241,8 +240,11 @@ export default function Statistics(props) {
         return freq.slice(0, maxFrequency);
       })
     }
-
   }, [expandAll, lang]);
+
+  React.useEffect(() => {
+    setExpandAll(false);
+  }, [data.current.unitID, data.current.pageID]);
 
   return (
     <div className={classes.root}>
