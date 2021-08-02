@@ -155,10 +155,11 @@ const list = {
       table: {
         "Global": {
           "SHIFT+/": "Toggle Shortcut Dialogue",
-          "ESC": "Back to Cover Page"
+          "F11": "Toggle Full Screen",
+          "ESC": "Back to Cover Page",
         },
         "Recall Page": {
-          "CTRL+A": "Switch Answer and Question",
+          "CTRL+A": "Switch Question/Answer",
           "CTRL+Z": "Revoke Latest Mark",
           "CTRL+X": "Mark as Fault",
           "CTRL+C": "Mark as Correct",
@@ -170,6 +171,11 @@ const list = {
           "DEL": "Delete entries selected",
           "CTRL+C": "Create new entry",
           "CTRL+M": "Move selected entry",
+        },
+        "Create New Item Page": {
+          "F1": "Toggle Command Palette",
+          "ALT+Z": "Switch Word Wrap",
+          "CTRL+Q": "Insert MARKDOWN Underline"
         }
       }
     },
