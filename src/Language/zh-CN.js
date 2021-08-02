@@ -76,6 +76,7 @@ const list = {
       bar: "错误最多",
       barPure: "正确",
       barFar: "错误",
+      recollect: "回想有误词条",
       clearRecall: "清空所有"
     }
   },
@@ -295,7 +296,7 @@ const list = {
     copyEmail: "电子邮箱已被复制到剪切板",
     saveRecall: "进度已被保存到服务器",
     completeRecall: "成功完成本次回忆，您的正确率是 {0}%",
-    completeRecollect: "成功完成本次回想，此次记录不会被上传。您的正确率是 {0}%",
+    completeRecollect: "成功完成本次回想，此次记录不会被上传。您的正确率是 {0}%，评级为 {1}",
   },
   grid: {
     column: {

@@ -144,7 +144,10 @@ export default function Main(props) {
             current: state.current
           }}
           handle={{
-            setCurrentRoute: handle.setCurrentRoute
+            setCurrentRoute: handle.setCurrentRoute,
+            setRecollect: handle.setRecollect,
+            setTimerInitial: setTimerInitial,
+            setRecall: handle.setRecall
           }}
         />
       </MainPage>

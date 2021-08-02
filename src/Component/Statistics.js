@@ -11,6 +11,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import Accuracy from "./Accuracy";
 import Frequency from "./Frequency";
 import Chart from "./Chart";
@@ -371,6 +372,33 @@ export default function Statistics(props) {
               />
             </RadioGroup>
             <div style={{ flexGrow: 1 }}/>
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<CheckCircleOutlinedIcon />}
+              style={{ borderRadius: 0, marginRight: 12 }}
+              onClick={() => {
+                let lost = [];
+                data.itemList.forEach((item) => {
+                  for (let subItem in Object.keys(item)) {
+                    const times = Number(subItem);
+                    if (!isNaN(times) && item[times] === "F") {
+                      lost.push(item.id);
+                      break;
+                    }
+                  }
+                })
+                handle.setRecollect(true);
+                handle.setTimerInitial(0);
+                handle.setRecall({
+                  pure: [], far: [],
+                  lost: lost.sort((left, right) => left - right)
+                });
+                handle.setCurrentRoute(routeIndex.recall);
+              }}
+            >
+              {lang.panel.stat.recollect}
+            </Button>
             <Button
               variant="outlined"
               color="secondary"

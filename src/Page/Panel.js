@@ -16,7 +16,8 @@ import {
   defaultProfile,
   routeIndex,
   setStateDelay,
-  stringFormat
+  stringFormat,
+  getRank
 } from "../Interface/Constant";
 
 export default function Panel(props) {
@@ -125,16 +126,19 @@ export default function Panel(props) {
   const [recollect, setRecollect] = React.useState(false);
   const [recall, setRecall] = React.useState({ pure: [], far: [], lost: [] });
   const submitRecall = (unitID, pageID, disableMessage) => {
-    if (recollect) {
+    if (recollect && !recall.lost.length) {
+      const pureLength = recall.pure.length, farLength = recall.far.length;
+      const accuracy = pureLength / (pureLength + farLength) * 100;
       toggleMessageBox(
         stringFormat(
           globalLang.message.completeRecollect,
-          [(recall.pure.length / (recall.pure.length + recall.far.length) * 100).toFixed(2)]
+          [accuracy.toFixed(2), getRank(accuracy)]
         ),
         "info"
       );
-      return;
     }
+    if (recollect) return;
+
     if (!recall.pure.length && !recall.far.length) return;
     packedPOST({
       uri: "/set/recall",

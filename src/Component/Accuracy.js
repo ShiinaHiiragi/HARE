@@ -1,6 +1,7 @@
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { PieChart, Pie, Sector, Cell } from "recharts";
+import { getRank } from "../Interface/Constant";
 
 const colors = {
   S: "rgb(130, 202, 157)",
@@ -10,19 +11,6 @@ const colors = {
   D: "rgb(136, 132, 216)",
   F: "rgb(240, 240, 240)"
 }
-
-const getRank = (value) =>
-  value < 72
-    ? "D"
-    : value < 84
-    ? "C"
-    : value < 92
-    ? "B"
-    : value < 96
-    ? "A"
-    : value < 100
-    ? "S"
-    : "X";
 
 export default function Accuracy(props) {
   const { value, times, anime } = props;

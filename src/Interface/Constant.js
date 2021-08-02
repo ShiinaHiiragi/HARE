@@ -124,6 +124,19 @@ const timeFormat = (transDate, formatString) => {
   return formatString;
 };
 
+const getRank = (value) =>
+  value < 72
+    ? "D"
+    : value < 84
+    ? "C"
+    : value < 92
+    ? "B"
+    : value < 96
+    ? "A"
+    : value < 100
+    ? "S"
+    : "X";
+
 export {
   requestURL,
   author,
@@ -150,6 +163,7 @@ export {
   cookieTime,
   randomTimestamp,
   stringFormat,
-  timeFormat
+  timeFormat,
+  getRank
 };
 export default requestURL;

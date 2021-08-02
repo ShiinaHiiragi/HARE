@@ -82,6 +82,7 @@ const list = {
       bar: "Most Fault",
       barPure: "Correct",
       barFar: "Fault",
+      recollect: "Recollect Faulted",
       clearRecall: "Clear All"
     }
   },
@@ -301,7 +302,7 @@ const list = {
     copyEmail: "The E-mail has been copied to your clipboard.",
     saveRecall: "The progress has been uploaded to server.",
     completeRecall: "The recall has been completed successfully. Your accuracy is {0}%.",
-    completeRecollect: "The recollection has been completed successfully and the record won't be upload to the server. Your accuracy is {0}%."
+    completeRecollect: "The recollection has been completed successfully and the record won't be upload to the server. Your accuracy is {0}%, ranked {1}."
   },
   grid: {
     column: {
