@@ -124,7 +124,8 @@ const list = {
       titleMove: "移动词条",
       textMove: "输入指定的词条 ID，然后点击「应用」以继续。ID 的范围是 1 ~ {0}",
       labelMove: "词条 ID",
-      cover:  "为此记忆册选择一个图标"
+      cover:  "为此记忆册选择一个图标",
+      track: "手动修改记忆结果"
     },
     logout: {
       title: "退出登录确认",

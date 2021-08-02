@@ -18,6 +18,7 @@ import { defaultColumn, routeIndex } from "../Interface/Constant";
 import NewItem from "../Dialogue/NewItem";
 import Move from "../Dialogue/Move";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
+import ChangeTrack from "../Dialogue/ChangeTrack";
 import { packedPOST } from "../Interface/Request";
 import { HotKeys } from "react-hotkeys";
 import {
@@ -89,6 +90,10 @@ export default function View(props) {
   const [column, setColumn] = React.useState(defaultColumn(lang.grid));
   const [invalidDelete, setInvalidDelete] = React.useState(true);
   const [invalidMove, setInvalidMove] = React.useState(true);
+  const [changeTrack, setChangeTrack] = React.useState(false);
+  const [apiItemID, setApiItemID] = React.useState(0);
+  const [apiTrackID, setApiTrackID] = React.useState(0);
+  const [apiValue, setApiValue] = React.useState(null);
 
   const [newItem, setNewItem] = React.useState(false);
   const [move, setMove] = React.useState(false);
@@ -236,7 +241,12 @@ export default function View(props) {
   // TODO: edit grid on double click
   React.useEffect(() => {
     return apiRef.current.subscribeEvent("cellDoubleClick", (params) => {
-      // console.log(params);
+      if (!isNaN(Number(params.field))) {
+        setApiItemID(params.id);
+        setApiTrackID(Number(params.field));
+        setApiValue(params.formattedValue);
+        setChangeTrack(true);
+      }
     });
   }, [apiRef]);
 
@@ -380,6 +390,22 @@ export default function View(props) {
         name={lang.popup.delete[deleteTrack]}
         handleClose={() => setDeleteConfirm(false)}
         handleDeleteTarget={deleteItem}
+      />
+      <ChangeTrack
+        lang={lang}
+        open={changeTrack}
+        data={{
+          token: data.token,
+          userID: data.userID,
+          unitID: current.unitID,
+          pageID: current.pageID,
+          itemID: apiItemID,
+          trackID: apiTrackID,
+          value: apiValue
+        }}
+        handle={{
+          close: () => setChangeTrack(false)
+        }}
       />
     </HotKeys>
   );

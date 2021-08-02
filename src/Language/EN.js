@@ -130,7 +130,8 @@ const list = {
       titleMove: "Move Entry",
       textMove: "Type your desired target entry ID and click 'APPLY' to continue. The range of ID is 1 ~ {0}",
       labelMove: "Entry ID",
-      cover:  "Choose a Icon for this Booklet"
+      cover: "Choose a Icon for this Booklet",
+      track: "Change Record Manually"
     },
     logout: {
       title: "Logout Confirmation",

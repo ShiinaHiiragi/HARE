@@ -38,7 +38,7 @@ export default function ChangeCover(props) {
         {pageIcon().map((item, index) => (
           <IconButton
             key={index}
-            color={index === cover ? "primary" : "default"}
+            disabled={index === cover ? true : false}
             onClick={() => submit(index)}
           >
             {item}
