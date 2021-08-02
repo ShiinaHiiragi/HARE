@@ -86,7 +86,7 @@ export default function Move(props) {
       <DialogTitle>{lang.popup.edit.titleMove}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {stringFormat(lang.popup.edit.textMove, [data.listLength + 1])}
+          {stringFormat(lang.popup.edit.textMove, [data.listLength])}
         </DialogContentText>
         <TextField
           fullWidth
