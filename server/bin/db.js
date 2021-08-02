@@ -487,3 +487,11 @@ exports.getStat = (userID, unitID, pageID) => new Promise((resolve, reject) => {
     .then((out) => resolve(out))
     .catch(reject);
 });
+
+exports.changeTrack = (userID, unitID, pageID, itemID, trackID, value) =>
+  new Promise((resolve, reject) => 
+    query(`update item set itemRecord[${trackID}] = '${value}' where
+      userID = ${userID} and unitID = ${unitID}
+      and pageID = ${pageID} and itemID = ${itemID}`)
+      .then(resolve).catch(reject)
+  );

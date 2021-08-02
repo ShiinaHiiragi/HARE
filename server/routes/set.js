@@ -246,13 +246,15 @@ router.post('/recall', (req, res) => {
 router.post('/track', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID, pageID, itemID, trackID } = api.sqlNumber(
-    req.body, ['userID', 'unitID', 'pageID'], res
+    req.body, ['userID', 'unitID', 'pageID', 'itemID', 'trackID'], res
   );
-  const value = (req.value === "P" || req.value === "F") ? req.value : "L";
+  const value = (req.body.value === 'P' || req.body.value === 'F')
+    ? req.body.value : 'L';
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
+    .then(() => db.changeTrack(userID, unitID, pageID, itemID, trackID, value))
     .then(() => api.noContent(res))
-    .catch(() => api.internalServerError(res));
+    .catch(console.log);
 });
 
 module.exports = router;
