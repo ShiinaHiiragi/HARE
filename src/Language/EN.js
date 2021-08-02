@@ -304,11 +304,11 @@ const list = {
       timeFormatString: "MM/dd/yyyy hh:mm"
     },
     buttons: {
-      delete: "delete",
-      move: "move",
-      newItem: "new",
+      delete: "Delete",
+      move: "Move",
+      newItem: "New",
       export: "Export",
-      recollect: "Recall"
+      recollect: "Recollect"
     },
     menu: {
       recallSelected: "Recall Selected",

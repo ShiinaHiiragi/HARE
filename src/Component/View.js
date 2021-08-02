@@ -128,7 +128,7 @@ export default function View(props) {
       kick: handle.toggleKick,
       lang: lang
     }).then(() => {
-      handle.setItemList((itemList) => {
+      handle.setItemList(() => {
         let remain = new Array(data.itemList.length).fill().map((_, index) => index + 1);
         remain = itemID.reduce((current, item, index) => {
           current.splice(item - index - 1, 1);
@@ -310,7 +310,15 @@ export default function View(props) {
           disabled={invalidDelete}
           startIcon={<CheckCircleOutlinedIcon />}
           className={classes.button}
-          onClick={() => {}}
+          onClick={() => {
+            handle.setRecollect(true);
+            handle.setTimerInitial(0);
+            handle.setRecall({
+              pure: [], far: [],
+              lost: [...apiRef.current.getSelectedRows().keys()]
+            });
+            handle.setCurrentRoute(routeIndex.recall);
+          }}
         >
           {lang.grid.buttons.recollect}
         </Button>

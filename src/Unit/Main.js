@@ -102,6 +102,7 @@ export default function Main(props) {
             toggleMessageBox: handle.toggleMessageBox,
             toggleKick: handle.toggleKick,
             setRecall: handle.setRecall,
+            setRecollect: handle.setRecollect,
             setTimerInitial: setTimerInitial,
             setItemList: handle.setItemList,
             setPageDetail: handle.setPageDetail,
@@ -124,6 +125,9 @@ export default function Main(props) {
           handle={{
             toggleMessageBox: handle.toggleMessageBox,
             toggleKick: handle.toggleKick,
+            setRecall: handle.setRecall,
+            setTimerInitial: setTimerInitial,
+            setRecollect: handle.setRecollect,
             setCurrentRoute: handle.setCurrentRoute,
             setPageDetail: handle.setPageDetail,
             setItemList: handle.setItemList
@@ -153,6 +157,7 @@ export default function Main(props) {
             route: state.current.route,
             unitID: state.current.unitID,
             pageID: state.current.pageID,
+            recollect: state.recollect,
             timerInitial: timerInitial
           }}
           handle={{

@@ -122,8 +122,10 @@ export default function Panel(props) {
   }, [listObject]);
 
   // maintain the state of recall
+  const [recollect, setRecollect] = React.useState(false);
   const [recall, setRecall] = React.useState({ pure: [], far: [], lost: [] });
   const submitRecall = (unitID, pageID, disableMessage) => {
+    if (recollect) return;
     if (!recall.pure.length && !recall.far.length) return;
     packedPOST({
       uri: "/set/recall",
@@ -245,6 +247,7 @@ export default function Panel(props) {
           current: currentSelect,
           navList: navListPC,
           recall: recall,
+          recollect: recollect,
           itemList: itemList,
           statInfo: statInfo,
           pageDetail: pageDetail
@@ -257,6 +260,7 @@ export default function Panel(props) {
           setItemList: setItemList,
           setRecall: setRecall,
           setStatInfo: setStatInfo,
+          setRecollect: setRecollect,
           setPageDetail: setPageDetail,
           toggleLoading: toggleLoading,
           closeLoading: closeLoading

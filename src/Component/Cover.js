@@ -107,6 +107,7 @@ export default function Cover(props) {
           ...item, [attribute]: "L"
         })));
       const startTime = out.time;
+      handle.setRecollect(false);
       handle.setRecall({
         pure: [],
         far: [],

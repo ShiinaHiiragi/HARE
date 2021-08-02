@@ -302,7 +302,7 @@ const list = {
       move: "移动",
       newItem: "新建",
       export: "导出",
-      recollect: "回忆"
+      recollect: "回想"
     },
     menu: {
       recallSelected: "回忆选中的",
