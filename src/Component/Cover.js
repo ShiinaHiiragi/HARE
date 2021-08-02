@@ -121,7 +121,7 @@ export default function Cover(props) {
         trackSize: pageDetail.trackSize + (clear === undefined ? 1 : 0)
       }))
       handle.setCurrentRoute(routeIndex.recall);
-      handle.setTimerInitial(startTime);
+      handle.setTimerInitial((lastValue) => [startTime, lastValue[1] + 1]);
     });
   };
 

@@ -40,7 +40,7 @@ export default function Main(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
 
-  const [timerInitial, setTimerInitial] = React.useState(0);
+  const [timerInitial, setTimerInitial] = React.useState([0, 0]);
   React.useEffect(() => {
     if (state.current.unitID && state.current.pageID)
       packedGET({

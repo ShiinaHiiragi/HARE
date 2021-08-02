@@ -389,7 +389,7 @@ export default function Statistics(props) {
                   }
                 })
                 handle.setRecollect(true);
-                handle.setTimerInitial(0);
+                handle.setTimerInitial((lastValue) => [0, lastValue[1] + 1]);
                 handle.setRecall({
                   pure: [], far: [],
                   lost: lost.sort((left, right) => left - right)

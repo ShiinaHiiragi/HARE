@@ -312,7 +312,7 @@ export default function View(props) {
           className={classes.button}
           onClick={() => {
             handle.setRecollect(true);
-            handle.setTimerInitial(0);
+            handle.setTimerInitial((lastValue) => [0, lastValue[1] + 1]);
             handle.setRecall({
               pure: [], far: [],
               lost: [...apiRef.current.getSelectedRows().keys()]

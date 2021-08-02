@@ -5,7 +5,7 @@ export default function ForwardTimer(props) {
   const { initialTime } = props;
   const timer = React.createRef();
   React.useEffect(() => {
-    timer.current.setTime(initialTime);
+    timer.current.setTime(initialTime[0]);
   }, [initialTime]);
 
   return (
