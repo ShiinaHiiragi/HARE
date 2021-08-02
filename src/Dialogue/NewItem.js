@@ -19,7 +19,7 @@ import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
 import { packedPOST } from "../Interface/Request";
-import { stringFormat, cookieTime } from "../Interface/Constant";
+import { stringFormat, cookieTime, underline } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -106,8 +106,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// TODO: scrollbar
-// TODO: add shortcuts here
 export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
@@ -155,6 +153,20 @@ export default function NewItem(props) {
           closureWordWrap = "on";
           cookie.save("__wordWrap", "on", { expires: cookieTime(3650) });
         }
+      }
+    });
+    editor.addAction({
+      id: "underline",
+      label: "Insert Underline",
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_Q],
+      contextMenuGroupId: "1_modification",
+      run: (editor) => {
+        const operation = {
+          range: editor.getSelection(),
+          text: underline,
+          forceMoveMarkers: true
+        };
+        editor.executeEdits("underline", [operation]);
       }
     });
   };

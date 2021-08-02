@@ -51,7 +51,7 @@ export default function Shortcut(props) {
                           style={{ width: "45%", border: 0, fontSize: "0.92rem" }}
                         >
                           {subItem.split("+").map((item, index) => (
-                          <span>{index ? " + " : ""}<kbd>{item}</kbd></span>  
+                          <span key={index}>{index ? " + " : ""}<kbd>{item}</kbd></span>  
                         ))}
                         </TableCell>
                         <TableCell

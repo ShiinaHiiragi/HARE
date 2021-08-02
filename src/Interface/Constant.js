@@ -24,6 +24,7 @@ const imageMaxBase = 2 * 1024 * 1024;
 const maxFrequency = 16;
 const maxRecall = 64;
 
+const underline = "\\_\\_\\_\\_\\_\\_\\_\\_";
 const routeIndex = { intro: 0, cover: 1, view: 2, stat: 3, recall: 4 }
 const pageIcon = (iconProps) => [
   <TurnedInNotIcon {...iconProps} />,
@@ -138,6 +139,7 @@ export {
   imageMaxBase,
   maxFrequency,
   maxRecall,
+  underline,
   routeIndex,
   pageIcon,
   initMenu,
