@@ -35,7 +35,7 @@ export default function Shortcut(props) {
     >
       <DialogTitle>{lang.popup.shortcut.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
+        <DialogContentText component="div">
           {Object.keys(table).map((item) => (
             <div key={item}>
               <Typography align="center">
