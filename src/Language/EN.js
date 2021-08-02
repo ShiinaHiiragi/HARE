@@ -293,7 +293,8 @@ const list = {
     invalidItemID: "The target entry ID is out of range.",
     copyEmail: "The E-mail has been copied to your clipboard.",
     saveRecall: "The progress has been uploaded to server.",
-    completeRecall: "The recall has been completed successfully. Your accuracy is {0}%"
+    completeRecall: "The recall has been completed successfully. Your accuracy is {0}%.",
+    completeRecollect: "The recollection has been completed successfully and the record won't be upload to the server. Your accuracy is {0}%."
   },
   grid: {
     column: {

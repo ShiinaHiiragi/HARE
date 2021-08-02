@@ -287,7 +287,8 @@ const list = {
     invalidItemID: "指定的 ID 超出了范围",
     copyEmail: "电子邮箱已被复制到剪切板",
     saveRecall: "进度已被保存到服务器",
-    completeRecall: "成功完成本次回忆，您的正确率是 {0}%"
+    completeRecall: "成功完成本次回忆，您的正确率是 {0}%",
+    completeRecollect: "成功完成本次回想，此次记录不会被上传。您的正确率是 {0}%",
   },
   grid: {
     column: {

@@ -125,7 +125,16 @@ export default function Panel(props) {
   const [recollect, setRecollect] = React.useState(false);
   const [recall, setRecall] = React.useState({ pure: [], far: [], lost: [] });
   const submitRecall = (unitID, pageID, disableMessage) => {
-    if (recollect) return;
+    if (recollect) {
+      toggleMessageBox(
+        stringFormat(
+          globalLang.message.completeRecollect,
+          [(recall.pure.length / (recall.pure.length + recall.far.length) * 100).toFixed(2)]
+        ),
+        "info"
+      );
+      return;
+    }
     if (!recall.pure.length && !recall.far.length) return;
     packedPOST({
       uri: "/set/recall",
@@ -158,10 +167,7 @@ export default function Panel(props) {
           ),
           "success"
         );
-      }
-      else {
-        toggleMessageBox(globalLang.message.saveRecall, "info");
-      }
+      } else toggleMessageBox(globalLang.message.saveRecall, "info");
     })
   }
 
