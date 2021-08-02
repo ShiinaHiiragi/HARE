@@ -155,8 +155,9 @@ const list = {
       table: {
         "Global": {
           "SHIFT+/": "Toggle Shortcut Dialogue",
+          "TAB": "Move Focus",
           "F11": "Toggle Full Screen",
-          "ESC": "Back to Cover Page",
+          "ESC": "Back to Cover Page"
         },
         "Recall Page": {
           "CTRL+A": "Switch Question/Answer",
