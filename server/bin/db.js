@@ -487,7 +487,3 @@ exports.getStat = (userID, unitID, pageID) => new Promise((resolve, reject) => {
     .then((out) => resolve(out))
     .catch(reject);
 });
-
-// update item set itemRecord = array['P', 'N', 'N', 'P']
-// update item set itemRecord = array_append(itemRecord, 'U')
-// select * from item where cast(array['N'] as char[]) <@ itemRecord

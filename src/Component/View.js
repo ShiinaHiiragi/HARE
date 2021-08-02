@@ -404,7 +404,10 @@ export default function View(props) {
           value: apiValue
         }}
         handle={{
-          close: () => setChangeTrack(false)
+          close: () => setChangeTrack(false),
+          toggleMessageBox: handle.toggleMessageBox,
+          toggleKick: handle.toggleKick,
+          setItemList: handle.setItemList
         }}
       />
     </HotKeys>

@@ -14,7 +14,7 @@ router.post('/profile', (req, res) => {
   } = api.sqlString(req.body, [
     'userName', 'birth', 'gender', 'tel', 'city'
   ], res);
-  if (!(userID && token)) return;
+  if (!(userID && token && userName)) return;
   db.checkToken(userID, token, res)
     .then(() => db.saveProfile(userID, userName, birth, gender, tel, city))
     .then(() => api.noContent(res));
@@ -25,7 +25,7 @@ router.post('/avatar', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.body, ['userID'], res);
   const { type } = api.sqlString(req.body, ['type'], res);
-  if (!(userID && token)) return;
+  if (!(userID && token && type)) return;
   db.checkToken(userID, token, res)
   .then(() => {
     const basicPath = path.join(__dirname, '../src/avatar');
@@ -67,7 +67,7 @@ router.post('/new-up', (req, res) => {
     ['unitName', 'pageName', 'pagePresent'],
     res
   );
-  if (!(userID && token)) return;
+  if (!(userID && token && unitName)) return;
   if ((group && typeof type !== 'number') ||
     (!group && (!(type instanceof Array) || type.length !== 2)))
     api.invalidArgument(res);
@@ -138,7 +138,7 @@ router.post('/unit', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID } = api.sqlNumber(req.body, ['userID', 'unitID'], res);
   const { name } = api.sqlString(req.body, ['name'], res);
-  if (!(userID && token)) return;
+  if (!(userID && token && name)) return;
   db.checkToken(userID, token, res)
     .then(() => db.editUnit(userID, unitID, name))
     .then(() => api.noContent(res))
@@ -157,7 +157,7 @@ router.post('/page', (req, res) => {
     ['pageName', 'pagePresent'],
     res
   );
-  if (!(userID && token)) return;
+  if (!(userID && token && pageName)) return;
   db.checkToken(userID, token, res)
     .then(() => db.editPage(userID, unitID, pageID, pageName, pagePresent))
     .then(() => api.noContent(res))
@@ -187,7 +187,7 @@ router.post('/new-item', (req, res) => {
     res
   );
   const { query, key } = api.sqlString(req.body, ['query', 'key'], res);
-  if (!(userID && token)) return;
+  if (!(userID && token && query)) return;
   db.checkToken(userID, token, res)
     .then(() => db.newItem(userID, unitID, pageID, itemID, query, key))
     .then((itemCreateTime) => res.send(itemCreateTime))
@@ -239,6 +239,18 @@ router.post('/recall', (req, res) => {
     api.invalidArgument(res);
   db.checkToken(userID, token, res)
     .then(() => db.updateThis(userID, unitID, pageID, pure, far, lost))
+    .then(() => api.noContent(res))
+    .catch(() => api.internalServerError(res));
+});
+
+router.post('/track', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID, unitID, pageID, itemID, trackID } = api.sqlNumber(
+    req.body, ['userID', 'unitID', 'pageID'], res
+  );
+  const value = (req.value === "P" || req.value === "F") ? req.value : "L";
+  if (!(userID && token)) return;
+  db.checkToken(userID, token, res)
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
