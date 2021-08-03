@@ -10,6 +10,7 @@ import Statistics from "../Component/Statistics";
 import Recall from "../Component/Recall";
 import packedGET from "../Interface/Request";
 import { routeIndex } from "../Interface/Constant";
+import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Main(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
+  // const context = React.useContext(PanelContext);
 
   const [timerInitial, setTimerInitial] = React.useState([0, 0]);
   React.useEffect(() => {
@@ -106,9 +108,7 @@ export default function Main(props) {
             setTimerInitial: setTimerInitial,
             setItemList: handle.setItemList,
             setPageDetail: handle.setPageDetail,
-            setStatInfo: handle.setStatInfo,
-            toggleLoading: handle.toggleLoading,
-            closeLoading: handle.closeLoading
+            setStatInfo: handle.setStatInfo
           }}
         />
       </MainPage>

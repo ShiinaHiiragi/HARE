@@ -20,6 +20,7 @@ import {
   getRank
 } from "../Interface/Constant";
 
+const PanelContext = React.createContext({});
 export default function Panel(props) {
   const { userID, token } = props;
 
@@ -176,7 +177,7 @@ export default function Panel(props) {
   }
 
   // the setting of disconnection message box
-  let clockLoading = null;
+  
   const [kick, setKick] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [messageBoxInfo, setMessageBoxInfo] = React.useState({
@@ -193,97 +194,113 @@ export default function Panel(props) {
       open: false
     }));
   };
-  const toggleLoading = () =>
-  (clockLoading = setTimeout(() => {
-    clockLoading = null;
-    setLoading(true);
-  }, 1000));
-  const closeLoading = () => {
-    if (clockLoading) clearTimeout(clockLoading);
-    setLoading(false);
-  };
+  const packedRequest = React.useCallback((uri, query) => {
+    let clockLoading = null;
+    const split = uri.charAt(0).toLowerCase() === "g" ? 3 : 4;
+    const toggleLoading = () =>
+    (clockLoading = setTimeout(() => {
+      clockLoading = null;
+      setLoading(true);
+    }, 1000));
+    const closeLoading = () => {
+      if (clockLoading) clearTimeout(clockLoading);
+      setLoading(false);
+    };
+    const params = {
+      uri: uri.slice(split),
+      query: query,
+      msgbox: toggleMessageBox,
+      kick: () => setKick(true),
+      lang: globalLang,
+      toggleLoading: toggleLoading,
+      closeLoading: closeLoading
+    };
+    return split === 3 ? packedGET(params) : packedPOST(params);
+  }, [globalLang]);
 
   return (
-    <Root lang={globalLang}>
-      <CssBaseline />
-      <NavBar
-        lang={globalLang}
-        state={{
-          userID: userID,
-          navList: navListPC,
-          currentSelect: currentSelect
-        }}
-        handle={{
-          toggleNavList: () => setNavListPC(true),
-          closeNavList: () => setNavListPC(false),
-          toggleNavListMobile: () => setNavListMobile(true),
-          toggleMessageBox: toggleMessageBox,
-          toggleKick: () => setKick(true),
-          setListObject: setListObject
-        }}
-      />
-      <NavList
-        lang={globalLang}
-        data={{
-          userID: userID,
-          token: token
-        }}
-        state={{
-          profile: profile,
-          navList: navListPC,
-          currentSelect: currentSelect,
-          route: currentSelect.route,
-          navListMobile: navListMobile,
-          listObject: listObject
-        }}
-        handle={{
-          toggleMessageBox: toggleMessageBox,
-          toggleKick: () => setKick(true),
-          closeNavListMobile: () => setNavListMobile(false),
-          changeGlobalLang: changeGlobalLang,
-          submitRecall: submitRecall,
-          setListObject: setListObject,
-          setStatInfo: setStatInfo,
-          setProfile: setProfile
-        }}
-      />
-      <Main
-        lang={globalLang}
-        data={{
-          userID: userID,
-          token: token
-        }}
-        state={{
-          current: currentSelect,
-          navList: navListPC,
-          recall: recall,
-          recollect: recollect,
-          itemList: itemList,
-          statInfo: statInfo,
-          pageDetail: pageDetail
-        }}
-        handle={{
-          toggleMessageBox: toggleMessageBox,
-          toggleKick: () => setKick(true),
-          setCurrentRoute: setCurrentRoute,
-          submitRecall: submitRecall,
-          setItemList: setItemList,
-          setRecall: setRecall,
-          setStatInfo: setStatInfo,
-          setRecollect: setRecollect,
-          setPageDetail: setPageDetail,
-          toggleLoading: toggleLoading,
-          closeLoading: closeLoading
-        }}
-      />
-      <MessageBox
-        open={messageBoxInfo.open}
-        handleClose={closeMessageBox}
-        messageBoxType={messageBoxInfo.type}
-        messageBoxMessage={messageBoxInfo.message}
-      />
-      <Load open={loading} />
-      <Kick lang={globalLang} open={kick} handleClose={() => setKick(false)} />
-    </Root>
+    <PanelContext.Provider value={{ request: packedRequest }}>
+      <Root lang={globalLang}>
+        <CssBaseline />
+        <NavBar
+          lang={globalLang}
+          state={{
+            userID: userID,
+            navList: navListPC,
+            currentSelect: currentSelect
+          }}
+          handle={{
+            toggleNavList: () => setNavListPC(true),
+            closeNavList: () => setNavListPC(false),
+            toggleNavListMobile: () => setNavListMobile(true),
+            toggleMessageBox: toggleMessageBox,
+            toggleKick: () => setKick(true),
+            setListObject: setListObject
+          }}
+        />
+        <NavList
+          lang={globalLang}
+          data={{
+            userID: userID,
+            token: token
+          }}
+          state={{
+            profile: profile,
+            navList: navListPC,
+            currentSelect: currentSelect,
+            route: currentSelect.route,
+            navListMobile: navListMobile,
+            listObject: listObject
+          }}
+          handle={{
+            toggleMessageBox: toggleMessageBox,
+            toggleKick: () => setKick(true),
+            closeNavListMobile: () => setNavListMobile(false),
+            changeGlobalLang: changeGlobalLang,
+            submitRecall: submitRecall,
+            setListObject: setListObject,
+            setStatInfo: setStatInfo,
+            setProfile: setProfile
+          }}
+        />
+        <Main
+          lang={globalLang}
+          data={{
+            userID: userID,
+            token: token
+          }}
+          state={{
+            current: currentSelect,
+            navList: navListPC,
+            recall: recall,
+            recollect: recollect,
+            itemList: itemList,
+            statInfo: statInfo,
+            pageDetail: pageDetail
+          }}
+          handle={{
+            toggleMessageBox: toggleMessageBox,
+            toggleKick: () => setKick(true),
+            setCurrentRoute: setCurrentRoute,
+            submitRecall: submitRecall,
+            setItemList: setItemList,
+            setRecall: setRecall,
+            setStatInfo: setStatInfo,
+            setRecollect: setRecollect,
+            setPageDetail: setPageDetail
+          }}
+        />
+        <MessageBox
+          open={messageBoxInfo.open}
+          handleClose={closeMessageBox}
+          messageBoxType={messageBoxInfo.type}
+          messageBoxMessage={messageBoxInfo.message}
+        />
+        <Load open={loading} />
+        <Kick lang={globalLang} open={kick} handleClose={() => setKick(false)} />
+      </Root>
+    </PanelContext.Provider>
   );
 }
+
+export { PanelContext };

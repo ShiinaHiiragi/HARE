@@ -97,9 +97,7 @@ export default function Cover(props) {
       },
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
-      lang: lang,
-      toggleLoading: handle.toggleLoading,
-      closeLoading: handle.closeLoading
+      lang: lang
     }).then((out) => {
       const attribute = clear ? data.pageDetail.trackSize : data.pageDetail.trackSize + 1;
       if (clear !== false)
@@ -135,9 +133,7 @@ export default function Cover(props) {
       },
       msgbox: handle.toggleMessageBox,
       kick: handle.toggleKick,
-      lang: lang,
-      toggleLoading: handle.toggleLoading,
-      closeLoading: handle.closeLoading
+      lang: lang
     }).then((out) => {
       handle.setStatInfo(out);
       handle.setCurrentRoute(routeIndex.stat);
