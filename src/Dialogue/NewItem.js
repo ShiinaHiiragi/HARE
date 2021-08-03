@@ -253,6 +253,12 @@ export default function NewItem(props) {
       itemID: state.apiItemID,
       [state.editItem]: query
     }).then(() => {
+      handle.setItemList((itemList) => itemList.map((item) => ({
+        ...item,
+        [state.editItem]: item.id === state.apiItemID
+          ? query
+          : item[state.editItem]
+      })));
       clearClose();
     })
   };

@@ -490,7 +490,9 @@ exports.getStat = (userID, unitID, pageID) => new Promise((resolve, reject) => {
 
 exports.editItem = (userID, unitID, pageID, itemID, field, value) =>
   new Promise((resolve, reject) => 
-    query(``)
+    query(`update item set item${field} = '${value}'
+      where userID = ${userID} and unitID = ${unitID}
+      and pageID = ${pageID} and itemID = ${itemID}`)
       .then(resolve).catch(reject)
   );
 

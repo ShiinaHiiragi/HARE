@@ -14,7 +14,12 @@ router.post('/profile', (req, res) => {
   } = api.sqlString(req.body, [
     'userName', 'birth', 'gender', 'tel', 'city'
   ], res);
-  if (!(userID && token && userName)) return;
+  if (!(userID && token && userName !== undefined)) return;
+  if (!userName) {
+    api.invalidArgument(res);
+    return;
+  }
+
   db.checkToken(userID, token, res)
     .then(() => db.saveProfile(userID, userName, birth, gender, tel, city))
     .then(() => api.noContent(res));
@@ -25,35 +30,40 @@ router.post('/avatar', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.body, ['userID'], res);
   const { type } = api.sqlString(req.body, ['type'], res);
-  if (!(userID && token && type)) return;
+  if (!(userID && token && type !== undefined)) return;
+  if (!type) {
+    api.invalidArgument(res);
+    return;
+  }
+
   db.checkToken(userID, token, res)
-  .then(() => {
-    const basicPath = path.join(__dirname, '../src/avatar');
-    fs.readdir(basicPath, (err, dir) => {
-      if (err) api.internalServerError(res)
-      else {
-        // delete the previous image first
-        const userReg = new RegExp(`${userID}\\.(.+)`);
-        const typeReg = /^data:image\/(\w+);base64,/;
-        const prevAvatar = dir.find((fileItem) => userReg.test(fileItem));
-        if (prevAvatar)
-          fs.unlinkSync(path.join(basicPath, prevAvatar));
-        // save the file uploaded
-        db.saveAvatarExtent(userID, type).then(() => {
-          let avatarBase = avatar.replace(typeReg, '');
-          let avatarBuffer = new Buffer(avatarBase, 'base64');
-          fs.writeFile(
-            path.join(basicPath, `${userID}${type === '.jpeg' ? '.jpg' : type}`),
-            avatarBuffer,
-            (err) => {
-              if (!err) api.noContent(res);
-              else api.internalServerError(res);
-            }
-          );
-        }).catch(() => api.internalServerError(res));
-      }
+    .then(() => {
+      const basicPath = path.join(__dirname, '../src/avatar');
+      fs.readdir(basicPath, (err, dir) => {
+        if (err) api.internalServerError(res)
+        else {
+          // delete the previous image first
+          const userReg = new RegExp(`${userID}\\.(.+)`);
+          const typeReg = /^data:image\/(\w+);base64,/;
+          const prevAvatar = dir.find((fileItem) => userReg.test(fileItem));
+          if (prevAvatar)
+            fs.unlinkSync(path.join(basicPath, prevAvatar));
+          // save the file uploaded
+          db.saveAvatarExtent(userID, type).then(() => {
+            let avatarBase = avatar.replace(typeReg, '');
+            let avatarBuffer = new Buffer(avatarBase, 'base64');
+            fs.writeFile(
+              path.join(basicPath, `${userID}${type === '.jpeg' ? '.jpg' : type}`),
+              avatarBuffer,
+              (err) => {
+                if (!err) api.noContent(res);
+                else api.internalServerError(res);
+              }
+            );
+          }).catch(() => api.internalServerError(res));
+        }
+      });
     });
-  });
 });
 
 // setting of unit and page
@@ -67,10 +77,17 @@ router.post('/new-up', (req, res) => {
     ['unitName', 'pageName', 'pagePresent'],
     res
   );
-  if (!(userID && token && unitName)) return;
-  if ((group && typeof type !== 'number') ||
-    (!group && (!(type instanceof Array) || type.length !== 2)))
+  if (!(userID && token && unitName !== undefined)) return;
+  if (!(unitName && pageName)) {
     api.invalidArgument(res);
+    return;
+  }
+  if ((group && typeof type !== 'number') ||
+    (!group && (!(type instanceof Array) || type.length !== 2))) {
+    api.invalidArgument(res);
+    return;
+  }
+
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
@@ -96,6 +113,7 @@ router.post('/delete-up', (req, res) => {
     res
   );
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) {
@@ -123,8 +141,11 @@ router.post('/swap-up', (req, res) => {
   const { userID } = api.sqlNumber(req.body, ['userID'], res);
   if (!(userID && token)) return;
   if ((group && typeof less !== 'number') ||
-    (!group && (!(less instanceof Array) || less.length !== 2)))
+    (!group && (!(less instanceof Array) || less.length !== 2))) {
     api.invalidArgument(res);
+    return;
+  }
+
   db.checkToken(userID, token, res)
     .then(() => {
       if (group) return  db.moveUnit(userID, less)
@@ -138,7 +159,12 @@ router.post('/unit', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID } = api.sqlNumber(req.body, ['userID', 'unitID'], res);
   const { name } = api.sqlString(req.body, ['name'], res);
-  if (!(userID && token && name)) return;
+  if (!(userID && token && name !== undefined)) return;
+  if (!name) {
+    api.invalidArgument(res);
+    return;
+  }
+
   db.checkToken(userID, token, res)
     .then(() => db.editUnit(userID, unitID, name))
     .then(() => api.noContent(res))
@@ -157,7 +183,12 @@ router.post('/page', (req, res) => {
     ['pageName', 'pagePresent'],
     res
   );
-  if (!(userID && token && pageName)) return;
+  if (!(userID && token && pageName !== undefined)) return;
+  if (!pageName) {
+    api.invalidArgument(res);
+    return;
+  }
+
   db.checkToken(userID, token, res)
     .then(() => db.editPage(userID, unitID, pageID, pageName, pagePresent))
     .then(() => api.noContent(res))
@@ -172,6 +203,7 @@ router.post('/cover', (req, res) => {
     res
   );
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.editCover(userID, unitID, pageID, cover))
     .then(() => api.noContent(res))
@@ -187,7 +219,8 @@ router.post('/new-item', (req, res) => {
     res
   );
   const { query, key } = api.sqlString(req.body, ['query', 'key'], res);
-  if (!(userID && token && query)) return;
+  if (!(userID && token && query !== undefined)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.newItem(userID, unitID, pageID, itemID, query, key))
     .then((itemCreateTime) => res.send(itemCreateTime))
@@ -204,8 +237,11 @@ router.post('/delete-item', (req, res) => {
     res
   );
   if (!(userID && token)) return;
-  if (!(itemID instanceof Array))
+  if (!(itemID instanceof Array)) {
     api.invalidArgument(res);
+    return;
+  }
+
   db.checkToken(userID, token, res)
     .then(() => db.deleteItem(userID, unitID, pageID, itemID, track))
     .then(() => api.noContent(res))
@@ -220,6 +256,7 @@ router.post('/move', (req, res) => {
     res
   );
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.moveItem(userID, unitID, pageID, src, dst))
     .then(() => api.noContent(res))
@@ -235,8 +272,11 @@ router.post('/recall', (req, res) => {
     req.body, ['userID', 'unitID', 'pageID'], res
   );
   if (!(userID && token)) return;
-  if (!(pure instanceof Array) || !(far instanceof Array))
+  if (!(pure instanceof Array) || !(far instanceof Array)) {
     api.invalidArgument(res);
+    return;
+  }
+
   db.checkToken(userID, token, res)
     .then(() => db.updateThis(userID, unitID, pageID, pure, far, lost))
     .then(() => api.noContent(res))
@@ -251,7 +291,8 @@ router.post('/item', (req, res) => {
   if (!(userID && token)) return;
   const field = (req.body.query === undefined ? 'key' : 'query');
   const value = api.sqlString(req.body, [field], res)[field];
-  if (!value) return;
+  if (value === undefined) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.editItem(userID, unitID, pageID, itemID, field, value))
     .then(() => api.noContent(res))
@@ -266,6 +307,7 @@ router.post('/track', (req, res) => {
   const value = (req.body.value === 'P' || req.body.value === 'F')
     ? req.body.value : 'L';
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.editTrack(userID, unitID, pageID, itemID, trackID, value))
     .then(() => api.noContent(res))

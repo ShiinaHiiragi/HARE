@@ -8,13 +8,15 @@ router.get('/check', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.query, ['userID'], res);
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => res.send('HARE'));
 });
 
 router.post('/sign', (req, res) => {
   const { email, password } = api.sqlString(req.body, ['email', 'password'], res);
-  if (!email) return;
+  if (!(email && password)) return;
+
   db.query(`select userID from userInfo natural join userSetting
     where email = '${email}' and password = '${password}'`)
     .then(out => {
@@ -30,6 +32,7 @@ router.post('/logout', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.body, ['userID'], res);
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.query(`delete from onlineUser where userID = ${userID}`))
     .then(() => api.noContent(res));
@@ -39,6 +42,7 @@ router.get('/unit', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.query, ['userID'], res);
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.getUnitPage(userID))
     .then(out => res.send(out))
@@ -53,6 +57,7 @@ router.get('/page', (req, res) => {
     res
   );
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.getPageDetail(userID, unitID, pageID))
     .then((out) => res.send(out[0]))
@@ -67,6 +72,7 @@ router.get('/item', (req, res) => {
     res
   );
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.getItem(userID, unitID, pageID))
     .then((out) => res.send(out.map((each) => {
@@ -95,6 +101,7 @@ router.post('/this', (req, res) => {
     res
   );
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.getThis(userID, unitID, pageID, clear))
     .then((out) => res.send(out))
@@ -105,6 +112,7 @@ router.get('/stat', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID, pageID } = api.sqlNumber(req.query, ['userID', 'unitID', 'pageID'], res);
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.getStat(userID, unitID, pageID))
     .then((out) => res.send(out))
@@ -115,6 +123,7 @@ router.get('/profile', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.query, ['userID'], res);
   if (!(userID && token)) return;
+
   db.checkToken(userID, token, res)
     .then(() => db.getProfile(userID))
     .then(out => res.send(out[0]))
