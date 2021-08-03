@@ -5,7 +5,7 @@ import LanguageSelector from "./LanguageSelector";
 import License from "./License";
 import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import { PanelContext } from "../Page/Panel";
-import { imageMaxBase } from "../Interface/Constant";
+import { maxImageBase } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +35,7 @@ export default function GlobalMenu(props) {
     }
   };
   const avatarOnload = (result, type) => {
-    if (result.length > imageMaxBase) {
+    if (result.length > maxImageBase) {
       handle.toggleMessageBox(context.lang.message.largeImage, "warning");
     } else {
       context.request("POST/set/avatar", {

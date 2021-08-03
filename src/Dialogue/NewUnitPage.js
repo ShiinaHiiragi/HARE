@@ -8,7 +8,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import { PanelContext } from "../Page/Panel";
-import { nameMaxLength, presentMaxLength } from "../Interface/Constant";
+import { maxNameLength, maxPresentLength } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -31,15 +31,15 @@ export default function NewUnitPage(props) {
     const pagePresentLength = text.pagePresentValue.length;
     const pageNameLength = text.pageNameValue.length;
     const unitNameLength = text.unitNameValue.length;
-    const pagePresentError = pagePresentLength > presentMaxLength;
+    const pagePresentError = pagePresentLength > maxPresentLength;
     errorMessage = pagePresentError
       ? context.lang.message.pagePresentError
       : errorMessage;
     const pageNameError =
-      pageNameLength === 0 || pageNameLength > nameMaxLength;
+      pageNameLength === 0 || pageNameLength > maxNameLength;
     errorMessage = pageNameError ? context.lang.message.pageNameError : errorMessage;
     const unitNameError =
-      unitNameLength === 0 || unitNameLength > nameMaxLength;
+      unitNameLength === 0 || unitNameLength > maxNameLength;
     if (state.group)
       errorMessage = unitNameError ? context.lang.message.unitNameError : errorMessage;
     handle.setUnitNameCheck(unitNameError);

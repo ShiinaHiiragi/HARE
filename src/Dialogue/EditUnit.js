@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { nameMaxLength } from "../Interface/Constant";
+import { maxNameLength } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -23,7 +23,7 @@ export default function EditUnit(props) {
 
   const applyUnitChange = () => {
     const targetSize = state.editUnitNameValue.length;
-    if (targetSize === 0 || targetSize > nameMaxLength) {
+    if (targetSize === 0 || targetSize > maxNameLength) {
       handle.setEditUnitNameCheck(true);
       handle.toggleMessageBox(context.lang.message.unitNameError, "warning");
     } else {

@@ -12,7 +12,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import MenuItem from "@material-ui/core/MenuItem";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
-import { nameMaxLength } from "../Interface/Constant";
+import { maxNameLength } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -65,11 +65,11 @@ export default function Profile(props) {
 
   const checkInput = () => {
     let errorMessage = "";
-    if (state.value.city.length > nameMaxLength) {
+    if (state.value.city.length > maxNameLength) {
       handle.setCheck((prev) => ({ ...prev, city: true }));
       errorMessage = context.lang.message.cityError;
     }
-    if (state.value.tel.length > nameMaxLength) {
+    if (state.value.tel.length > maxNameLength) {
       handle.setCheck((prev) => ({ ...prev, tel: true }));
       errorMessage = context.lang.message.telError;
     }
@@ -77,7 +77,7 @@ export default function Profile(props) {
       handle.setCheck((prev) => ({ ...prev, userName: true }));
       errorMessage = context.lang.message.userNameInvalidError;
     }
-    if (state.value.userName.length === 0 || state.value.userName.length > nameMaxLength) {
+    if (state.value.userName.length === 0 || state.value.userName.length > maxNameLength) {
       handle.setCheck((prev) => ({ ...prev, userName: true }));
       errorMessage = context.lang.message.userNameLengthError;
     }
