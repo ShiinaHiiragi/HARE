@@ -54,6 +54,7 @@ export default function Main(props) {
           timeThis: out.timethis && true
         });
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.current.unitID, state.current.pageID]);
 
   React.useEffect(() => {
@@ -62,6 +63,7 @@ export default function Main(props) {
         unitID: state.current.unitID,
         pageID: state.current.pageID
       }).then((out) => handle.setItemList(out));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.current.unitID, state.current.pageID]);
 
   return (

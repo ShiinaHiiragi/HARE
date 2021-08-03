@@ -6,14 +6,16 @@ import Root from "../Interface/Root";
 import NavBar from "../Unit/NavBar";
 import NavList from "../Unit/NavList";
 import Main from "../Unit/Main";
-import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
 import Kick from "../Dialogue/Kick";
+import { languagePicker, nameMap } from "../Language/Lang";
 import { packedGET, packedPOST } from "../Interface/Request";
 import {
   cookieTime,
   defaultProfile,
+  defaultPageDetail,
+  defaultCurrentSelect,
   routeIndex,
   setStateDelay,
   stringFormat,
@@ -22,13 +24,13 @@ import {
 
 const PanelContext = React.createContext({});
 export default function Panel(props) {
-  const { userID, token } = props;
+  const { userID } = props;
 
   // the state of language
-  const [globalLang, setGlobalLang] = React.useState(languagePicker("en"));
+  const [globalLang, setGlobalLang] = React.useState(languagePicker(nameMap.English));
   React.useEffect(() => {
     let storageLang = cookie.load("lang");
-    changeGlobalLang(storageLang || "en");
+    changeGlobalLang(storageLang || nameMap.English);
   }, []);
   const changeGlobalLang = (targetValue) => {
     if (targetValue)
@@ -36,64 +38,76 @@ export default function Panel(props) {
     cookie.save("lang", targetValue, { expires: cookieTime(3650) });
   };
 
+  // the setting of request
+  const [kick, setKick] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [messageBoxInfo, setMessageBoxInfo] = React.useState({
+    open: false, type: "success", message: ""
+  });
+  const toggleMessageBox = (message, type) => {
+    setMessageBoxInfo({ open: true, type: type, message: message });
+  };
+  const closeMessageBox = () => {
+    setMessageBoxInfo((messageBoxInfo) => ({
+      ...messageBoxInfo, open: false
+    }));
+  };
+  const packedRequest = React.useCallback((uri, query) => {
+    let clockLoading = null;
+    const split = uri.charAt(0).toLowerCase() === "g" ? 3 : 4;
+    const toggleLoading = () => {
+      clockLoading = setTimeout(() => {
+        clockLoading = null;
+        setLoading(true);
+      }, 1000);
+    }
+    const closeLoading = () => {
+      if (clockLoading) clearTimeout(clockLoading);
+      setLoading(false);
+    };
+    const params = {
+      uri: uri.slice(split),
+      query: { ...query, userID: userID },
+      msgbox: toggleMessageBox,
+      kick: () => setKick(true),
+      lang: globalLang,
+      toggleLoading: toggleLoading,
+      closeLoading: closeLoading
+    };
+    return split === 3 ? packedGET(params) : packedPOST(params);
+  }, [globalLang]);
+
   // the sharing state of profile
   const [profile, setProfile] = React.useState(defaultProfile);
   React.useEffect(() => {
-    packedGET({
-      uri: "/data/profile",
-      query: { userID: userID },
-      msgbox: toggleMessageBox,
-      kick: () => setKick(true),
-      lang: globalLang
-    }).then((res) =>
-      setProfile({
-        userName: res.username,
-        email: res.email,
-        gender: res.gender,
-        birth: res.birth,
-        city: res.city || "",
-        tel: res.tel || ""
-      })
-    );
+    packedRequest("GET/data/profile")
+      .then((res) =>
+        setProfile({
+          userName: res.username,
+          email: res.email,
+          gender: res.gender,
+          birth: res.birth,
+          city: res.city || "",
+          tel: res.tel || ""
+        })
+      );
   }, []);
 
-  // the sharing state of response navigation bar and list
+  // the state of responsive navigation list and bar
   const [navListPC, setNavListPC] = React.useState(true);
   const [navListMobile, setNavListMobile] = React.useState(false);
   React.useEffect(() => {
-    packedGET({
-      uri: "/data/unit",
-      query: { userID: userID },
-      msgbox: toggleMessageBox,
-      kick: () => setKick(true),
-      lang: globalLang
-    }).then((res) => setListObject(res));
+    packedRequest("GET/data/unit")
+      .then((res) => setListObject(res));
   }, []);
-
-  // change navList when change screen size
-  const matches = useMediaQuery("(min-width:960px)");
-  React.useEffect(() => {
-    if (matches) {
-      setNavListPC(true);
-      setNavListMobile(false);
-    } else setNavListPC(true);
-  }, [matches]);
 
   // the sharing state of pages
   const [listObject, setListObject] = React.useState([]);
-  const [statInfo, setStatInfo] = React.useState([]);
   const [itemList, setItemList] = React.useState([]);
-  const [pageDetail, setPageDetail] = React.useState({
-    pageCreateTime: "2019-12-31T16:00:00.000Z",
-    itemSize: 0,
-    trackSize: 0,
-    timeThis: null
-  });
-  const [currentSelect, setCurrentSelect] = React.useState({
-    pageName: "HARE",
-    pagePresent: "",
-    route: routeIndex.intro
-  });
+  const [statInfo, setStatInfo] = React.useState([]);
+  const [pageDetail, setPageDetail] = React.useState(defaultPageDetail);
+  const [currentSelect, setCurrentSelect] = React.useState(defaultCurrentSelect);
+
   // ATTENTION: we don't need pass setCurrentSelect to child node because of
   // the effect hook; but we need to pass setRoute because the change on route
   // don't update listObject immediately
@@ -120,10 +134,10 @@ export default function Panel(props) {
           ? currentSelect.route
           : selectedPage.route
       }));
-    } else setCurrentSelect({ pageName: "HARE", pagePresent: "", route: routeIndex.intro });
+    } else setCurrentSelect(defaultCurrentSelect);
   }, [listObject]);
 
-  // maintain the state of recall
+  // the state of recall and recollection
   const [recollect, setRecollect] = React.useState(false);
   const [recall, setRecall] = React.useState({ pure: [], far: [], lost: [] });
   const submitRecall = (unitID, pageID, disableMessage) => {
@@ -138,22 +152,13 @@ export default function Panel(props) {
         "info"
       );
     }
-    if (recollect) return;
-
-    if (!recall.pure.length && !recall.far.length) return;
-    packedPOST({
-      uri: "/set/recall",
-      query: {
-        userID: userID,
-        unitID: unitID,
-        pageID: pageID,
-        pure: recall.pure,
-        far: recall.far,
-        lost: !!recall.lost.length
-      },
-      msgbox: toggleMessageBox,
-      kick: () => setKick(true),
-      lang: globalLang
+    if (recollect || !(recall.pure.length || recall.far.length)) return;
+    packedRequest("POST/set/recall", {
+      unitID: unitID,
+      pageID: pageID,
+      pure: recall.pure,
+      far: recall.far,
+      lost: !!recall.lost.length
     }).then(() => {
       const lastIndex = pageDetail.trackSize;
       setItemList((itemList) => {
@@ -176,47 +181,14 @@ export default function Panel(props) {
     })
   }
 
-  // the setting of disconnection message box
-  
-  const [kick, setKick] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [messageBoxInfo, setMessageBoxInfo] = React.useState({
-    open: false,
-    type: "success",
-    message: ""
-  });
-  const toggleMessageBox = (message, type) => {
-    setMessageBoxInfo({ open: true, type: type, message: message });
-  };
-  const closeMessageBox = () => {
-    setMessageBoxInfo((messageBoxInfo) => ({
-      ...messageBoxInfo,
-      open: false
-    }));
-  };
-  const packedRequest = React.useCallback((uri, query) => {
-    let clockLoading = null;
-    const split = uri.charAt(0).toLowerCase() === "g" ? 3 : 4;
-    const toggleLoading = () =>
-    (clockLoading = setTimeout(() => {
-      clockLoading = null;
-      setLoading(true);
-    }, 1000));
-    const closeLoading = () => {
-      if (clockLoading) clearTimeout(clockLoading);
-      setLoading(false);
-    };
-    const params = {
-      uri: uri.slice(split),
-      query: { ...query, userID: userID },
-      msgbox: toggleMessageBox,
-      kick: () => setKick(true),
-      lang: globalLang,
-      toggleLoading: toggleLoading,
-      closeLoading: closeLoading
-    };
-    return split === 3 ? packedGET(params) : packedPOST(params);
-  }, [globalLang]);
+  // change navList when change screen size
+  const matches = useMediaQuery("(min-width:960px)");
+  React.useEffect(() => {
+    if (matches) {
+      setNavListPC(true);
+      setNavListMobile(false);
+    } else setNavListPC(true);
+  }, [matches]);
 
   return (
     <PanelContext.Provider value={{ lang: globalLang, request: packedRequest }}>
@@ -286,7 +258,7 @@ export default function Panel(props) {
           messageBoxMessage={messageBoxInfo.message}
         />
         <Load open={loading} />
-        <Kick lang={globalLang} open={kick} handleClose={() => setKick(false)} />
+        <Kick open={kick} handleClose={() => setKick(false)} />
       </Root>
     </PanelContext.Provider>
   );

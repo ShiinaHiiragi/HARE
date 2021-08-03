@@ -6,10 +6,10 @@ import cookie from "react-cookies";
 import SignTitle from "../Component/SignTitle";
 import SignInForm from "../Component/Form";
 import Copyright from "../Component/Copyright";
-import { languagePicker } from "../Language/Lang";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
 import requestURL from "../Interface/Constant";
+import { languagePicker, nameMap } from "../Language/Lang";
 import { cookieTime, setStateDelay } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -40,10 +40,10 @@ export default function SignIn() {
   const classes = useStyles();
 
   // the state of language
-  const [globalLang, setGlobalLang] = React.useState(languagePicker("en"));
+  const [globalLang, setGlobalLang] = React.useState(languagePicker(nameMap.English));
   React.useEffect(() => {
     let storageLang = cookie.load("lang");
-    changeGlobalLang(storageLang || "en");
+    changeGlobalLang(storageLang || nameMap.English);
   }, []);
   const changeGlobalLang = (targetValue) => {
     if (targetValue)

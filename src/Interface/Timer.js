@@ -6,6 +6,7 @@ export default function ForwardTimer(props) {
   const timer = React.createRef();
   React.useEffect(() => {
     timer.current.setTime(initialTime[0]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialTime]);
 
   return (

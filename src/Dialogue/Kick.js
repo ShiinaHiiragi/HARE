@@ -1,3 +1,4 @@
+import React from "react";
 import ReactDOM from "react-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -7,6 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import SignIn from "../Page/SignIn";
 import { nil } from "../Interface/Constant";
+import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -16,14 +18,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Kick(props) {
-  const { lang, open, handleClose } = props;
+  const { open, handleClose } = props;
   const classes = useStyles();
+  const context = React.useContext(PanelContext);
 
   return (
     <Dialog fullWidth open={open} onClose={nil} className={classes.noneSelect}>
-      <DialogTitle>{lang.popup.kick.title}</DialogTitle>
+      <DialogTitle>{context.lang.popup.kick.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{lang.popup.kick.text}</DialogContentText>
+        <DialogContentText>{context.lang.popup.kick.text}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button
@@ -37,7 +40,7 @@ export default function Kick(props) {
           }}
           color="secondary"
         >
-          {lang.common.ok}
+          {context.lang.common.ok}
         </Button>
       </DialogActions>
     </Dialog>

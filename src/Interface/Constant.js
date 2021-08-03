@@ -45,6 +45,17 @@ const defaultProfile = {
   city: "",
   tel: ""
 };
+const defaultPageDetail = {
+  pageCreateTime: "2019-12-31T16:00:00.000Z",
+  itemSize: 0,
+  trackSize: 0,
+  timeThis: null
+};
+const defaultCurrentSelect = {
+  pageName: "HARE",
+  pagePresent: "",
+  route: routeIndex.intro
+};
 const defaultColumn = (langGrid) => [
   {
     field: "id",
@@ -157,6 +168,8 @@ export {
   pageIcon,
   initMenu,
   defaultProfile,
+  defaultPageDetail,
+  defaultCurrentSelect,
   defaultColumn,
   nil,
   next,
