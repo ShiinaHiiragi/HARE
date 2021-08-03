@@ -16,6 +16,7 @@ import Accuracy from "./Accuracy";
 import Frequency from "./Frequency";
 import Chart from "./Chart";
 import Collapse from "@material-ui/core/Collapse";
+import { PanelContext } from "../Page/Panel";
 import {
   stringFormat,
   timeFormat,
@@ -127,7 +128,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Statistics(props) {
   const classes = useStyles();
-  const { lang, data, handle } = props;
+  const { state, handle } = props;
+  const context = React.useContext(PanelContext);
 
   const [anime, setAnime] = React.useState(0);
   const [lineData, setLineData] = React.useState([]);
@@ -136,17 +138,17 @@ export default function Statistics(props) {
 
   const [expandAll, setExpandAll] = React.useState(false);
   React.useEffect(() => {
-    if (data.current.route === routeIndex.stat) {
+    if (state.current.route === routeIndex.stat) {
       setAnime(Math.random());
     } else {
       setTimeout(() => setExpandAll(false), setStateDelay);
     };
-  }, [data.current.route === routeIndex.stat]);
+  }, [state.current.route === routeIndex.stat]);
 
-  const itemSize = data.pageDetail.itemSize;
-  const trackSize = data.pageDetail.trackSize;
-  const eachPure = data.statInfo.map((item) => item.pure);
-  const eachFar = data.statInfo.map((item) => item.far);
+  const itemSize = state.pageDetail.itemSize;
+  const trackSize = state.pageDetail.trackSize;
+  const eachPure = state.statInfo.map((item) => item.pure);
+  const eachFar = state.statInfo.map((item) => item.far);
   const averagePure = eachPure.reduce((total, item) => total + item, 0) / trackSize;
   const averageFar = eachFar.reduce((total, item) => total + item, 0) / trackSize;
   const variancePure = eachPure.reduce((total, item) =>
@@ -203,13 +205,13 @@ export default function Statistics(props) {
   }), [precision, averagePure, itemSize]);
 
   // span: start -> end, interval: start -> next start
-  const eachSpan = data.statInfo.reduce((total, item) => {
+  const eachSpan = state.statInfo.reduce((total, item) => {
     if (item.endTime) {
       total.push(new Date(item.endTime) - new Date(item.startTime))
       return total;
     } else return total;
   }, []);
-  const eachInterval = data.statInfo.reduce((total, item, index, arr) => {
+  const eachInterval = state.statInfo.reduce((total, item, index, arr) => {
     if (index) {
       total.push(new Date(item.startTime) - new Date(arr[index - 1].startTime));
       return total;
@@ -217,17 +219,17 @@ export default function Statistics(props) {
   }, []);
   const averageSpan = Stat.average(eachSpan);
   const averageInterval = Stat.average(eachInterval);
-  const spanJudge = Stat.judgeTime(averageSpan, true, lang.panel.stat.judge);
-  const intervalJudge = Stat.judgeTime(averageInterval, false, lang.panel.stat.judge);
+  const spanJudge = Stat.judgeTime(averageSpan, true, context.lang.panel.stat.judge);
+  const intervalJudge = Stat.judgeTime(averageInterval, false, context.lang.panel.stat.judge);
 
   React.useEffect(() => {
     if (expandAll) {
       setLineData(eachPure.map((item, index) => ({
-        name: lang.grid.ordinal[index],
+        name: context.lang.grid.ordinal[index],
         acc: item / itemSize * 100
       })));
       setBarData(() => {
-        let rawFreq = data.itemList.map((item) => {
+        let rawFreq = state.itemList.map((item) => {
           let farCount = 0, pureCount = 0;
           Object.keys(item).forEach((subItem) => {
             const times = Number(subItem);
@@ -246,11 +248,11 @@ export default function Statistics(props) {
         return freq.slice(0, maxFrequency);
       })
     }
-  }, [expandAll, lang]);
+  }, [expandAll, context.lang]);
 
   React.useEffect(() => {
     setExpandAll(false);
-  }, [data.current.unitID, data.current.pageID]);
+  }, [state.current.unitID, state.current.pageID]);
 
   return (
     <div className={classes.root}>
@@ -262,11 +264,11 @@ export default function Statistics(props) {
           onClick={() => handle.setCurrentRoute(routeIndex.cover)}
           style={{ borderRadius: 0 }}
         >
-          {lang.common.back}
+          {context.lang.common.back}
         </Button>
         <div style={{ flexGrow: 1 }} />
         <Typography variant="subtitle2" color="textSecondary">
-          {lang.panel.stat.precision}
+          {context.lang.panel.stat.precision}
         </Typography>
         <Slider
           marks
@@ -289,34 +291,34 @@ export default function Statistics(props) {
           />
           <div className={classes.textField}>
             <Typography variant="h6">
-              {lang.panel.stat.totalTitle}
+              {context.lang.panel.stat.totalTitle}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {lang.panel.stat.avgSpan}
+              {context.lang.panel.stat.avgSpan}
               {Stat.timestampCount(
-                averageSpan, lang.panel.stat.timeSpan
+                averageSpan, context.lang.panel.stat.timeSpan
               )}
               {" / "}
               {Stat.timestampCount(
-                averageSpan / itemSize, lang.panel.stat.timeSpan
+                averageSpan / itemSize, context.lang.panel.stat.timeSpan
               )}
               {spanJudge && ` (${spanJudge})`}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {lang.panel.stat.avgInterval}
+              {context.lang.panel.stat.avgInterval}
               {Stat.timestampCount(
-                averageInterval, lang.panel.stat.timeSpan
+                averageInterval, context.lang.panel.stat.timeSpan
               )}
               {intervalJudge && ` (${intervalJudge})`}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {varianceSame ? lang.panel.stat.varianceSame : lang.panel.stat.variance}
+              {varianceSame ? context.lang.panel.stat.varianceSame : context.lang.panel.stat.variance}
               {Stat.atMostDigits(variancePure, precision)}
               {!varianceSame && " / "}
               {!varianceSame && Stat.atMostDigits(varianceFar, precision)}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {lang.panel.stat.avgClass}
+              {context.lang.panel.stat.avgClass}
               {Stat.atMostDigits(averagePure, precision)}
               {" / "}
               {Stat.atMostDigits(averageFar, precision)}
@@ -324,14 +326,14 @@ export default function Statistics(props) {
               {Stat.atMostDigits(itemSize - averagePure - averageFar, precision)}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {lang.panel.stat.avgAcc}
+              {context.lang.panel.stat.avgAcc}
               <b>{Stat.digitsPercentage(averagePure, itemSize, precision)}</b>
               {" / "}
               {Stat.digitsPercentage(averageFar, itemSize, precision)}
-              {Stat.judgeRank() && ` (${lang.panel.stat.judge.tooFew})`}
+              {Stat.judgeRank() && ` (${context.lang.panel.stat.judge.tooFew})`}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {lang.panel.stat.bestWorst}
+              {context.lang.panel.stat.bestWorst}
               {Stat.digitsPercentage(Math.max(...eachPure), itemSize, precision)}
               {" / "}
               {Stat.digitsPercentage(Math.max(...eachFar), itemSize, precision)}
@@ -362,12 +364,12 @@ export default function Statistics(props) {
             >
               <FormControlLabel
                 value="line"
-                label={lang.panel.stat.line}
+                label={context.lang.panel.stat.line}
                 control={<Radio color="primary" />}
               />
               <FormControlLabel
                 value="bar"
-                label={lang.panel.stat.bar}
+                label={context.lang.panel.stat.bar}
                 control={<Radio color="primary" />}
               />
             </RadioGroup>
@@ -379,7 +381,7 @@ export default function Statistics(props) {
               style={{ borderRadius: 0, marginRight: 12 }}
               onClick={() => {
                 let lost = [];
-                data.itemList.forEach((item) => {
+                state.itemList.forEach((item) => {
                   for (let subItem in Object.keys(item)) {
                     const times = Number(subItem);
                     if (!isNaN(times) && item[times] === "F") {
@@ -397,7 +399,7 @@ export default function Statistics(props) {
                 handle.setCurrentRoute(routeIndex.recall);
               }}
             >
-              {lang.panel.stat.recollect}
+              {context.lang.panel.stat.recollect}
             </Button>
             <Button
               variant="outlined"
@@ -405,18 +407,18 @@ export default function Statistics(props) {
               startIcon={<CloseIcon />}
               style={{ borderRadius: 0 }}
             >
-              {lang.panel.stat.clearRecall}
+              {context.lang.panel.stat.clearRecall}
             </Button>
           </div>
           <div className={classes.invisibleGraph}>
             {graph === "line"
               ? <Chart data={lineData} />
-              : <Frequency lang={lang} data={barData} />}
+              : <Frequency data={barData} />}
           </div>
         </Collapse>
       </Card>
       
-      {data.statInfo.map((item, index) => (
+      {state.statInfo.map((item, index) => (
         <Card className={classes.rankingPanel} key={index}>
           <div className={classes.visible}>
             <Accuracy
@@ -426,29 +428,29 @@ export default function Statistics(props) {
             />
             <div className={classes.textField}>
               <Typography variant="h6">
-                {stringFormat(lang.panel.stat.eachTitle, [
-                  lang.grid.ordinal[index]
+                {stringFormat(context.lang.panel.stat.eachTitle, [
+                  context.lang.grid.ordinal[index]
                 ])}
               </Typography>
               <Typography variant="subtitle2" color="textSecondary">
                 {timeFormat(
                   new Date(item.startTime),
-                  lang.panel.stat.timeFormatString
+                  context.lang.panel.stat.timeFormatString
                 )}
                 {item.endTime
                   ? " ~ " +
                     timeFormat(
                       new Date(item.endTime),
-                      lang.panel.stat.timeFormatString
+                      context.lang.panel.stat.timeFormatString
                     ) +
                     ` (${Stat.timestampCount(
                         new Date(item.endTime) - new Date(item.startTime),
-                        lang.panel.stat.timeSpan
+                        context.lang.panel.stat.timeSpan
                       )})`
-                  : lang.panel.stat.ongoing}
+                  : context.lang.panel.stat.ongoing}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                {lang.panel.stat.class}
+                {context.lang.panel.stat.class}
                 {item.pure}
                 {" / "}
                 {item.far}
@@ -456,7 +458,7 @@ export default function Statistics(props) {
                 {itemSize - item.pure - item.far}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                {lang.panel.stat.acc}
+                {context.lang.panel.stat.acc}
                 <b>{Stat.digitsPercentage(item.pure, itemSize, precision)}</b>
                 {` (${Stat.accDiff(item.pure, averagePure, itemSize)})`}
                 {" / "}

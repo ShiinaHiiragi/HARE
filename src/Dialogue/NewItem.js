@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewItem(props) {
   const classes = useStyles();
-  const { lang, data, state, handle } = props;
+  const { open, state, handle } = props;
   const context = React.useContext(PanelContext);
 
   // the state of text input
@@ -127,13 +127,13 @@ export default function NewItem(props) {
   const [apply, setApply] = React.useState(false);
 
   React.useEffect(() => {
-    if (state.open) {
+    if (open) {
       setItemID(state.listLength + 1);
       const savedWrap = cookie.load("__wordWrap");
       if (savedWrap) setWordWrap(savedWrap);
       else cookie.save("__wordWrap", "on", { expires: cookieTime(3650) });
     }
-  }, [state.open, state.listLength]);
+  }, [open, state.listLength]);
   const onEditorReady = (editor, monaco) => {
     let closureWordWrap = wordWrap;
     // editor.onDidChangeCursorPosition((event) => {
@@ -206,7 +206,7 @@ export default function NewItem(props) {
     const targetNumber = Number(itemID) | 0;
     if (targetNumber <= 0 || targetNumber > state.listLength + 1) {
       setItemIDCheck(true);
-      handle.toggleMessageBox(lang.message.invalidItemID, "warning");
+      handle.toggleMessageBox(context.lang.message.invalidItemID, "warning");
       return;
     } else setItemIDCheck(false);
     if (!editKey) setApply(true);
@@ -215,9 +215,8 @@ export default function NewItem(props) {
   const submit = () => {
     const targetItemID = Number(itemID) | 0;
     context.request("POST/set/new-item", {
-      userID: data.userID,
-      unitID: data.unitID,
-      pageID: data.pageID,
+      unitID: state.unitID,
+      pageID: state.pageID,
       itemID: targetItemID,
       query: query,
       key: key
@@ -247,7 +246,7 @@ export default function NewItem(props) {
   return (
     <Dialog
       fullScreen
-      open={state.open}
+      open={open}
       onClose={toggleExit}
       className={classes.noneSelect}
       classes={{ paper: classes.container }}
@@ -258,7 +257,7 @@ export default function NewItem(props) {
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            {lang.popup.newItem.title}
+            {context.lang.popup.newItem.title}
           </Typography>
           <IconButton color="inherit" onClick={toggleApply}>
             <DoneIcon />
@@ -267,13 +266,13 @@ export default function NewItem(props) {
       </AppBar>
       <DialogContent className={classes.content}>
         <DialogContentText className={classes.textField}>
-          {stringFormat(lang.popup.newItem.text, [
+          {stringFormat(context.lang.popup.newItem.text, [
             state.listLength
-              ? stringFormat(lang.popup.newItem.aboveOne, [
+              ? stringFormat(context.lang.popup.newItem.aboveOne, [
                   state.listLength + 1
                 ])
-              : lang.popup.newItem.onlyOne,
-            state.listLength ? lang.popup.newItem.supply : ""
+              : context.lang.popup.newItem.onlyOne,
+            state.listLength ? context.lang.popup.newItem.supply : ""
           ])}
         </DialogContentText>
         <div className={classes.itemField}>
@@ -284,7 +283,7 @@ export default function NewItem(props) {
             error={itemIDCheck}
             value={itemID}
             onChange={idChange}
-            label={lang.popup.newItem.itemID}
+            label={context.lang.popup.newItem.itemID}
             className={classes.itemInput}
           />
         </div>
@@ -295,8 +294,8 @@ export default function NewItem(props) {
             variant="fullWidth"
             indicatorColor="primary"
           >
-            <Tab label={lang.popup.newItem.query} />
-            <Tab label={lang.popup.newItem.key} />
+            <Tab label={context.lang.popup.newItem.query} />
+            <Tab label={context.lang.popup.newItem.key} />
           </Tabs>
           <div className={classes.editorInput}>
             <div className={classes.editorContainer}>
@@ -330,13 +329,13 @@ export default function NewItem(props) {
         </Paper>
       </DialogContent>
       <ExitConfirm
-        lang={lang}
+        lang={context.lang}
         open={exit}
         handleClose={() => setExit(false)}
         handleClearClose={() => clearClose(true)}
       />
       <SubmitConfirm
-        lang={lang}
+        lang={context.lang}
         open={apply}
         handleClose={() => setApply(false)}
         handleSubmit={submit}

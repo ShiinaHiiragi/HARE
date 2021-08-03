@@ -18,30 +18,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Move(props) {
   const classes = useStyles();
-  const { lang, open, data, handle } = props;
+  const { open, state, handle } = props;
   const context = React.useContext(PanelContext);
 
   const [value, setValue] = React.useState(0);
   const [check, setCheck] = React.useState(false);
   React.useEffect(() => {
     if (open) {
-      setValue(data.select);
+      setValue(state.select);
       setCheck(false);
     }
-  }, [open, data.select]);
+  }, [open, state.select]);
 
   const submit = () => {
-    const src = data.select;
+    const src = state.select;
     const dst = Number(value) | 0;
-    if (dst < 1 || dst > data.listLength + 1) {
-      handle.toggleMessageBox(lang.message.invalidItemID, "warning");
+    if (dst < 1 || dst > state.listLength + 1) {
+      handle.toggleMessageBox(context.lang.message.invalidItemID, "warning");
       return;
     }
     if (src !== dst)
       context.request("POST/set/move", {
-        userID: data.userID,
-        unitID: data.unitID,
-        pageID: data.pageID,
+        unitID: state.unitID,
+        pageID: state.pageID,
         src: src,
         dst: dst
       }).then(() => {
@@ -78,17 +77,17 @@ export default function Move(props) {
       onClose={handle.close}
       className={classes.noneSelect}
     >
-      <DialogTitle>{lang.popup.edit.titleMove}</DialogTitle>
+      <DialogTitle>{context.lang.popup.edit.titleMove}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {stringFormat(lang.popup.edit.textMove, [data.listLength])}
+          {stringFormat(context.lang.popup.edit.textMove, [state.listLength])}
         </DialogContentText>
         <TextField
           fullWidth
           required
           autoFocus
           type="number"
-          label={lang.popup.edit.labelMove}
+          label={context.lang.popup.edit.labelMove}
           error={check}
           value={value}
           onChange={changeInput}
@@ -96,10 +95,10 @@ export default function Move(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={submit} color="secondary">
-          {lang.common.apply}
+          {context.lang.common.apply}
         </Button>
         <Button onClick={handle.close} color="primary">
-          {lang.common.back}
+          {context.lang.common.back}
         </Button>
       </DialogActions>
     </Dialog>

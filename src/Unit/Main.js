@@ -35,17 +35,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// TODO: add gallery
 export default function Main(props) {
   const classes = useStyles();
-  const { lang, data, state, handle } = props;
+  const { state, handle } = props;
   const context = React.useContext(PanelContext);
 
   const [timerInitial, setTimerInitial] = React.useState([0, 0]);
   React.useEffect(() => {
     if (state.current.unitID && state.current.pageID)
       context.request("GET/data/page", {
-        userID: data.userID,
         unitID: state.current.unitID,
         pageID: state.current.pageID
       }).then((out) => {
@@ -61,7 +59,6 @@ export default function Main(props) {
   React.useEffect(() => {
     if (state.current.unitID && state.current.pageID)
       context.request("GET/data/item", {
-        userID: data.userID,
         unitID: state.current.unitID,
         pageID: state.current.pageID
       }).then((out) => handle.setItemList(out));
@@ -75,21 +72,16 @@ export default function Main(props) {
     >
       <Header />
       <MainPage index={routeIndex.intro} route={state.current.route}>
-        <Intro lang={lang} />
+        <Intro lang={context.lang} />
       </MainPage>
       <MainPage index={routeIndex.cover} route={state.current.route}>
         <Cover
-          lang={lang}
-          data={{
-            userID: data.userID,
-            token: data.token,
+          state={{
             current: state.current,
             pageDetail: state.pageDetail,
           }}
           handle={{
             setCurrentRoute: handle.setCurrentRoute,
-            toggleMessageBox: handle.toggleMessageBox,
-            toggleKick: handle.toggleKick,
             setRecall: handle.setRecall,
             setRecollect: handle.setRecollect,
             setTimerInitial: setTimerInitial,
@@ -101,11 +93,8 @@ export default function Main(props) {
       </MainPage>
       <MainPage index={routeIndex.view} route={state.current.route}>
         <View
-          lang={lang}
-          current={state.current}
-          data={{
-            userID: data.userID,
-            token: data.token,
+          state={{
+            current: state.current,
             pageDetail: state.pageDetail,
             itemList: state.itemList
           }}
@@ -123,8 +112,7 @@ export default function Main(props) {
       </MainPage>
       <MainPage index={routeIndex.stat} route={state.current.route}>
         <Statistics
-          lang={lang}
-          data={{
+          state={{
             statInfo: state.statInfo,
             itemList: state.itemList,
             pageDetail: state.pageDetail,
@@ -140,8 +128,7 @@ export default function Main(props) {
       </MainPage>
       <MainPage index={routeIndex.recall} route={state.current.route}>
         <Recall
-          lang={lang}
-          data={{
+          state={{
             recall: state.recall,
             itemList: state.itemList,
             route: state.current.route,

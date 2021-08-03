@@ -24,24 +24,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChangeTrack(props) {
   const classes = useStyles();
-  const { lang, open, data, handle } = props;
+  const { open, state, handle } = props;
   const context = React.useContext(PanelContext);
 
   const submit = (targetValue) => {
-    if (data.value !== targetValue) {
+    if (state.value !== targetValue) {
       context.request("POST/set/track", {
-        userID: data.userID,
-        unitID: data.unitID,
-        pageID: data.pageID,
-        itemID: data.itemID,
-        trackID: data.trackID,
+        unitID: state.unitID,
+        pageID: state.pageID,
+        itemID: state.itemID,
+        trackID: state.trackID,
         value: targetValue
       }).then(() => {
         handle.setItemList((itemList) => itemList.map((item) => ({
           ...item,
-          [data.trackID]: item.id === data.itemID
+          [state.trackID]: item.id === state.itemID
             ? targetValue
-            : item[data.trackID]
+            : item[state.trackID]
         })));
       });
     }
@@ -54,15 +53,15 @@ export default function ChangeTrack(props) {
       onClose={handle.close}
       className={classes.noneSelect}
     >
-      <DialogTitle className={classes.title}>{lang.popup.edit.track}</DialogTitle>
+      <DialogTitle className={classes.title}>{context.lang.popup.edit.track}</DialogTitle>
       <DialogContent className={classes.icons}>
-        <IconButton disabled={data.value === "P"} onClick={() => submit("P")}>
+        <IconButton disabled={state.value === "P"} onClick={() => submit("P")}>
           <RadioButtonUncheckedIcon />
         </IconButton>
-        <IconButton disabled={data.value === "F"} onClick={() => submit("F")}>
+        <IconButton disabled={state.value === "F"} onClick={() => submit("F")}>
           <CloseIcon />
         </IconButton>
-        <IconButton disabled={data.value === "L"} onClick={() => submit("L")}>
+        <IconButton disabled={state.value === "L"} onClick={() => submit("L")}>
           <ChangeHistoryIcon />
         </IconButton>
       </DialogContent>

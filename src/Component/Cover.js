@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Cover(props) {
   const classes = useStyles();
-  const { lang, data, handle } = props;
+  const { state, handle } = props;
   const context = React.useContext(PanelContext);
   const iconProps = {
     color: "action",
@@ -83,18 +83,17 @@ export default function Cover(props) {
 
   const [clear, setClear] = React.useState(false);
   const verifyTime = () => {
-    if (data.pageDetail.timeThis) setClear(true);
+    if (state.pageDetail.timeThis) setClear(true);
     else toggleRecall();
   }
 
   const toggleRecall = (clear) => {
     context.request("POST/data/this", {
-      userID: data.userID,
-      unitID: data.current.unitID,
-      pageID: data.current.pageID,
+      unitID: state.current.unitID,
+      pageID: state.current.pageID,
       clear: clear
     }).then((out) => {
-      const attribute = clear ? data.pageDetail.trackSize : data.pageDetail.trackSize + 1;
+      const attribute = clear ? state.pageDetail.trackSize : state.pageDetail.trackSize + 1;
       if (clear !== false)
         handle.setItemList((itemList) => itemList.map((item) => ({
           ...item, [attribute]: "L"
@@ -106,7 +105,7 @@ export default function Cover(props) {
         far: [],
         lost: clear === false
           ? out.lost
-          : new Array(data.pageDetail.itemSize).fill().map((_, index) => index + 1)
+          : new Array(state.pageDetail.itemSize).fill().map((_, index) => index + 1)
       });
       handle.setPageDetail((pageDetail) => ({
         ...pageDetail,
@@ -120,9 +119,8 @@ export default function Cover(props) {
 
   const toggleStat = () => {
     context.request("GET/data/stat", {
-      userID: data.userID,
-      unitID: data.current.unitID,
-      pageID: data.current.pageID,
+      unitID: state.current.unitID,
+      pageID: state.current.pageID,
     }).then((out) => {
       handle.setStatInfo(out);
       handle.setCurrentRoute(routeIndex.stat);
@@ -133,47 +131,47 @@ export default function Cover(props) {
     <div className={classes.root}>
       <Card className={classes.basicInfo}>
         <div className={classes.imageInfo}>
-          {data.current.pageCover < pageIcon().length
-            ? pageIcon(iconProps)[data.current.pageCover]
+          {state.current.pageCover < pageIcon().length
+            ? pageIcon(iconProps)[state.current.pageCover]
             : pageIcon(iconProps)[0]}
         </div>
         <div className={classes.textInfo}>
           <Typography component="span" variant="h5" color="textPrimary">
-            {data.current.pageName}
+            {state.current.pageName}
           </Typography>
           <Typography variant="subtitle2" color="textSecondary">
-            {data.current.unitName}
+            {state.current.unitName}
             &emsp;
-            {`${data.pageDetail.itemSize} / ${data.pageDetail.trackSize}`}
+            {`${state.pageDetail.itemSize} / ${state.pageDetail.trackSize}`}
             &emsp;
-            {stringFormat(lang.panel.cover.createTime, [
+            {stringFormat(context.lang.panel.cover.createTime, [
               timeFormat(
-                new Date(data.pageDetail.pageCreateTime),
+                new Date(state.pageDetail.pageCreateTime),
                 "yyyy-MM-dd hh:mm:ss"
               )
             ])}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {data.current.pagePresent.length
-              ? data.current.pagePresent
-              : lang.panel.cover.nilPresent}
+            {state.current.pagePresent.length
+              ? state.current.pagePresent
+              : context.lang.panel.cover.nilPresent}
           </Typography>
         </div>
       </Card>
       <Card className={classes.moreInfo}>
         <Typography variant="button" color="textSecondary">
-          {lang.panel.cover.details}
+          {context.lang.panel.cover.details}
         </Typography>
         <div className={classes.buttonField}>
           <div className={classes.button}>
             <IconButton
               onClick={verifyTime}
-              disabled={!data.pageDetail.itemSize || data.pageDetail.trackSize >= maxRecall}
+              disabled={!state.pageDetail.itemSize || state.pageDetail.trackSize >= maxRecall}
             >
               <CheckCircleOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">
-              {lang.panel.cover.recall}
+              {context.lang.panel.cover.recall}
             </Typography>
           </div>
           <div className={classes.button}>
@@ -181,24 +179,23 @@ export default function Cover(props) {
               <ViewCompactOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">
-              {lang.panel.cover.view}
+              {context.lang.panel.cover.view}
             </Typography>
           </div>
           <div className={classes.button}>
             <IconButton
-              disabled={!data.pageDetail.trackSize}
+              disabled={!state.pageDetail.trackSize}
               onClick={toggleStat}
             >
               <DataUsageOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">
-              {lang.panel.cover.stat}
+              {context.lang.panel.cover.stat}
             </Typography>
           </div>
         </div>
       </Card>
       <ClearConfirm
-        lang={lang}
         open={clear}
         handleClose={() => setClear(false)}
         handleRecall={toggleRecall}

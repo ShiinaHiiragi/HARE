@@ -258,10 +258,6 @@ export default function Panel(props) {
         />
         <Main
           lang={globalLang}
-          data={{
-            userID: userID,
-            token: token
-          }}
           state={{
             current: currentSelect,
             navList: navListPC,

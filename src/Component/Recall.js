@@ -13,6 +13,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import PackedMarkdown from "../Component/Markdown";
 import ForwardTimer from "../Interface/Timer";
 import { HotKeys } from "react-hotkeys";
+import { PanelContext } from "../Page/Panel";
 import { routeIndex, maxLog } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -103,30 +104,31 @@ const keyMap = {
 
 export default function Recall(props) {
   const classes = useStyles();
-  const { lang, data, handle } = props;
+  const { state, handle } = props;
+  const context = React.useContext(PanelContext);
   const [pointer, setPointer] = React.useState(0);
   const [reverse, setReverse] = React.useState("query");
 
   React.useEffect(() => {
-    if (data.route === routeIndex.recall) {
+    if (state.route === routeIndex.recall) {
       log = [];
       setPointer(0);
       setReverse("query");
     }
-  }, [data.route]);
+  }, [state.route]);
 
   React.useEffect(() => {
     const unloadListener = (event) => {
       event.preventDefault();
-      if (!data.recollect && data.route === routeIndex.recall
-        && (data.recall.pure.length || data.recall.far.length)) {
-        event.returnValue = lang.panel.recall.unload;
-        return lang.panel.recall.unload;
+      if (!state.recollect && state.route === routeIndex.recall
+        && (state.recall.pure.length || state.recall.far.length)) {
+        event.returnValue = context.lang.panel.recall.unload;
+        return context.lang.panel.recall.unload;
       }
     };
     window.addEventListener("beforeunload", unloadListener);
     return () => window.removeEventListener("beforeunload", unloadListener);
-  }, [data.recollect, data.route, data.recall, lang]);
+  }, [state.recollect, state.route, state.recall, context.lang]);
 
   const switcher = () => {
     setReverse((reverse) => reverse === "query" ? "key" : "query");
@@ -134,7 +136,7 @@ export default function Recall(props) {
 
   const back = () => {
     handle.setCurrentRoute(routeIndex.cover);
-    handle.submitRecall(data.unitID, data.pageID);
+    handle.submitRecall(state.unitID, state.pageID);
   }
 
   const cancel = () => {
@@ -153,7 +155,7 @@ export default function Recall(props) {
 
   const changeItem = (param) => {
     const type = typeof param;
-    const size = data.recall.lost.length;
+    const size = state.recall.lost.length;
     if (type === "number")
       setPointer((pointer) => (pointer + param + size) % size);
     else if (type === "string") {
@@ -167,7 +169,7 @@ export default function Recall(props) {
       })
       if (size === 1) {
         handle.setCurrentRoute(routeIndex.cover);
-        handle.submitRecall(data.unitID, data.pageID, true);
+        handle.submitRecall(state.unitID, state.pageID, true);
       }
       else setPointer((pointer) => pointer % (size - 1));
     }
@@ -194,7 +196,7 @@ export default function Recall(props) {
           className={classes.button}
           onClick={back}
         >
-          {lang.common.back}
+          {context.lang.common.back}
         </Button>
         <div style={{ flexGrow: 1 }} />
         <Typography
@@ -202,14 +204,14 @@ export default function Recall(props) {
           color="textSecondary"
           className={classes.timer}
         >
-          <ForwardTimer initialTime={data.timerInitial}/>
+          <ForwardTimer initialTime={state.timerInitial}/>
           {"　"}
-          {pointer + 1} / {data.recall.lost.length}
+          {pointer + 1} / {state.recall.lost.length}
         </Typography>
       </div>
       <div className={classes.main}>
         <div className={classes.sideBar}>
-          <Tooltip title={lang.panel.recall.switch}>
+          <Tooltip title={context.lang.panel.recall.switch}>
             <IconButton
               className={classes.iconButton}
               onClick={switcher}
@@ -217,7 +219,7 @@ export default function Recall(props) {
               <CompareArrowsIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title={lang.panel.recall.previous}>
+          <Tooltip title={context.lang.panel.recall.previous}>
             <IconButton
               className={classes.iconButton}
               onClick={() => changeItem(-1)}
@@ -225,7 +227,7 @@ export default function Recall(props) {
               <ArrowBackIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title={lang.panel.recall.revoke}>
+          <Tooltip title={context.lang.panel.recall.revoke}>
             <span>
               <IconButton
                 className={classes.iconButton}
@@ -244,12 +246,12 @@ export default function Recall(props) {
               variant="body2"
               className="markdown-body"
             >
-              <PackedMarkdown children={data.itemList[data.recall.lost[pointer] - 1]?.[reverse]} />
+              <PackedMarkdown children={state.itemList[state.recall.lost[pointer] - 1]?.[reverse]} />
             </Typography>
           </Card>
         </div>
         <div className={classes.sideBar}>
-          <Tooltip title={lang.panel.recall.pure}>
+          <Tooltip title={context.lang.panel.recall.pure}>
             <IconButton
               className={classes.iconButton}
               onClick={() => changeItem("pure")}
@@ -257,7 +259,7 @@ export default function Recall(props) {
               <RadioButtonUncheckedIcon  />
             </IconButton>
           </Tooltip>
-          <Tooltip title={lang.panel.recall.next}>
+          <Tooltip title={context.lang.panel.recall.next}>
             <IconButton
               className={classes.iconButton}
               onClick={() => changeItem(1)}
@@ -265,7 +267,7 @@ export default function Recall(props) {
               <ArrowForwardIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title={lang.panel.recall.far}>
+          <Tooltip title={context.lang.panel.recall.far}>
             <IconButton
               className={classes.iconButton}
               onClick={() => changeItem("far")}

@@ -85,10 +85,10 @@ const keyMap = {
 export default function View(props) {
   const classes = useStyles();
   const apiRef = useGridApiRef();
-  const { lang, current, data, handle } = props;
+  const { state, handle } = props;
   const context = React.useContext(PanelContext);
 
-  const [column, setColumn] = React.useState(defaultColumn(lang.grid));
+  const [column, setColumn] = React.useState(defaultColumn(context.lang.grid));
   const [invalidDelete, setInvalidDelete] = React.useState(true);
   const [invalidMove, setInvalidMove] = React.useState(true);
   const [changeTrack, setChangeTrack] = React.useState(false);
@@ -110,7 +110,7 @@ export default function View(props) {
   }
   const toggleDeleteComfirm = () => {
     const itemSize = apiRef.current.getSelectedRows().size;
-    if (itemSize === data.itemList.length) {
+    if (itemSize === state.itemList.length) {
       if (column.length > 4)
         setDeleteTrack("track");
       else setDeleteTrack("all");
@@ -122,20 +122,19 @@ export default function View(props) {
   const deleteItem = () => {
     const itemID = [...apiRef.current.getSelectedRows().keys()];
     context.request("POST/set/delete-item", {
-      userID: data.userID,
-      unitID: current.unitID,
-      pageID: current.pageID,
+      unitID: state.current.unitID,
+      pageID: state.current.pageID,
       itemID: itemID,
       track: deleteTrack === "track"
     }).then(() => {
       handle.setItemList(() => {
-        let remain = new Array(data.itemList.length).fill().map((_, index) => index + 1);
+        let remain = new Array(state.itemList.length).fill().map((_, index) => index + 1);
         remain = itemID.reduce((current, item, index) => {
           current.splice(item - index - 1, 1);
           return current;
         }, remain);
         return remain.map((item, index) => ({
-          ...data.itemList[item - 1],
+          ...state.itemList[item - 1],
           id: index + 1
         }))
       });
@@ -189,7 +188,7 @@ export default function View(props) {
           className={classes.innerButton}
           onClick={toggleDeleteComfirm}
         >
-          {lang.grid.buttons.delete}
+          {context.lang.grid.buttons.delete}
         </Button>
         <Button
           variant="outlined"
@@ -199,7 +198,7 @@ export default function View(props) {
           className={classes.innerButton}
           onClick={toggleMove}
         >
-          {lang.grid.buttons.move}
+          {context.lang.grid.buttons.move}
         </Button>
         <Button
           variant="outlined"
@@ -208,7 +207,7 @@ export default function View(props) {
           className={classes.innerButton}
           onClick={() => setNewItem(true)}
         >
-          {lang.grid.buttons.newItem}
+          {context.lang.grid.buttons.newItem}
         </Button>
       </GridToolbarContainer>
     );
@@ -229,9 +228,9 @@ export default function View(props) {
   React.useEffect(() => {
     return apiRef.current.subscribeEvent("selectionChange", (params) => {
       setInvalidDelete(params.length === 0);
-      setInvalidMove(data.itemList.length < 2 || params.length !== 1);
+      setInvalidMove(state.itemList.length < 2 || params.length !== 1);
     });
-  }, [apiRef, data.itemList.length]);
+  }, [apiRef, state.itemList.length]);
 
   React.useEffect(() => {
     function TrackSelector(props) {
@@ -242,25 +241,25 @@ export default function View(props) {
   
       return (
         <FormControl variant="standard">
-          <InputLabel>{lang.grid.inherent.filterPanelInputLabel}</InputLabel>
+          <InputLabel>{context.lang.grid.inherent.filterPanelInputLabel}</InputLabel>
           <Select value={item.value || ""} onChange={handleFilterChange}>
-            <MenuItem value="">{lang.grid.inherent.filterValueAny}</MenuItem>
-            <MenuItem value="P">{lang.grid.inherent.filterValuePure}</MenuItem>
-            <MenuItem value="F">{lang.grid.inherent.filterValueFar}</MenuItem>
-            <MenuItem value="L">{lang.grid.inherent.filterValueLost}</MenuItem>
+            <MenuItem value="">{context.lang.grid.inherent.filterValueAny}</MenuItem>
+            <MenuItem value="P">{context.lang.grid.inherent.filterValuePure}</MenuItem>
+            <MenuItem value="F">{context.lang.grid.inherent.filterValueFar}</MenuItem>
+            <MenuItem value="L">{context.lang.grid.inherent.filterValueLost}</MenuItem>
           </Select>
         </FormControl>
       );
     }
 
-    if (data.itemList.length) {
+    if (state.itemList.length) {
       setColumn(
-        defaultColumn(lang.grid).concat(
-          new Array(Object.keys(data.itemList[0]).length - 4)
+        defaultColumn(context.lang.grid).concat(
+          new Array(Object.keys(state.itemList[0]).length - 4)
             .fill()
             .map((_, index) => ({
               field: `${index + 1}`,
-              headerName: lang.grid.ordinal[index],
+              headerName: context.lang.grid.ordinal[index],
               renderCell: (param) => {
                 if (param.value === "P") return <RadioButtonUncheckedIcon />;
                 else if (param.value === "F") return <CloseIcon />;
@@ -268,7 +267,7 @@ export default function View(props) {
               },
               filterOperators: [
                 {
-                  label: lang.grid.inherent.filterOperatorIs,
+                  label: context.lang.grid.inherent.filterOperatorIs,
                   value: "is",
                   getApplyFilterFn: (filterItem) => {
                     if (!filterItem.value) return null;
@@ -283,8 +282,8 @@ export default function View(props) {
             }))
         )
       );
-    } else setColumn(defaultColumn(lang.grid));
-  }, [lang, data.itemList]);
+    } else setColumn(defaultColumn(context.lang.grid));
+  }, [context.lang, state.itemList]);
 
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
@@ -296,7 +295,7 @@ export default function View(props) {
           className={classes.button}
           onClick={() => handle.setCurrentRoute(routeIndex.cover)}
         >
-          {lang.common.back}
+          {context.lang.common.back}
         </Button>
         <div style={{ flexGrow: 1 }}></div>
         <Button
@@ -307,7 +306,7 @@ export default function View(props) {
           className={clsx(classes.button, classes.exportButton)}
           onClick={() => {}}
         >
-          {lang.grid.buttons.export}
+          {context.lang.grid.buttons.export}
         </Button>
         <Button
           variant="outlined"
@@ -325,13 +324,13 @@ export default function View(props) {
             handle.setCurrentRoute(routeIndex.recall);
           }}
         >
-          {lang.grid.buttons.recollect}
+          {context.lang.grid.buttons.recollect}
         </Button>
       </div>
       <Card className={classes.cardField}>
         <XGrid
-          localeText={lang.grid.inherent}
-          rows={data.itemList}
+          localeText={context.lang.grid.inherent}
+          rows={state.itemList}
           columns={column}
           disableColumnMenu
           components={{ Toolbar: InnerToolbar }}
@@ -341,17 +340,12 @@ export default function View(props) {
         />
       </Card>
       <NewItem
-        lang={lang}
-        data={{
-          userID: data.userID,
-          token: data.token,
-          unitID: current.unitID,
-          pageID: current.pageID
-        }}
+        open={newItem}
         state={{
-          open: newItem,
-          trackSize: data.pageDetail.trackSize,
-          listLength: data.itemList.length
+          unitID: state.current.unitID,
+          pageID: state.current.pageID,
+          trackSize: state.pageDetail.trackSize,
+          listLength: state.itemList.length
         }}
         handle={{
           close: () => setNewItem(false),
@@ -362,13 +356,11 @@ export default function View(props) {
         }}
       />
       <Move
-        lang={lang}
         open={move}
-        data={{
-          userID: data.userID,
-          listLength: data.itemList.length,
-          unitID: current.unitID,
-          pageID: current.pageID,
+        state={{
+          listLength: state.itemList.length,
+          unitID: state.current.unitID,
+          pageID: state.current.pageID,
           select: itemSelect
         }}
         handle={{
@@ -379,21 +371,17 @@ export default function View(props) {
         }}
       />
       <DeleteConfirm
-        lang={lang}
         open={deleteConfirm}
         type="item"
-        name={lang.popup.delete[deleteTrack]}
+        name={context.lang.popup.delete[deleteTrack]}
         handleClose={() => setDeleteConfirm(false)}
         handleDeleteTarget={deleteItem}
       />
       <ChangeTrack
-        lang={lang}
         open={changeTrack}
-        data={{
-          token: data.token,
-          userID: data.userID,
-          unitID: current.unitID,
-          pageID: current.pageID,
+        state={{
+          unitID: state.current.unitID,
+          pageID: state.current.pageID,
           itemID: apiItemID,
           trackID: apiTrackID,
           value: apiValue
