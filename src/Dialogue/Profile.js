@@ -13,7 +13,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { nameMaxLength } from "../Interface/Constant";
-import { packedPOST } from "../Interface/Request";
+import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Profile(props) {
   const classes = useStyles();
   const { lang, open, data, value, check, handle } = props;
+  const context = React.useContext(PanelContext);
+
   const valueChange = (key, targetValue) => {
     handle.setValue((profileValue) => ({
       ...profileValue,
@@ -84,19 +86,13 @@ export default function Profile(props) {
   const applyChange = () => {
     const errorMessage = checkInput();
     if (errorMessage === "") {
-      packedPOST({
-        uri: "/set/profile",
-        query: {
-          userID: data.userID,
-          userName: value.userName,
-          birth: value.birth,
-          gender: value.gender,
-          tel: value.tel,
-          city: value.city
-        },
-        msgbox: handle.toggleMessageBox,
-        kick: handle.toggleKick,
-        lang: lang
+      context.request("POST/set/profile", {
+        userID: data.userID,
+        userName: value.userName,
+        birth: value.birth,
+        gender: value.gender,
+        tel: value.tel,
+        city: value.city
       }).then(() => {
         handle.setProfile((profile) => ({
           ...profile,

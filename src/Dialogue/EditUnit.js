@@ -6,7 +6,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { nameMaxLength } from "../Interface/Constant";
-import { packedPOST } from "../Interface/Request";
+import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export default function EditUnit(props) {
   const classes = useStyles();
   const { lang, open, userID, state, handle } = props;
+  const context = React.useContext(PanelContext);
 
   const applyUnitChange = () => {
     const targetSize = state.editUnitNameValue.length;
@@ -25,17 +26,11 @@ export default function EditUnit(props) {
       handle.setEditUnitNameCheck(true);
       handle.toggleMessageBox(lang.message.unitNameError, "warning");
     } else {
-      packedPOST({
-        uri: "/set/unit",
-        query: {
-          userID: userID,
-          unitID: state.unitID,
-          name: state.editUnitNameValue
-        },
-        msgbox: handle.toggleMessageBox,
-        kick: handle.toggleKick,
-        lang: lang
-      }).then((out) => {
+      context.request("POST/set/unit", {
+        userID: userID,
+        unitID: state.unitID,
+        name: state.editUnitNameValue
+      }).then(() => {
         handle.setListObject((listObject) =>
           listObject.map((item) =>
             item.unitID === state.unitID

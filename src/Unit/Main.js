@@ -8,7 +8,6 @@ import Cover from "../Component/Cover";
 import View from "../Component/View";
 import Statistics from "../Component/Statistics";
 import Recall from "../Component/Recall";
-import packedGET from "../Interface/Request";
 import { routeIndex } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 
@@ -40,21 +39,15 @@ const useStyles = makeStyles((theme) => ({
 export default function Main(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
-  // const context = React.useContext(PanelContext);
+  const context = React.useContext(PanelContext);
 
   const [timerInitial, setTimerInitial] = React.useState([0, 0]);
   React.useEffect(() => {
     if (state.current.unitID && state.current.pageID)
-      packedGET({
-        uri: "/data/page",
-        query: {
-          userID: data.userID,
-          unitID: state.current.unitID,
-          pageID: state.current.pageID
-        },
-        msgbox: handle.toggleMessageBox,
-        kick: handle.toggleKick,
-        lang: lang
+      context.request("GET/data/page", {
+        userID: data.userID,
+        unitID: state.current.unitID,
+        pageID: state.current.pageID
       }).then((out) => {
         handle.setPageDetail({
           itemSize: out.itemsize,
@@ -67,16 +60,10 @@ export default function Main(props) {
 
   React.useEffect(() => {
     if (state.current.unitID && state.current.pageID)
-      packedGET({
-        uri: "/data/item",
-        query: {
-          userID: data.userID,
-          unitID: state.current.unitID,
-          pageID: state.current.pageID
-        },
-        msgbox: handle.toggleMessageBox,
-        kick: handle.toggleKick,
-        lang: lang
+      context.request("GET/data/item", {
+        userID: data.userID,
+        unitID: state.current.unitID,
+        pageID: state.current.pageID
       }).then((out) => handle.setItemList(out));
   }, [state.current.unitID, state.current.pageID]);
 

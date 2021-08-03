@@ -18,7 +18,7 @@ import PackedMarkdown from "../Component/Markdown";
 import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
-import { packedPOST } from "../Interface/Request";
+import { PanelContext } from "../Page/Panel";
 import { stringFormat, cookieTime, underline } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -109,6 +109,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NewItem(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
+  const context = React.useContext(PanelContext);
 
   // the state of text input
   const [itemID, setItemID] = React.useState(0);
@@ -213,19 +214,13 @@ export default function NewItem(props) {
   };
   const submit = () => {
     const targetItemID = Number(itemID) | 0;
-    packedPOST({
-      uri: "/set/new-item",
-      query: {
-        userID: data.userID,
-        unitID: data.unitID,
-        pageID: data.pageID,
-        itemID: targetItemID,
-        query: query,
-        key: key
-      },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
+    context.request("POST/set/new-item", {
+      userID: data.userID,
+      unitID: data.unitID,
+      pageID: data.pageID,
+      itemID: targetItemID,
+      query: query,
+      key: key
     }).then((createTime) => {
       handle.setItemList((itemList) => {
         let newItemList = itemList.map((item) =>

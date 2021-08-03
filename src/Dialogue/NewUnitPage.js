@@ -7,7 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
-import { packedPOST } from "../Interface/Request";
+import { PanelContext } from "../Page/Panel";
 import { nameMaxLength, presentMaxLength } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NewUnitPage(props) {
   const classes = useStyles();
   const { lang, edit, userID, token, open, group, type, text, handle } = props;
+  const context = React.useContext(PanelContext);
 
   const checkFormInput = () => {
     let errorMessage = "";
@@ -53,18 +54,12 @@ export default function NewUnitPage(props) {
       handle.toggleMessageBox(errorMessage, "warning");
       return;
     }
-    packedPOST({
-      uri: "/set/page",
-      query: {
-        userID: userID,
-        unitID: type[0],
-        pageID: type[1],
-        pageName: text.pageNameValue,
-        pagePresent: text.pagePresentValue
-      },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
+    context.request("POST/set/page", {
+      userID: userID,
+      unitID: type[0],
+      pageID: type[1],
+      pageName: text.pageNameValue,
+      pagePresent: text.pagePresentValue
     }).then(() => {
       handle.setListObject((listObject) =>
         listObject.map((item) => item.unitID === type[0]
@@ -88,20 +83,14 @@ export default function NewUnitPage(props) {
       handle.toggleMessageBox(errorMessage, "warning");
       return;
     }
-    packedPOST({
-      uri: "/set/new-up",
-      query: {
-        userID: userID,
-        token: token,
-        group: group,
-        type: type,
-        unitName: text.unitNameValue,
-        pageName: text.pageNameValue,
-        pagePresent: text.pagePresentValue
-      },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
+    context.request("POST/set/new-up", {
+      userID: userID,
+      token: token,
+      group: group,
+      type: type,
+      unitName: text.unitNameValue,
+      pageName: text.pageNameValue,
+      pagePresent: text.pagePresentValue
     }).then(() => {
       handle.close();
       if (group) {

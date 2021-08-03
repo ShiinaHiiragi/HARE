@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { packedPOST } from "../Interface/Request";
+import { PanelContext } from "../Page/Panel";
 import { stringFormat } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Move(props) {
   const classes = useStyles();
   const { lang, open, data, handle } = props;
+  const context = React.useContext(PanelContext);
 
   const [value, setValue] = React.useState(0);
   const [check, setCheck] = React.useState(false);
@@ -37,18 +38,12 @@ export default function Move(props) {
       return;
     }
     if (src !== dst)
-      packedPOST({
-        uri: "/set/move",
-        query: {
-          userID: data.userID,
-          unitID: data.unitID,
-          pageID: data.pageID,
-          src: src,
-          dst: dst
-        },
-        msgbox: handle.toggleMessageBox,
-        kick: handle.toggleKick,
-        lang: lang
+      context.request("POST/set/move", {
+        userID: data.userID,
+        unitID: data.unitID,
+        pageID: data.pageID,
+        src: src,
+        dst: dst
       }).then(() => {
         handle.setItemList((itemList) => {
           const direction = src < dst ? -1 : 1;

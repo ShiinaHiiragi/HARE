@@ -6,7 +6,7 @@ import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ViewCompactOutlinedIcon from "@material-ui/icons/ViewCompactOutlined";
 import DataUsageOutlinedIcon from "@material-ui/icons/DataUsageOutlined";
 import ClearConfirm from "../Dialogue/ClearComfirm";
-import { packedGET, packedPOST } from "../Interface/Request";
+import { PanelContext } from "../Page/Panel";
 import {
   timeFormat,
   stringFormat,
@@ -75,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Cover(props) {
   const classes = useStyles();
   const { lang, data, handle } = props;
+  const context = React.useContext(PanelContext);
   const iconProps = {
     color: "action",
     className: classes.pageCover
@@ -87,17 +88,11 @@ export default function Cover(props) {
   }
 
   const toggleRecall = (clear) => {
-    packedPOST({
-      uri: "/data/this",
-      query: {
-        userID: data.userID,
-        unitID: data.current.unitID,
-        pageID: data.current.pageID,
-        clear: clear
-      },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
+    context.request("POST/data/this", {
+      userID: data.userID,
+      unitID: data.current.unitID,
+      pageID: data.current.pageID,
+      clear: clear
     }).then((out) => {
       const attribute = clear ? data.pageDetail.trackSize : data.pageDetail.trackSize + 1;
       if (clear !== false)
@@ -124,16 +119,10 @@ export default function Cover(props) {
   };
 
   const toggleStat = () => {
-    packedGET({
-      uri: "/data/stat",
-      query: {
-        userID: data.userID,
-        unitID: data.current.unitID,
-        pageID: data.current.pageID,
-      },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
+    context.request("GET/data/stat", {
+      userID: data.userID,
+      unitID: data.current.unitID,
+      pageID: data.current.pageID,
     }).then((out) => {
       handle.setStatInfo(out);
       handle.setCurrentRoute(routeIndex.stat);

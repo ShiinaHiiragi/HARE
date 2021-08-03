@@ -4,7 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import LanguageSelector from "./LanguageSelector";
 import License from "./License";
 import LogoutConfirm from "../Dialogue/LogoutConfirm";
-import { packedPOST } from "../Interface/Request";
+import { PanelContext } from "../Page/Panel";
 import { imageMaxBase } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
 export default function GlobalMenu(props) {
   const classes = useStyles();
   const { lang, anchor, data, handle } = props;
+  const context = React.useContext(PanelContext);
+
   const [languageSelector, setLanguageSelector] = React.useState(false);
   const [license, setLicense] = React.useState(false);
   const [logout, setLogout] = React.useState(false);
@@ -36,16 +38,10 @@ export default function GlobalMenu(props) {
     if (result.length > imageMaxBase) {
       handle.toggleMessageBox(lang.message.largeImage, "warning");
     } else {
-      packedPOST({
-        uri: "/set/avatar",
-        query: {
-          userID: data.userID,
-          avatar: result,
-          type: type.replace(/image\/(\w+)/, ".$1")
-        },
-        msgbox: handle.toggleMessageBox,
-        kick: handle.toggleKick,
-        lang: lang
+      context.request("POST/set/avatar", {
+        userID: data.userID,
+        avatar: result,
+        type: type.replace(/image\/(\w+)/, ".$1")
       }).then(() => {
         handle.refreshAvatar();
         handle.toggleMessageBox(lang.message.changeAvatar, "success");

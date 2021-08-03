@@ -15,8 +15,8 @@ import PageMenu from "../Dialogue/PageMenu";
 import NewUnitPage from "../Dialogue/NewUnitPage";
 import EditUnit from "../Dialogue/EditUnit";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
-import { packedGET, packedPOST } from "../Interface/Request";
 import { initMenu, pageIcon, routeIndex } from "../Interface/Constant";
+import { PanelContext } from "../Page/Panel";
 import clsx from "clsx";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Pages(props) {
   const classes = useStyles();
   const { lang, data, state, handle } = props;
+  const context = React.useContext(PanelContext);
 
   // fold and unfold the units
   const changeUnit = (targetID) => {
@@ -79,44 +80,39 @@ export default function Pages(props) {
   };
 
   const changeMove = (group, less) => {
-    packedPOST({
-      uri: "/set/swap-up",
-      query: { userID: data.userID, group: group, less: less },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
-    }).then(() => {
-      if (group) {
-        handle.setListObject((listObject) => {
-          listObject[less - 1] = listObject.splice(
-            less,
-            1,
-            listObject[less - 1]
-          )[0];
-          return listObject.map((item) =>
-            item.unitID === less
-              ? { ...item, unitID: less + 1 }
-              : item.unitID === less + 1
-              ? { ...item, unitID: less }
-              : item
-          );
-        });
-      } else {
-        handle.setListObject((listObject) => {
-          let tempPageItem = listObject[less[0] - 1].pages;
-          tempPageItem[less[1] - 1] = tempPageItem.splice(
-            less[1],
-            1,
-            tempPageItem[less[1] - 1]
-          )[0];
-          tempPageItem[less[1] - 1].pageID = less[1];
-          tempPageItem[less[1]].pageID = less[1] + 1;
-          return listObject.map((item) =>
-            item.unitID === less[0] ? { ...item, pages: tempPageItem } : item
-          );
-        });
-      }
-    });
+    context.request("POST/set/swap-up", { userID: data.userID, group: group, less: less })
+      .then(() => {
+        if (group) {
+          handle.setListObject((listObject) => {
+            listObject[less - 1] = listObject.splice(
+              less,
+              1,
+              listObject[less - 1]
+            )[0];
+            return listObject.map((item) =>
+              item.unitID === less
+                ? { ...item, unitID: less + 1 }
+                : item.unitID === less + 1
+                ? { ...item, unitID: less }
+                : item
+            );
+          });
+        } else {
+          handle.setListObject((listObject) => {
+            let tempPageItem = listObject[less[0] - 1].pages;
+            tempPageItem[less[1] - 1] = tempPageItem.splice(
+              less[1],
+              1,
+              tempPageItem[less[1] - 1]
+            )[0];
+            tempPageItem[less[1] - 1].pageID = less[1];
+            tempPageItem[less[1]].pageID = less[1] + 1;
+            return listObject.map((item) =>
+              item.unitID === less[0] ? { ...item, pages: tempPageItem } : item
+            );
+          });
+        }
+      });
   };
 
   // states used for inserting units or pages
@@ -165,17 +161,11 @@ export default function Pages(props) {
     setDeleteConfirmType(type);
   };
   const deleteUnitPage = (userID, unitID, pageID) => {
-    packedPOST({
-      uri: "/set/delete-up",
-      query: {
-        userID: userID,
-        unitID: unitID,
-        pageID: pageID,
-        group: pageID > 0 ? false : true
-      },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
+    context.request("data/set/delete-up", {
+      userID: userID,
+      unitID: unitID,
+      pageID: pageID,
+      group: pageID > 0 ? false : true
     }).then((out) => {
       if (out === "unit") {
         handle.setListObject((listObject) => {
@@ -237,16 +227,10 @@ export default function Pages(props) {
     }
     if (state.navListMobile) handle.closeNavListMobile();
     if (state.listObject[unitID - 1].pages[pageID - 1].route === routeIndex.stat)
-      packedGET({
-        uri: "/data/stat",
-        query: {
-          userID: data.userID,
-          unitID: unitID,
-          pageID: pageID,
-        },
-        msgbox: handle.toggleMessageBox,
-        kick: handle.toggleKick,
-        lang: lang
+      context.request("GET/data/stat", {
+        userID: data.userID,
+        unitID: unitID,
+        pageID: pageID,
       }).then((out) => {
         handle.setStatInfo(out);
         listSelected(unitID, pageID)

@@ -19,7 +19,7 @@ import NewItem from "../Dialogue/NewItem";
 import Move from "../Dialogue/Move";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import ChangeTrack from "../Dialogue/ChangeTrack";
-import { packedPOST } from "../Interface/Request";
+import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
 import {
   XGrid,
@@ -86,6 +86,7 @@ export default function View(props) {
   const classes = useStyles();
   const apiRef = useGridApiRef();
   const { lang, current, data, handle } = props;
+  const context = React.useContext(PanelContext);
 
   const [column, setColumn] = React.useState(defaultColumn(lang.grid));
   const [invalidDelete, setInvalidDelete] = React.useState(true);
@@ -120,18 +121,12 @@ export default function View(props) {
 
   const deleteItem = () => {
     const itemID = [...apiRef.current.getSelectedRows().keys()];
-    packedPOST({
-      uri: "/set/delete-item",
-      query: {
-        userID: data.userID,
-        unitID: current.unitID,
-        pageID: current.pageID,
-        itemID: itemID,
-        track: deleteTrack === "track"
-      },
-      msgbox: handle.toggleMessageBox,
-      kick: handle.toggleKick,
-      lang: lang
+    context.request("POST/set/delete-item", {
+      userID: data.userID,
+      unitID: current.unitID,
+      pageID: current.pageID,
+      itemID: itemID,
+      track: deleteTrack === "track"
     }).then(() => {
       handle.setItemList(() => {
         let remain = new Array(data.itemList.length).fill().map((_, index) => index + 1);
