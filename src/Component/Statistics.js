@@ -143,7 +143,8 @@ export default function Statistics(props) {
     } else {
       setTimeout(() => setExpandAll(false), setStateDelay);
     };
-  }, [state.current.route === routeIndex.stat]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.current.route]);
 
   const itemSize = state.pageDetail.itemSize;
   const trackSize = state.pageDetail.trackSize;
@@ -248,6 +249,7 @@ export default function Statistics(props) {
         return freq.slice(0, maxFrequency);
       })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expandAll, context.lang]);
 
   React.useEffect(() => {
