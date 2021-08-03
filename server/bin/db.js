@@ -503,3 +503,27 @@ exports.editTrack = (userID, unitID, pageID, itemID, trackID, value) =>
       and pageID = ${pageID} and itemID = ${itemID}`)
       .then(resolve).catch(reject)
   );
+
+exports.deleteTrack = (userID, unitID, pageID, trackID) =>
+  new Promise((resolve, reject) =>
+    query(`select itemSize from page where userID = ${userID}
+      and unitID = ${unitID} and pageID = ${pageID}`)
+      .then((out) => 
+        Promise.all(new Array(out[0].itemsize).map((_, index) => 
+          query(`select itemRecord from item where userID = ${userID} and
+            unitID = ${unitID} and pageID = ${pageID} and itemID = ${index + 1}`)
+            .then((innerOut) => {
+              const record = innerOut[0].itemrecord.splice(trackID - 1, 1);
+              if (trackID > 1) return `array${JSON.stringify(record)}`;
+              else return `null`
+            })
+            .then((value) => query(`update item set itemRecord = ${value}
+              where userID = ${userID} and unitID = ${unitID}
+              and pageID = ${pageID} and itemID = ${index + 1}`))
+        ))
+      )
+      .then(() => query(`update page set trackSize = ${trackID ? "trackSize - 1" : "0"}
+        where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`))
+      .then(resolve)
+      .catch(reject)
+  );

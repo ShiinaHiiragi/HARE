@@ -314,4 +314,17 @@ router.post('/track', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
+router.post('delete-track', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID, unitID, pageID, itemID, trackID } = api.sqlNumber(
+    req.body, ['userID', 'unitID', 'pageID', 'trackID'], res
+  );
+  if (!(userID && token)) return;
+
+  db.checkToken(userID, token, res)
+    .then(() => db.deleteTrack(userID, unitID, pageID, trackID))
+    .then(() => api.noContent(res))
+    .catch(() => api.internalServerError(res));
+});
+
 module.exports = router;
