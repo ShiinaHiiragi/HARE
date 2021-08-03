@@ -219,25 +219,6 @@ export default function View(props) {
     );
   }
 
-  function TrackSelector(props) {
-    const { item, applyValue } = props;
-    const handleFilterChange = (event) => {
-      applyValue({ ...item, value: event.target.value });
-    };
-
-    return (
-      <FormControl variant="standard">
-        <InputLabel>{lang.grid.inherent.filterPanelInputLabel}</InputLabel>
-        <Select value={item.value || ""} onChange={handleFilterChange}>
-          <MenuItem value="">{lang.grid.inherent.filterValueAny}</MenuItem>
-          <MenuItem value="P">{lang.grid.inherent.filterValuePure}</MenuItem>
-          <MenuItem value="F">{lang.grid.inherent.filterValueFar}</MenuItem>
-          <MenuItem value="L">{lang.grid.inherent.filterValueLost}</MenuItem>
-        </Select>
-      </FormControl>
-    );
-  }
-
   // TODO: edit grid on double click
   React.useEffect(() => {
     return apiRef.current.subscribeEvent("cellDoubleClick", (params) => {
@@ -258,6 +239,25 @@ export default function View(props) {
   }, [apiRef, data.itemList.length]);
 
   React.useEffect(() => {
+    function TrackSelector(props) {
+      const { item, applyValue } = props;
+      const handleFilterChange = (event) => {
+        applyValue({ ...item, value: event.target.value });
+      };
+  
+      return (
+        <FormControl variant="standard">
+          <InputLabel>{lang.grid.inherent.filterPanelInputLabel}</InputLabel>
+          <Select value={item.value || ""} onChange={handleFilterChange}>
+            <MenuItem value="">{lang.grid.inherent.filterValueAny}</MenuItem>
+            <MenuItem value="P">{lang.grid.inherent.filterValuePure}</MenuItem>
+            <MenuItem value="F">{lang.grid.inherent.filterValueFar}</MenuItem>
+            <MenuItem value="L">{lang.grid.inherent.filterValueLost}</MenuItem>
+          </Select>
+        </FormControl>
+      );
+    }
+
     if (data.itemList.length) {
       setColumn(
         defaultColumn(lang.grid).concat(

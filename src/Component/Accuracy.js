@@ -1,6 +1,6 @@
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { PieChart, Pie, Sector, Cell } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 import { getRank } from "../Interface/Constant";
 
 const colors = {

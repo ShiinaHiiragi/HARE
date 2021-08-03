@@ -27,7 +27,7 @@ export default function Move(props) {
       setValue(data.select);
       setCheck(false);
     }
-  }, [open]);
+  }, [open, data.select]);
 
   const submit = () => {
     const src = data.select;

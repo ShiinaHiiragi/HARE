@@ -116,18 +116,17 @@ export default function Recall(props) {
   }, [data.route]);
 
   React.useEffect(() => {
+    const unloadListener = (event) => {
+      event.preventDefault();
+      if (!data.recollect && data.route === routeIndex.recall
+        && (data.recall.pure.length || data.recall.far.length)) {
+        event.returnValue = lang.panel.recall.unload;
+        return lang.panel.recall.unload;
+      }
+    };
     window.addEventListener("beforeunload", unloadListener);
     return () => window.removeEventListener("beforeunload", unloadListener);
-  }, [data.route, data.recall]);
-
-  const unloadListener = (event) => {
-    event.preventDefault();
-    if (!data.recollect && data.route === routeIndex.recall
-      && (data.recall.pure.length || data.recall.far.length)) {
-      event.returnValue = lang.panel.recall.unload;
-      return lang.panel.recall.unload;
-    }
-  };
+  }, [data.recollect, data.route, data.recall, lang]);
 
   const switcher = () => {
     setReverse((reverse) => reverse === "query" ? "key" : "query");

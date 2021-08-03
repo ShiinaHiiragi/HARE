@@ -132,7 +132,7 @@ export default function NewItem(props) {
       if (savedWrap) setWordWrap(savedWrap);
       else cookie.save("__wordWrap", "on", { expires: cookieTime(3650) });
     }
-  }, [state.open]);
+  }, [state.open, state.listLength]);
   const onEditorReady = (editor, monaco) => {
     let closureWordWrap = wordWrap;
     // editor.onDidChangeCursorPosition((event) => {
