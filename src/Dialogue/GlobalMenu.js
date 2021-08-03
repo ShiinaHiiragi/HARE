@@ -39,7 +39,6 @@ export default function GlobalMenu(props) {
       handle.toggleMessageBox(context.lang.message.largeImage, "warning");
     } else {
       context.request("POST/set/avatar", {
-        userID: state.userID,
         avatar: result,
         type: type.replace(/image\/(\w+)/, ".$1")
       }).then(() => {

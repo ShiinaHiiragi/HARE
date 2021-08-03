@@ -236,11 +236,8 @@ export default function Panel(props) {
         />
         <NavList
           lang={globalLang}
-          data={{
-            userID: userID,
-            token: token
-          }}
           state={{
+            userID: userID,
             profile: profile,
             navList: navListPC,
             currentSelect: currentSelect,

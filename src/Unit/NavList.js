@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavList(props) {
   const classes = useStyles();
-  const { lang, data, state, handle } = props;
+  const { state, handle } = props;
   const [editProfile, setEditProfile] = React.useState(false);
 
   const [value, setValue] = React.useState(defaultProfile);
@@ -44,18 +44,18 @@ export default function NavList(props) {
   };
 
   const [avatarURL, setAvatarURL] = React.useState(
-    `${requestURL}/src/avatar?userID=${data.userID}`
+    `${requestURL}/src/avatar?userID=${state.userID}`
   );
   const refreshAvatar = () =>
     setAvatarURL(
-      `${requestURL}/src/avatar?userID=${data.userID}&t=${randomTimestamp()}`
+      `${requestURL}/src/avatar?userID=${state.userID}&t=${randomTimestamp()}`
     );
 
   const drawerContent = (
     <div className={classes.sideList}>
       <PersonalInfo
         state={{
-          userID: data.userID,
+          userID: state.userID,
           avatar: avatarURL,
           profile: state.profile
         }}
@@ -116,7 +116,7 @@ export default function NavList(props) {
       <Profile
         open={editProfile}
         state={{
-          userID: data.userID,
+          userID: state.userID,
           avatar: avatarURL,
           value: value,
           check: check
