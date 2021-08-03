@@ -28,27 +28,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar(props) {
   const classes = useStyles();
-  const { lang, state, handle } = props;
+  const { state, handle } = props;
 
   const AppBarContent = (
     <Toolbar>
       <Fold
         navList={state.navList}
-        handleToggleNavList={handle.toggleNavList}
-        handleCloseNavList={handle.closeNavList}
-        handleToggleNavListMobile={handle.toggleNavListMobile}
+        handle={{
+          toggleNavList: handle.toggleNavList,
+          closeNavList: handle.closeNavList,
+          toggleNavListMobile: handle.toggleNavListMobile
+        }}
       />
       <NavTitle title={state.currentSelect.pageName} />
       {state.currentSelect.unitID &&
       <LocalInfo
-        lang={lang}
-        userID={state.userID}
         current={state.currentSelect}
-        handle={{
-          setList: handle.setListObject,
-          toggleMessageBox: handle.toggleMessageBox,
-          toggleKick: handle.toggleKick
-        }}
+        handleSetList={handle.setListObject}
       />}
     </Toolbar>
   );

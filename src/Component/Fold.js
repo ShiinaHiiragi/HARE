@@ -10,12 +10,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Fold(props) {
   const classes = useStyles();
-  const {
-    navList,
-    handleToggleNavList,
-    handleCloseNavList,
-    handleToggleNavListMobile
-  } = props;
+  const { navList, handle } = props;
 
   return (
     <div>
@@ -24,7 +19,7 @@ export default function Fold(props) {
           color="inherit"
           edge="start"
           className={classes.menuButton}
-          onClick={navList ? handleCloseNavList : handleToggleNavList}
+          onClick={navList ? handle.closeNavList : handle.toggleNavList}
         >
           {navList ? <ChevronLeftIcon /> : <MenuIcon />}
         </IconButton>
@@ -34,7 +29,7 @@ export default function Fold(props) {
           color="inherit"
           edge="start"
           className={classes.menuButton}
-          onClick={handleToggleNavListMobile}
+          onClick={handle.toggleNavListMobile}
         >
           <MenuIcon />
         </IconButton>

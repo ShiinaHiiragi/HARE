@@ -5,18 +5,17 @@ import ChangeCover from "../Dialogue/ChangeCover";
 import { PanelContext } from "../Page/Panel";
 
 export default function LocalInfo(props) {
-  const { lang, userID, current, handle } = props;
+  const { current, handleSetList } = props;
   const [changeCover, setChangeCover] = React.useState(false);
   const context = React.useContext(PanelContext);
 
   const submit = (index) => {
     context.request("POST/set/cover", {
-      userID: userID,
       unitID: current.unitID,
       pageID: current.pageID,
       cover: index
     }).then(() => {
-      handle.setList((list) => list.map((item) => item.unitID === current.unitID
+      handleSetList((list) => list.map((item) => item.unitID === current.unitID
         ? {
           ...item,
           pages: item.pages.map((subItem) => subItem.pageID === current.pageID
@@ -31,11 +30,10 @@ export default function LocalInfo(props) {
         <InfoOutlinedIcon />
       </IconButton>
       <ChangeCover
-        lang={lang}
         open={changeCover}
         cover={current.pageCover}
         handleClose={() => setChangeCover(false)}
-        handleChange={submit}
+        handleSubmit={submit}
       />
     </div>
   );

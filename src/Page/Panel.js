@@ -208,7 +208,7 @@ export default function Panel(props) {
     };
     const params = {
       uri: uri.slice(split),
-      query: query,
+      query: { ...query, userID: userID },
       msgbox: toggleMessageBox,
       kick: () => setKick(true),
       lang: globalLang,
@@ -219,13 +219,11 @@ export default function Panel(props) {
   }, [globalLang]);
 
   return (
-    <PanelContext.Provider value={{ request: packedRequest }}>
+    <PanelContext.Provider value={{ lang: globalLang, request: packedRequest }}>
       <Root lang={globalLang}>
         <CssBaseline />
         <NavBar
-          lang={globalLang}
           state={{
-            userID: userID,
             navList: navListPC,
             currentSelect: currentSelect
           }}
@@ -233,8 +231,6 @@ export default function Panel(props) {
             toggleNavList: () => setNavListPC(true),
             closeNavList: () => setNavListPC(false),
             toggleNavListMobile: () => setNavListMobile(true),
-            toggleMessageBox: toggleMessageBox,
-            toggleKick: () => setKick(true),
             setListObject: setListObject
           }}
         />
