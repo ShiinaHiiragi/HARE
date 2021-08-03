@@ -226,7 +226,7 @@ export default function View(props) {
       } else if (params.field === "query" || params.field === "key") {
         setEditItem(params.field);
         setNewItem(true);
-      }
+      } else if (params.field === "id") toggleMove();
     });
   }, [apiRef]);
 
