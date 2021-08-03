@@ -47,9 +47,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     flex: 1
   },
-  textField: {
-    margin: theme.spacing(0)
-  },
   itemField: {
     margin: theme.spacing(1, 0)
   },
@@ -118,20 +115,18 @@ export default function NewItem(props) {
   const [itemIDCheck, setItemIDCheck] = React.useState(false);
   const [wordWrap, setWordWrap] = React.useState("on");
 
-  // the state of tab
+  // the state of tab and dialogue
   const [tab, setTab] = React.useState(0);
   const [editKey, setEditKey] = React.useState(false);
-
-  // the state of dialogue
   const [exit, setExit] = React.useState(false);
   const [apply, setApply] = React.useState(false);
 
   React.useEffect(() => {
     if (open) {
-      setItemID(state.listLength + 1);
       const savedWrap = cookie.load("__wordWrap");
       if (savedWrap) setWordWrap(savedWrap);
       else cookie.save("__wordWrap", "on", { expires: cookieTime(3650) });
+      setItemID(state.listLength + 1);
     }
   }, [open, state.listLength]);
   const onEditorReady = (editor, monaco) => {
@@ -210,9 +205,10 @@ export default function NewItem(props) {
       return;
     } else setItemIDCheck(false);
     if (!editKey) setApply(true);
-    else submit();
+    else submitNew();
   };
-  const submit = () => {
+
+  const submitNew = () => {
     const targetItemID = Number(itemID) | 0;
     context.request("POST/set/new-item", {
       unitID: state.unitID,
@@ -257,7 +253,9 @@ export default function NewItem(props) {
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            {context.lang.popup.newItem.title}
+            {state.editItem
+              ? context.lang.popup.newItem.editTitle
+              : context.lang.popup.newItem.title}
           </Typography>
           <IconButton color="inherit" onClick={toggleApply}>
             <DoneIcon />
@@ -265,17 +263,22 @@ export default function NewItem(props) {
         </Toolbar>
       </AppBar>
       <DialogContent className={classes.content}>
-        <DialogContentText className={classes.textField}>
-          {stringFormat(context.lang.popup.newItem.text, [
-            state.listLength
-              ? stringFormat(context.lang.popup.newItem.aboveOne, [
-                  state.listLength + 1
-                ])
-              : context.lang.popup.newItem.onlyOne,
-            state.listLength ? context.lang.popup.newItem.supply : ""
-          ])}
+        <DialogContentText style={state.editItem ? {} : { margin: "0" }}>
+          {state.editItem
+            ? stringFormat(context.lang.popup.newItem.editText, [
+              context.lang.popup.newItem.editTextZero[state.editItem],
+              state.apiItemID
+            ])
+            : stringFormat(context.lang.popup.newItem.text, [
+              state.listLength
+                ? stringFormat(context.lang.popup.newItem.aboveOne, [
+                    state.listLength + 1
+                  ])
+                : context.lang.popup.newItem.onlyOne,
+              state.listLength ? context.lang.popup.newItem.supply : ""
+            ])}
         </DialogContentText>
-        <div className={classes.itemField}>
+        {!state.editItem && <div className={classes.itemField}>
           <TextField
             required
             type="number"
@@ -286,9 +289,9 @@ export default function NewItem(props) {
             label={context.lang.popup.newItem.itemID}
             className={classes.itemInput}
           />
-        </div>
+        </div>}
         <Paper className={classes.editorField} variant="outlined" square>
-          <Tabs
+          {!state.editItem && <Tabs
             value={tab}
             onChange={tabChange}
             variant="fullWidth"
@@ -296,7 +299,7 @@ export default function NewItem(props) {
           >
             <Tab label={context.lang.popup.newItem.query} />
             <Tab label={context.lang.popup.newItem.key} />
-          </Tabs>
+          </Tabs>}
           <div className={classes.editorInput}>
             <div className={classes.editorContainer}>
               <MonacoEditor
@@ -336,7 +339,7 @@ export default function NewItem(props) {
       <SubmitConfirm
         open={apply}
         handleClose={() => setApply(false)}
-        handleSubmit={submit}
+        handleSubmit={submitNew}
       />
     </Dialog>
   );

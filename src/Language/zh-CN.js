@@ -101,7 +101,10 @@ const list = {
     },
     newItem: {
       title: "创建新词条",
+      editTitle: "编辑词条",
       text: "新词条会被插到指定的 ID 的位置，ID {0}{1}。",
+      editText: "正在修改 ID 为 {1} 的词条{0}",
+      editTextZero: { query: "问题", key: "答案" },
       supply: "；在指定位置之后的词条会向后顺延 1 号",
       itemID: "词条 ID",
       query: "问题 Markdown 编辑器",

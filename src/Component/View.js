@@ -218,13 +218,13 @@ export default function View(props) {
   // TODO: edit grid on double click
   React.useEffect(() => {
     return apiRef.current.subscribeEvent("cellDoubleClick", (params) => {
+      setApiItemID(params.id);
       if (!isNaN(Number(params.field))) {
-        setApiItemID(params.id);
         setApiTrackID(Number(params.field));
         setApiValue(params.formattedValue);
         setChangeTrack(true);
       } else if (params.field === "query" || params.field === "key") {
-        setEditItem(true);
+        setEditItem(params.field);
         setNewItem(true);
       }
     });
@@ -347,6 +347,8 @@ export default function View(props) {
       <NewItem
         open={newItem}
         state={{
+          editItem: editItem,
+          apiItemID: apiItemID,
           unitID: state.current.unitID,
           pageID: state.current.pageID,
           trackSize: state.pageDetail.trackSize,
