@@ -243,6 +243,21 @@ router.post('/recall', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
+router.post('/item', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID, unitID, pageID, itemID } = api.sqlNumber(
+    req.body, ['userID', 'unitID', 'pageID', 'itemID'], res
+  );
+  if (!(userID && token)) return;
+  const field = (req.body.query === undefined ? 'key' : 'query');
+  const value = api.sqlString(req.body, [field], res)[field];
+  if (!value) return;
+  db.checkToken(userID, token, res)
+    .then(() => db.editItem(userID, unitID, pageID, itemID, field, value))
+    .then(() => api.noContent(res))
+    .catch(() => api.internalServerError(res));
+});
+
 router.post('/track', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID, pageID, itemID, trackID } = api.sqlNumber(
@@ -252,9 +267,9 @@ router.post('/track', (req, res) => {
     ? req.body.value : 'L';
   if (!(userID && token)) return;
   db.checkToken(userID, token, res)
-    .then(() => db.changeTrack(userID, unitID, pageID, itemID, trackID, value))
+    .then(() => db.editTrack(userID, unitID, pageID, itemID, trackID, value))
     .then(() => api.noContent(res))
-    .catch(console.log);
+    .catch(() => api.internalServerError(res));
 });
 
 module.exports = router;

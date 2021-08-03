@@ -21,6 +21,7 @@ export default function LanguageSelector(props) {
   const classes = useStyles();
   const { open, handleClose } = props;
   const context = React.useContext(PanelContext);
+  const lang = context.lang ?? props.lang;
 
   return (
     <Dialog
@@ -30,7 +31,7 @@ export default function LanguageSelector(props) {
       maxWidth="xs"
       className={classes.noneSelect}
     >
-      <DialogTitle>{context.lang.popup.language}</DialogTitle>
+      <DialogTitle>{lang.popup.language}</DialogTitle>
       <List>
         {languageList.map((lang) => (
           <ListItem

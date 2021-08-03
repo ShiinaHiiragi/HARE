@@ -127,8 +127,11 @@ export default function NewItem(props) {
       if (savedWrap) setWordWrap(savedWrap);
       else cookie.save("__wordWrap", "on", { expires: cookieTime(3650) });
       setItemID(state.listLength + 1);
+      if (state.editItem) setQuery(state.apiValue);
     }
-  }, [open, state.listLength]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
   const onEditorReady = (editor, monaco) => {
     let closureWordWrap = wordWrap;
     // editor.onDidChangeCursorPosition((event) => {
@@ -182,18 +185,17 @@ export default function NewItem(props) {
 
   // the icon button of exit
   const toggleExit = () => {
-    if (query !== "" || key !== "") setExit(true);
+    if (!state.editItem && (query !== "" || key !== ""))
+      setExit(true);
     else clearClose();
   };
-  const clearClose = (clear) => {
-    if (clear) {
-      setQuery("");
-      setKey("");
-    }
+  const clearClose = () => {
     handle.close();
-    setTab(0);
+    setQuery("");
+    setKey("");
     setEditKey(false);
     setItemIDCheck(false);
+    setTab(0);
   };
 
   // the text button of continue
@@ -204,8 +206,9 @@ export default function NewItem(props) {
       handle.toggleMessageBox(context.lang.message.invalidItemID, "warning");
       return;
     } else setItemIDCheck(false);
-    if (!editKey) setApply(true);
-    else submitNew();
+    if (!state.editItem && !editKey) setApply(true);
+    else if (!state.editItem) submitNew();
+    else submitEdit();
   };
 
   const submitNew = () => {
@@ -235,8 +238,23 @@ export default function NewItem(props) {
         ...pageDetail,
         itemSize: pageDetail.itemSize + 1
       }))
-      clearClose(true);
+      clearClose();
     });
+  };
+
+  const submitEdit = () => {
+    if (state.apiValue === query) {
+      clearClose();
+      return;
+    };
+    context.request("POST/set/item", {
+      unitID: state.unitID,
+      pageID: state.pageID,
+      itemID: state.apiItemID,
+      [state.editItem]: query
+    }).then(() => {
+      clearClose();
+    })
   };
 
   return (
@@ -334,7 +352,7 @@ export default function NewItem(props) {
       <ExitConfirm
         open={exit}
         handleClose={() => setExit(false)}
-        handleClearClose={() => clearClose(true)}
+        handleClearClose={() => clearClose()}
       />
       <SubmitConfirm
         open={apply}

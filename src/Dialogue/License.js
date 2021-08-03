@@ -71,6 +71,7 @@ export default function License(props) {
   const classes = useStyles();
   const { withTab, open, handleClose, handleToggleMessageBox } = props;
   const context = React.useContext(PanelContext);
+  const lang = context.lang ?? props.lang
 
   const [tab, setTab] = React.useState(0);
   const [expand, setExpand] = React.useState(0);
@@ -81,8 +82,8 @@ export default function License(props) {
     }
   }, [open]);
 
-  const infoObject = context.lang.popup.about.info;
-  const helpObject = context.lang.popup.about.help;
+  const infoObject = lang.popup.about.info;
+  const helpObject = lang.popup.about.help;
 
   return (
     <Dialog
@@ -92,7 +93,7 @@ export default function License(props) {
       className={classes.noneSelect}
     >
       <DialogTitle style={{ paddingBottom: withTab ? 0 : 16 }}>
-        {context.lang.popup.about.title}
+        {lang.popup.about.title}
         <Typography component="span" variant="body2">
           &ensp;{version}
         </Typography>
@@ -105,8 +106,8 @@ export default function License(props) {
         onChange={(_, index) => setTab(index)}
         style={{ display: withTab ? "flex" : "none" }}
       >
-        <Tab label={context.lang.popup.about.tab[0]} />
-        <Tab label={context.lang.popup.about.tab[1]} />
+        <Tab label={lang.popup.about.tab[0]} />
+        <Tab label={lang.popup.about.tab[1]} />
       </Tabs>
       {(function () {
         if (tab === 0)
@@ -121,7 +122,7 @@ export default function License(props) {
                 </Avatar>
                 <div className={classes.info}>
                   <Typography variant="subtitle1">{author}</Typography>
-                  <Tooltip title={context.lang.popup.about.copyTip}>
+                  <Tooltip title={lang.popup.about.copyTip}>
                     <Link
                       variant="body2"
                       color="inherit"
@@ -129,7 +130,7 @@ export default function License(props) {
                       onClick={() => {
                         if (copy(email))
                           handleToggleMessageBox(
-                            context.lang.message.copyEmail,
+                            lang.message.copyEmail,
                             "info"
                           );
                       }}
@@ -144,7 +145,7 @@ export default function License(props) {
                   <Table className={classes.table} size="small">
                     <TableHead>
                       <TableRow>
-                        {context.lang.popup.about.header.map((item, index) => (
+                        {lang.popup.about.header.map((item, index) => (
                           <TableCell
                             align={index < 2 ? "left" : "right"}
                             key={index}
@@ -205,7 +206,7 @@ export default function License(props) {
       })()}
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          {context.lang.common.back}
+          {lang.common.back}
         </Button>
       </DialogActions>
     </Dialog>

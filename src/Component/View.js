@@ -219,9 +219,9 @@ export default function View(props) {
   React.useEffect(() => {
     return apiRef.current.subscribeEvent("cellDoubleClick", (params) => {
       setApiItemID(params.id);
+      setApiValue(params.value);
       if (!isNaN(Number(params.field))) {
         setApiTrackID(Number(params.field));
-        setApiValue(params.formattedValue);
         setChangeTrack(true);
       } else if (params.field === "query" || params.field === "key") {
         setEditItem(params.field);
@@ -349,6 +349,7 @@ export default function View(props) {
         state={{
           editItem: editItem,
           apiItemID: apiItemID,
+          apiValue: apiValue,
           unitID: state.current.unitID,
           pageID: state.current.pageID,
           trackSize: state.pageDetail.trackSize,
