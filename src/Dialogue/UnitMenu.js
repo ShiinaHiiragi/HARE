@@ -1,5 +1,7 @@
+import React from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -10,7 +12,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UnitMenu(props) {
   const classes = useStyles();
-  const { lang, state, handle } = props;
+  const { state, handle } = props;
+  const context = React.useContext(PanelContext);
 
   return (
     <Menu
@@ -30,7 +33,7 @@ export default function UnitMenu(props) {
           handle.closeMenu();
         }}
       >
-        {state.fold ? lang.menu.fold : lang.menu.unfold}
+        {state.fold ? context.lang.menu.fold : context.lang.menu.unfold}
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -38,7 +41,7 @@ export default function UnitMenu(props) {
           handle.toggleEditUnit();
         }}
       >
-        {lang.menu.editUnit}
+        {context.lang.menu.editUnit}
       </MenuItem>
       <MenuItem
         disabled={state.top}
@@ -47,7 +50,7 @@ export default function UnitMenu(props) {
           handle.closeMenu();
         }}
       >
-        {lang.menu.moveUp}
+        {context.lang.menu.moveUp}
       </MenuItem>
       <MenuItem
         disabled={state.buttom}
@@ -56,7 +59,7 @@ export default function UnitMenu(props) {
           handle.closeMenu();
         }}
       >
-        {lang.menu.moveDown}
+        {context.lang.menu.moveDown}
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -64,7 +67,7 @@ export default function UnitMenu(props) {
           handle.toggleNewUnit(state.unitID);
         }}
       >
-        {lang.menu.addUnitAbove}
+        {context.lang.menu.addUnitAbove}
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -72,7 +75,7 @@ export default function UnitMenu(props) {
           handle.toggleNewUnit(state.unitID + 1);
         }}
       >
-        {lang.menu.addUnitBelow}
+        {context.lang.menu.addUnitBelow}
       </MenuItem>
       <MenuItem
         className={classes.alarm}
@@ -81,7 +84,7 @@ export default function UnitMenu(props) {
           handle.toggleDeleteConfirm("unit");
         }}
       >
-        {lang.menu.deleteUnit}
+        {context.lang.menu.deleteUnit}
       </MenuItem>
     </Menu>
   );

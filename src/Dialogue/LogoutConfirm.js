@@ -1,3 +1,4 @@
+import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import cookie from "react-cookies";
@@ -10,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import requestURL from "../Interface/Constant";
 import SignIn from "../Page/SignIn";
 import { logoutWait } from "../Interface/Constant";
+import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +23,9 @@ const useStyles = makeStyles((theme) => ({
 axios.defaults.withCredentials = true;
 export default function LogoutComfirm(props) {
   const classes = useStyles();
-  const { lang, open, userID, handleClose, handleToggleMessageBox } = props;
+  const { open, userID, handleClose, handleToggleMessageBox } = props;
+  const context = React.useContext(PanelContext);
+
   const logout = () => {
     cookie.remove("userID");
     cookie.remove("token");
@@ -35,9 +39,9 @@ export default function LogoutComfirm(props) {
       onClose={handleClose}
       className={classes.noneSelect}
     >
-      <DialogTitle>{lang.popup.logout.title}</DialogTitle>
+      <DialogTitle>{context.lang.popup.logout.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{lang.popup.logout.text}</DialogContentText>
+        <DialogContentText>{context.lang.popup.logout.text}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button
@@ -58,10 +62,10 @@ export default function LogoutComfirm(props) {
           }}
           color="secondary"
         >
-          {lang.common.yes}
+          {context.lang.common.yes}
         </Button>
         <Button onClick={handleClose} color="primary">
-          {lang.common.back}
+          {context.lang.common.back}
         </Button>
       </DialogActions>
     </Dialog>

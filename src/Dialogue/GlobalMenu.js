@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function GlobalMenu(props) {
   const classes = useStyles();
-  const { lang, anchor, data, handle } = props;
+  const { state, handle } = props;
   const context = React.useContext(PanelContext);
 
   const [languageSelector, setLanguageSelector] = React.useState(false);
@@ -31,20 +31,20 @@ export default function GlobalMenu(props) {
         reader.readAsDataURL(targetImage[0]);
         reader.onload = (event) =>
           avatarOnload(event.target.result, targetImage[0].type);
-      } else handle.toggleMessageBox(lang.message.nonImage, "warning");
+      } else handle.toggleMessageBox(context.lang.message.nonImage, "warning");
     }
   };
   const avatarOnload = (result, type) => {
     if (result.length > imageMaxBase) {
-      handle.toggleMessageBox(lang.message.largeImage, "warning");
+      handle.toggleMessageBox(context.lang.message.largeImage, "warning");
     } else {
       context.request("POST/set/avatar", {
-        userID: data.userID,
+        userID: state.userID,
         avatar: result,
         type: type.replace(/image\/(\w+)/, ".$1")
       }).then(() => {
         handle.refreshAvatar();
-        handle.toggleMessageBox(lang.message.changeAvatar, "success");
+        handle.toggleMessageBox(context.lang.message.changeAvatar, "success");
       });
     }
   };
@@ -52,8 +52,8 @@ export default function GlobalMenu(props) {
   return (
     <Menu
       keepMounted
-      anchorEl={anchor}
-      open={Boolean(anchor)}
+      anchorEl={state.anchor}
+      open={Boolean(state.anchor)}
       onClose={handle.close}
     >
       <MenuItem
@@ -64,10 +64,10 @@ export default function GlobalMenu(props) {
           handle.toggleEditProfile();
         }}
       >
-        {lang.menu.editProfile}
+        {context.lang.menu.editProfile}
       </MenuItem>
       <MenuItem component="label" onClick={handle.close}>
-        {lang.menu.changeAvatar}
+        {context.lang.menu.changeAvatar}
         <input type="file" accept="image/*" onChange={uploadAvatar} hidden />
       </MenuItem>
       <MenuItem
@@ -76,7 +76,7 @@ export default function GlobalMenu(props) {
           setLanguageSelector(true);
         }}
       >
-        {lang.menu.changeLanguage}
+        {context.lang.menu.changeLanguage}
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -84,7 +84,7 @@ export default function GlobalMenu(props) {
           setLicense(true);
         }}
       >
-        {lang.menu.viewCopyright}
+        {context.lang.menu.viewCopyright}
       </MenuItem>
       <MenuItem
         className={classes.alarm}
@@ -93,10 +93,9 @@ export default function GlobalMenu(props) {
           setLogout(true);
         }}
       >
-        {lang.menu.logout}
+        {context.lang.menu.logout}
       </MenuItem>
       <LanguageSelector
-        lang={lang}
         open={languageSelector}
         handleClose={(targetValue) => {
           setLanguageSelector(false);
@@ -105,15 +104,13 @@ export default function GlobalMenu(props) {
       />
       <License
         withTab
-        lang={lang}
         open={license}
         handleClose={() => setLicense(false)}
         handleToggleMessageBox={handle.toggleMessageBox}
       />
       <LogoutConfirm
-        lang={lang}
         open={logout}
-        userID={data.userID}
+        userID={state.userID}
         handleClose={() => setLogout(false)}
         handleToggleMessageBox={handle.toggleMessageBox}
       />

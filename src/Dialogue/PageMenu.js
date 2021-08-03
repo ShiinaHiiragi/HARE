@@ -1,5 +1,7 @@
+import React from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -10,7 +12,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PageMenu(props) {
   const classes = useStyles();
-  const { lang, state, handle } = props;
+  const { state, handle } = props;
+  const context = React.useContext(PanelContext);
 
   return (
     <Menu
@@ -30,7 +33,7 @@ export default function PageMenu(props) {
           handle.toggleNewPage([state.unitID, state.pageID], true);
         }}
       >
-        {lang.menu.editPage}
+        {context.lang.menu.editPage}
       </MenuItem>
       <MenuItem
         disabled={state.top}
@@ -39,7 +42,7 @@ export default function PageMenu(props) {
           handle.closeMenu();
         }}
       >
-        {lang.menu.moveUp}
+        {context.lang.menu.moveUp}
       </MenuItem>
       <MenuItem
         disabled={state.buttom}
@@ -48,7 +51,7 @@ export default function PageMenu(props) {
           handle.closeMenu();
         }}
       >
-        {lang.menu.moveDown}
+        {context.lang.menu.moveDown}
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -56,7 +59,7 @@ export default function PageMenu(props) {
           handle.toggleNewPage([state.unitID, state.pageID]);
         }}
       >
-        {lang.menu.addPageAbove}
+        {context.lang.menu.addPageAbove}
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -64,7 +67,7 @@ export default function PageMenu(props) {
           handle.toggleNewPage([state.unitID, state.pageID + 1]);
         }}
       >
-        {lang.menu.addPageBelow}
+        {context.lang.menu.addPageBelow}
       </MenuItem>
       <MenuItem
         className={classes.alarm}
@@ -73,7 +76,7 @@ export default function PageMenu(props) {
           handle.toggleDeleteConfirm("page");
         }}
       >
-        {lang.menu.deletePage}
+        {context.lang.menu.deletePage}
       </MenuItem>
     </Menu>
   );

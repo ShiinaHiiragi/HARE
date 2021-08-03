@@ -54,16 +54,13 @@ export default function NavList(props) {
   const drawerContent = (
     <div className={classes.sideList}>
       <PersonalInfo
-        lang={lang}
-        data={{
+        state={{
           userID: data.userID,
-          token: data.token,
           avatar: avatarURL,
           profile: state.profile
         }}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
-          toggleKick: handle.toggleKick,
           toggleEditProfile: () => setEditProfile(true),
           changeGlobalLang: handle.changeGlobalLang,
           refreshAvatar: refreshAvatar,
@@ -73,14 +70,9 @@ export default function NavList(props) {
       />
       <Divider />
       <Pages
-        lang={lang}
-        data={{
-          userID: data.userID,
-          token: data.token
-        }}
         state={{
-          listObject: state.listObject,
           route: state.route,
+          listObject: state.listObject,
           navListMobile: state.navListMobile,
           currentSelect: state.currentSelect
         }}
@@ -122,21 +114,18 @@ export default function NavList(props) {
         </Drawer>
       </Hidden>
       <Profile
-        lang={lang}
         open={editProfile}
-        data={{
+        state={{
           userID: data.userID,
-          token: data.token,
-          avatar: avatarURL
+          avatar: avatarURL,
+          value: value,
+          check: check
         }}
-        value={value}
-        check={check}
         handle={{
-          setProfile: handle.setProfile,
           setValue: setValue,
           setCheck: setCheck,
+          setProfile: handle.setProfile,
           toggleMessageBox: handle.toggleMessageBox,
-          toggleKick: handle.toggleKick,
           close: () => setEditProfile(false)
         }}
       />

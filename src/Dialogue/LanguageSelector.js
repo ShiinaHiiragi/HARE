@@ -7,6 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import { nameMap } from "../Language/Lang";
+import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
 const languageList = Object.keys(nameMap);
 export default function LanguageSelector(props) {
   const classes = useStyles();
-  const { lang, open, handleClose } = props;
+  const { open, handleClose } = props;
+  const context = React.useContext(PanelContext);
 
   return (
     <Dialog
@@ -28,7 +30,7 @@ export default function LanguageSelector(props) {
       maxWidth="xs"
       className={classes.noneSelect}
     >
-      <DialogTitle>{lang.popup.language}</DialogTitle>
+      <DialogTitle>{context.lang.popup.language}</DialogTitle>
       <List>
         {languageList.map((lang) => (
           <ListItem

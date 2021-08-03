@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Pages(props) {
   const classes = useStyles();
-  const { lang, data, state, handle } = props;
+  const { state, handle } = props;
   const context = React.useContext(PanelContext);
 
   // fold and unfold the units
@@ -80,7 +80,7 @@ export default function Pages(props) {
   };
 
   const changeMove = (group, less) => {
-    context.request("POST/set/swap-up", { userID: data.userID, group: group, less: less })
+    context.request("POST/set/swap-up", { group: group, less: less })
       .then(() => {
         if (group) {
           handle.setListObject((listObject) => {
@@ -160,9 +160,8 @@ export default function Pages(props) {
     setDeleteConfirm(true);
     setDeleteConfirmType(type);
   };
-  const deleteUnitPage = (userID, unitID, pageID) => {
+  const deleteUnitPage = (unitID, pageID) => {
     context.request("data/set/delete-up", {
-      userID: userID,
       unitID: unitID,
       pageID: pageID,
       group: pageID > 0 ? false : true
@@ -228,7 +227,6 @@ export default function Pages(props) {
     if (state.navListMobile) handle.closeNavListMobile();
     if (state.listObject[unitID - 1].pages[pageID - 1].route === routeIndex.stat)
       context.request("GET/data/stat", {
-        userID: data.userID,
         unitID: unitID,
         pageID: pageID,
       }).then((out) => {
@@ -280,7 +278,6 @@ export default function Pages(props) {
             </div>
           ))}
           <UnitMenu
-            lang={lang}
             state={{
               unitMenu: unitMenu,
               unitID: currentUnitID,
@@ -298,7 +295,6 @@ export default function Pages(props) {
             }}
           />
           <PageMenu
-            lang={lang}
             state={{
               pageMenu: pageMenu,
               unitID: currentUnitID,
@@ -320,20 +316,19 @@ export default function Pages(props) {
             <AddIcon fontSize="large" />
           </IconButton>
           <Typography variant="button" color="textSecondary" align="center">
-            {lang.panel.initUnit}
+            {context.lang.panel.initUnit}
           </Typography>
         </div>
       )}
       <NewUnitPage
-        lang={lang}
-        userID={data.userID}
-        token={data.token}
-        edit={edit}
-        open={newUnitPage}
-        group={newUnitPageGroup}
-        type={newUnitPageType}
+        state={{
+          edit: edit,
+          open: newUnitPage,
+          group: newUnitPageGroup,
+          type: newUnitPageType,
+          listObject: state.listObject
+        }}
         text={{
-          listObject: state.listObject,
           unitNameValue: newUnitNameValue,
           pageNameValue: newPageNameValue,
           pagePresentValue: newPagePresentValue,
@@ -350,14 +345,11 @@ export default function Pages(props) {
           setPageNameCheck: setNewPageNameCheck,
           setPagePresentCheck: setNewPagePresentCheck,
           toggleMessageBox: handle.toggleMessageBox,
-          toggleKick: handle.toggleKick,
           close: () => setNewUnitPage(false)
         }}
       />
       <EditUnit
-        lang={lang}
         open={editUnit}
-        userID={data.userID}
         state={{
           name: currentName,
           unitID: currentUnitID,
@@ -366,7 +358,6 @@ export default function Pages(props) {
         }}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
-          toggleKick: handle.toggleKick,
           setEditUnitNameValue: setEditUnitNameValue,
           setEditUnitNameCheck: setEditUnitNameCheck,
           setListObject: handle.setListObject,
@@ -374,13 +365,12 @@ export default function Pages(props) {
         }}
       />
       <DeleteConfirm
-        lang={lang}
         open={deleteConfirm}
         type={deleteConfirmType}
         name={currentName}
         handleClose={() => setDeleteConfirm(false)}
         handleDeleteTarget={() =>
-          deleteUnitPage(data.userID, currentUnitID, currentPageID)
+          deleteUnitPage(currentUnitID, currentPageID)
         }
       />
     </div>

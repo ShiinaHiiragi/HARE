@@ -24,6 +24,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import copy from "copy-to-clipboard";
 import { author, version, email, requestURL } from "../Interface/Constant";
+import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -67,8 +68,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function License(props) {
-  const { lang, withTab, open, handleClose, handleToggleMessageBox } = props;
   const classes = useStyles();
+  const { withTab, open, handleClose, handleToggleMessageBox } = props;
+  const context = React.useContext(PanelContext);
+
   const [tab, setTab] = React.useState(0);
   const [expand, setExpand] = React.useState(0);
   React.useEffect(() => {
@@ -78,8 +81,8 @@ export default function License(props) {
     }
   }, [open]);
 
-  const infoObject = lang.popup.about.info;
-  const helpObject = lang.popup.about.help;
+  const infoObject = context.lang.popup.about.info;
+  const helpObject = context.lang.popup.about.help;
 
   return (
     <Dialog
@@ -89,7 +92,7 @@ export default function License(props) {
       className={classes.noneSelect}
     >
       <DialogTitle style={{ paddingBottom: withTab ? 0 : 16 }}>
-        {lang.popup.about.title}
+        {context.lang.popup.about.title}
         <Typography component="span" variant="body2">
           &ensp;{version}
         </Typography>
@@ -102,8 +105,8 @@ export default function License(props) {
         onChange={(_, index) => setTab(index)}
         style={{ display: withTab ? "flex" : "none" }}
       >
-        <Tab label={lang.popup.about.tab[0]} />
-        <Tab label={lang.popup.about.tab[1]} />
+        <Tab label={context.lang.popup.about.tab[0]} />
+        <Tab label={context.lang.popup.about.tab[1]} />
       </Tabs>
       {(function () {
         if (tab === 0)
@@ -118,7 +121,7 @@ export default function License(props) {
                 </Avatar>
                 <div className={classes.info}>
                   <Typography variant="subtitle1">{author}</Typography>
-                  <Tooltip title={lang.popup.about.copyTip}>
+                  <Tooltip title={context.lang.popup.about.copyTip}>
                     <Link
                       variant="body2"
                       color="inherit"
@@ -126,7 +129,7 @@ export default function License(props) {
                       onClick={() => {
                         if (copy(email))
                           handleToggleMessageBox(
-                            lang.message.copyEmail,
+                            context.lang.message.copyEmail,
                             "info"
                           );
                       }}
@@ -141,7 +144,7 @@ export default function License(props) {
                   <Table className={classes.table} size="small">
                     <TableHead>
                       <TableRow>
-                        {lang.popup.about.header.map((item, index) => (
+                        {context.lang.popup.about.header.map((item, index) => (
                           <TableCell
                             align={index < 2 ? "left" : "right"}
                             key={index}
@@ -202,7 +205,7 @@ export default function License(props) {
       })()}
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          {lang.common.back}
+          {context.lang.common.back}
         </Button>
       </DialogActions>
     </Dialog>

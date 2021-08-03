@@ -10,8 +10,8 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import PersonIcon from "@material-ui/icons/Person";
 import MenuItem from "@material-ui/core/MenuItem";
-import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import { nameMaxLength } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile(props) {
   const classes = useStyles();
-  const { lang, open, data, value, check, handle } = props;
+  const { open, state, handle } = props;
   const context = React.useContext(PanelContext);
 
   const valueChange = (key, targetValue) => {
@@ -65,21 +65,21 @@ export default function Profile(props) {
 
   const checkInput = () => {
     let errorMessage = "";
-    if (value.city.length > nameMaxLength) {
+    if (state.value.city.length > nameMaxLength) {
       handle.setCheck((prev) => ({ ...prev, city: true }));
-      errorMessage = lang.message.cityError;
+      errorMessage = context.lang.message.cityError;
     }
-    if (value.tel.length > nameMaxLength) {
+    if (state.value.tel.length > nameMaxLength) {
       handle.setCheck((prev) => ({ ...prev, tel: true }));
-      errorMessage = lang.message.telError;
+      errorMessage = context.lang.message.telError;
     }
-    if (!/^[\x0-\x7F]*$/.test(value.userName)) {
+    if (!/^[\x0-\x7F]*$/.test(state.value.userName)) {
       handle.setCheck((prev) => ({ ...prev, userName: true }));
-      errorMessage = lang.message.userNameInvalidError;
+      errorMessage = context.lang.message.userNameInvalidError;
     }
-    if (value.userName.length === 0 || value.userName.length > nameMaxLength) {
+    if (state.value.userName.length === 0 || state.value.userName.length > nameMaxLength) {
       handle.setCheck((prev) => ({ ...prev, userName: true }));
-      errorMessage = lang.message.userNameLengthError;
+      errorMessage = context.lang.message.userNameLengthError;
     }
     return errorMessage;
   };
@@ -87,20 +87,19 @@ export default function Profile(props) {
     const errorMessage = checkInput();
     if (errorMessage === "") {
       context.request("POST/set/profile", {
-        userID: data.userID,
-        userName: value.userName,
-        birth: value.birth,
-        gender: value.gender,
-        tel: value.tel,
-        city: value.city
+        userName: state.value.userName,
+        birth: state.value.birth,
+        gender: state.value.gender,
+        tel: state.value.tel,
+        city: state.value.city
       }).then(() => {
         handle.setProfile((profile) => ({
           ...profile,
-          userName: value.userName,
-          gender: value.gender,
-          birth: value.birth,
-          city: value.city,
-          tel: value.tel
+          userName: state.value.userName,
+          gender: state.value.gender,
+          birth: state.value.birth,
+          city: state.value.city,
+          tel: state.value.tel
         }));
         handle.close();
       });
@@ -111,31 +110,31 @@ export default function Profile(props) {
     <Dialog fullWidth open={open} onClose={handle.close}>
       <DialogContent>
         <div className={classes.avatarProfile}>
-          <Avatar src={data.avatar} className={classes.largeAvatar}>
+          <Avatar src={state.avatar} className={classes.largeAvatar}>
             <PersonIcon className={classes.notLargeAvatar} />
           </Avatar>
           <TextField
             required
-            label={lang.popup.profile.userName}
-            value={value.userName}
+            label={context.lang.popup.profile.userName}
+            value={state.value.userName}
             inputProps={{
               spellCheck: "false",
               style: { textAlign: "center" }
             }}
-            error={check.userName}
+            error={state.check.userName}
             onChange={(event) => valueChange("userName", event.target.value)}
           />
         </div>
         <div className={classes.selfProfile}>
           <div className={classes.line}>
             <TextField
-              label={lang.popup.profile.userID}
-              value={data.userID}
+              label={context.lang.popup.profile.userID}
+              value={state.userID}
               disabled
             />
             <TextField
-              label={lang.popup.profile.email}
-              value={value.email}
+              label={context.lang.popup.profile.email}
+              value={state.value.email}
               disabled
             />
           </div>
@@ -146,8 +145,8 @@ export default function Profile(props) {
                 variant="inline"
                 format="yyyy/MM/dd"
                 margin="normal"
-                label={lang.popup.profile.birth}
-                value={value.birth}
+                label={context.lang.popup.profile.birth}
+                value={state.value.birth}
                 onChange={(value) => {
                   handle.setValue((profileValue) => ({
                     ...profileValue,
@@ -157,9 +156,9 @@ export default function Profile(props) {
               />
             </MuiPickersUtilsProvider>
             <FormControl className={classes.genderControl}>
-              <InputLabel shrink>{lang.popup.profile.gender}</InputLabel>
+              <InputLabel shrink>{context.lang.popup.profile.gender}</InputLabel>
               <Select
-                value={value.gender}
+                value={state.value.gender}
                 className={classes.selectEmpty}
                 onChange={(event) => valueChange("gender", event.target.value)}
               >
@@ -171,15 +170,15 @@ export default function Profile(props) {
           </div>
           <div className={classes.line}>
             <TextField
-              label={lang.popup.profile.tel}
-              value={value.tel}
-              error={check.tel}
+              label={context.lang.popup.profile.tel}
+              value={state.value.tel}
+              error={state.check.tel}
               onChange={(event) => valueChange("tel", event.target.value)}
             />
             <TextField
-              label={lang.popup.profile.city}
-              value={value.city}
-              error={check.city}
+              label={context.lang.popup.profile.city}
+              value={state.value.city}
+              error={state.check.city}
               onChange={(event) => valueChange("city", event.target.value)}
             />
           </div>
@@ -187,10 +186,10 @@ export default function Profile(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={applyChange} color="secondary">
-          {lang.common.apply}
+          {context.lang.common.apply}
         </Button>
         <Button onClick={handle.close} color="primary">
-          {lang.common.back}
+          {context.lang.common.back}
         </Button>
       </DialogActions>
     </Dialog>

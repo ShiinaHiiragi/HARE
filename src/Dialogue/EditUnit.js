@@ -18,17 +18,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditUnit(props) {
   const classes = useStyles();
-  const { lang, open, userID, state, handle } = props;
+  const { open, state, handle } = props;
   const context = React.useContext(PanelContext);
 
   const applyUnitChange = () => {
     const targetSize = state.editUnitNameValue.length;
     if (targetSize === 0 || targetSize > nameMaxLength) {
       handle.setEditUnitNameCheck(true);
-      handle.toggleMessageBox(lang.message.unitNameError, "warning");
+      handle.toggleMessageBox(context.lang.message.unitNameError, "warning");
     } else {
       context.request("POST/set/unit", {
-        userID: userID,
         unitID: state.unitID,
         name: state.editUnitNameValue
       }).then(() => {
@@ -51,13 +50,13 @@ export default function EditUnit(props) {
       onClose={handle.close}
       className={classes.noneSelect}
     >
-      <DialogTitle>{lang.popup.edit.titleUnit}</DialogTitle>
+      <DialogTitle>{context.lang.popup.edit.titleUnit}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{lang.popup.edit.textUnit}</DialogContentText>
+        <DialogContentText>{context.lang.popup.edit.textUnit}</DialogContentText>
         <TextField
           fullWidth
           required
-          label={lang.popup.edit.labelUnit}
+          label={context.lang.popup.edit.labelUnit}
           error={state.editUnitNameCheck}
           value={state.editUnitNameValue}
           onChange={(event) => handle.setEditUnitNameValue(event.target.value)}
@@ -65,10 +64,10 @@ export default function EditUnit(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={applyUnitChange} color="secondary">
-          {lang.common.apply}
+          {context.lang.common.apply}
         </Button>
         <Button onClick={handle.close} color="primary">
-          {lang.common.back}
+          {context.lang.common.back}
         </Button>
       </DialogActions>
     </Dialog>

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewUnitPage(props) {
   const classes = useStyles();
-  const { lang, edit, userID, token, open, group, type, text, handle } = props;
+  const { state, text, handle } = props;
   const context = React.useContext(PanelContext);
 
   const checkFormInput = () => {
@@ -33,15 +33,15 @@ export default function NewUnitPage(props) {
     const unitNameLength = text.unitNameValue.length;
     const pagePresentError = pagePresentLength > presentMaxLength;
     errorMessage = pagePresentError
-      ? lang.message.pagePresentError
+      ? context.lang.message.pagePresentError
       : errorMessage;
     const pageNameError =
       pageNameLength === 0 || pageNameLength > nameMaxLength;
-    errorMessage = pageNameError ? lang.message.pageNameError : errorMessage;
+    errorMessage = pageNameError ? context.lang.message.pageNameError : errorMessage;
     const unitNameError =
       unitNameLength === 0 || unitNameLength > nameMaxLength;
-    if (group)
-      errorMessage = unitNameError ? lang.message.unitNameError : errorMessage;
+    if (state.group)
+      errorMessage = unitNameError ? context.lang.message.unitNameError : errorMessage;
     handle.setUnitNameCheck(unitNameError);
     handle.setPageNameCheck(pageNameError);
     handle.setPagePresentCheck(pagePresentError);
@@ -55,17 +55,16 @@ export default function NewUnitPage(props) {
       return;
     }
     context.request("POST/set/page", {
-      userID: userID,
-      unitID: type[0],
-      pageID: type[1],
+      unitID: state.type[0],
+      pageID: state.type[1],
       pageName: text.pageNameValue,
       pagePresent: text.pagePresentValue
     }).then(() => {
       handle.setListObject((listObject) =>
-        listObject.map((item) => item.unitID === type[0]
+        listObject.map((item) => item.unitID === state.type[0]
           ? {
             ...item,
-            pages: item.pages.map((subItem) => subItem.pageID === type[1]
+            pages: item.pages.map((subItem) => subItem.pageID === state.type[1]
               ? {
                 ...subItem,
                 pageName: text.pageNameValue,
@@ -84,21 +83,19 @@ export default function NewUnitPage(props) {
       return;
     }
     context.request("POST/set/new-up", {
-      userID: userID,
-      token: token,
-      group: group,
-      type: type,
+      group: state.group,
+      type: state.type,
       unitName: text.unitNameValue,
       pageName: text.pageNameValue,
       pagePresent: text.pagePresentValue
     }).then(() => {
       handle.close();
-      if (group) {
-        let tempListObject = text.listObject.map((item) =>
-          item.unitID >= type ? { ...item, unitID: item.unitID + 1 } : item
+      if (state.group) {
+        let tempListObject = state.listObject.map((item) =>
+          item.unitID >= state.type ? { ...item, unitID: item.unitID + 1 } : item
         );
-        tempListObject.splice((type || 1) - 1, 0, {
-          unitID: type || 1,
+        tempListObject.splice((state.type || 1) - 1, 0, {
+          unitID: state.type || 1,
           unitName: text.unitNameValue,
           open: true,
           selected: false,
@@ -115,20 +112,20 @@ export default function NewUnitPage(props) {
         });
         handle.setListObject(tempListObject);
       } else {
-        let tempPageObject = text.listObject[type[0] - 1].pages.map((item) =>
-          item.pageID >= type[1] ? { ...item, pageID: item.pageID + 1 } : item
+        let tempPageObject = state.listObject[state.type[0] - 1].pages.map((item) =>
+          item.pageID >= state.type[1] ? { ...item, pageID: item.pageID + 1 } : item
         );
-        tempPageObject.splice(type[1] - 1, 0, {
+        tempPageObject.splice(state.type[1] - 1, 0, {
           seleted: false,
           route: 1,
-          pageID: type[1],
+          pageID: state.type[1],
           pageName: text.pageNameValue,
           pageCover: 0,
           pagePresent: text.pagePresentValue
         });
         handle.setListObject((listObject) =>
           listObject.map((item) =>
-            item.unitID === type[0]
+            item.unitID === state.type[0]
               ? {
                   ...item,
                   pages: tempPageObject
@@ -143,51 +140,51 @@ export default function NewUnitPage(props) {
   return (
     <Dialog
       fullWidth
-      open={open}
+      open={state.open}
       onClose={handle.close}
       className={classes.noneSelect}
     >
       <DialogTitle>
-        {edit
-          ? lang.popup.edit.titlePage
-          : group
-          ? lang.popup.newUnitPage.titleUnit
-          : lang.popup.newUnitPage.titlePage}
+        {state.edit
+          ? context.lang.popup.edit.titlePage
+          : state.group
+          ? context.lang.popup.newUnitPage.titleUnit
+          : context.lang.popup.newUnitPage.titlePage}
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {edit
-            ? lang.popup.edit.textPage
-            : group
-            ? lang.popup.newUnitPage.textUnit
-            : lang.popup.newUnitPage.textPage}
+          {state.edit
+            ? context.lang.popup.edit.textPage
+            : state.group
+            ? context.lang.popup.newUnitPage.textUnit
+            : context.lang.popup.newUnitPage.textPage}
         </DialogContentText>
         <div>
-          {group && (
+          {state.group && (
             <TextField
               required
-              label={lang.popup.newUnitPage.unitName}
+              label={context.lang.popup.newUnitPage.unitName}
               className={clsx(classes.textInputHalf, classes.margin)}
               error={text.unitNameCheck}
               value={text.unitNameValue}
               onChange={(event) => handle.setUnitNameValue(event.target.value)}
-              autoFocus={group}
+              autoFocus={state.group}
             />
           )}
           <TextField
             required
-            label={edit ? lang.popup.edit.labelPageName : lang.popup.newUnitPage.pageName}
+            label={state.edit ? context.lang.popup.edit.labelPageName : context.lang.popup.newUnitPage.pageName}
             className={classes.textInputHalf}
             error={text.pageNameCheck}
             value={text.pageNameValue}
             onChange={(event) => handle.setPageNameValue(event.target.value)}
-            autoFocus={!group}
+            autoFocus={!state.group}
           />
         </div>
         <TextField
           multiline
           rows={4}
-          label={edit ? lang.popup.edit.labelPagePresent : lang.popup.newUnitPage.pagePresent}
+          label={state.edit ? context.lang.popup.edit.labelPagePresent : context.lang.popup.newUnitPage.pagePresent}
           className={classes.textInput}
           error={text.pagePresentCheck}
           value={text.pagePresentValue}
@@ -197,15 +194,15 @@ export default function NewUnitPage(props) {
       <DialogActions>
         <Button
           onClick={() => {
-            if (edit) submitEdit();
+            if (state.edit) submitEdit();
             else submitNew();
           }}
           color="secondary"
         >
-          {lang.common.apply}
+          {context.lang.common.apply}
         </Button>
         <Button onClick={handle.close} color="primary">
-          {lang.common.back}
+          {context.lang.common.back}
         </Button>
       </DialogActions>
     </Dialog>

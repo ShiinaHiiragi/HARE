@@ -10,20 +10,20 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import GlobalMenu from "../Dialogue/GlobalMenu";
 
 export default function PersonalInfo(props) {
-  const { lang, data, handle } = props;
+  const { state, handle } = props;
   const [anchorGlobalMenu, setAnchorGlobalMenu] = React.useState(null);
 
   return (
     <List>
       <ListItem>
         <ListItemAvatar>
-          <Avatar src={data.avatar}>
+          <Avatar src={state.avatar}>
             <PersonIcon />
           </Avatar>
         </ListItemAvatar>
         <ListItemText
-          primary={data.profile.userName}
-          secondary={data.profile.email}
+          primary={state.profile.userName}
+          secondary={state.profile.email}
         />
         <IconButton
           onClick={(event) => setAnchorGlobalMenu(event.currentTarget)}
@@ -33,15 +33,12 @@ export default function PersonalInfo(props) {
       </ListItem>
 
       <GlobalMenu
-        lang={lang}
-        data={{
-          userID: data.userID,
-          token: data.token
+        state={{
+          userID: state.userID,
+          anchor: anchorGlobalMenu
         }}
-        anchor={anchorGlobalMenu}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,
-          toggleKick: handle.toggleKick,
           toggleEditProfile: handle.toggleEditProfile,
           changeGlobalLang: handle.changeGlobalLang,
           refreshAvatar: handle.refreshAvatar,
@@ -49,8 +46,6 @@ export default function PersonalInfo(props) {
           clearCheck: handle.clearCheck,
           close: () => setAnchorGlobalMenu(null)
         }}
-        handleClose={() => setAnchorGlobalMenu(null)}
-        changeGlobalLang={handle.changeGlobalLang}
       />
     </List>
   );
