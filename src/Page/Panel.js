@@ -16,7 +16,6 @@ import {
   defaultProfile,
   defaultPageDetail,
   defaultCurrentSelect,
-  routeIndex,
   setStateDelay,
   stringFormat,
   getRank
@@ -75,7 +74,7 @@ export default function Panel(props) {
       closeLoading: closeLoading
     };
     return split === 3 ? packedGET(params) : packedPOST(params);
-  }, [globalLang]);
+  }, [globalLang, userID]);
 
   // the sharing state of profile
   const [profile, setProfile] = React.useState(defaultProfile);
@@ -91,6 +90,7 @@ export default function Panel(props) {
           tel: res.tel || ""
         })
       );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // the state of responsive navigation list and bar
@@ -99,6 +99,7 @@ export default function Panel(props) {
   React.useEffect(() => {
     packedRequest("GET/data/unit")
       .then((res) => setListObject(res));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // the sharing state of pages

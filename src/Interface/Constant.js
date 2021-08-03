@@ -28,10 +28,9 @@ export { maxRecall, maxLog, maxFrequency, maxNameLength, maxPresentLength, maxIm
 
 // some constants about agreement configuration
 const defaultDigit = 2;
-
 const setStateDelay = 400;
 const underline = "\\_\\_\\_\\_\\_\\_\\_\\_";
-export { defaultDigit, drawerWidth, setStateDelay, underline };
+export { defaultDigit, setStateDelay, underline };
 
 // the info about user interface
 const drawerWidth = 320;
@@ -43,7 +42,7 @@ const pageIcon = (iconProps) => [
   <AlarmOutlinedIcon {...iconProps} />,
   <InboxOutlinedIcon {...iconProps} />
 ];
-export { routeIndex, pageIcon };
+export { drawerWidth, routeIndex, pageIcon };
 
 // the initial state of some object state
 const initialDate = "2019-12-31T16:00:00.000Z";
