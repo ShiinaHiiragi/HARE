@@ -329,13 +329,11 @@ export default function NewItem(props) {
         </Paper>
       </DialogContent>
       <ExitConfirm
-        lang={context.lang}
         open={exit}
         handleClose={() => setExit(false)}
         handleClearClose={() => clearClose(true)}
       />
       <SubmitConfirm
-        lang={context.lang}
         open={apply}
         handleClose={() => setApply(false)}
         handleSubmit={submit}

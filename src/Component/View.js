@@ -97,6 +97,7 @@ export default function View(props) {
   const [apiValue, setApiValue] = React.useState(null);
 
   const [newItem, setNewItem] = React.useState(false);
+  const [editItem, setEditItem] = React.useState(false);
   const [move, setMove] = React.useState(false);
   const [deleteConfirm, setDeleteConfirm] = React.useState(false);
   const [deleteTrack, setDeleteTrack] = React.useState("part");
@@ -156,6 +157,7 @@ export default function View(props) {
     },
     newItem: (event) => {
       event.preventDefault();
+      setEditItem(false);
       setNewItem(true);
     },
     moveItem: toggleMove,
@@ -205,7 +207,7 @@ export default function View(props) {
           color="primary"
           startIcon={<AddIcon />}
           className={classes.innerButton}
-          onClick={() => setNewItem(true)}
+          onClick={() => { setEditItem(false); setNewItem(true); }}
         >
           {context.lang.grid.buttons.newItem}
         </Button>
@@ -221,6 +223,9 @@ export default function View(props) {
         setApiTrackID(Number(params.field));
         setApiValue(params.formattedValue);
         setChangeTrack(true);
+      } else if (params.field === "query" || params.field === "key") {
+        setEditItem(true);
+        setNewItem(true);
       }
     });
   }, [apiRef]);

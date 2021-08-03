@@ -1,3 +1,4 @@
+import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -10,6 +11,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
+import { PanelContext } from "../Page/Panel";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -23,8 +25,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Shortcut(props) {
   const classes = useStyles();
-  const { lang, open, handleClose } = props;
-  const table = lang.popup.shortcut.table;
+  const { open, handleClose } = props;
+  const context = React.useContext(PanelContext);
+  const table = context.lang.popup.shortcut.table;
 
   return (
     <Dialog
@@ -33,7 +36,7 @@ export default function Shortcut(props) {
       onClose={handleClose}
       className={classes.noneSelect}
     >
-      <DialogTitle>{lang.popup.shortcut.title}</DialogTitle>
+      <DialogTitle>{context.lang.popup.shortcut.title}</DialogTitle>
       <DialogContent>
         <DialogContentText component="div">
           {Object.keys(table).map((item) => (
@@ -71,7 +74,7 @@ export default function Shortcut(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          {lang.common.back}
+          {context.lang.common.back}
         </Button>
       </DialogActions>
     </Dialog>

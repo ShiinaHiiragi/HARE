@@ -193,7 +193,7 @@ export default function Panel(props) {
 
   return (
     <PanelContext.Provider value={{ lang: globalLang, request: packedRequest }}>
-      <Root lang={globalLang}>
+      <Root>
         <CssBaseline />
         <NavBar
           state={{

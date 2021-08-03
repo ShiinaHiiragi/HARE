@@ -16,7 +16,7 @@ const keyMap = {
 };
 
 export default function Root(props) {
-  const { lang, children } = props;
+  const { children } = props;
   const classes = useStyles();
   const [shortcut, setShortcut] = React.useState(false);
   const keyHandler = {
@@ -27,7 +27,6 @@ export default function Root(props) {
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
       {children}
       <Shortcut
-        lang={lang}
         open={shortcut}
         handleClose={() => setShortcut(false)}
       />
