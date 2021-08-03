@@ -504,26 +504,42 @@ exports.editTrack = (userID, unitID, pageID, itemID, trackID, value) =>
       .then(resolve).catch(reject)
   );
 
-exports.deleteTrack = (userID, unitID, pageID, trackID) =>
-  new Promise((resolve, reject) =>
+exports.deleteTrack = (userID, unitID, pageID, trackID) => {
+  let trackSize;
+  return new Promise((resolve, reject) =>
     query(`select itemSize from page where userID = ${userID}
       and unitID = ${unitID} and pageID = ${pageID}`)
       .then((out) => 
-        Promise.all(new Array(out[0].itemsize).map((_, index) => 
+        Promise.all(new Array(out[0].itemsize).fill().map((_, index) => 
           query(`select itemRecord from item where userID = ${userID} and
             unitID = ${unitID} and pageID = ${pageID} and itemID = ${index + 1}`)
             .then((innerOut) => {
-              const record = innerOut[0].itemrecord.splice(trackID - 1, 1);
-              if (trackID > 1) return `array${JSON.stringify(record)}`;
-              else return `null`
+              let record = innerOut[0].itemrecord;
+              trackSize = record.length;
+              record.splice(trackID - 1, 1);
+              if (trackSize <= 1) return `null`;
+              else return `array${JSON.stringify(record).replace(/"/g, '\'')}`
             })
             .then((value) => query(`update item set itemRecord = ${value}
               where userID = ${userID} and unitID = ${unitID}
               and pageID = ${pageID} and itemID = ${index + 1}`))
         ))
       )
+      .then(() => query(`begin; delete from track where userID = ${userID} and unitID = ${unitID}
+        and pageID = ${pageID}${trackID ? ` and trackID = ${trackID}` : ""};
+        update track set trackID = 1 - trackID where userID = ${userID}
+        and unitID = ${unitID} and pageID = ${pageID} and trackID > ${trackID};
+        update track set trackID = -trackID where userID = ${userID}
+        and unitID = ${unitID} and pageID = ${pageID} and trackID < 0; commit;`))
       .then(() => query(`update page set trackSize = ${trackID ? "trackSize - 1" : "0"}
         where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`))
+      .then(() => {
+        // if deleting a ongoing record
+        if (trackID === trackSize || trackID === 0)
+          return query(`update page set timeThis = null where
+            userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`);
+      })
       .then(resolve)
       .catch(reject)
   );
+}

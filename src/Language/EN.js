@@ -83,6 +83,7 @@ const list = {
       barPure: "Correct",
       barFar: "Fault",
       recollect: "Recollect Faulted",
+      clearEachRecall: "Clear This Recall",
       clearRecall: "Clear All"
     }
   },

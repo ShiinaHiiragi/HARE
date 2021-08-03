@@ -137,11 +137,15 @@ export default function Statistics(props) {
   const [graph, setGraph] = React.useState("line");
 
   const [expandAll, setExpandAll] = React.useState(false);
+  const [expandEach, setExpandEach] = React.useState([]);
   React.useEffect(() => {
     if (state.current.route === routeIndex.stat) {
       setAnime(Math.random());
     } else {
-      setTimeout(() => setExpandAll(false), setStateDelay);
+      setTimeout(() => {
+        setExpandAll(false);
+        setExpandEach(new Array(state.pageDetail.trackSize).fill(false));
+      }, setStateDelay);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.current.route]);
@@ -254,7 +258,8 @@ export default function Statistics(props) {
 
   React.useEffect(() => {
     setExpandAll(false);
-  }, [state.current.unitID, state.current.pageID]);
+    setExpandEach(new Array(state.pageDetail.trackSize).fill(false));
+  }, [state.current.unitID, state.current.pageID, state.pageDetail.trackSize]);
 
   return (
     <div className={classes.root}>
@@ -469,11 +474,44 @@ export default function Statistics(props) {
               </Typography>
             </div>
             <div className={classes.buttonField}>
-              <IconButton>
+              <IconButton
+                className={clsx(classes.expand, {
+                  [classes.expandOpen]: expandEach[index],
+                })}
+                onClick={() => setExpandEach((expandEach) => 
+                  expandEach.map((item, subIndex) =>
+                    subIndex === index ? !item : item))}
+              >
                 <ExpandMoreIcon />
               </IconButton>
             </div>
           </div>
+          <Collapse
+            classes={{ wrapperInner: classes.invisible }}
+            in={expandEach[index]}
+            timeout="auto"
+            unmountOnExit
+          >
+            <div className={classes.invisibleButton}>
+              <div style={{ flexGrow: 1 }}/>
+              <Button
+                variant="outlined"
+                color="primary"
+                startIcon={<CheckCircleOutlinedIcon />}
+                style={{ borderRadius: 0, marginRight: 12 }}
+              >
+                {context.lang.panel.stat.recollect}
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<CloseIcon />}
+                style={{ borderRadius: 0 }}
+              >
+                {context.lang.panel.stat.clearEachRecall}
+              </Button>
+            </div>
+          </Collapse>
         </Card>
       ))}
     </div>

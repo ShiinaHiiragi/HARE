@@ -77,6 +77,7 @@ const list = {
       barPure: "正确",
       barFar: "错误",
       recollect: "回想有误词条",
+      clearEachRecall: "清除此次记录",
       clearRecall: "清空所有"
     }
   },
