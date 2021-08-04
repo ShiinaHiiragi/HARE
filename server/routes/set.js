@@ -54,45 +54,22 @@ router.post('/avatar', (req, res) => {
 
 // setting of unit, page and item
 router.post('/unit', (req, res) => {
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID } = api.sqlNumber(req.body, ['userID', 'unitID'], res);
-  // const { unitName } = api.sqlString(req.body, ['unitName'], res);
-  // if (!(userID && token && unitName !== undefined)) return;
-  // if (!unitName) {
-  //   api.invalidArgument(res);
-  //   return;
-  // }
-  const { userID, token } = req.cookies;
-  const { unitID, unitName } = req.body;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.editUnit(userID, unitID, unitName))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'unitName'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.editUnit(params.userID, params.unitID, params.unitName))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
 
 router.post('/page', (req, res) => {
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID } = api.sqlNumber(
-  //   req.body,
-  //   ['userID', 'unitID', 'pageID'],
-  //   res
-  // );
-  // const { pageName, pagePresent } = api.sqlString(
-  //   req.body,
-  //   ['pageName', 'pagePresent'],
-  //   res
-  // );
-  // if (!(userID && token && pageName !== undefined)) return;
-  // if (!pageName) {
-  //   api.invalidArgument(res);
-  //   return;
-  // }
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, pageName, pagePresent } = req.body;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.editPage(userID, unitID, pageID, pageName, pagePresent))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'pageName', 'pagePresent'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.editPage(params.userID, params.unitID,
+      params.pageID, params.pageName, params.pagePresent))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));;
 });
