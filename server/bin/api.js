@@ -4,9 +4,13 @@ const SHA256 = require('crypto-js').SHA256;
 const invalidArgument = (res) => res.status(406).send('INVALID ARGUMENT');
 const noContent = (res) => res.status(204).send();
 const internalServerError = (res) => res.status(500).send('INTERNAL SERVER ERROR');
+const notAuthorized = (res, msg) => res.status(401).send(msg);
+const forbidden = (res, msg) => res.status(403).send(msg);
 exports.invalidArgument = invalidArgument;
 exports.noContent = noContent;
 exports.internalServerError = internalServerError;
+exports.notAuthorized = notAuthorized;
+exports.forbidden = forbidden;
 
 // api for sequential async
 exports.syncEachChain = (arrayObject, eachTemp) =>
@@ -106,14 +110,17 @@ paramMap = {
 exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
   const supLength = list.length;
   for (let supIndex = 0; supIndex < supLength; supIndex += 1) {
-    const keyName = list[supIndex], paramType = paramMap[keyName].toLowerCase();
+    const keyName = list[supIndex];
+    const paramType = paramMap[keyName].toLowerCase();
     if (!ignore && src[keyName] === undefined) {
+      console.log("undefined")
       invalidArgument(res);
       return;
     }
     if (paramType === 'number') {
       const paramNumber = Number(src[keyName]);
       if (isNaN(paramNumber)) {
+        console.log("not a number")
         invalidArgument(res);
         return;
       }
@@ -121,12 +128,14 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
     } else if (paramType === 'string') {
       const paramString = String(src[keyName]).replace(/'/g, `''`);
       if (paramMap[keyName][0] === 's' && paramString.length === 0) {
+        console.log("nil string")
         invalidArgument(res);
         return;
       }
       dst[keyName] = paramString
     } else if (paramType === 'array') {
       if (!(src[keyName] instanceof 'array')) {
+        console.log("not array")
         invalidArgument(res);
         return;
       }
@@ -135,6 +144,7 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
       for (let index = 0; index < length; index += 1) {
         const subNumber = Number(src[keyName][index]);
         if (isNaN(subNumber)) {
+          console.log("nan")
           invalidArgument(res);
           return;
         } else dst[keyName][index] = subNumber;

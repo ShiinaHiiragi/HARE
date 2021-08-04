@@ -107,18 +107,17 @@ exports.editAvatarExtent = (userID, type) => new Promise((resolve, reject) =>
 );
 
 // db api for token
-exports.checkToken = (userID, token, res) => new Promise((resolve) => 
+exports.checkToken = (userID, token, res) => new Promise((resolve, reject) => 
   query(`select * from onlineUser
     where userID = ${userID} and token = '${token}'`)
-    .then(out => {
-      if (out.length === 0) {
-        if (res) res.status(401).send('INVALID');
-      } else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan) {
-        if (res) res.status(401).send('EXPIRED');
-      } else newToken(userID).then(resolve);
-    }).catch(() => {
-      if (res) api.internalServerError(res)
+    .then((out) => {
+      if (out.length === 0)
+        api.notAuthorized(res, 'INVALID');
+      else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan)
+        api.notAuthorized(res, 'EXPIRED');
+      else newToken(userID).then(resolve);
     })
+    .catch(reject)
 )
 
 const newToken = (userID, token) => new Promise((resolve, reject) => {
