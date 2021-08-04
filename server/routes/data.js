@@ -96,19 +96,11 @@ router.get('/stat', (req, res) => {
 });
 
 router.post('/this', (req, res) => {
-  // const clear = !!req.body.clear;
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID } = api.sqlNumber(
-  //   req.body,
-  //   ['userID', 'unitID', 'pageID'],
-  //   res
-  // );
-  // if (!(userID && token)) return;
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, bool } = req.body;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.getThis(userID, unitID, pageID, bool))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'bool'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.getThis(params.userID, params.unitID, params.pageID, params.bool))
     .then((out) => res.send(out))
     .catch(() => api.internalServerError(res));
 });
