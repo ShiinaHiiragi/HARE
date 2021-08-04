@@ -34,7 +34,7 @@ export default function ChangeTrack(props) {
         pageID: state.pageID,
         itemID: state.itemID,
         trackID: state.trackID,
-        value: targetValue
+        track: targetValue
       }).then(() => {
         handle.setItemList((itemList) => itemList.map((item) => ({
           ...item,

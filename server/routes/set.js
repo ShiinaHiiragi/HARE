@@ -201,12 +201,12 @@ router.post('/track', (req, res) => {
   const { userID, unitID, pageID, itemID, trackID } = api.sqlNumber(
     req.body, ['userID', 'unitID', 'pageID', 'itemID', 'trackID'], res
   );
-  const value = (req.body.value === 'P' || req.body.value === 'F')
-    ? req.body.value : 'L';
+  const track = (req.body.track === 'P' || req.body.track === 'F')
+    ? req.body.track : 'L';
   if (!(userID && token)) return;
 
   db.checkToken(userID, token, res)
-    .then(() => db.editTrack(userID, unitID, pageID, itemID, trackID, value))
+    .then(() => db.editTrack(userID, unitID, pageID, itemID, trackID, track))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
