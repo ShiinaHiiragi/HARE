@@ -517,7 +517,7 @@ exports.deleteTrack = (userID, unitID, pageID, trackID) => {
               let record = innerOut[0].itemrecord;
               trackSize = record.length;
               record.splice(trackID - 1, 1);
-              if (trackSize <= 1) return `null`;
+              if (!trackID || trackSize === 1) return `null`;
               else return `array${JSON.stringify(record).replace(/"/g, '\'')}`
             })
             .then((value) => query(`update item set itemRecord = ${value}

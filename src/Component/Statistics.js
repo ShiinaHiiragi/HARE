@@ -261,6 +261,31 @@ export default function Statistics(props) {
     setExpandEach(new Array(state.pageDetail.trackSize).fill(false));
   }, [state.current.unitID, state.current.pageID, state.pageDetail.trackSize]);
 
+  const deleteTrack = (trackID) => {
+    context.request("POST/set/delete-track", {
+      unitID: state.current.unitID,
+      pageID: state.current.pageID,
+      trackID: trackID
+    }).then(() => {
+      // TODO: set itemList
+      if (trackID && state.pageDetail.trackSize > 1) {
+        handle.setStatInfo((statInfo) => {
+          statInfo.splice(trackID - 1, 1);
+          return statInfo.map((_) => _);
+        });
+        handle.setPageDetail((pageDetail) => ({
+          ...pageDetail, trackSize: pageDetail.trackSize - 1
+        }))
+      } else {
+        handle.setStatInfo([]);
+        handle.setPageDetail((pageDetail) => ({
+          ...pageDetail, trackSize: 0
+        }))
+        handle.setCurrentRoute(routeIndex.cover);
+      }
+    });
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.buttonPanel}>
@@ -413,6 +438,7 @@ export default function Statistics(props) {
               color="secondary"
               startIcon={<CloseIcon />}
               style={{ borderRadius: 0 }}
+              onClick={() => deleteTrack(0)}
             >
               {context.lang.panel.stat.clearRecall}
             </Button>
@@ -499,6 +525,20 @@ export default function Statistics(props) {
                 color="primary"
                 startIcon={<CheckCircleOutlinedIcon />}
                 style={{ borderRadius: 0, marginRight: 12 }}
+                onClick={() => {
+                  let lost = [];
+                  state.itemList.forEach((subItem) => {
+                    if (subItem[index + 1] === "F")
+                      lost.push(subItem.id);
+                  });
+                  handle.setRecollect(true);
+                  handle.setTimerInitial((lastValue) => [0, lastValue[1] + 1]);
+                  handle.setRecall({
+                    pure: [], far: [],
+                    lost: lost.sort((left, right) => left - right)
+                  });
+                  handle.setCurrentRoute(routeIndex.recall);
+                }}
               >
                 {context.lang.panel.stat.recollect}
               </Button>
@@ -507,6 +547,7 @@ export default function Statistics(props) {
                 color="secondary"
                 startIcon={<CloseIcon />}
                 style={{ borderRadius: 0 }}
+                onClick={() => deleteTrack(index + 1)}
               >
                 {context.lang.panel.stat.clearEachRecall}
               </Button>

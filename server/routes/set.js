@@ -314,9 +314,9 @@ router.post('/track', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
-router.post('delete-track', (req, res) => {
+router.post('/delete-track', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID, itemID, trackID } = api.sqlNumber(
+  const { userID, unitID, pageID, trackID } = api.sqlNumber(
     req.body, ['userID', 'unitID', 'pageID', 'trackID'], res
   );
   if (!(userID && token)) return;

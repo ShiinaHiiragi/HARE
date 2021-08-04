@@ -124,7 +124,9 @@ export default function Main(props) {
             setCurrentRoute: handle.setCurrentRoute,
             setRecollect: handle.setRecollect,
             setTimerInitial: setTimerInitial,
-            setRecall: handle.setRecall
+            setRecall: handle.setRecall,
+            setPageDetail: handle.setPageDetail,
+            setStatInfo: handle.setStatInfo
           }}
         />
       </MainPage>
