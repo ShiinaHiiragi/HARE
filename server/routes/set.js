@@ -18,38 +18,38 @@ router.post('/profile', (req, res) => {
 
 router.post('/avatar', (req, res) => {
   const params = new Object();
+  let typeReg = /^data:image\/(\w+);base64,/, basicPath;
   api.param(req.cookies, params, ['userID', 'token'], res)
     .then(() => api.param(req.body, params, ['avatar', 'type'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => {
-      const basicPath = path.join(__dirname, '../src/avatar');
-      fs.readdir(basicPath, (err, dir) => {
-        if (err) api.internalServerError(res)
-        else {
+      basicPath = path.join(__dirname, '../src/avatar');
+      return new Promise((resolve, reject) => {
+        fs.readdir(basicPath, (err, dir) => {
+          if (err) { reject(); return; }
           // delete the previous image first
           const userReg = new RegExp(`${params.userID}\\.(.+)`);
-          const typeReg = /^data:image\/(\w+);base64,/;
           const prevAvatar = dir.find((fileItem) => userReg.test(fileItem));
-          if (prevAvatar)
-            fs.unlinkSync(path.join(basicPath, prevAvatar));
-          // save the file uploaded
-          db.editAvatarExtent(params.userID, params.type)
-            .then(() => {
-              let avatarBase = params.avatar.replace(typeReg, '');
-              let avatarBuffer = new Buffer(avatarBase, 'base64');
-              fs.writeFile(
-                path.join(basicPath, `${params.userID}${params.type === '.jpeg' ? '.jpg' : params.type}`),
-                avatarBuffer,
-                (err) => {
-                  if (!err) api.noContent(res);
-                  else api.internalServerError(res);
-                }
-              );
-            })
-            .catch(() => api.internalServerError(res));
-        }
+          if (prevAvatar) fs.unlinkSync(path.join(basicPath, prevAvatar));
+          resolve();
+        });
+      })
+    })
+    // save the file uploaded
+    .then(() => db.editAvatarExtent(params.userID, params.type))
+    .then(() => {
+      let avatarBase = params.avatar.replace(typeReg, '');
+      let avatarBuffer = new Buffer(avatarBase, 'base64');
+      return new Promise((resolve, reject) => {
+        fs.writeFile(
+          path.join(basicPath, `${params.userID}${params.type === '.jpeg' ? '.jpg' : params.type}`),
+          avatarBuffer,
+          (err) => { if (!err) resolve(); else reject(); }
+        );
       });
-    });
+    })
+    .then(() => api.noContent(res))
+    .catch(() => api.internalServerError(res));
 });
 
 // setting of unit, page and item

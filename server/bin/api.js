@@ -80,7 +80,7 @@ exports.format = (transDate, formatString) => {
   return formatString;
 };
 
-// api for process GET/POST
+// string is not null and String can be null
 paramMap = {
   token: 'string',
   userID: 'number',
@@ -98,14 +98,16 @@ paramMap = {
   userName: 'string',
   unitName: 'string',
   pageName: 'string',
-  gender: 'String',
-  birth: 'String',
-  track: 'String',
+  gender: 'string',
+  birth: 'string',
+  avatar: 'string',
+  type: 'string',
+  track: 'string',
   tel: 'String',
   city: 'String',
   pagePresent: 'String',
   query: 'String',
-  key: 'String',
+  key: 'String'
 };
 
 // TODO: remove console.log
