@@ -80,7 +80,7 @@ export default function Pages(props) {
   };
 
   const changeMove = (group, less) => {
-    context.request("POST/set/swap", { group: group, less: less })
+    context.request("POST/set/swap", { bool: group, less: less })
       .then(() => {
         if (group) {
           handle.setListObject((listObject) => {

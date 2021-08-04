@@ -83,7 +83,7 @@ export default function NewUnitPage(props) {
       return;
     }
     context.request("POST/new/up", {
-      group: state.group,
+      bool: state.group,
       type: state.type,
       unitName: text.unitNameValue,
       pageName: text.pageNameValue,

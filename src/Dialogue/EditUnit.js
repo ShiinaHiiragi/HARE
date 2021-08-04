@@ -29,7 +29,7 @@ export default function EditUnit(props) {
     } else {
       context.request("POST/set/unit", {
         unitID: state.unitID,
-        name: state.editUnitNameValue
+        unitName: state.editUnitNameValue
       }).then(() => {
         handle.setListObject((listObject) =>
           listObject.map((item) =>

@@ -126,7 +126,7 @@ export default function View(props) {
       unitID: state.current.unitID,
       pageID: state.current.pageID,
       itemID: itemID,
-      track: deleteTrack === "track"
+      bool: deleteTrack === "track"
     }).then(() => {
       handle.setItemList(() => {
         let remain = new Array(state.itemList.length).fill().map((_, index) => index + 1);

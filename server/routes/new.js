@@ -4,7 +4,7 @@ var db = require('../bin/db');
 var api = require('../bin/api');
 
 router.post('/up', (req, res) => {
-  const group = !!req.body.group;
+  const bool = !!req.body.bool;
   const type = api.sqlNumberArray(req.body.type);
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.body, ['userID'], res);
@@ -18,15 +18,15 @@ router.post('/up', (req, res) => {
     api.invalidArgument(res);
     return;
   }
-  if ((group && typeof type !== 'number') ||
-    (!group && (!(type instanceof Array) || type.length !== 2))) {
+  if ((bool && typeof type !== 'number') ||
+    (!bool && (!(type instanceof Array) || type.length !== 2))) {
     api.invalidArgument(res);
     return;
   }
 
   db.checkToken(userID, token, res)
     .then(() => {
-      if (group) {
+      if (bool) {
         // the feature of OR in js
         db.newUnit(userID, type || 1, unitName)
           .then(() => db.newPage(userID, type || 1, 1, pageName, pagePresent))

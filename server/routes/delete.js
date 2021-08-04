@@ -34,7 +34,7 @@ router.post('/up', (req, res) => {
 });
 
 router.post('/item', (req, res) => {
-  const track = !!req.body.track;
+  const bool = !!req.body.bool;
   const itemID = api.sqlNumberArray(req.body.itemID);
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID, pageID } = api.sqlNumber(
@@ -49,7 +49,7 @@ router.post('/item', (req, res) => {
   }
 
   db.checkToken(userID, token, res)
-    .then(() => db.deleteItem(userID, unitID, pageID, itemID, track))
+    .then(() => db.deleteItem(userID, unitID, pageID, itemID, bool))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });

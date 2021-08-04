@@ -70,15 +70,15 @@ router.post('/avatar', (req, res) => {
 router.post('/unit', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID } = api.sqlNumber(req.body, ['userID', 'unitID'], res);
-  const { name } = api.sqlString(req.body, ['name'], res);
-  if (!(userID && token && name !== undefined)) return;
-  if (!name) {
+  const { unitName } = api.sqlString(req.body, ['unitName'], res);
+  if (!(userID && token && unitName !== undefined)) return;
+  if (!unitName) {
     api.invalidArgument(res);
     return;
   }
 
   db.checkToken(userID, token, res)
-    .then(() => db.editUnit(userID, unitID, name))
+    .then(() => db.editUnit(userID, unitID, unitName))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
@@ -124,7 +124,7 @@ router.post('/item', (req, res) => {
 });
 
 router.post('/recall', (req, res) => {
-  const lost = !!req.body.lost
+  const bool = !!req.body.bool
   const pure = api.sqlNumberArray(req.body.pure);
   const far = api.sqlNumberArray(req.body.far);
   const { token } = api.sqlString(req.cookies, ['token'], res);
@@ -138,7 +138,7 @@ router.post('/recall', (req, res) => {
   }
 
   db.checkToken(userID, token, res)
-    .then(() => db.updateThis(userID, unitID, pageID, pure, far, lost))
+    .then(() => db.updateThis(userID, unitID, pageID, pure, far, bool))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
@@ -160,20 +160,20 @@ router.post('/move', (req, res) => {
 });
 
 router.post('/swap', (req, res) => {
-  const group = !!req.body.group;
+  const bool = !!req.body.bool;
   const less = api.sqlNumberArray(req.body.less);
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.body, ['userID'], res);
   if (!(userID && token)) return;
-  if ((group && typeof less !== 'number') ||
-    (!group && (!(less instanceof Array) || less.length !== 2))) {
+  if ((bool && typeof less !== 'number') ||
+    (!bool && (!(less instanceof Array) || less.length !== 2))) {
     api.invalidArgument(res);
     return;
   }
 
   db.checkToken(userID, token, res)
     .then(() => {
-      if (group) return  db.moveUnit(userID, less)
+      if (bool) return  db.moveUnit(userID, less)
       else return db.movePage(userID, less[0], less[1])
     })
     .then(() => api.noContent(res))
