@@ -161,36 +161,35 @@ export default function Pages(props) {
     setDeleteConfirmType(type);
   };
   const deleteUnitPage = (unitID, pageID) => {
-    context.request("data/delete/up", {
-      unitID: unitID,
-      pageID: pageID,
-      bool: pageID > 0 ? false : true
-    }).then((out) => {
-      if (out === "unit") {
-        handle.setListObject((listObject) => {
-          listObject.splice(unitID - 1, 1);
-          return listObject.map((item) =>
-            item.unitID > unitID ? { ...item, unitID: item.unitID - 1 } : item
+    const params = { unitID: unitID, };
+    if (pageID > 0) params.pageID = pageID;
+    context.request("data/delete/up", params)
+      .then((out) => {
+        if (out === "unit") {
+          handle.setListObject((listObject) => {
+            listObject.splice(unitID - 1, 1);
+            return listObject.map((item) =>
+              item.unitID > unitID ? { ...item, unitID: item.unitID - 1 } : item
+            );
+          });
+        } else {
+          state.listObject[unitID - 1].pages.splice(pageID - 1, 1);
+          handle.setListObject(
+            state.listObject.map((item) =>
+              item.unitID === unitID
+                ? {
+                    ...item,
+                    pages: item.pages.map((subItem) =>
+                      subItem.pageID > pageID
+                        ? { ...subItem, pageID: subItem.pageID - 1 }
+                        : subItem
+                    )
+                  }
+                : item
+            )
           );
-        });
-      } else {
-        state.listObject[unitID - 1].pages.splice(pageID - 1, 1);
-        handle.setListObject(
-          state.listObject.map((item) =>
-            item.unitID === unitID
-              ? {
-                  ...item,
-                  pages: item.pages.map((subItem) =>
-                    subItem.pageID > pageID
-                      ? { ...subItem, pageID: subItem.pageID - 1 }
-                      : subItem
-                  )
-                }
-              : item
-          )
-        );
-      }
-    });
+        }
+      });
   };
 
   const listSelected = (unitID, pageID) => handle.setListObject(

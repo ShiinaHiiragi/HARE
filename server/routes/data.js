@@ -98,7 +98,8 @@ router.get('/stat', (req, res) => {
 router.post('/this', (req, res) => {
   const params = new Object();
   api.param(req.cookies, params, ['userID', 'token'], res)
-    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'bool'], res))
+    .then(() => api.param(req.body, params, ['unitID', 'pageID'], res))
+    .then(() => api.param(req.body, params, ['bool'], res, api.ignore))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.getThis(params.userID, params.unitID, params.pageID, params.bool))
     .then((out) => res.send(out))

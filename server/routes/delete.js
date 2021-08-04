@@ -4,28 +4,21 @@ var db = require('../bin/db');
 var api = require('../bin/api');
 
 router.post('/up', (req, res) => {
-  // const bool = !!req.body.bool;
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID } = api.sqlNumber(
-  //   req.body,
-  //   ['userID', 'unitID', 'pageID'],
-  //   res
-  // );
-  // if (!(userID && token)) return;
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, bool } = req.body;
-
-  db.checkToken(userID, token, res)
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID'], res))
+    .then(() => api.param(req.body, params, ['pageID'], res, api.ignore))
+    .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => {
-      if (bool) {
-        db.deleteUnit(userID, unitID)
+      if (params.pageID === undefined) {
+        db.deleteUnit(params.userID, params.unitID)
           .then(() => res.send('unit'))
           .catch(() => api.internalServerError(res));
       } else {
-        db.deletePage(userID, unitID, pageID)
+        db.deletePage(params.userID, params.unitID, params.pageID)
           .then((out) => {
             if (!out[0].pagesize) {
-              db.deleteUnit(userID, unitID)
+              db.deleteUnit(params.userID, params.unitID)
                 .then(() => res.send('unit'))
                 .catch(() => api.internalServerError(res));
             } else res.send('page');

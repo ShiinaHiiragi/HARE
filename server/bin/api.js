@@ -12,6 +12,7 @@ exports.internalServerError = internalServerError;
 exports.notAuthorized = notAuthorized;
 exports.forbidden = forbidden;
 
+exports.ignore = true;
 // api for sequential async
 exports.syncEachChain = (arrayObject, eachTemp) =>
   arrayObject.reduce(
@@ -107,49 +108,51 @@ paramMap = {
   key: 'String',
 };
 
+// TODO: remove console.log
 exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
   const supLength = list.length;
   for (let supIndex = 0; supIndex < supLength; supIndex += 1) {
     const keyName = list[supIndex];
     const paramType = paramMap[keyName].toLowerCase();
     if (!ignore && src[keyName] === undefined) {
-      console.log("undefined")
+      console.log(keyName, "undefined")
       invalidArgument(res);
       return;
-    }
-    if (paramType === 'number') {
-      const paramNumber = Number(src[keyName]);
-      if (isNaN(paramNumber)) {
-        console.log("not a number")
-        invalidArgument(res);
-        return;
-      }
-      dst[keyName] = paramNumber;
-    } else if (paramType === 'string') {
-      const paramString = String(src[keyName]).replace(/'/g, `''`);
-      if (paramMap[keyName][0] === 's' && paramString.length === 0) {
-        console.log("nil string")
-        invalidArgument(res);
-        return;
-      }
-      dst[keyName] = paramString
-    } else if (paramType === 'array') {
-      if (!(src[keyName] instanceof 'array')) {
-        console.log("not array")
-        invalidArgument(res);
-        return;
-      }
-      const length = src[keyName].length;
-      dst[keyName] = new Array(length).fill(0);
-      for (let index = 0; index < length; index += 1) {
-        const subNumber = Number(src[keyName][index]);
-        if (isNaN(subNumber)) {
-          console.log("nan")
+    } else if (src[keyName] !== undefined) {
+      if (paramType === 'number') {
+        const paramNumber = Number(src[keyName]);
+        if (isNaN(paramNumber)) {
+          console.log("not a number")
           invalidArgument(res);
           return;
-        } else dst[keyName][index] = subNumber;
-      }
-    } else dst[keyName] = !!src[keyName]
+        }
+        dst[keyName] = paramNumber;
+      } else if (paramType === 'string') {
+        const paramString = String(src[keyName]).replace(/'/g, `''`);
+        if (paramMap[keyName][0] === 's' && paramString.length === 0) {
+          console.log("nil string")
+          invalidArgument(res);
+          return;
+        }
+        dst[keyName] = paramString
+      } else if (paramType === 'array') {
+        if (!(src[keyName] instanceof 'array')) {
+          console.log("not array")
+          invalidArgument(res);
+          return;
+        }
+        const length = src[keyName].length;
+        dst[keyName] = new Array(length).fill(0);
+        for (let index = 0; index < length; index += 1) {
+          const subNumber = Number(src[keyName][index]);
+          if (isNaN(subNumber)) {
+            console.log("nan in array")
+            invalidArgument(res);
+            return;
+          } else dst[keyName][index] = subNumber;
+        }
+      } else dst[keyName] = !!src[keyName]
+    }
   }
   resolve();
 });
