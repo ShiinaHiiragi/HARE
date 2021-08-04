@@ -29,17 +29,16 @@ router.get('/about', (req, res) => {
 });
 
 router.get('/avatar', (req, res) => {
-  const { userID } = api.sqlNumber(req.query, ['userID'], res);
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  if (!(userID && token)) return;
-  db.checkToken(userID, token, res).then(() => {
-    db.getAvatarExtent(userID).then((out) => {
-      res.sendFile(path.join(
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.getAvatarExtent(params.userID))
+    .then((out) => res.sendFile(path.join(
         __dirname,
-        `../src/avatar/${userID}${out[0].avatar}`
-      ));
-    }).catch(() => api.internalServerError(res));
-  });
+        `../src/avatar/${params.userID}${out[0].avatar}`
+      ))
+    )
+    .catch(() => api.internalServerError(res));
 });
 
 module.exports = router;
