@@ -214,7 +214,6 @@ export default function View(props) {
     );
   }
 
-  // TODO: edit grid on double click
   React.useEffect(() => {
     return apiRef.current.subscribeEvent("cellDoubleClick", (params) => {
       setApiItemID(params.id);
