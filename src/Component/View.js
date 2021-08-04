@@ -125,8 +125,7 @@ export default function View(props) {
     context.request("POST/delete/item", {
       unitID: state.current.unitID,
       pageID: state.current.pageID,
-      itemID: itemID,
-      bool: deleteTrack === "track"
+      itemID: itemID
     }).then(() => {
       handle.setItemList(() => {
         let remain = new Array(state.itemList.length).fill().map((_, index) => index + 1);

@@ -299,8 +299,9 @@ exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
     order by itemID asc`).then(resolve).catch(reject);
 });
 
-exports.deleteItem = (userID, unitID, pageID, itemID, track) =>
+exports.deleteItem = (userID, unitID, pageID, itemID) =>
   new Promise((outerSuccess, outerError) => {
+    let track;
     const deleteSize = itemID.length;
     const tuple = api.arrayTupleString(itemID);
     Promise.all([
@@ -308,6 +309,7 @@ exports.deleteItem = (userID, unitID, pageID, itemID, track) =>
         query(`select itemSize from page where userID = ${userID}
           and unitID = ${unitID} and pageID = ${pageID}`)
           .then((out) => {
+            track = out[0].itemsize === itemID.length;
             let remain = new Array(out[0].itemsize).fill().map((_, index) => index + 1);
             remain = itemID.reduce((current, item, index) => {
               current.splice(item - index - 1, 1);

@@ -31,9 +31,9 @@ router.post('/up', (req, res) => {
 router.post('/item', (req, res) => {
   const params = new Object();
   api.param(req.cookies, params, ['userID', 'token'], res)
-    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID', 'bool'], res))
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
-    .then(() => db.deleteItem(params.userID, params.unitID, params.pageID, params.itemID, params.bool))
+    .then(() => db.deleteItem(params.userID, params.unitID, params.pageID, params.itemID))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
