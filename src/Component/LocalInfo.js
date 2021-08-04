@@ -13,7 +13,7 @@ export default function LocalInfo(props) {
     context.request("POST/set/cover", {
       unitID: current.unitID,
       pageID: current.pageID,
-      cover: index
+      dst: index
     }).then(() => {
       handleSetList((list) => list.map((item) => item.unitID === current.unitID
         ? {

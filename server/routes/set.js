@@ -183,15 +183,15 @@ router.post('/swap', (req, res) => {
 // the icon for editing
 router.post('/cover', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID, cover } = api.sqlNumber(
+  const { userID, unitID, pageID, dst } = api.sqlNumber(
     req.body,
-    ['userID', 'unitID', 'pageID', 'cover'],
+    ['userID', 'unitID', 'pageID', 'dst'],
     res
   );
   if (!(userID && token)) return;
 
   db.checkToken(userID, token, res)
-    .then(() => db.editCover(userID, unitID, pageID, cover))
+    .then(() => db.editCover(userID, unitID, pageID, dst))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
