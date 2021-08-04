@@ -104,14 +104,14 @@ const viewTable = (cmdLine, onsuccess, onerror) => {
   else onerror('ERROR: Nonexistent schema.');
 }
 
-// db api for profile and token request
+// db api for profile and avatar extent request
 exports.getProfile = (userID) => new Promise((resolve, reject) => 
   query(`select userName, userID, email, gender, birth, city, tel
     from userSetting natural join userInfo where userID = ${userID}`)
     .then(resolve).catch(reject)
 );
 
-exports.saveProfile = (userID, userName, birth, gender, tel, city) =>
+exports.editProfile = (userID, userName, birth, gender, tel, city) =>
   new Promise((resolve, reject) => 
     query(`update userSetting set userName = '${userName}',
       birth = '${api.format(new Date(birth), 'yyyy-MM-dd')}',
@@ -120,14 +120,14 @@ exports.saveProfile = (userID, userName, birth, gender, tel, city) =>
       .then(resolve).catch(reject)
   );
 
-exports.saveAvatarExtent = (userID, type) => new Promise((resolve, reject) => 
-  query(`update userSetting set avatar = '${type === '.jpeg' ? '.jpg' : type}'
-    where userID = ${userID}`).then(resolve).catch(reject)
-);
-
 exports.getAvatarExtent = (userID) => new Promise((resolve, reject) => 
   query(`select avatar from userSetting where userID = ${userID}`)
   .then(resolve).catch(reject)
+);
+
+exports.editAvatarExtent = (userID, type) => new Promise((resolve, reject) => 
+  query(`update userSetting set avatar = '${type === '.jpeg' ? '.jpg' : type}'
+    where userID = ${userID}`).then(resolve).catch(reject)
 );
 
 // db api for token

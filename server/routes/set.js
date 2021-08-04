@@ -21,7 +21,7 @@ router.post('/profile', (req, res) => {
   }
 
   db.checkToken(userID, token, res)
-    .then(() => db.saveProfile(userID, userName, birth, gender, tel, city))
+    .then(() => db.editProfile(userID, userName, birth, gender, tel, city))
     .then(() => api.noContent(res));
 });
 
@@ -49,7 +49,7 @@ router.post('/avatar', (req, res) => {
           if (prevAvatar)
             fs.unlinkSync(path.join(basicPath, prevAvatar));
           // save the file uploaded
-          db.saveAvatarExtent(userID, type).then(() => {
+          db.editAvatarExtent(userID, type).then(() => {
             let avatarBase = avatar.replace(typeReg, '');
             let avatarBuffer = new Buffer(avatarBase, 'base64');
             fs.writeFile(
