@@ -115,23 +115,14 @@ router.post('/move', (req, res) => {
 });
 
 router.post('/swap', (req, res) => {
-  // const bool = !!req.body.bool;
-  // const less = api.sqlNumberArray(req.body.less);
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID } = api.sqlNumber(req.body, ['userID'], res);
-  // if (!(userID && token)) return;
-  // if ((bool && typeof less !== 'number') ||
-  //   (!bool && (!(less instanceof Array) || less.length !== 2))) {
-  //   api.invalidArgument(res);
-  //   return;
-  // }
-  const { userID, token } = req.cookies;
-  const { bool, less } = req.body;
-
-  db.checkToken(userID, token, res)
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['src'], res))
+    .then(() => api.param(req.body, params, ['unitID'], res, api.ignore))
+    .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => {
-      if (bool) return  db.moveUnit(userID, less)
-      else return db.movePage(userID, less[0], less[1])
+      if (params.unitID === undefined) return db.moveUnit(params.userID, params.src)
+      else return db.movePage(params.userID, params.unitID, params.src)
     })
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));;
