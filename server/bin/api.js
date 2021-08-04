@@ -11,6 +11,12 @@ exports.noContent = noContent;
 exports.internalServerError = internalServerError;
 exports.notAuthorized = notAuthorized;
 exports.forbidden = forbidden;
+exports.catchError = (err, res) => {
+  switch (err) {
+    case 406: invalidArgument(res); break;
+    default: internalServerError(res); break;
+  }
+}
 
 exports.ignore = true;
 // api for sequential async

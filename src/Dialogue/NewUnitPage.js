@@ -82,13 +82,15 @@ export default function NewUnitPage(props) {
       handle.toggleMessageBox(errorMessage, "warning");
       return;
     }
-    context.request("POST/new/up", {
-      bool: state.group,
-      type: state.type,
-      unitName: text.unitNameValue,
+    const preParams = {
+      unitID: state.type[0] ?? state.type,
       pageName: text.pageNameValue,
       pagePresent: text.pagePresentValue
-    }).then(() => {
+    };
+    context.request("POST/new/up", state.group
+      ? { ...preParams, unitName: text.unitNameValue }
+      : { ...preParams, pageID: state.type[1] }
+    ).then(() => {
       handle.close();
       if (state.group) {
         let tempListObject = state.listObject.map((item) =>

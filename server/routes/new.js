@@ -4,42 +4,25 @@ var db = require('../bin/db');
 var api = require('../bin/api');
 
 router.post('/up', (req, res) => {
-  // const bool = !!req.body.bool;
-  // const type = api.sqlNumberArray(req.body.type);
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID } = api.sqlNumber(req.body, ['userID'], res);
-  // const { unitName, pageName, pagePresent } = api.sqlString(
-  //   req.body,
-  //   ['unitName', 'pageName', 'pagePresent'],
-  //   res
-  // );
-  // if (!(userID && token && unitName !== undefined)) return;
-  // if (!(unitName && pageName)) {
-  //   api.invalidArgument(res);
-  //   return;
-  // }
-  // if ((bool && typeof type !== 'number') ||
-  //   (!bool && (!(type instanceof Array) || type.length !== 2))) {
-  //   api.invalidArgument(res);
-  //   return;
-  // }
-  const { userID, token } = req.cookies;
-  const { unitName, pageName, pagePresent, type, bool } = req.body;
-
-  db.checkToken(userID, token, res)
+  const params = new Object();
+  console.log(req.body);
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageName', 'pagePresent'], res))
+    .then(() => api.param(req.body, params, ['pageID', 'unitName'], res, api.ignore))
+    .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => {
-      if (bool) {
-        // the feature of OR in js
-        db.newUnit(userID, type || 1, unitName)
-          .then(() => db.newPage(userID, type || 1, 1, pageName, pagePresent))
-          .then(() => api.noContent(res))
-          .catch(() => api.internalServerError(res));
-      } else {
-        db.newPage(userID, type[0], type[1], pageName, pagePresent)
-          .then(() => api.noContent(res))
-          .catch(() => api.internalServerError(res));
-      }
-    });
+      const newUnit = Number(params.unitName !== undefined);
+      const newPage = Number(params.pageID !== undefined);
+      if (newUnit + newPage !== 1) throw 406;
+      if (params.unitName !== undefined) {
+        return db.newUnit(params.userID, params.unitID || 1, params.unitName)
+          .then(() => db.newPage(params.userID, params.unitID || 1,
+            1, params.pageName, params.pagePresent))
+      } else return db.newPage(params.userID, params.unitID,
+        params.pageID, params.pageName, params.pagePresent)
+    })
+    .then(() => api.noContent(res))
+    .catch((err) => api.catchError(err, res));
 });
 
 router.post('/item', (req, res) => {
