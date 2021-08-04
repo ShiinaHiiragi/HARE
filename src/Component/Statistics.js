@@ -262,7 +262,7 @@ export default function Statistics(props) {
   }, [state.current.unitID, state.current.pageID, state.pageDetail.trackSize]);
 
   const deleteTrack = (trackID) => {
-    context.request("POST/set/delete-track", {
+    context.request("POST/delete/track", {
       unitID: state.current.unitID,
       pageID: state.current.pageID,
       trackID: trackID

@@ -82,7 +82,7 @@ export default function NewUnitPage(props) {
       handle.toggleMessageBox(errorMessage, "warning");
       return;
     }
-    context.request("POST/set/new-up", {
+    context.request("POST/new/up", {
       group: state.group,
       type: state.type,
       unitName: text.unitNameValue,

@@ -67,72 +67,6 @@ router.post('/avatar', (req, res) => {
 });
 
 // setting of unit and page
-router.post('/new-up', (req, res) => {
-  const group = !!req.body.group;
-  const type = api.sqlNumberArray(req.body.type);
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID } = api.sqlNumber(req.body, ['userID'], res);
-  const { unitName, pageName, pagePresent } = api.sqlString(
-    req.body,
-    ['unitName', 'pageName', 'pagePresent'],
-    res
-  );
-  if (!(userID && token && unitName !== undefined)) return;
-  if (!(unitName && pageName)) {
-    api.invalidArgument(res);
-    return;
-  }
-  if ((group && typeof type !== 'number') ||
-    (!group && (!(type instanceof Array) || type.length !== 2))) {
-    api.invalidArgument(res);
-    return;
-  }
-
-  db.checkToken(userID, token, res)
-    .then(() => {
-      if (group) {
-        // the feature of OR in js
-        db.newUnit(userID, type || 1, unitName)
-          .then(() => db.newPage(userID, type || 1, 1, pageName, pagePresent))
-          .then(() => api.noContent(res))
-          .catch(() => api.internalServerError(res));
-      } else {
-        db.newPage(userID, type[0], type[1], pageName, pagePresent)
-          .then(() => api.noContent(res))
-          .catch(() => api.internalServerError(res));
-      }
-    });
-});
-
-router.post('/delete-up', (req, res) => {
-  const group = !!req.body.group;
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID } = api.sqlNumber(
-    req.body,
-    ['userID', 'unitID', 'pageID'],
-    res
-  );
-  if (!(userID && token)) return;
-
-  db.checkToken(userID, token, res)
-    .then(() => {
-      if (group) {
-        db.deleteUnit(userID, unitID)
-          .then(() => res.send('unit'))
-          .catch(() => api.internalServerError(res));
-      } else {
-        db.deletePage(userID, unitID, pageID)
-          .then((out) => {
-            if (!out[0].pagesize) {
-              db.deleteUnit(userID, unitID)
-                .then(() => res.send('unit'))
-                .catch(() => api.internalServerError(res));
-            } else res.send('page');
-          })
-          .catch(() => api.internalServerError(res));
-      }
-    });
-});
 
 router.post('/swap-up', (req, res) => {
   const group = !!req.body.group;
@@ -210,43 +144,6 @@ router.post('/cover', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
-// setting of unit and page
-router.post('/new-item', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID, itemID } = api.sqlNumber(
-    req.body,
-    ['userID', 'unitID', 'pageID', 'itemID'],
-    res
-  );
-  const { query, key } = api.sqlString(req.body, ['query', 'key'], res);
-  if (!(userID && token && query !== undefined)) return;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.newItem(userID, unitID, pageID, itemID, query, key))
-    .then((itemCreateTime) => res.send(itemCreateTime))
-    .catch(() => api.internalServerError(res));
-});
-
-router.post('/delete-item', (req, res) => {
-  const track = !!req.body.track;
-  const itemID = api.sqlNumberArray(req.body.itemID);
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID } = api.sqlNumber(
-    req.body,
-    ['userID', 'unitID', 'pageID'],
-    res
-  );
-  if (!(userID && token)) return;
-  if (!(itemID instanceof Array)) {
-    api.invalidArgument(res);
-    return;
-  }
-
-  db.checkToken(userID, token, res)
-    .then(() => db.deleteItem(userID, unitID, pageID, itemID, track))
-    .then(() => api.noContent(res))
-    .catch(() => api.internalServerError(res));
-});
 
 router.post('/move', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
@@ -310,19 +207,6 @@ router.post('/track', (req, res) => {
 
   db.checkToken(userID, token, res)
     .then(() => db.editTrack(userID, unitID, pageID, itemID, trackID, value))
-    .then(() => api.noContent(res))
-    .catch(() => api.internalServerError(res));
-});
-
-router.post('/delete-track', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID, trackID } = api.sqlNumber(
-    req.body, ['userID', 'unitID', 'pageID', 'trackID'], res
-  );
-  if (!(userID && token)) return;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.deleteTrack(userID, unitID, pageID, trackID))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });

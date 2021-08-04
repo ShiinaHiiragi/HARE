@@ -10,6 +10,8 @@ var indexRouter = require('./routes/index');
 var srcRouter = require('./routes/src');
 var dataRouter = require('./routes/data');
 var setRouter = require('./routes/set');
+var newRouter = require('./routes/new');
+var deleteRouter = require('./routes/delete');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,6 +35,8 @@ app.use('/', indexRouter);
 app.use('/src', srcRouter);
 app.use('/data', dataRouter);
 app.use('/set', setRouter);
+app.use('/new', newRouter);
+app.use('/delete', deleteRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

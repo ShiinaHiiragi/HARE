@@ -161,7 +161,7 @@ export default function Pages(props) {
     setDeleteConfirmType(type);
   };
   const deleteUnitPage = (unitID, pageID) => {
-    context.request("data/set/delete-up", {
+    context.request("data/delete/up", {
       unitID: unitID,
       pageID: pageID,
       group: pageID > 0 ? false : true

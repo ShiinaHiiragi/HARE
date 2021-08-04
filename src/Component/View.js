@@ -122,7 +122,7 @@ export default function View(props) {
 
   const deleteItem = () => {
     const itemID = [...apiRef.current.getSelectedRows().keys()];
-    context.request("POST/set/delete-item", {
+    context.request("POST/delete/item", {
       unitID: state.current.unitID,
       pageID: state.current.pageID,
       itemID: itemID,

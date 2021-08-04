@@ -213,7 +213,7 @@ export default function NewItem(props) {
 
   const submitNew = () => {
     const targetItemID = Number(itemID) | 0;
-    context.request("POST/set/new-item", {
+    context.request("POST/new/item", {
       unitID: state.unitID,
       pageID: state.pageID,
       itemID: targetItemID,
