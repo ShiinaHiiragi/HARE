@@ -5,7 +5,7 @@ var path = require('path');
 var db = require('../bin/db');
 var api = require('../bin/api');
 
-// setting of user profile
+// setting of user information
 router.post('/profile', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.body, ['userID'], res);
@@ -66,29 +66,7 @@ router.post('/avatar', (req, res) => {
     });
 });
 
-// setting of unit and page
-
-router.post('/swap-up', (req, res) => {
-  const group = !!req.body.group;
-  const less = api.sqlNumberArray(req.body.less);
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID } = api.sqlNumber(req.body, ['userID'], res);
-  if (!(userID && token)) return;
-  if ((group && typeof less !== 'number') ||
-    (!group && (!(less instanceof Array) || less.length !== 2))) {
-    api.invalidArgument(res);
-    return;
-  }
-
-  db.checkToken(userID, token, res)
-    .then(() => {
-      if (group) return  db.moveUnit(userID, less)
-      else return db.movePage(userID, less[0], less[1])
-    })
-    .then(() => api.noContent(res))
-    .catch(() => api.internalServerError(res));;
-});
-
+// setting of unit, page and item
 router.post('/unit', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID, unitID } = api.sqlNumber(req.body, ['userID', 'unitID'], res);
@@ -129,33 +107,18 @@ router.post('/page', (req, res) => {
     .catch(() => api.internalServerError(res));;
 });
 
-router.post('/cover', (req, res) => {
+router.post('/item', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID, cover } = api.sqlNumber(
-    req.body,
-    ['userID', 'unitID', 'pageID', 'cover'],
-    res
+  const { userID, unitID, pageID, itemID } = api.sqlNumber(
+    req.body, ['userID', 'unitID', 'pageID', 'itemID'], res
   );
   if (!(userID && token)) return;
+  const field = (req.body.query === undefined ? 'key' : 'query');
+  const value = api.sqlString(req.body, [field], res)[field];
+  if (value === undefined) return;
 
   db.checkToken(userID, token, res)
-    .then(() => db.editCover(userID, unitID, pageID, cover))
-    .then(() => api.noContent(res))
-    .catch(() => api.internalServerError(res));
-});
-
-
-router.post('/move', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID, src, dst } = api.sqlNumber(
-    req.body,
-    ['userID', 'unitID', 'pageID', 'src', 'dst'],
-    res
-  );
-  if (!(userID && token)) return;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.moveItem(userID, unitID, pageID, src, dst))
+    .then(() => db.editItem(userID, unitID, pageID, itemID, field, value))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
@@ -180,18 +143,55 @@ router.post('/recall', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
-router.post('/item', (req, res) => {
+// move is for item and swap is for unit and page
+router.post('/move', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID, itemID } = api.sqlNumber(
-    req.body, ['userID', 'unitID', 'pageID', 'itemID'], res
+  const { userID, unitID, pageID, src, dst } = api.sqlNumber(
+    req.body,
+    ['userID', 'unitID', 'pageID', 'src', 'dst'],
+    res
   );
   if (!(userID && token)) return;
-  const field = (req.body.query === undefined ? 'key' : 'query');
-  const value = api.sqlString(req.body, [field], res)[field];
-  if (value === undefined) return;
 
   db.checkToken(userID, token, res)
-    .then(() => db.editItem(userID, unitID, pageID, itemID, field, value))
+    .then(() => db.moveItem(userID, unitID, pageID, src, dst))
+    .then(() => api.noContent(res))
+    .catch(() => api.internalServerError(res));
+});
+
+router.post('/swap', (req, res) => {
+  const group = !!req.body.group;
+  const less = api.sqlNumberArray(req.body.less);
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID } = api.sqlNumber(req.body, ['userID'], res);
+  if (!(userID && token)) return;
+  if ((group && typeof less !== 'number') ||
+    (!group && (!(less instanceof Array) || less.length !== 2))) {
+    api.invalidArgument(res);
+    return;
+  }
+
+  db.checkToken(userID, token, res)
+    .then(() => {
+      if (group) return  db.moveUnit(userID, less)
+      else return db.movePage(userID, less[0], less[1])
+    })
+    .then(() => api.noContent(res))
+    .catch(() => api.internalServerError(res));;
+});
+
+// the icon for editing
+router.post('/cover', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID, unitID, pageID, cover } = api.sqlNumber(
+    req.body,
+    ['userID', 'unitID', 'pageID', 'cover'],
+    res
+  );
+  if (!(userID && token)) return;
+
+  db.checkToken(userID, token, res)
+    .then(() => db.editCover(userID, unitID, pageID, cover))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
