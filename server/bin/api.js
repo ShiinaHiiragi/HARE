@@ -103,13 +103,6 @@ typeMap = {
   key: 'string'
 };
 
-exports.initParams = (req, res, params, noCheck) =>
-  new Promise((resolve, reject) => {
-    if (!noCheck) {
-
-    } else resolve();
-  });
-
 // other api
 exports.sqlNumberArray = (query) => {
   if (!(query instanceof Array)) {

@@ -164,7 +164,7 @@ export default function Pages(props) {
     context.request("data/delete/up", {
       unitID: unitID,
       pageID: pageID,
-      group: pageID > 0 ? false : true
+      bool: pageID > 0 ? false : true
     }).then((out) => {
       if (out === "unit") {
         handle.setListObject((listObject) => {

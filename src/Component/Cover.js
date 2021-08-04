@@ -91,7 +91,7 @@ export default function Cover(props) {
     context.request("POST/data/this", {
       unitID: state.current.unitID,
       pageID: state.current.pageID,
-      clear: clear
+      bool: clear
     }).then((out) => {
       const attribute = clear ? state.pageDetail.trackSize : state.pageDetail.trackSize + 1;
       if (clear !== false)

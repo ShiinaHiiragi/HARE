@@ -4,18 +4,20 @@ var db = require('../bin/db');
 var api = require('../bin/api');
 
 router.post('/up', (req, res) => {
-  const group = !!req.body.group;
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID } = api.sqlNumber(
-    req.body,
-    ['userID', 'unitID', 'pageID'],
-    res
-  );
-  if (!(userID && token)) return;
+  // const bool = !!req.body.bool;
+  // const { token } = api.sqlString(req.cookies, ['token'], res);
+  // const { userID, unitID, pageID } = api.sqlNumber(
+  //   req.body,
+  //   ['userID', 'unitID', 'pageID'],
+  //   res
+  // );
+  // if (!(userID && token)) return;
+  const { userID, token } = req.cookies;
+  const { unitID, pageID, bool } = req.body;
 
   db.checkToken(userID, token, res)
     .then(() => {
-      if (group) {
+      if (bool) {
         db.deleteUnit(userID, unitID)
           .then(() => res.send('unit'))
           .catch(() => api.internalServerError(res));
@@ -34,19 +36,21 @@ router.post('/up', (req, res) => {
 });
 
 router.post('/item', (req, res) => {
-  const bool = !!req.body.bool;
-  const itemID = api.sqlNumberArray(req.body.itemID);
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID } = api.sqlNumber(
-    req.body,
-    ['userID', 'unitID', 'pageID'],
-    res
-  );
-  if (!(userID && token)) return;
-  if (!(itemID instanceof Array)) {
-    api.invalidArgument(res);
-    return;
-  }
+  // const bool = !!req.body.bool;
+  // const itemID = api.sqlNumberArray(req.body.itemID);
+  // const { token } = api.sqlString(req.cookies, ['token'], res);
+  // const { userID, unitID, pageID } = api.sqlNumber(
+  //   req.body,
+  //   ['userID', 'unitID', 'pageID'],
+  //   res
+  // );
+  // if (!(userID && token)) return;
+  // if (!(itemID instanceof Array)) {
+  //   api.invalidArgument(res);
+  //   return;
+  // }
+  const { userID, token } = req.cookies;
+  const { unitID, pageID, itemID, bool } = req.body;
 
   db.checkToken(userID, token, res)
     .then(() => db.deleteItem(userID, unitID, pageID, itemID, bool))
@@ -55,11 +59,13 @@ router.post('/item', (req, res) => {
 });
 
 router.post('/track', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID, trackID } = api.sqlNumber(
-    req.body, ['userID', 'unitID', 'pageID', 'trackID'], res
-  );
-  if (!(userID && token)) return;
+  // const { token } = api.sqlString(req.cookies, ['token'], res);
+  // const { userID, unitID, pageID, trackID } = api.sqlNumber(
+  //   req.body, ['userID', 'unitID', 'pageID', 'trackID'], res
+  // );
+  // if (!(userID && token)) return;
+  const { userID, token } = req.cookies;
+  const { unitID, pageID, trackID } = req.body;
 
   db.checkToken(userID, token, res)
     .then(() => db.deleteTrack(userID, unitID, pageID, trackID))
