@@ -126,7 +126,8 @@ export default function Main(props) {
             setTimerInitial: setTimerInitial,
             setRecall: handle.setRecall,
             setPageDetail: handle.setPageDetail,
-            setStatInfo: handle.setStatInfo
+            setStatInfo: handle.setStatInfo,
+            setItemList: handle.setItemList
           }}
         />
       </MainPage>

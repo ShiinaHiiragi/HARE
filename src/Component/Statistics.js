@@ -268,18 +268,46 @@ export default function Statistics(props) {
       trackID: trackID
     }).then(() => {
       // TODO: set itemList
+      if (!trackID || trackID === state.pageDetail.trackSize)
+        handle.setPageDetail((pageDetail) => ({
+          ...pageDetail, timeThis: null
+        }))
+
       if (trackID && state.pageDetail.trackSize > 1) {
         handle.setStatInfo((statInfo) => {
           statInfo.splice(trackID - 1, 1);
           return statInfo.map((_) => _);
         });
+        setExpandEach((expandEach) => {
+          expandEach.splice(trackID - 1, 1);
+          return expandEach.map((_) => _);
+        })
         handle.setPageDetail((pageDetail) => ({
           ...pageDetail, trackSize: pageDetail.trackSize - 1
+        }))
+        handle.setItemList((itemList) => itemList.map((item) => {
+          let newItem = {};
+          Object.keys(item).forEach((subItem) => {
+            const num = Number(subItem);
+            if (isNaN(num) || num < trackID)
+              newItem[subItem] = item[subItem];
+            else if (num > trackID)
+              newItem[num - 1] = item[num];
+          });
+          return newItem;
         }))
       } else {
         handle.setStatInfo([]);
         handle.setPageDetail((pageDetail) => ({
           ...pageDetail, trackSize: 0
+        }))
+        handle.setItemList((itemList) => itemList.map((item) => {
+          let newItem = {};
+          Object.keys(item).forEach((subItem) => {
+            if (isNaN(Number(subItem)))
+              newItem[subItem] = item[subItem];
+          });
+          return newItem;
         }))
         handle.setCurrentRoute(routeIndex.cover);
       }
