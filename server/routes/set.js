@@ -7,64 +7,46 @@ var api = require('../bin/api');
 
 // setting of user information
 router.post('/profile', (req, res) => {
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID } = api.sqlNumber(req.body, ['userID'], res);
-  // const {
-  //   userName, birth, gender, tel, city
-  // } = api.sqlString(req.body, [
-  //   'userName', 'birth', 'gender', 'tel', 'city'
-  // ], res);
-  // if (!(userID && token && userName !== undefined)) return;
-  // if (!userName) {
-  //   api.invalidArgument(res);
-  //   return;
-  // }
-  const { userID, token } = req.cookies;
-  const { userName, birth, gender, tel, city } = req.body;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.editProfile(userID, userName, birth, gender, tel, city))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['userName', 'birth', 'gender', 'tel', 'city'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.editProfile(params.userID, params.userName,
+      params.birth, params.gender, params.tel, params.city))
     .then(() => api.noContent(res));
 });
 
 router.post('/avatar', (req, res) => {
-  // const { avatar } = req.body;
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID } = api.sqlNumber(req.body, ['userID'], res);
-  // const { type } = api.sqlString(req.body, ['type'], res);
-  // if (!(userID && token && type !== undefined)) return;
-  // if (!type) {
-  //   api.invalidArgument(res);
-  //   return;
-  // }
-  const { userID, token } = req.cookies;
-  const { avatar, type } = req.body;
-
-  db.checkToken(userID, token, res)
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['avatar', 'type'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => {
       const basicPath = path.join(__dirname, '../src/avatar');
       fs.readdir(basicPath, (err, dir) => {
         if (err) api.internalServerError(res)
         else {
           // delete the previous image first
-          const userReg = new RegExp(`${userID}\\.(.+)`);
+          const userReg = new RegExp(`${params.userID}\\.(.+)`);
           const typeReg = /^data:image\/(\w+);base64,/;
           const prevAvatar = dir.find((fileItem) => userReg.test(fileItem));
           if (prevAvatar)
             fs.unlinkSync(path.join(basicPath, prevAvatar));
           // save the file uploaded
-          db.editAvatarExtent(userID, type).then(() => {
-            let avatarBase = avatar.replace(typeReg, '');
-            let avatarBuffer = new Buffer(avatarBase, 'base64');
-            fs.writeFile(
-              path.join(basicPath, `${userID}${type === '.jpeg' ? '.jpg' : type}`),
-              avatarBuffer,
-              (err) => {
-                if (!err) api.noContent(res);
-                else api.internalServerError(res);
-              }
-            );
-          }).catch(() => api.internalServerError(res));
+          db.editAvatarExtent(params.userID, params.type)
+            .then(() => {
+              let avatarBase = params.avatar.replace(typeReg, '');
+              let avatarBuffer = new Buffer(avatarBase, 'base64');
+              fs.writeFile(
+                path.join(basicPath, `${params.userID}${params.type === '.jpeg' ? '.jpg' : params.type}`),
+                avatarBuffer,
+                (err) => {
+                  if (!err) api.noContent(res);
+                  else api.internalServerError(res);
+                }
+              );
+            })
+            .catch(() => api.internalServerError(res));
         }
       });
     });
