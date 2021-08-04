@@ -38,6 +38,17 @@ router.post('/logout', (req, res) => {
     .then(() => api.noContent(res));
 });
 
+router.get('/profile', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID } = api.sqlNumber(req.query, ['userID'], res);
+  if (!(userID && token)) return;
+
+  db.checkToken(userID, token, res)
+    .then(() => db.getProfile(userID))
+    .then(out => res.send(out[0]))
+    .catch(() => api.internalServerError(res));
+});
+
 router.get('/unit', (req, res) => {
   const { token } = api.sqlString(req.cookies, ['token'], res);
   const { userID } = api.sqlNumber(req.query, ['userID'], res);
@@ -92,6 +103,17 @@ router.get('/item', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
+router.get('/stat', (req, res) => {
+  const { token } = api.sqlString(req.cookies, ['token'], res);
+  const { userID, unitID, pageID } = api.sqlNumber(req.query, ['userID', 'unitID', 'pageID'], res);
+  if (!(userID && token)) return;
+
+  db.checkToken(userID, token, res)
+    .then(() => db.getStat(userID, unitID, pageID))
+    .then((out) => res.send(out))
+    .catch(() => api.internalServerError(res));
+});
+
 router.post('/this', (req, res) => {
   const clear = !!req.body.clear;
   const { token } = api.sqlString(req.cookies, ['token'], res);
@@ -105,28 +127,6 @@ router.post('/this', (req, res) => {
   db.checkToken(userID, token, res)
     .then(() => db.getThis(userID, unitID, pageID, clear))
     .then((out) => res.send(out))
-    .catch(() => api.internalServerError(res));
-});
-
-router.get('/stat', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID, unitID, pageID } = api.sqlNumber(req.query, ['userID', 'unitID', 'pageID'], res);
-  if (!(userID && token)) return;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.getStat(userID, unitID, pageID))
-    .then((out) => res.send(out))
-    .catch(() => api.internalServerError(res));
-});
-
-router.get('/profile', (req, res) => {
-  const { token } = api.sqlString(req.cookies, ['token'], res);
-  const { userID } = api.sqlNumber(req.query, ['userID'], res);
-  if (!(userID && token)) return;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.getProfile(userID))
-    .then(out => res.send(out[0]))
     .catch(() => api.internalServerError(res));
 });
 
