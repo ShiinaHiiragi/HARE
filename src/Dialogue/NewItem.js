@@ -216,7 +216,7 @@ export default function NewItem(props) {
     context.request("POST/new/item", {
       unitID: state.unitID,
       pageID: state.pageID,
-      itemID: targetItemID,
+      itemID: [targetItemID],
       query: query,
       key: key
     }).then((createTime) => {

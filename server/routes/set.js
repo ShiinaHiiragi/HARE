@@ -188,7 +188,7 @@ router.post('/track', (req, res) => {
     ? req.body.track : 'L';
 
   db.checkToken(userID, token, res)
-    .then(() => db.editTrack(userID, unitID, pageID, itemID, trackID, track))
+    .then(() => db.editTrack(userID, unitID, pageID, itemID[0], trackID, track))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });

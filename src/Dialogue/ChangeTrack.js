@@ -32,7 +32,7 @@ export default function ChangeTrack(props) {
       context.request("POST/set/track", {
         unitID: state.unitID,
         pageID: state.pageID,
-        itemID: state.itemID,
+        itemID: [state.itemID],
         trackID: state.trackID,
         track: targetValue
       }).then(() => {

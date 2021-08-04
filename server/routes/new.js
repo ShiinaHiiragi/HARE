@@ -55,7 +55,7 @@ router.post('/item', (req, res) => {
   const { unitID, pageID, itemID } = req.body;
 
   db.checkToken(userID, token, res)
-    .then(() => db.newItem(userID, unitID, pageID, itemID, query, key))
+    .then(() => db.newItem(userID, unitID, pageID, itemID[0], query, key))
     .then((itemCreateTime) => res.send(itemCreateTime))
     .catch(() => api.internalServerError(res));
 });
