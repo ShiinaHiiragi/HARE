@@ -150,38 +150,22 @@ router.post('/swap', (req, res) => {
 
 // the icon for editing
 router.post('/cover', (req, res) => {
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID, dst } = api.sqlNumber(
-  //   req.body,
-  //   ['userID', 'unitID', 'pageID', 'dst'],
-  //   res
-  // );
-  // if (!(userID && token)) return;
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, dst } = req.body;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.editCover(userID, unitID, pageID, dst))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'dst'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.editCover(params.userID, params.unitID, params.pageID, params.dst))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
 
 router.post('/track', (req, res) => {
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID, itemID, trackID } = api.sqlNumber(
-  //   req.body, ['userID', 'unitID', 'pageID', 'itemID', 'trackID'], res
-  // );
-  // const track = (req.body.track === 'P' || req.body.track === 'F')
-  //   ? req.body.track : 'L';
-  // if (!(userID && token)) return;
-
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, itemID, trackID } = req.body;
-  const track = (req.body.track === 'P' || req.body.track === 'F')
-    ? req.body.track : 'L';
-
-  db.checkToken(userID, token, res)
-    .then(() => db.editTrack(userID, unitID, pageID, itemID[0], trackID, track))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID', 'trackID', 'track'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.editTrack(params.userID, params.unitID,
+      params.pageID, params.itemID[0], params.trackID, params.track))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
