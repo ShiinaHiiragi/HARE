@@ -308,7 +308,7 @@ exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
     .then((out) => {
       const trackSize = out[0].tracksize;
       if (trackSize)
-        return query(`update item set itemRecord = array${api.arrayString(trackSize)}
+        return query(`update item set itemRecord = array${api.arrayLostString(trackSize)}
           where userID = ${userID} and unitID = ${unitID}
           and pageID = ${pageID} and itemID = ${itemID}`);
     })

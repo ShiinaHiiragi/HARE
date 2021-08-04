@@ -38,6 +38,13 @@ exports.checkRegister = (cmdLine) => new Promise((resolve, reject) => {
 })
 
 // api for formatting
+exports.arrayTupleString = (arr) =>
+  JSON.stringify(arr).replace(/\[/, '(').replace(/\]/, ')');
+exports.arrayLostString = (size) => {
+  let res = size ? '[\'L\'' : '[';
+  if (size) res += ', \'L\''.repeat(size - 1);
+  return res + ']';
+}
 exports.format = (transDate, formatString) => {
   var formatComponent = {
     'M+': transDate.getMonth() + 1,
@@ -68,16 +75,7 @@ exports.format = (transDate, formatString) => {
   return formatString;
 };
 
-exports.arrayString = (size) => {
-  let res = size ? '[\'L\'' : '[';
-  if (size) res += ', \'L\''.repeat(size - 1);
-  return res + ']';
-}
-
-exports.arrayTupleString = (arr) =>
-  JSON.stringify(arr).replace(/\[/, '(').replace(/\]/, ')');
-
-// api for 
+// api for process GET/POST
 typeMap = {
   userID: 'number',
   token: 'string',
@@ -93,14 +91,14 @@ typeMap = {
   userName: 'string',
   unitName: 'string',
   pageName: 'string',
-  gender: 'string',
-  birth: 'string',
-  track: 'string',
-  tel: 'string',
-  city: 'string',
-  pagePresent: 'string',
-  query: 'string',
-  key: 'string'
+  gender: 'String',
+  birth: 'String',
+  track: 'String',
+  tel: 'String',
+  city: 'String',
+  pagePresent: 'String',
+  query: 'String',
+  key: 'String',
 };
 
 // other api
