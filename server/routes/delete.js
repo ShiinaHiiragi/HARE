@@ -29,39 +29,21 @@ router.post('/up', (req, res) => {
 });
 
 router.post('/item', (req, res) => {
-  // const bool = !!req.body.bool;
-  // const itemID = api.sqlNumberArray(req.body.itemID);
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID } = api.sqlNumber(
-  //   req.body,
-  //   ['userID', 'unitID', 'pageID'],
-  //   res
-  // );
-  // if (!(userID && token)) return;
-  // if (!(itemID instanceof Array)) {
-  //   api.invalidArgument(res);
-  //   return;
-  // }
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, itemID, bool } = req.body;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.deleteItem(userID, unitID, pageID, itemID, bool))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID', 'bool'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.deleteItem(params.userID, params.unitID, params.pageID, params.itemID, params.bool))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
 
 router.post('/track', (req, res) => {
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID, trackID } = api.sqlNumber(
-  //   req.body, ['userID', 'unitID', 'pageID', 'trackID'], res
-  // );
-  // if (!(userID && token)) return;
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, trackID } = req.body;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.deleteTrack(userID, unitID, pageID, trackID))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'trackID'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.deleteTrack(params.userID, params.unitID, params.pageID, params.trackID))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });

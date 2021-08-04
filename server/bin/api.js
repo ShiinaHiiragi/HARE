@@ -136,7 +136,7 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
         }
         dst[keyName] = paramString
       } else if (paramType === 'array') {
-        if (!(src[keyName] instanceof 'array')) {
+        if (!(src[keyName] instanceof Array)) {
           console.log("not array")
           invalidArgument(res);
           return;
