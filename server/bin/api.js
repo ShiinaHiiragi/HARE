@@ -1,5 +1,14 @@
 const SHA256 = require('crypto-js').SHA256;
 
+// api for respond status
+const invalidArgument = (res) => res.status(406).send('INVALID ARGUMENT');
+const noContent = (res) => res.status(204).send();
+const internalServerError = (res) => res.status(500).send('INTERNAL SERVER ERROR');
+exports.invalidArgument = invalidArgument;
+exports.noContent = noContent;
+exports.internalServerError = internalServerError;
+
+// api for sequential async
 exports.syncEachChain = (arrayObject, eachTemp) =>
   arrayObject.reduce(
     (promiseChain, arrayItem, arrayIndex) =>
@@ -8,6 +17,7 @@ exports.syncEachChain = (arrayObject, eachTemp) =>
     Promise.resolve()
   );
 
+// api for signing up
 exports.checkRegister = (cmdLine) => new Promise((resolve, reject) => {
   if (cmdLine.length < 4)
     reject('ERROR: too few arguments.\n  Try using sign <email> <username> <password>');
@@ -27,6 +37,80 @@ exports.checkRegister = (cmdLine) => new Promise((resolve, reject) => {
   }
 })
 
+// api for formatting
+exports.format = (transDate, formatString) => {
+  var formatComponent = {
+    'M+': transDate.getMonth() + 1,
+    'd+': transDate.getDate(),
+    'h+': transDate.getHours(),
+    'm+': transDate.getMinutes(),
+    's+': transDate.getSeconds(),
+    'q+': Math.floor((transDate.getMonth() + 3) / 3),
+    S: transDate.getMilliseconds()
+  };
+
+  if (/(y+)/.test(formatString))
+    formatString = formatString.replace(
+      RegExp.$1,
+      (transDate.getFullYear() + '').substr(4 - RegExp.$1.length)
+    );
+
+  for (var index in formatComponent)
+    if (new RegExp(`(${index})`).test(formatString))
+      formatString = formatString.replace(
+        RegExp.$1,
+        RegExp.$1.length === 1
+          ? formatComponent[index]
+          : ('00' + formatComponent[index]).substr(
+              ('' + formatComponent[index]).length
+            )
+      );
+  return formatString;
+};
+
+exports.arrayString = (size) => {
+  let res = size ? '[\'L\'' : '[';
+  if (size) res += ', \'L\''.repeat(size - 1);
+  return res + ']';
+}
+
+exports.arrayTupleString = (arr) =>
+  JSON.stringify(arr).replace(/\[/, '(').replace(/\]/, ')');
+
+// api for 
+typeMap = {
+  userID: 'number',
+  token: 'string',
+  unitID: 'number',
+  pageID: 'number',
+  itemID: 'number',
+  trackID: 'number',
+  src: 'number',
+  dst: 'number',
+  bool: 'boolean',
+  email: 'string',
+  password: 'string',
+  userName: 'string',
+  unitName: 'string',
+  pageName: 'string',
+  gender: 'string',
+  birth: 'string',
+  track: 'string',
+  tel: 'string',
+  city: 'string',
+  pagePresent: 'string',
+  query: 'string',
+  key: 'string'
+};
+
+exports.initParams = (req, res, params, noCheck) =>
+  new Promise((resolve, reject) => {
+    if (!noCheck) {
+
+    } else resolve();
+  });
+
+// other api
 exports.sqlNumberArray = (query) => {
   if (!(query instanceof Array)) {
     const numberVerify = Number(query);
@@ -70,52 +154,8 @@ exports.sqlString = (query, keys, res) => {
   return invalid ? new Object() : sql;
 }
 
-const invalidArgument = (res) => res.status(406).send('INVALID ARGUMENT');
-exports.invalidArgument = invalidArgument;
-exports.noContent = (res) => res.status(204).send();
-exports.internalServerError = (res) => res.status(500).send('INTERNAL SERVER ERROR');
-
-exports.format = (transDate, formatString) => {
-  var formatComponent = {
-    'M+': transDate.getMonth() + 1,
-    'd+': transDate.getDate(),
-    'h+': transDate.getHours(),
-    'm+': transDate.getMinutes(),
-    's+': transDate.getSeconds(),
-    'q+': Math.floor((transDate.getMonth() + 3) / 3),
-    S: transDate.getMilliseconds()
-  };
-
-  if (/(y+)/.test(formatString))
-    formatString = formatString.replace(
-      RegExp.$1,
-      (transDate.getFullYear() + '').substr(4 - RegExp.$1.length)
-    );
-
-  for (var index in formatComponent)
-    if (new RegExp(`(${index})`).test(formatString))
-      formatString = formatString.replace(
-        RegExp.$1,
-        RegExp.$1.length === 1
-          ? formatComponent[index]
-          : ('00' + formatComponent[index]).substr(
-              ('' + formatComponent[index]).length
-            )
-      );
-  return formatString;
-};
-
-exports.arrayString = (size) => {
-  let res = size ? '[\'L\'' : '[';
-  if (size) res += ', \'L\''.repeat(size - 1);
-  return res + ']';
-}
-
 exports.sqlID = (userID, unitID, pageID) => {
   return (userID ? `userID = ${userID}` : "")
     + (unitID ? ` and unitID = ${unitID}` : "")
     + (pageID ? ` and pageID = ${pageID}` : "");
 }
-
-exports.arrayTupleString = (arr) =>
-  JSON.stringify(arr).replace(/\[/, '(').replace(/\]/, ')');
