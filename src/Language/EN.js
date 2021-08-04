@@ -146,9 +146,12 @@ const list = {
       unit: "You are attempting to delete the unit '{0}'. Please click 'YES' to continue.",
       page: "You are attempting to delete the booklet '{0}'. Please click 'YES' to continue.",
       item: "You are attempting to delete {0}. Please click 'YES' to continue.",
+      recall: "You are attempting to delete {0}. Please click 'YES' to continue.",
       part: "selected entries",
       all: "all entries",
       track: "all entries including records",
+      single: "the {0} record",
+      clear: "all records"
     },
     clear: {
       title: "Progress Choosing",

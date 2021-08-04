@@ -16,6 +16,7 @@ import Accuracy from "./Accuracy";
 import Frequency from "./Frequency";
 import Chart from "./Chart";
 import Collapse from "@material-ui/core/Collapse";
+import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import { PanelContext } from "../Page/Panel";
 import {
   stringFormat,
@@ -150,6 +151,10 @@ export default function Statistics(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.current.route]);
 
+  const [deleteID, setDeleteID] = React.useState(0);
+  const [deleteConfirm, setDeleteConfirm] = React.useState(false);
+  const [deleteName, setDeleteName] = React.useState("");
+
   const itemSize = state.pageDetail.itemSize;
   const trackSize = state.pageDetail.trackSize;
   const eachPure = state.statInfo.map((item) => item.pure);
@@ -261,18 +266,26 @@ export default function Statistics(props) {
     setExpandEach(new Array(state.pageDetail.trackSize).fill(false));
   }, [state.current.unitID, state.current.pageID, state.pageDetail.trackSize]);
 
+  const toggleDelete = (trackID) => {
+    setDeleteID(trackID);
+    setDeleteConfirm(true);
+    setDeleteName(trackID
+      ? stringFormat(
+        context.lang.popup.delete.single,
+        [context.lang.grid.ordinal[trackID - 1]]
+      ) : context.lang.popup.delete.clear);
+  }
+
   const deleteTrack = (trackID) => {
     context.request("POST/delete/track", {
       unitID: state.current.unitID,
       pageID: state.current.pageID,
       trackID: trackID
     }).then(() => {
-      // TODO: set itemList
       if (!trackID || trackID === state.pageDetail.trackSize)
         handle.setPageDetail((pageDetail) => ({
           ...pageDetail, timeThis: null
         }))
-
       if (trackID && state.pageDetail.trackSize > 1) {
         handle.setStatInfo((statInfo) => {
           statInfo.splice(trackID - 1, 1);
@@ -466,7 +479,7 @@ export default function Statistics(props) {
               color="secondary"
               startIcon={<CloseIcon />}
               style={{ borderRadius: 0 }}
-              onClick={() => deleteTrack(0)}
+              onClick={() => toggleDelete(0)}
             >
               {context.lang.panel.stat.clearRecall}
             </Button>
@@ -575,7 +588,7 @@ export default function Statistics(props) {
                 color="secondary"
                 startIcon={<CloseIcon />}
                 style={{ borderRadius: 0 }}
-                onClick={() => deleteTrack(index + 1)}
+                onClick={() => toggleDelete(index + 1)}
               >
                 {context.lang.panel.stat.clearEachRecall}
               </Button>
@@ -583,6 +596,13 @@ export default function Statistics(props) {
           </Collapse>
         </Card>
       ))}
+      <DeleteConfirm
+        open={deleteConfirm}
+        type="recall"
+        name={deleteName}
+        handleClose={() => setDeleteConfirm(false)}
+        handleDeleteTarget={() => deleteTrack(deleteID)}
+      />
     </div>
   );
 }
