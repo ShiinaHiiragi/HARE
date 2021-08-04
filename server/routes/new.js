@@ -43,19 +43,12 @@ router.post('/up', (req, res) => {
 });
 
 router.post('/item', (req, res) => {
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID, itemID } = api.sqlNumber(
-  //   req.body,
-  //   ['userID', 'unitID', 'pageID', 'itemID'],
-  //   res
-  // );
-  // const { query, key } = api.sqlString(req.body, ['query', 'key'], res);
-  // if (!(userID && token && query !== undefined)) return;
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, itemID } = req.body;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.newItem(userID, unitID, pageID, itemID[0], query, key))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID', 'query', 'key'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.newItem(params.userID, params.unitID,
+      params.pageID, params.itemID[0], params.query, params.key))
     .then((itemCreateTime) => res.send(itemCreateTime))
     .catch(() => api.internalServerError(res));
 });

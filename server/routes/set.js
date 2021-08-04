@@ -116,18 +116,11 @@ router.post('/recall', (req, res) => {
 
 // move is for item and swap is for unit and page
 router.post('/move', (req, res) => {
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID, src, dst } = api.sqlNumber(
-  //   req.body,
-  //   ['userID', 'unitID', 'pageID', 'src', 'dst'],
-  //   res
-  // );
-  // if (!(userID && token)) return;
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, src, dst } = req.body;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.moveItem(userID, unitID, pageID, src, dst))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'src', 'dst'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.moveItem(params.userID, params.unitID, params.pageID, params.src, params.dst))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
