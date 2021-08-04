@@ -89,7 +89,7 @@ paramMap = {
   trackID: 'number',
   itemID: 'array',
   pure: 'array',
-  lost: 'array',
+  far: 'array',
   src: 'number',
   dst: 'number',
   bool: 'boolean',

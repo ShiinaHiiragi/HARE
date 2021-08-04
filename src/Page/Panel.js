@@ -158,8 +158,7 @@ export default function Panel(props) {
       unitID: unitID,
       pageID: pageID,
       pure: recall.pure,
-      far: recall.far,
-      bool: !!recall.lost.length
+      far: recall.far
     }).then(() => {
       const lastIndex = pageDetail.trackSize;
       setItemList((itemList) => {

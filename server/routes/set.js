@@ -93,23 +93,12 @@ router.post('/item', (req, res) => {
 });
 
 router.post('/recall', (req, res) => {
-  // const bool = !!req.body.bool
-  // const pure = api.sqlNumberArray(req.body.pure);
-  // const far = api.sqlNumberArray(req.body.far);
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID } = api.sqlNumber(
-  //   req.body, ['userID', 'unitID', 'pageID'], res
-  // );
-  // if (!(userID && token)) return;
-  // if (!(pure instanceof Array) || !(far instanceof Array)) {
-  //   api.invalidArgument(res);
-  //   return;
-  // }
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, bool, pure, far } = req.body;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.updateThis(userID, unitID, pageID, pure, far, bool))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'pure', 'far'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.updateThis(params.userID, params.unitID,
+      params.pageID, params.pure, params.far))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
