@@ -250,7 +250,7 @@ export default function NewItem(props) {
     context.request("POST/set/item", {
       unitID: state.unitID,
       pageID: state.pageID,
-      itemID: state.apiItemID,
+      itemID: [state.apiItemID],
       [state.editItem]: query
     }).then(() => {
       handle.setItemList((itemList) => itemList.map((item) => ({

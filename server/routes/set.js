@@ -75,22 +75,19 @@ router.post('/page', (req, res) => {
 });
 
 router.post('/item', (req, res) => {
-  // const { token } = api.sqlString(req.cookies, ['token'], res);
-  // const { userID, unitID, pageID, itemID } = api.sqlNumber(
-  //   req.body, ['userID', 'unitID', 'pageID', 'itemID'], res
-  // );
-  // if (!(userID && token)) return;
-  // const field = (req.body.query === undefined ? 'key' : 'query');
-  // const value = api.sqlString(req.body, [field], res)[field];
-  // if (value === undefined) return;
-  const { userID, token } = req.cookies;
-  const { unitID, pageID, itemID } = req.body;
-  const field = (req.body.query === undefined ? 'key' : 'query');
-  const value = api.sqlString(req.body, [field], res)[field];
-  if (value === undefined) return;
-
-  db.checkToken(userID, token, res)
-    .then(() => db.editItem(userID, unitID, pageID, itemID, field, value))
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID'], res))
+    .then(() => api.param(req.body, params, ['query', 'key'], res, api.ignore))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => {
+      const field = params.query === undefined ? 'key' : 'query';
+      const value = params[field];
+      // if both query and key are undefined
+      if (value !== undefined)
+        return db.editItem(params.userID, params.unitID,
+          params.pageID, params.itemID[0], field, value);
+    })
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });
