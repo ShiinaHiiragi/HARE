@@ -28,11 +28,13 @@ const packedGET = (params) => {
       })
       .catch((err) => {
         if (closeLoading) closeLoading();
-        if (err.response && err.response.status !== 401) {
+        if (!err.response) {
+          msgbox(`${err}`, "error");
+          reject(err);
+        } else if (err.response.status !== 401) {
           msgbox(`${lang.message.serverError}: ${err.response.data}`, "error");
           reject(err);
-        } else if (err.response) kick();
-        else msgbox(`${err}`, "error");
+        } else kick();
       });
   });
 };
@@ -53,11 +55,13 @@ const packedPOST = (params, config) => {
       })
       .catch((err) => {
         if (closeLoading) closeLoading();
-        if (err.response && err.response.status !== 401) {
+        if (!err.response) {
+          msgbox(`${err}`, "error");
+          reject(err);
+        } else if (err.response.status !== 401) {
           msgbox(`${lang.message.serverError}: ${err.response.data}`, "error");
           reject(err);
-        } else if (err.response) kick();
-        else msgbox(`${err}`, "error");
+        } else kick();
       });
   });
 };
