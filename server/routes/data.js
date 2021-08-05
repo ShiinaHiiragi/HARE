@@ -108,7 +108,7 @@ router.post('/this', (req, res) => {
     .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.getThis(params.userID, params.unitID, params.pageID, params.bool))
     .then((out) => res.send(out))
-    .catch(() => api.internalServerError(res));
+    .catch((err) => api.catchError(err, res));
 });
 
 module.exports = router;

@@ -395,6 +395,7 @@ exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, rejec
     .then((out) => {
       timeThis = out[0].timethis;
       trackSize = out[0].tracksize;
+      if (timeThis === null && trackSize >= api.maxRecall) throw 406;
     })
     .then(() => {
       const queryString = (timeThis && clear)
@@ -466,10 +467,11 @@ exports.editThis = (userID, unitID, pageID, pure, far) => {
   const farTuple = api.arrayTupleString(far);
 
   return new Promise((resolve, reject) => {
-    query(`select trackSize from page where userID = ${userID}
+    query(`select trackSize, timeThis from page where userID = ${userID}
       and unitID = ${unitID} and pageID = ${pageID}`)
       .then((out) => {
         trackSize = out[0].tracksize;
+        if (out[0].timeThis === null) throw 406;
         if (pure.length) promiseArray.push(
           query(`update item set itemRecord[${trackSize}] = 'P' where userID = ${userID}
             and unitID = ${unitID} and pageID = ${pageID} and itemID in ${pureTuple}`)

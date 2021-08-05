@@ -3,6 +3,7 @@ const SHA256 = require('crypto-js').SHA256;
 // api for constants
 exports.ignore = true;
 exports.tokenLifeSpan = 24 * 3600 * 1000;
+exports.maxRecall = 64;
 
 // api for respond status
 const noContent = (res) => res.status(204).send();
@@ -18,8 +19,9 @@ exports.forbidden = forbidden;
 exports.invalidArgument = invalidArgument;
 exports.conflict = conflict;
 exports.internalServerError = internalServerError;
-exports.catchError = (err, res) => {
+exports.catchError = (err, res, msg) => {
   switch (err) {
+    case 403: forbidden(res, msg); break;
     case 406: invalidArgument(res); break;
     default: internalServerError(res); break;
   }
