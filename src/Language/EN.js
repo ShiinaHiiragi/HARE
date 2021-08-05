@@ -301,6 +301,7 @@ const list = {
   message: {
     error: "Error",
     serverError: "Server Error",
+    newVersion: "The HARE has been updated to the latest version.",
     signInBlank: "Please enter the E-mail and password.",
     changeAvatar: "Your avatar has been set successfully.",
     nonImage: "The file you selected is not image.",

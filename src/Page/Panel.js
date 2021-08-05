@@ -13,6 +13,7 @@ import Conflict from "../Dialogue/Conflict";
 import { languagePicker, nameMap } from "../Language/Lang";
 import { packedGET, packedPOST } from "../Interface/Request";
 import {
+  version,
   cookieTime,
   defaultProfile,
   defaultPageDetail,
@@ -31,6 +32,23 @@ export default function Panel(props) {
   React.useEffect(() => {
     let storageLang = cookie.load("lang");
     changeGlobalLang(storageLang || nameMap.English);
+
+    // notice of update
+    // the language may not been updated when toggling msgbox
+    // so we must use languagePicker()
+    const thisVersion = version.match(/\d+/g);
+    const saveVersion = String(cookie.load("version")).match(/\d+/g);
+    if (saveVersion instanceof Array
+      && saveVersion.length === 3
+      && (thisVersion[0] > saveVersion[0]
+        || (thisVersion[0] === saveVersion[0]
+          && thisVersion[1] > saveVersion[1])
+        || (thisVersion[0] === saveVersion[0]
+          && thisVersion[1] === saveVersion[1]
+          && thisVersion[2] > saveVersion[2]))) {
+      toggleMessageBox(languagePicker(storageLang).message.newVersion, "info");
+    }
+    cookie.save("version", version);
   }, []);
   const changeGlobalLang = (targetValue) => {
     if (targetValue)

@@ -295,6 +295,7 @@ const list = {
   message: {
     error: "错误",
     serverError: "服务器错误",
+    newVersion: "HARE 已经升级到最新版本",
     signInBlank: "请填写邮箱和密码",
     changeAvatar: "头像已成功上传",
     nonImage: "上传的文件不是图片",
