@@ -155,7 +155,7 @@ exports.updateSession = (userID) => new Promise((resolve, reject) => {
 // id = { unit: 1, page: 1/undefined, item: 1/undefined }
 exports.checkRange = (userID, id, offset, res, checkMax) => {
   const length = Object.keys(id).length;
-  const type = length === 3 ? "item" : length === 2 ? "page" : "unit";
+  const type = id.item !== undefined ? 'item' : id.page !== undefined ? 'page' : 'unit';
   return new Promise((resolve, reject) => 
     query(`select ${type}Size from ${api.super[type]}
       where ${api.sqlID(userID, id.unit, id.page, id.item)}`)
@@ -171,7 +171,7 @@ exports.checkRange = (userID, id, offset, res, checkMax) => {
               })
             })
             .catch(reject);
-        else resolve();
+        else resolve({ });
       }))
       .then(({ currentSize, maxSize }) => new Promise((resolve) => {
         if (checkMax && currentSize >= maxSize)

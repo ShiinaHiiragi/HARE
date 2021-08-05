@@ -116,6 +116,16 @@ router.post('/move', (req, res) => {
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'src', 'dst'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.checkSession(params.userID, params.session, res))
+    .then(() => db.checkRange(params.userID, {
+      unit: params.unitID,
+      page: params.pageID,
+      item: params.dst
+    }, 0, res))
+    .then(() => db.checkRange(params.userID, {
+      unit: params.unitID,
+      page: params.pageID,
+      item: params.src
+    }, 0, res))
     .then(() => db.moveItem(params.userID, params.unitID, params.pageID, params.src, params.dst))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
@@ -128,12 +138,16 @@ router.post('/swap', (req, res) => {
     .then(() => api.param(req.body, params, ['unitID'], res, api.ignore))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.checkSession(params.userID, params.session, res))
+    .then(() => db.checkRange(params.userID, {
+      unit: params.unitID ?? params.src,
+      page: params.unitID && params.src,
+    }, -1, res))
     .then(() => {
       if (params.unitID === undefined) return db.moveUnit(params.userID, params.src)
       else return db.movePage(params.userID, params.unitID, params.src)
     })
     .then(() => api.noContent(res))
-    .catch(() => api.internalServerError(res));;
+    .catch(() => api.internalServerError(res));
 });
 
 // the icon for editing
