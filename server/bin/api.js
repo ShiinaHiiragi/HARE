@@ -91,6 +91,12 @@ exports.format = (transDate, formatString) => {
 };
 
 // string is not null and String can be null
+maxNameLength = 16;
+maxEmailLength = 32;
+maxPasswordLength = 64;
+maxPresentLength = 512;
+genderRange = ['U', 'F', 'M'];
+trackRange = ['P', 'F', 'L'];
 paramMap = {
   token: 'string',
   userID: 'number',
@@ -121,50 +127,52 @@ paramMap = {
 };
 
 exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
-  const supLength = list.length;
-  for (let supIndex = 0; supIndex < supLength; supIndex += 1) {
+  let supLength = list.length, invalid = false;
+  loop: for (let supIndex = 0; supIndex < supLength; supIndex += 1) {
     const keyName = list[supIndex];
     const paramType = paramMap[keyName].toLowerCase();
-    if (!ignore && src[keyName] === undefined) {
-      invalidArgument(res);
-      return;
-    } else if (src[keyName] !== undefined) {
+    if (!ignore && src[keyName] === undefined)
+      { invalid = true; break loop; }
+    else if (src[keyName] !== undefined) {
       if (paramType === 'number') {
         const paramNumber = Number(src[keyName]);
-        if (isNaN(paramNumber)) {
-          invalidArgument(res);
-          return;
-        }
+        if (isNaN(paramNumber)) { invalid = true; break loop; }
         dst[keyName] = paramNumber;
       } else if (paramType === 'string') {
         const paramString = String(src[keyName]).replace(/'/g, `''`);
-        if (paramMap[keyName][0] === 's' && paramString.length === 0) {
-          invalidArgument(res);
-          return;
-        }
+        if (paramMap[keyName][0] === 's' && paramString.length === 0)
+          { invalid = true; break loop; }
+        if ((['userName, unitName, pageName, tel, city'].includes(keyName) &&
+          paramString.length > maxNameLength) ||
+          (keyName === 'email' && paramString.length > maxEmailLength) ||
+          (keyName === 'password' && paramString.length > maxPasswordLength) ||
+          (keyName === 'pagePresent' && paramString.length > maxPresentLength))
+          { invalid = true; break loop; }
+        if ((keyName === 'gender' && !genderRange.includes(paramString)) ||
+          (keyName === 'track' && !trackRange.includes(paramString)))
+          { invalid = true; break loop; }
+        if (keyName === 'birth' &&
+          (isNaN(new Date(paramString)) ||
+          (new Date() - new Date(paramString) < 0)))
+          { invalid = true; break loop; }
         dst[keyName] = paramString
       } else if (paramType === 'array') {
-        if (!(src[keyName] instanceof Array)) {
-          invalidArgument(res);
-          return;
-        }
+        if (!(src[keyName] instanceof Array)) { invalid = true; break loop; }
         const length = src[keyName].length;
         dst[keyName] = new Array(length).fill(0);
         for (let index = 0; index < length; index += 1) {
           const subNumber = Number(src[keyName][index]);
-          if (isNaN(subNumber)) {
-            invalidArgument(res);
-            return;
-          } else dst[keyName][index] = subNumber;
+          if (isNaN(subNumber)) { invalid = true; break loop; }
+          else dst[keyName][index] = subNumber;
         }
       } else dst[keyName] = !!src[keyName]
     }
   }
-  resolve();
+  invalid ? invalidArgument(res) : resolve();
 });
 
 exports.sqlID = (userID, unitID, pageID) => {
-  return (userID ? `userID = ${userID}` : "")
-    + (unitID ? ` and unitID = ${unitID}` : "")
-    + (pageID ? ` and pageID = ${pageID}` : "");
+  return (userID ? `userID = ${userID}` : '')
+    + (unitID ? ` and unitID = ${unitID}` : '')
+    + (pageID ? ` and pageID = ${pageID}` : '');
 }
