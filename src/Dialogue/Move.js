@@ -33,7 +33,7 @@ export default function Move(props) {
   const submit = () => {
     const src = state.select;
     const dst = Number(value) | 0;
-    if (dst < 1 || dst > state.listLength + 1) {
+    if (dst < 1 || dst > state.listLength) {
       handle.toggleMessageBox(context.lang.message.invalidItemID, "warning");
       return;
     }

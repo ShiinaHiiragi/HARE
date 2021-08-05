@@ -31,6 +31,11 @@ router.post('/item', (req, res) => {
   api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID', 'query', 'key'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkRange(params.userID, {
+      unit: params.unitID,
+      page: params.pageID,
+      item: params.itemID[0]
+    }, 1, res, true))
     .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.newItem(params.userID, params.unitID,
       params.pageID, params.itemID[0], params.query, params.key))
