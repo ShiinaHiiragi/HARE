@@ -16,6 +16,7 @@ import {
   version,
   cookieTime,
   defaultProfile,
+  defaultRange,
   defaultPageDetail,
   defaultCurrentSelect,
   setStateDelay,
@@ -100,22 +101,25 @@ export default function Panel(props) {
   }, [globalLang, userID]);
 
   // the sharing state of profile
+  const [range, setRange] = React.useState(defaultRange);
   const [profile, setProfile] = React.useState(defaultProfile);
   React.useEffect(() => {
     packedRequest("GET/data/profile")
-      .then((res) =>
+      .then((res) => {
         setProfile({
           userName: res.username,
           email: res.email,
           gender: res.gender,
           birth: res.birth,
           city: res.city || "",
-          tel: res.tel || "",
+          tel: res.tel || ""
+        });
+        setRange({
           maxUnit: res.maxunit,
           maxPage: res.maxpage,
           maxItem: res.maxitem
-        })
-      );
+        });
+      });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -237,6 +241,7 @@ export default function Panel(props) {
           state={{
             userID: userID,
             profile: profile,
+            range: range,
             navList: navListPC,
             currentSelect: currentSelect,
             route: currentSelect.route,
@@ -257,6 +262,7 @@ export default function Panel(props) {
         <Main
           lang={globalLang}
           state={{
+            range: range,
             current: currentSelect,
             navList: navListPC,
             recall: recall,

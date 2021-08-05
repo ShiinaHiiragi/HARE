@@ -48,17 +48,8 @@ export { drawerWidth, routeIndex, pageIcon };
 // the initial state of some object state
 const initialDate = "2019-12-31T16:00:00.000Z";
 const initMenu = { mouseX: null, mouseY: null };
-const defaultProfile = {
-  userName: "",
-  email: "",
-  gender: "U",
-  birth: initialDate,
-  city: "",
-  tel: "",
-  maxUnit: 16,
-  maxPage: 16,
-  maxItem: 64
-};
+const defaultProfile = { userName: "", email: "", gender: "U", birth: initialDate, city: "", tel: "" };
+const defaultRange = { maxUnit: 16, maxPage: 16, maxItem: 64 };
 const defaultPageDetail = { pageCreateTime: initialDate, itemSize: 0, trackSize: 0, timeThis: null };
 const defaultCurrentSelect = { pageName: "HARE", pagePresent: "", route: routeIndex.intro };
 const defaultColumn = (langGrid) => [
@@ -95,7 +86,14 @@ const defaultColumn = (langGrid) => [
     headerAlign: "center"
   }
 ];
-export { initMenu, defaultProfile, defaultPageDetail, defaultCurrentSelect, defaultColumn,};
+export {
+  initMenu,
+  defaultProfile,
+  defaultRange,
+  defaultPageDetail,
+  defaultCurrentSelect,
+  defaultColumn
+};
 
 // some functions which are often used
 const nil = () => {};
