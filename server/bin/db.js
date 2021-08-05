@@ -2,12 +2,14 @@ const Pool = require('pg').Pool
 const fs = require('fs');
 const path = require('path');
 const api = require('./api');
+var SHA256 = require('crypto-js').SHA256;
 
 const setting = JSON.parse(fs.readFileSync(path.join(__dirname, './setting.json')))
 const pool = new Pool(setting.poolSetting);
 
 // db inner api
 const query = (sql) => new Promise((resolve, reject) => {
+  console.log(sql);
   pool.query(sql, (err, res) => {
     if (err) reject(err);
     else resolve(res.rows);
@@ -133,10 +135,12 @@ const newToken = (userID, token, session) => new Promise((resolve, reject) => {
 const updateToken = (userID) => newToken(userID);
 
 exports.newToken = newToken;
-exports.updateSession = (userID, session) => new Promise((resolve, reject) =>
-  query(`update onlineUser set session = ${session} where userID = ${userID}`)
-    .then(resolve).catch(reject)
-)
+exports.updateSession = (userID) => new Promise((resolve, reject) => {
+  const session = SHA256(new Date().toISOString()).toString();
+  return query(`update onlineUser set session = '${session}' where userID = ${userID}`)
+    .then(() => resolve(session))
+    .catch(reject)
+})
 
 // db api for unit
 exports.getUnit = (userID) => new Promise((resolve, reject) => {

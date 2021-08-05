@@ -13,10 +13,9 @@ axios.defaults.withCredentials = true;
 axios
   .get(`${requestURL}/data/check`)
   .then((res) => {
-    if (res.data === "HARE")
-      ReactDOM.render(
-        <Panel userID={userID} token={token} />,
-        document.getElementById("root")
-      );
+    ReactDOM.render(
+      <Panel userID={userID} token={token} session={res.data} />,
+      document.getElementById("root")
+    );
   })
   .catch(() => ReactDOM.render(<SignIn />, document.getElementById("root")));

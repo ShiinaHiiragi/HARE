@@ -7,11 +7,10 @@ var router = express.Router();
 
 router.get('/check', (req, res) => {
   const params = new Object();
-  const session = SHA256(new Date().toISOString()).toString();
   api.param(req.cookies, params, ['userID', 'token'], res)
     .then(() => db.checkToken(params.userID, params.token, res))
-    .then(() => db.updateSession(params.userID, session))
-    .then(() => res.send(session));
+    .then(() => db.updateSession(params.userID))
+    .then((session) => res.send(session));
 });
 
 router.post('/sign', (req, res) => {
