@@ -5,17 +5,19 @@ exports.ignore = true;
 exports.tokenLifeSpan = 24 * 3600 * 1000;
 
 // api for respond status
-const invalidArgument = (res) => res.status(406).send('INVALID ARGUMENT');
 const noContent = (res) => res.status(204).send();
-const internalServerError = (res) => res.status(500).send('INTERNAL SERVER ERROR');
 const notAuthorized = (res, msg) => res.status(401).send(msg);
 const forbidden = (res, msg) => res.status(403).send(msg);
+const invalidArgument = (res) => res.status(406).send('INVALID ARGUMENT');
+const conflict = (res) => res.status(409).send('PARALLEL CONFLICT');
+const internalServerError = (res) => res.status(500).send('INTERNAL SERVER ERROR');
 
-exports.invalidArgument = invalidArgument;
 exports.noContent = noContent;
-exports.internalServerError = internalServerError;
 exports.notAuthorized = notAuthorized;
 exports.forbidden = forbidden;
+exports.invalidArgument = invalidArgument;
+exports.conflict = conflict;
+exports.internalServerError = internalServerError;
 exports.catchError = (err, res) => {
   switch (err) {
     case 406: invalidArgument(res); break;
