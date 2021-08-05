@@ -26,6 +26,7 @@ export default function LogoutComfirm(props) {
   const logout = () => {
     cookie.remove("userID");
     cookie.remove("token");
+    cookie.remove("session");
     ReactDOM.render(<SignIn />, document.getElementById("root"));
   };
 
