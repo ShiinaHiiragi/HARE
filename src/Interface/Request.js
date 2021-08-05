@@ -10,7 +10,17 @@ const extendCookie = () => {
 };
 
 const packedGET = (params) => {
-  const { uri, query, msgbox, kick, lang, toggleLoading, closeLoading, unauthorized } = params;
+  const {
+    uri,
+    query,
+    msgbox,
+    kick,
+    conflict,
+    lang,
+    toggleLoading,
+    closeLoading,
+    unauthorized
+  } = params;
   let request = `${requestURL}${uri}`;
   extendCookie();
   if (toggleLoading) toggleLoading();
@@ -27,23 +37,40 @@ const packedGET = (params) => {
         resolve(res.data);
       })
       .catch((err) => {
-        if (closeLoading) closeLoading();
+        if (closeLoading)
+          closeLoading();
         if (!err.response) {
           msgbox(`${err}`, "error");
           reject(err);
-        } else if (err.response.status !== 401) {
-          msgbox(`${lang.message.serverError}: ${err.response.data}`, "error");
+        } else if (![401, 409].includes(err.response.status)) {
+          msgbox(
+            `${lang.message.serverError}: ${err.response.data}`,
+            "error"
+          );
           reject(err);
-        } else if (typeof unauthorized === "function") {
+        } else if (typeof unauthorized === "function")
           unauthorized();
-        } else kick();
+        else if (err.response.status === 401)
+          kick();
+        else
+          conflict();
       });
   });
 };
 
 // config: { headers: { "Content-Type": "multipart/form-data" } }
 const packedPOST = (params, config) => {
-  const { uri, query, msgbox, kick, lang, toggleLoading, closeLoading, unauthorized } = params;
+  const {
+    uri,
+    query,
+    msgbox,
+    kick,
+    conflict,
+    lang,
+    toggleLoading,
+    closeLoading,
+    unauthorized
+  } = params;
   let request = `${requestURL}${uri}`;
   extendCookie();
   if (toggleLoading) toggleLoading();
@@ -56,16 +83,23 @@ const packedPOST = (params, config) => {
         resolve(res.data);
       })
       .catch((err) => {
-        if (closeLoading) closeLoading();
+        if (closeLoading)
+          closeLoading();
         if (!err.response) {
           msgbox(`${err}`, "error");
           reject(err);
-        } else if (err.response.status !== 401) {
-          msgbox(`${lang.message.serverError}: ${err.response.data}`, "error");
+        } else if (![401, 409].includes(err.response.status)) {
+          msgbox(
+            `${lang.message.serverError}: ${err.response.data}`,
+            "error"
+          );
           reject(err);
-        } else if (typeof unauthorized === "function") {
+        } else if (typeof unauthorized === "function")
           unauthorized();
-        } else kick();
+        else if (err.response.status === 401)
+          kick();
+        else
+          conflict();
       });
   });
 };

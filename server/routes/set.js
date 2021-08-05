@@ -8,9 +8,10 @@ var api = require('../bin/api');
 // setting of user information
 router.post('/profile', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['userName', 'birth', 'gender', 'tel', 'city'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.editProfile(params.userID, params.userName,
       params.birth, params.gender, params.tel, params.city))
     .then(() => api.noContent(res));

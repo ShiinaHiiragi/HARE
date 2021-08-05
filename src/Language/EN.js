@@ -93,6 +93,10 @@ const list = {
       title: "Disconnect from Server",
       text: "The server reject your request for invalid or expired token. Please re-login."
     },
+    conflict: {
+      title: "Page Expired",
+      text: "The server reject your request for invalid session. Please click 'OK' to reload this page."
+    },
     signUp: {
       title: "Sign Up is Unavailable Now",
       text: "We don't provide registration entry temporarily. You can contact the author to register in the server directly."

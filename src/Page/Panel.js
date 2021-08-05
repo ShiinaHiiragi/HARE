@@ -9,6 +9,7 @@ import Main from "../Unit/Main";
 import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
 import Kick from "../Dialogue/Kick";
+import Conflict from "../Dialogue/Conflict";
 import { languagePicker, nameMap } from "../Language/Lang";
 import { packedGET, packedPOST } from "../Interface/Request";
 import {
@@ -39,6 +40,7 @@ export default function Panel(props) {
 
   // the setting of request
   const [kick, setKick] = React.useState(false);
+  const [conflict, setConflict] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [messageBoxInfo, setMessageBoxInfo] = React.useState({
     open: false, type: "success", message: ""
@@ -70,6 +72,7 @@ export default function Panel(props) {
       query: { ...query },
       msgbox: toggleMessageBox,
       kick: () => setKick(true),
+      conflict: () => setConflict(true),
       lang: globalLang,
       unauthorized: unauthorized,
       toggleLoading: toggleLoading,
@@ -261,6 +264,7 @@ export default function Panel(props) {
         />
         <Load open={loading} />
         <Kick open={kick} handleClose={() => setKick(false)} />
+        <Conflict open={conflict} />
       </Root>
     </PanelContext.Provider>
   );
