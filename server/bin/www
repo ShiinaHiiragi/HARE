@@ -103,6 +103,7 @@ dbInitialize(true)
 /**
  * Read lines when listening to the port.
  */
+
 const oneLine = readline.createInterface({
   input: process.stdin,
   output: process.stdout
