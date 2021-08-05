@@ -84,7 +84,7 @@
     "onlineUser": [
       "create table onlineUser(",
       "userID integer primary key references userInfo,",
-      "session varchar(64),",
+      "session varchar(64) not null,",
       "token varchar(128) not null,",
       "lastTime timestamp not null);"
     ]

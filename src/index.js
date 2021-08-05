@@ -11,7 +11,7 @@ const token = cookie.load("token");
 
 axios.defaults.withCredentials = true;
 axios
-  .get(`${requestURL}/data/check?userID=${userID}`)
+  .get(`${requestURL}/data/check`)
   .then((res) => {
     if (res.data === "HARE")
       ReactDOM.render(

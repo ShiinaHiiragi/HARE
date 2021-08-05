@@ -105,7 +105,7 @@ exports.editAvatarExtent = (userID, type) => new Promise((resolve, reject) =>
     where userID = ${userID}`).then(resolve).catch(reject)
 );
 
-// db api for token
+// db api for token and session
 exports.checkToken = (userID, token, res) => new Promise((resolve, reject) => 
   query(`select * from onlineUser
     where userID = ${userID} and token = '${token}'`)
@@ -114,32 +114,29 @@ exports.checkToken = (userID, token, res) => new Promise((resolve, reject) =>
         api.notAuthorized(res, 'INVALID');
       else if (new Date() - new Date(out[0].lasttime) > api.tokenLifeSpan)
         api.notAuthorized(res, 'EXPIRED');
-      else newToken(userID).then(resolve);
+      else updateToken(userID).then(resolve);
     })
     .catch(reject)
 )
 
-const newToken = (userID, token) => new Promise((resolve, reject) => {
+const newToken = (userID, token, session) => new Promise((resolve, reject) => {
   if (token)
-    query(`insert into onlineUser(userID, token, lastTime)
-      values(${userID}, '${token}', now())
-      on conflict (userID) do update
-      set token = EXCLUDED.token, lastTime = EXCLUDED.lastTime`)
+    query(`insert into onlineUser(userID, token, session, lastTime)
+      values(${userID}, '${token}', '${session}', now())
+      on conflict (userID) do update set token = EXCLUDED.token,
+      session = EXCLUDED.session, lastTime = EXCLUDED.lastTime`)
       .then(resolve).catch(reject);
   else
-    query(`insert into onlineUser(userID, token, lastTime)
-      values(${userID}, '', now())
-      on conflict (userID) do update
-      set lastTime = EXCLUDED.lastTime`)
+    query(`update onlineUser set lastTime = now() where userID = ${userID}`)
       .then(resolve).catch(reject);
 })
+const updateToken = (userID) => newToken(userID);
+
 exports.newToken = newToken;
-exports.updateToken = (userID) => newToken(userID);
-
-// db api for session
-exports.updateSession = (userID, session) => {
-
-};
+exports.updateSession = (userID, session) => new Promise((resolve, reject) =>
+  query(`update onlineUser set session = ${session} where userID = ${userID}`)
+    .then(resolve).catch(reject)
+)
 
 // db api for unit
 exports.getUnit = (userID) => new Promise((resolve, reject) => {
