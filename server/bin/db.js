@@ -151,6 +151,38 @@ exports.updateSession = (userID) => new Promise((resolve, reject) => {
     .catch(reject)
 })
 
+// db api for range and volume
+// id = { unit: 1, page: 1/undefined, item: 1/undefined }
+exports.checkRange = (userID, id, offset, res, checkMax) => {
+  const length = Object.keys(id).length;
+  const type = length === 3 ? "item" : length === 2 ? "page" : "unit";
+  return new Promise((resolve, reject) => 
+    query(`select ${type}Size from ${api.super[type]}
+      where ${api.sqlID(userID, id.unit, id.page, id.item)}`)
+      .then((out) => new Promise((resolve, reject) => {
+        if (id[type] > out[0][`${type}size`] + offset)
+          api.invalidArgument(res);
+        else if (checkMax)
+          query(`select max${type} from userSetting where userID = ${userID}`)
+            .then((max) => {
+              resolve({
+                currentSize: out[0][`${type}size`],
+                maxSize: max[0][`max${type}`]
+              })
+            })
+            .catch(reject);
+        else resolve();
+      }))
+      .then(({ currentSize, maxSize }) => new Promise((resolve) => {
+        if (checkMax && currentSize >= maxSize)
+          api.invalidArgument(res);
+        else resolve();
+      }))
+      .then(resolve)
+      .catch(reject)
+  );
+}
+
 // db api for unit
 exports.getUnit = (userID) => new Promise((resolve, reject) => {
   query(`select unitID, unitName from unit
@@ -471,7 +503,7 @@ exports.editThis = (userID, unitID, pageID, pure, far) => {
       and unitID = ${unitID} and pageID = ${pageID}`)
       .then((out) => {
         trackSize = out[0].tracksize;
-        if (out[0].timeThis === null) throw 406;
+        if (out[0].timethis === null) throw 406;
         if (pure.length) promiseArray.push(
           query(`update item set itemRecord[${trackSize}] = 'P' where userID = ${userID}
             and unitID = ${unitID} and pageID = ${pageID} and itemID in ${pureTuple}`)

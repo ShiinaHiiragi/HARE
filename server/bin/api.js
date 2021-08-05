@@ -4,6 +4,11 @@ const SHA256 = require('crypto-js').SHA256;
 exports.ignore = true;
 exports.tokenLifeSpan = 24 * 3600 * 1000;
 exports.maxRecall = 64;
+exports.super = {
+  unit: "userSetting",
+  page: "unit",
+  item: "page"
+};
 
 // api for respond status
 const noContent = (res) => res.status(204).send();
@@ -180,8 +185,9 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
   invalid ? invalidArgument(res) : resolve();
 });
 
-exports.sqlID = (userID, unitID, pageID) => {
-  return (userID ? `userID = ${userID}` : '')
-    + (unitID ? ` and unitID = ${unitID}` : '')
-    + (pageID ? ` and pageID = ${pageID}` : '');
+// only useful for checkRange
+exports.sqlID = (userID, unitID, pageID, itemID) => {
+  return (unitID ? `userID = ${userID}` : '')
+    + (pageID ? ` and unitID = ${unitID}` : '')
+    + (itemID ? ` and pageID = ${pageID}` : '');
 }
