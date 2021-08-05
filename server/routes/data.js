@@ -1,5 +1,5 @@
 var express = require('express');
-var SHA1 = require('crypto-js').SHA1;
+var SHA512 = require('crypto-js').SHA512;
 var db = require('../bin/db');
 var api = require('../bin/api');
 var router = express.Router();
@@ -17,7 +17,7 @@ router.post('/sign', (req, res) => {
     .then(() => db.query(`select userID from userInfo natural join userSetting
       where email = '${params.email}' and password = '${params.password}'`))
     .then((out) => {
-      const token = SHA1(params.email + new Date().toISOString()).toString();
+      const token = SHA512(params.email + new Date().toISOString()).toString();
       if (out.length > 0) {
         db.newToken(out[0].userid, token)
           .then(() => res.send({ uid: out[0].userid, token: token }));

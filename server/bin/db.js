@@ -136,6 +136,11 @@ const newToken = (userID, token) => new Promise((resolve, reject) => {
 exports.newToken = newToken;
 exports.updateToken = (userID) => newToken(userID);
 
+// db api for session
+exports.updateSession = (userID, session) => {
+
+};
+
 // db api for unit
 exports.getUnit = (userID) => new Promise((resolve, reject) => {
   query(`select unitID, unitName from unit

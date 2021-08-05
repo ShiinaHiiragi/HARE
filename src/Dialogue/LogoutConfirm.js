@@ -48,8 +48,7 @@ export default function LogoutComfirm(props) {
           onClick={() => {
             handleClose();
             const quit = () => setTimeout(logout, setStateDelay * 0.8);
-            context.request("POST/data/logout", { }, quit)
-              .then(quit);
+            context.request("POST/data/logout", { }, quit).then(quit);
           }}
           color="secondary"
         >
