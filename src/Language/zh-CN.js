@@ -179,7 +179,8 @@ const list = {
         "新建词条页面": {
           "F1": "打开命令面板",
           "ALT+Z": "切换自动换行",
-          "CTRL+Q": "插入 MARKDOWN 下划线"
+          "CTRL+Q": "插入 MARKDOWN 下划线",
+          "CTRL+S": "插入全角空格实体"
         }
       }
     },

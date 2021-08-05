@@ -29,8 +29,9 @@ export { maxRecall, maxLog, maxFrequency, maxNameLength, maxPresentLength, maxIm
 // some constants about agreement configuration
 const defaultDigit = 2;
 const setStateDelay = 400;
-const underline = "\\_\\_\\_\\_\\_\\_\\_\\_";
-export { defaultDigit, setStateDelay, underline };
+const underline = "<u>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</u>";
+const emSpace = "&emsp;"
+export { defaultDigit, setStateDelay, underline, emSpace };
 
 // the info about user interface
 const drawerWidth = 320;

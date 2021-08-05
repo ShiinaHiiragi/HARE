@@ -19,7 +19,7 @@ import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
 import { PanelContext } from "../Page/Panel";
-import { stringFormat, cookieTime, underline } from "../Interface/Constant";
+import { stringFormat, cookieTime, underline, emSpace } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -166,6 +166,20 @@ export default function NewItem(props) {
           forceMoveMarkers: true
         };
         editor.executeEdits("underline", [operation]);
+      }
+    });
+    editor.addAction({
+      id: "space",
+      label: "Insert EM Space",
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S],
+      contextMenuGroupId: "1_modification",
+      run: (editor) => {
+        const operation = {
+          range: editor.getSelection(),
+          text: emSpace,
+          forceMoveMarkers: true
+        };
+        editor.executeEdits("space", [operation]);
       }
     });
   };

@@ -185,7 +185,8 @@ const list = {
         "Create New Item Page": {
           "F1": "Toggle Command Palette",
           "ALT+Z": "Switch Word Wrap",
-          "CTRL+Q": "Insert MARKDOWN Underline"
+          "CTRL+Q": "Insert MARKDOWN Underline",
+          "CTRL+S": "Insert EM Space"
         }
       }
     },
