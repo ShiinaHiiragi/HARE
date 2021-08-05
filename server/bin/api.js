@@ -142,7 +142,7 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
         const paramString = String(src[keyName]).replace(/'/g, `''`);
         if (paramMap[keyName][0] === 's' && paramString.length === 0)
           { invalid = true; break loop; }
-        if ((['userName, unitName, pageName, tel, city'].includes(keyName) &&
+        if ((['userName', 'unitName', 'pageName', 'tel', 'city'].includes(keyName) &&
           paramString.length > maxNameLength) ||
           (keyName === 'email' && paramString.length > maxEmailLength) ||
           (keyName === 'password' && paramString.length > maxPasswordLength) ||
