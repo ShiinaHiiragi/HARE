@@ -18,6 +18,9 @@ import { routeIndex, maxLog } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
+  noneSelect: {
+    userSelect: "none",
+  },
   root: {
     width: "100%",
     height: "100%",
@@ -211,7 +214,10 @@ export default function Recall(props) {
       </div>
       <div className={classes.main}>
         <div className={classes.sideBar}>
-          <Tooltip title={context.lang.panel.recall.switch}>
+          <Tooltip
+            title={context.lang.panel.recall.switch}
+            classes={{ tooltip: classes.noneSelect }}
+          >
             <IconButton
               className={classes.iconButton}
               onClick={switcher}
@@ -219,7 +225,10 @@ export default function Recall(props) {
               <CompareArrowsIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title={context.lang.panel.recall.previous}>
+          <Tooltip
+            title={context.lang.panel.recall.previous}
+            classes={{ tooltip: classes.noneSelect }}
+          >
             <IconButton
               className={classes.iconButton}
               onClick={() => changeItem(-1)}
@@ -227,7 +236,10 @@ export default function Recall(props) {
               <ArrowBackIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title={context.lang.panel.recall.revoke}>
+          <Tooltip
+            title={context.lang.panel.recall.revoke}
+            classes={{ tooltip: classes.noneSelect }}
+          >
             <span>
               <IconButton
                 className={classes.iconButton}
@@ -251,7 +263,10 @@ export default function Recall(props) {
           </Card>
         </div>
         <div className={classes.sideBar}>
-          <Tooltip title={context.lang.panel.recall.pure}>
+          <Tooltip
+            title={context.lang.panel.recall.pure}
+            classes={{ tooltip: classes.noneSelect }}
+          >
             <IconButton
               className={classes.iconButton}
               onClick={() => changeItem("pure")}
@@ -259,7 +274,10 @@ export default function Recall(props) {
               <RadioButtonUncheckedIcon  />
             </IconButton>
           </Tooltip>
-          <Tooltip title={context.lang.panel.recall.next}>
+          <Tooltip
+            title={context.lang.panel.recall.next}
+            classes={{ tooltip: classes.noneSelect }}
+          >
             <IconButton
               className={classes.iconButton}
               onClick={() => changeItem(1)}
@@ -267,7 +285,10 @@ export default function Recall(props) {
               <ArrowForwardIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title={context.lang.panel.recall.far}>
+          <Tooltip
+            title={context.lang.panel.recall.far}
+            classes={{ tooltip: classes.noneSelect }}
+          >
             <IconButton
               className={classes.iconButton}
               onClick={() => changeItem("far")}

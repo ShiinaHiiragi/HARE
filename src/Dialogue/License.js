@@ -163,7 +163,10 @@ export default function License(props) {
                 </Avatar>
                 <div className={classes.info}>
                   <Typography variant="subtitle1">{author}</Typography>
-                  <Tooltip title={lang.popup.about.copyTip}>
+                  <Tooltip
+                    title={lang.popup.about.copyTip}
+                    classes={{ tooltip: classes.noneSelect }}
+                  >
                     <Link
                       variant="body2"
                       color="inherit"

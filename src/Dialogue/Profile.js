@@ -107,7 +107,7 @@ export default function Profile(props) {
   };
 
   return (
-    <Dialog fullWidth open={open} onClose={handle.close}>
+    <Dialog fullWidth open={open} onClose={handle.close} style={{ userSelect: "none" }}>
       <DialogContent>
         <div className={classes.avatarProfile}>
           <Avatar src={state.avatar} className={classes.largeAvatar}>
