@@ -5,7 +5,6 @@ var api = require('../bin/api');
 
 router.post('/up', (req, res) => {
   const params = new Object();
-  console.log(req.body);
   api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageName', 'pagePresent'], res))
     .then(() => api.param(req.body, params, ['pageID', 'unitName'], res, api.ignore))
