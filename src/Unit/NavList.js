@@ -72,6 +72,7 @@ export default function NavList(props) {
       <Pages
         state={{
           route: state.route,
+          range: state.range,
           listObject: state.listObject,
           navListMobile: state.navListMobile,
           currentSelect: state.currentSelect

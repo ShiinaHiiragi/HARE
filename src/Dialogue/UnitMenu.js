@@ -62,6 +62,7 @@ export default function UnitMenu(props) {
         {context.lang.menu.moveDown}
       </MenuItem>
       <MenuItem
+        disabled={state.currentUnitSize >= state.range.maxUnit}
         onClick={() => {
           handle.closeMenu();
           handle.toggleNewUnit(state.unitID);
@@ -70,6 +71,7 @@ export default function UnitMenu(props) {
         {context.lang.menu.addUnitAbove}
       </MenuItem>
       <MenuItem
+        disabled={state.currentUnitSize >= state.range.maxUnit}
         onClick={() => {
           handle.closeMenu();
           handle.toggleNewUnit(state.unitID + 1);

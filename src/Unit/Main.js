@@ -96,6 +96,7 @@ export default function Main(props) {
       <MainPage index={routeIndex.view} route={state.current.route}>
         <View
           state={{
+            range: state.range,
             current: state.current,
             pageDetail: state.pageDetail,
             itemList: state.itemList

@@ -53,6 +53,8 @@ export default function Pages(props) {
   // the states used for menus
   const [unitMenu, setUnitMenu] = React.useState(initMenu);
   const [pageMenu, setPageMenu] = React.useState(initMenu);
+  const [currentUnitSize, setCurrentUnitSize] = React.useState(0);
+  const [currentPageSize, setCurrentPageSize] = React.useState(0);
   const [currentUnitID, setCurrentUnitID] = React.useState(0);
   const [currentPageID, setCurrentPageID] = React.useState(0);
   const [currentName, setCurrentName] = React.useState("");
@@ -65,6 +67,7 @@ export default function Pages(props) {
     setCurrentPageID(-1);
     setCurrentFold(state.listObject[unitID - 1].open);
     setCurrentName(state.listObject[unitID - 1].unitName);
+    setCurrentUnitSize(state.listObject.length);
     setCurrentTop(unitID === 1);
     setCurrentButtom(unitID === state.listObject.length);
     setUnitMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
@@ -74,6 +77,7 @@ export default function Pages(props) {
     setCurrentUnitID(unitID);
     setCurrentPageID(pageID);
     setCurrentName(state.listObject[unitID - 1].pages[pageID - 1].pageName);
+    setCurrentPageSize(state.listObject[unitID - 1].pages.length);
     setCurrentTop(pageID === 1);
     setCurrentButtom(pageID === state.listObject[unitID - 1].pages.length);
     setPageMenu({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
@@ -280,6 +284,8 @@ export default function Pages(props) {
           <UnitMenu
             state={{
               unitMenu: unitMenu,
+              range: state.range,
+              currentUnitSize: currentUnitSize,
               unitID: currentUnitID,
               fold: currentFold,
               top: currentTop,
@@ -298,6 +304,8 @@ export default function Pages(props) {
             state={{
               pageMenu: pageMenu,
               unitID: currentUnitID,
+              range: state.range,
+              currentPageSize: currentPageSize,
               pageID: currentPageID,
               top: currentTop,
               buttom: currentButtom

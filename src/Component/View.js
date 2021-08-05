@@ -204,6 +204,7 @@ export default function View(props) {
         <Button
           variant="outlined"
           color="primary"
+          disabled={state.pageDetail.itemSize >= state.range.maxItem}
           startIcon={<AddIcon />}
           className={classes.innerButton}
           onClick={() => { setEditItem(false); setNewItem(true); }}

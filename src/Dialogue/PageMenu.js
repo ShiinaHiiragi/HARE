@@ -54,6 +54,7 @@ export default function PageMenu(props) {
         {context.lang.menu.moveDown}
       </MenuItem>
       <MenuItem
+        disabled={state.currentPageSize >= state.range.maxPage}
         onClick={() => {
           handle.closeMenu();
           handle.toggleNewPage([state.unitID, state.pageID]);
@@ -62,6 +63,7 @@ export default function PageMenu(props) {
         {context.lang.menu.addPageAbove}
       </MenuItem>
       <MenuItem
+        disabled={state.currentPageSize >= state.range.maxPage}
         onClick={() => {
           handle.closeMenu();
           handle.toggleNewPage([state.unitID, state.pageID + 1]);
