@@ -82,7 +82,7 @@ const viewTable = (cmdLine, onsuccess, onerror) => {
 
 // db api for profile and avatar extent request
 exports.getProfile = (userID) => new Promise((resolve, reject) => 
-  query(`select userName, userID, email, gender, birth, city, tel
+  query(`select userName, userID, email, gender, birth, city, tel, maxUnit, maxPage, maxItem
     from userSetting natural join userInfo where userID = ${userID}`)
     .then(resolve).catch(reject)
 );

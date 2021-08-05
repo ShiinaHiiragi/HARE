@@ -92,7 +92,10 @@ export default function Panel(props) {
           gender: res.gender,
           birth: res.birth,
           city: res.city || "",
-          tel: res.tel || ""
+          tel: res.tel || "",
+          maxUnit: res.maxunit,
+          maxPage: res.maxpage,
+          maxItem: res.maxitem
         })
       );
   // eslint-disable-next-line react-hooks/exhaustive-deps
