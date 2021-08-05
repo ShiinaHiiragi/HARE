@@ -47,18 +47,9 @@ export default function LogoutComfirm(props) {
         <Button
           onClick={() => {
             handleClose();
-            axios
-              .post(`${requestURL}/data/logout`, { userID: userID })
-              .then(() => setTimeout(logout, setStateDelay * 0.8))
-              .catch((err) => {
-                if (err.response && err.response.status === 401)
-                  setTimeout(logout, setStateDelay * 0.8);
-                else
-                  handleToggleMessageBox(
-                    `${err.response?.data || err}`,
-                    "error"
-                  );
-              });
+            const quit = () => setTimeout(logout, setStateDelay * 0.8);
+            context.request("POST/data/logout", { }, quit)
+              .then(quit);
           }}
           color="secondary"
         >

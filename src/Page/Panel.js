@@ -51,7 +51,7 @@ export default function Panel(props) {
       ...messageBoxInfo, open: false
     }));
   };
-  const packedRequest = React.useCallback((uri, query) => {
+  const packedRequest = React.useCallback((uri, query, unauthorized) => {
     let clockLoading = null;
     const split = uri.charAt(0).toLowerCase() === "g" ? 3 : 4;
     const toggleLoading = () => {
@@ -70,6 +70,7 @@ export default function Panel(props) {
       msgbox: toggleMessageBox,
       kick: () => setKick(true),
       lang: globalLang,
+      unauthorized: unauthorized,
       toggleLoading: toggleLoading,
       closeLoading: closeLoading
     };

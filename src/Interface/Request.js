@@ -10,7 +10,7 @@ const extendCookie = () => {
 };
 
 const packedGET = (params) => {
-  const { uri, query, msgbox, kick, lang, toggleLoading, closeLoading } = params;
+  const { uri, query, msgbox, kick, lang, toggleLoading, closeLoading, unauthorized } = params;
   let request = `${requestURL}${uri}`;
   extendCookie();
   if (toggleLoading) toggleLoading();
@@ -34,6 +34,8 @@ const packedGET = (params) => {
         } else if (err.response.status !== 401) {
           msgbox(`${lang.message.serverError}: ${err.response.data}`, "error");
           reject(err);
+        } else if (typeof unauthorized === "function") {
+          unauthorized();
         } else kick();
       });
   });
@@ -41,7 +43,7 @@ const packedGET = (params) => {
 
 // config: { headers: { "Content-Type": "multipart/form-data" } }
 const packedPOST = (params, config) => {
-  const { uri, query, msgbox, kick, lang, toggleLoading, closeLoading } = params;
+  const { uri, query, msgbox, kick, lang, toggleLoading, closeLoading, unauthorized } = params;
   let request = `${requestURL}${uri}`;
   extendCookie();
   if (toggleLoading) toggleLoading();
@@ -61,6 +63,8 @@ const packedPOST = (params, config) => {
         } else if (err.response.status !== 401) {
           msgbox(`${lang.message.serverError}: ${err.response.data}`, "error");
           reject(err);
+        } else if (typeof unauthorized === "function") {
+          unauthorized();
         } else kick();
       });
   });
