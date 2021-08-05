@@ -9,7 +9,6 @@ const pool = new Pool(setting.poolSetting);
 
 // db inner api
 const query = (sql) => new Promise((resolve, reject) => {
-  console.log(sql);
   pool.query(sql, (err, res) => {
     if (err) reject(err);
     else resolve(res.rows);
@@ -109,14 +108,25 @@ exports.editAvatarExtent = (userID, type) => new Promise((resolve, reject) =>
 
 // db api for token and session
 exports.checkToken = (userID, token, res) => new Promise((resolve, reject) => 
-  query(`select * from onlineUser
-    where userID = ${userID} and token = '${token}'`)
+  query(`select * from onlineUser where
+    userID = ${userID} and token = '${token}'`)
     .then((out) => {
       if (out.length === 0)
         api.notAuthorized(res, 'INVALID');
       else if (new Date() - new Date(out[0].lasttime) > api.tokenLifeSpan)
         api.notAuthorized(res, 'EXPIRED');
       else updateToken(userID).then(resolve);
+    })
+    .catch(reject)
+)
+
+exports.checkSession = (userID, session, res) => new Promise((resolve, reject) => 
+  query(`select * from onlineUser where
+    userID = ${userID} and session = '${session}'`)
+    .then((out) => {
+      console.log(userID, session);
+      if (out.length !== 0) resolve();
+      else api.conflict(res);
     })
     .catch(reject)
 )

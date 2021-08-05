@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import axios from "axios";
 import cookie from "react-cookies";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -8,7 +7,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
-import requestURL from "../Interface/Constant";
 import SignIn from "../Page/SignIn";
 import { setStateDelay } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
@@ -20,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-axios.defaults.withCredentials = true;
 export default function LogoutComfirm(props) {
   const classes = useStyles();
   const { open, userID, handleClose, handleToggleMessageBox } = props;

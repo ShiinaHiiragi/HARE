@@ -23,7 +23,7 @@ import {
 
 const PanelContext = React.createContext({});
 export default function Panel(props) {
-  const { userID } = props;
+  const { userID, session } = props;
 
   // the state of language
   const [globalLang, setGlobalLang] = React.useState(languagePicker(nameMap.English));
@@ -53,6 +53,7 @@ export default function Panel(props) {
   };
   const packedRequest = React.useCallback((uri, query, unauthorized) => {
     let clockLoading = null;
+    cookie.save("session", session);
     const split = uri.charAt(0).toLowerCase() === "g" ? 3 : 4;
     const toggleLoading = () => {
       clockLoading = setTimeout(() => {
@@ -66,7 +67,7 @@ export default function Panel(props) {
     };
     const params = {
       uri: uri.slice(split),
-      query: { ...query, userID: userID },
+      query: { ...query },
       msgbox: toggleMessageBox,
       kick: () => setKick(true),
       lang: globalLang,

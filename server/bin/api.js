@@ -101,6 +101,7 @@ genderRange = ['U', 'F', 'M'];
 trackRange = ['P', 'F', 'L'];
 paramMap = {
   token: 'string',
+  session: 'string',
   userID: 'number',
   unitID: 'number',
   pageID: 'number',
@@ -145,6 +146,8 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
         if (paramMap[keyName][0] === 's' && paramString.length === 0)
           { invalid = true; break loop; }
         if (keyName === 'token' && paramString.length !== 128)
+          { invalid = true; break loop; }
+        if (keyName === 'session' && paramString.length !== 64)
           { invalid = true; break loop; }
         if ((['userName', 'unitName', 'pageName', 'tel', 'city'].includes(keyName) &&
           paramString.length > maxNameLength) ||
