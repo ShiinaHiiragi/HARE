@@ -43,7 +43,7 @@ router.post('/track', (req, res) => {
   api.param(req.cookies, params, ['userID', 'token'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'trackID'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
-    .then(() => db.deleteTrack(params.userID, params.unitID, params.pageID, params.trackID))
+    .then(() => db.deleteStat(params.userID, params.unitID, params.pageID, params.trackID))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
 });

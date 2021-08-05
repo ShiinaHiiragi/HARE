@@ -97,7 +97,7 @@ router.post('/recall', (req, res) => {
   api.param(req.cookies, params, ['userID', 'token'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'pure', 'far'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
-    .then(() => db.updateThis(params.userID, params.unitID,
+    .then(() => db.editThis(params.userID, params.unitID,
       params.pageID, params.pure, params.far))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));

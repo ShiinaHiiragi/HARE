@@ -47,7 +47,7 @@ router.get('/unit', (req, res) => {
   const params = new Object();
   api.param(req.cookies, params, ['userID', 'token'], res)
     .then(() => db.checkToken(params.userID, params.token, res))
-    .then(() => db.getUnitPage(params.userID))
+    .then(() => db.getUnit(params.userID))
     .then((out) => res.send(out))
     .catch(() => api.internalServerError(res));
 });
@@ -57,7 +57,7 @@ router.get('/page', (req, res) => {
   api.param(req.cookies, params, ['userID', 'token'], res)
     .then(() => api.param(req.query, params, ['unitID', 'pageID'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
-    .then(() => db.getPageDetail(params.userID, params.unitID, params.pageID))
+    .then(() => db.getPage(params.userID, params.unitID, params.pageID))
     .then((out) => res.send(out[0]))
     .catch(() => api.internalServerError(res));
 });

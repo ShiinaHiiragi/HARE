@@ -1,11 +1,16 @@
 const SHA256 = require('crypto-js').SHA256;
 
+// api for constants
+exports.ignore = true;
+exports.tokenLifeSpan = 24 * 3600 * 1000;
+
 // api for respond status
 const invalidArgument = (res) => res.status(406).send('INVALID ARGUMENT');
 const noContent = (res) => res.status(204).send();
 const internalServerError = (res) => res.status(500).send('INTERNAL SERVER ERROR');
 const notAuthorized = (res, msg) => res.status(401).send(msg);
 const forbidden = (res, msg) => res.status(403).send(msg);
+
 exports.invalidArgument = invalidArgument;
 exports.noContent = noContent;
 exports.internalServerError = internalServerError;
@@ -18,7 +23,6 @@ exports.catchError = (err, res) => {
   }
 }
 
-exports.ignore = true;
 // api for sequential async
 exports.syncEachChain = (arrayObject, eachTemp) =>
   arrayObject.reduce(
@@ -158,50 +162,6 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
   }
   resolve();
 });
-
-// other api
-exports.sqlNumberArray = (query) => {
-  if (!(query instanceof Array)) {
-    const numberVerify = Number(query);
-    return isNaN(numberVerify) ? -1 : numberVerify;
-  }
-  let sql = new Array(query.length).fill();
-  let invalid = false;
-  query.forEach((item, index) => {
-    const numberVerify = Number(item);
-    sql[index] = isNaN(numberVerify) ? -1 : numberVerify;
-  });
-  return invalid ? new Array() : sql;
-}
-
-exports.sqlNumber = (query, keys, res) => {
-  let sql = new Object();
-  let invalid = false;
-  keys.forEach((item) => {
-    if (query[item] === undefined) {
-      if (res) invalidArgument(res);
-      invalid = true;
-      return;
-    }
-    const numberVerify = Number(query[item]);
-    sql[item] = isNaN(numberVerify) ? -1 : numberVerify;
-  });
-  return invalid ? new Object() : sql;
-}
-
-exports.sqlString = (query, keys, res) => {
-  let sql = new Object();
-  let invalid = false;
-  keys.forEach((item) => {
-    if (query[item] === undefined) {
-      if (res) invalidArgument(res);
-      invalid = true;
-      return;
-    }
-    sql[item] = query[item].replace(/'/g, `''`);
-  })
-  return invalid ? new Object() : sql;
-}
 
 exports.sqlID = (userID, unitID, pageID) => {
   return (userID ? `userID = ${userID}` : "")

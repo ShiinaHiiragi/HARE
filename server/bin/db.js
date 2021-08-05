@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const api = require('./api');
 
-const tokenLifeSpan = 24 * 3600 * 1000;
 const setting = JSON.parse(fs.readFileSync(path.join(__dirname, './setting.json')))
 const pool = new Pool(setting.poolSetting);
 
@@ -113,7 +112,7 @@ exports.checkToken = (userID, token, res) => new Promise((resolve, reject) =>
     .then((out) => {
       if (out.length === 0)
         api.notAuthorized(res, 'INVALID');
-      else if (new Date() - new Date(out[0].lasttime) > tokenLifeSpan)
+      else if (new Date() - new Date(out[0].lasttime) > api.tokenLifeSpan)
         api.notAuthorized(res, 'EXPIRED');
       else newToken(userID).then(resolve);
     })
@@ -137,8 +136,8 @@ const newToken = (userID, token) => new Promise((resolve, reject) => {
 exports.newToken = newToken;
 exports.updateToken = (userID) => newToken(userID);
 
-// db api for client menu get or post
-exports.getUnitPage = (userID) => new Promise((resolve, reject) => {
+// db api for unit
+exports.getUnit = (userID) => new Promise((resolve, reject) => {
   query(`select unitID, unitName from unit
     where userID = ${userID} order by unitID asc`)
     .then((out) => {
@@ -178,6 +177,39 @@ exports.newUnit = (userID, unitID, unitName) => new Promise((resolve, reject) =>
     .then(resolve).catch(reject);
 });
 
+exports.editUnit = (userID, unitID, unitName) => new Promise((resolve, reject) => {
+  query(`update unit set unitName = '${unitName}'
+    where userID = ${userID} and unitID = ${unitID}`)
+    .then(resolve).catch(reject);
+});
+
+exports.moveUnit = (userID, less) => new Promise((resolve, reject) => {
+  query(`begin; update unit set unitID = ${-less - 1}
+    where userID = ${userID} and unitID = ${less};
+    update unit set unitID = ${-less}
+    where userID = ${userID} and unitID = ${less + 1};
+    update unit set unitID = -unitID
+    where userID = ${userID} and (unitID = ${-less} or unitID = ${-less - 1});
+    commit;`).then(resolve).catch(reject);
+});
+
+exports.deleteUnit = (userID, unitID) => new Promise((resolve, reject) => {
+  query(`begin; delete from unit where userID = ${userID} and unitID = ${unitID};
+    update userSetting set unitSize = unitSize - 1 where userID = ${userID};
+    update unit set unitID = 1 - unitID
+    where userID = ${userID} and unitID > ${unitID};
+    update unit set unitID = -unitID
+    where userID = ${userID} and unitID < 0; commit;`)
+    .then(resolve).catch(reject);
+});
+
+// db api for page
+exports.getPage = (userID, unitID, pageID) => new Promise((resolve, reject) => {
+  query(`select itemSize, trackSize, pageCreateTime, timeThis from page
+    where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+    .then(resolve).catch(reject);
+});
+
 exports.newPage = (userID, unitID, pageID, pageName, pagePresent) => 
   new Promise((resolve, reject) => {
     query(`begin; update page set pageID = -pageID - 1
@@ -191,15 +223,12 @@ exports.newPage = (userID, unitID, pageID, pageName, pagePresent) =>
       commit;`).then(resolve).catch(reject);
 });
 
-exports.moveUnit = (userID, less) => new Promise((resolve, reject) => {
-  query(`begin; update unit set unitID = ${-less - 1}
-    where userID = ${userID} and unitID = ${less};
-    update unit set unitID = ${-less}
-    where userID = ${userID} and unitID = ${less + 1};
-    update unit set unitID = -unitID
-    where userID = ${userID} and (unitID = ${-less} or unitID = ${-less - 1});
-    commit;`).then(resolve).catch(reject);
-});
+exports.editPage = (userID, unitID, pageID, pageName, pagePresent) =>
+  new Promise((resolve, reject) => {
+    query(`update page set pageName = '${pageName}', pagePresent = '${pagePresent}'
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+      .then(resolve).catch(reject);
+  });
 
 exports.movePage = (userID, unitID, less) => new Promise((resolve, reject) => {
   query(`begin; update page set pageID = ${-less - 1}
@@ -212,13 +241,9 @@ exports.movePage = (userID, unitID, less) => new Promise((resolve, reject) => {
     .then(resolve).catch(reject);
 });
 
-exports.deleteUnit = (userID, unitID) => new Promise((resolve, reject) => {
-  query(`begin; delete from unit where userID = ${userID} and unitID = ${unitID};
-    update userSetting set unitSize = unitSize - 1 where userID = ${userID};
-    update unit set unitID = 1 - unitID
-    where userID = ${userID} and unitID > ${unitID};
-    update unit set unitID = -unitID
-    where userID = ${userID} and unitID < 0; commit;`)
+exports.editCover = (userID, unitID, pageID, cover) => new Promise((resolve, reject) => {
+  query(`update page set pageCover = ${cover} where userID = ${userID}
+    and unitID = ${unitID} and pageID = ${pageID}`)
     .then(resolve).catch(reject);
 });
 
@@ -237,33 +262,13 @@ exports.deletePage = (userID, unitID, pageID) => new Promise((resolve, reject) =
     .then(resolve).catch(reject);
 });
 
-exports.editUnit = (userID, unitID, unitName) => new Promise((resolve, reject) => {
-  query(`update unit set unitName = '${unitName}'
-    where userID = ${userID} and unitID = ${unitID}`)
-    .then(resolve).catch(reject);
+// db api for item
+exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
+  query(`select itemID, itemQuery, itemKey, itemCreateTime, itemRecord
+    from item where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}
+    order by itemID asc`).then(resolve).catch(reject);
 });
 
-// db api for cover page detail
-exports.getPageDetail = (userID, unitID, pageID) => new Promise((resolve, reject) => {
-  query(`select itemSize, trackSize, pageCreateTime, timeThis from page
-    where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
-    .then(resolve).catch(reject);
-});
-
-exports.editPage = (userID, unitID, pageID, pageName, pagePresent) =>
-  new Promise((resolve, reject) => {
-    query(`update page set pageName = '${pageName}', pagePresent = '${pagePresent}'
-      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
-      .then(resolve).catch(reject);
-  });
-
-exports.editCover = (userID, unitID, pageID, cover) => new Promise((resolve, reject) => {
-  query(`update page set pageCover = ${cover} where userID = ${userID}
-    and unitID = ${unitID} and pageID = ${pageID}`)
-    .then(resolve).catch(reject);
-});
-
-// db api for page view request
 exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
   new Promise((resolve, reject) => {
     query(`begin; update item set itemID = -itemID - 1
@@ -293,11 +298,38 @@ exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
     .catch(reject);
   });
 
-exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
-  query(`select itemID, itemQuery, itemKey, itemCreateTime, itemRecord
-    from item where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}
-    order by itemID asc`).then(resolve).catch(reject);
-});
+exports.editItem = (userID, unitID, pageID, itemID, field, value) =>
+  new Promise((resolve, reject) => 
+    query(`update item set item${field} = '${value}'
+      where userID = ${userID} and unitID = ${unitID}
+      and pageID = ${pageID} and itemID = ${itemID}`)
+      .then(resolve).catch(reject)
+  );
+
+exports.editTrack = (userID, unitID, pageID, itemID, trackID, value) =>
+  new Promise((resolve, reject) => 
+    query(`update item set itemRecord[${trackID}] = '${value}' where
+      userID = ${userID} and unitID = ${unitID}
+      and pageID = ${pageID} and itemID = ${itemID}`)
+      .then(resolve).catch(reject)
+  );
+
+exports.moveItem = (userID, unitID, pageID, src, dst) =>
+  new Promise((resolve, reject) => {
+    const direction = src < dst ? -1 : 1;
+    const left = direction < 0 ? src + 1 : dst;
+    const right = direction < 0 ? dst : src - 1;
+    query(`begin; update item set itemID = 0
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID = ${src};
+      update item set itemID = -(itemID + (${direction}))
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}
+      and itemID >= ${left} and itemID <= ${right};
+      update item set itemID = -itemID
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID < 0;
+      update item set itemID = ${dst}
+      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID = 0;
+      commit;`).then(resolve).catch(reject);
+  });
 
 exports.deleteItem = (userID, unitID, pageID, itemID) =>
   new Promise((outerSuccess, outerError) => {
@@ -339,24 +371,7 @@ exports.deleteItem = (userID, unitID, pageID, itemID) =>
     }).catch(outerError);
   });
 
-exports.moveItem = (userID, unitID, pageID, src, dst) =>
-  new Promise((resolve, reject) => {
-    const direction = src < dst ? -1 : 1;
-    const left = direction < 0 ? src + 1 : dst;
-    const right = direction < 0 ? dst : src - 1;
-    query(`begin; update item set itemID = 0
-      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID = ${src};
-      update item set itemID = -(itemID + (${direction}))
-      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}
-      and itemID >= ${left} and itemID <= ${right};
-      update item set itemID = -itemID
-      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID < 0;
-      update item set itemID = ${dst}
-      where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID = 0;
-      commit;`).then(resolve).catch(reject);
-  });
-
-// about recall
+// about recall and record
 exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, reject) => {
   let timeThis, trackSize;
 
@@ -405,7 +420,32 @@ exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, rejec
     .catch(reject);
 });
 
-exports.updateThis = (userID, unitID, pageID, pure, far) => {
+exports.getStat = (userID, unitID, pageID) => new Promise((resolve, reject) => {
+  query(`select trackID, startTime, endTime from track where
+    userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+    .then((out) => Promise.all(out.map((item) => new Promise((resolve, reject) => {
+      Promise.all([
+        query(`select count(itemID) from item where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID}
+          and itemRecord[${item.trackid}] = 'P'`),
+        query(`select count(itemID) from item where userID = ${userID}
+          and unitID = ${unitID} and pageID = ${pageID}
+          and itemRecord[${item.trackid}] = 'F'`)
+      ])
+        .then((out) => resolve({
+          id: item.trackid,
+          startTime: item.starttime,
+          endTime: item.endtime,
+          pure: Number(out[0][0].count),
+          far: Number(out[1][0].count)
+        }))
+        .catch(reject)
+    }))))
+    .then((out) => resolve(out))
+    .catch(reject);
+});
+
+exports.editThis = (userID, unitID, pageID, pure, far) => {
   let trackSize, promiseArray = [];
   const pureTuple = api.arrayTupleString(pure);
   const farTuple = api.arrayTupleString(far);
@@ -442,48 +482,7 @@ exports.updateThis = (userID, unitID, pageID, pure, far) => {
   });
 }
 
-exports.getStat = (userID, unitID, pageID) => new Promise((resolve, reject) => {
-  query(`select trackID, startTime, endTime from track where
-    userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
-    .then((out) => Promise.all(out.map((item) => new Promise((resolve, reject) => {
-      Promise.all([
-        query(`select count(itemID) from item where userID = ${userID}
-          and unitID = ${unitID} and pageID = ${pageID}
-          and itemRecord[${item.trackid}] = 'P'`),
-        query(`select count(itemID) from item where userID = ${userID}
-          and unitID = ${unitID} and pageID = ${pageID}
-          and itemRecord[${item.trackid}] = 'F'`)
-      ])
-        .then((out) => resolve({
-          id: item.trackid,
-          startTime: item.starttime,
-          endTime: item.endtime,
-          pure: Number(out[0][0].count),
-          far: Number(out[1][0].count)
-        }))
-        .catch(reject)
-    }))))
-    .then((out) => resolve(out))
-    .catch(reject);
-});
-
-exports.editItem = (userID, unitID, pageID, itemID, field, value) =>
-  new Promise((resolve, reject) => 
-    query(`update item set item${field} = '${value}'
-      where userID = ${userID} and unitID = ${unitID}
-      and pageID = ${pageID} and itemID = ${itemID}`)
-      .then(resolve).catch(reject)
-  );
-
-exports.editTrack = (userID, unitID, pageID, itemID, trackID, value) =>
-  new Promise((resolve, reject) => 
-    query(`update item set itemRecord[${trackID}] = '${value}' where
-      userID = ${userID} and unitID = ${unitID}
-      and pageID = ${pageID} and itemID = ${itemID}`)
-      .then(resolve).catch(reject)
-  );
-
-exports.deleteTrack = (userID, unitID, pageID, trackID) => {
+exports.deleteStat = (userID, unitID, pageID, trackID) => {
   let trackSize;
   return new Promise((resolve, reject) =>
     query(`select itemSize from page where userID = ${userID}
