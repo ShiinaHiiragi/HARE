@@ -154,13 +154,12 @@ exports.updateSession = (userID) => new Promise((resolve, reject) => {
 // db api for range and volume
 // id = { unit: 1, page: 1/undefined, item: 1/undefined }
 exports.checkRange = (userID, id, offset, res, checkMax) => {
-  const length = Object.keys(id).length;
   const type = id.item !== undefined ? 'item' : id.page !== undefined ? 'page' : 'unit';
-  return new Promise((resolve, reject) => 
+  return new Promise((resolve, reject) =>
     query(`select ${type}Size from ${api.super[type]}
       where ${api.sqlID(userID, id.unit, id.page, id.item)}`)
       .then((out) => new Promise((resolve, reject) => {
-        if (id[type] > out[0][`${type}size`] + offset)
+        if (id[type] > out[0][`${type}size`] + offset || id[type] <= 0)
           api.invalidArgument(res);
         else if (checkMax)
           query(`select max${type} from userSetting where userID = ${userID}`)

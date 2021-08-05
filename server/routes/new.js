@@ -11,13 +11,17 @@ router.post('/up', (req, res) => {
     .then(() => api.param(req.body, params, ['pageID', 'unitName'], res, api.ignore))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.checkSession(params.userID, params.session, res))
+    .then(() => db.checkRange(params.userID, {
+      unit: params.unitID,
+      page: params.pageID
+    }, 1, res, true))
     .then(() => {
       const newUnit = Number(params.unitName !== undefined);
       const newPage = Number(params.pageID !== undefined);
       if (newUnit + newPage !== 1) throw 406;
       if (params.unitName !== undefined) {
-        return db.newUnit(params.userID, params.unitID || 1, params.unitName)
-          .then(() => db.newPage(params.userID, params.unitID || 1,
+        return db.newUnit(params.userID, params.unitID, params.unitName)
+          .then(() => db.newPage(params.userID, params.unitID,
             1, params.pageName, params.pagePresent))
       } else return db.newPage(params.userID, params.unitID,
         params.pageID, params.pageName, params.pagePresent)

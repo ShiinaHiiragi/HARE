@@ -312,7 +312,7 @@ export default function Pages(props) {
         </List>
       ) : (
         <div className={clsx(classes.newPage, classes.center)}>
-          <IconButton onClick={() => toggleNewUnitPage(true, 0)}>
+          <IconButton onClick={() => toggleNewUnitPage(true, 1)}>
             <AddIcon fontSize="large" />
           </IconButton>
           <Typography variant="button" color="textSecondary" align="center">
