@@ -6,10 +6,11 @@ var api = require('../bin/api');
 router.post('/up', (req, res) => {
   const params = new Object();
   console.log(req.body);
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageName', 'pagePresent'], res))
     .then(() => api.param(req.body, params, ['pageID', 'unitName'], res, api.ignore))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => {
       const newUnit = Number(params.unitName !== undefined);
       const newPage = Number(params.pageID !== undefined);
@@ -27,9 +28,10 @@ router.post('/up', (req, res) => {
 
 router.post('/item', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID', 'query', 'key'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.newItem(params.userID, params.unitID,
       params.pageID, params.itemID[0], params.query, params.key))
     .then((itemCreateTime) => res.send(itemCreateTime))

@@ -31,8 +31,9 @@ router.post('/sign', (req, res) => {
 
 router.post('/logout', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.query(`delete from onlineUser where userID = ${params.userID}`))
     .then(() => api.noContent(res));
 });
@@ -100,10 +101,11 @@ router.get('/stat', (req, res) => {
 
 router.post('/this', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID'], res))
     .then(() => api.param(req.body, params, ['bool'], res, api.ignore))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.getThis(params.userID, params.unitID, params.pageID, params.bool))
     .then((out) => res.send(out))
     .catch(() => api.internalServerError(res));

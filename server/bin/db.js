@@ -124,7 +124,6 @@ exports.checkSession = (userID, session, res) => new Promise((resolve, reject) =
   query(`select * from onlineUser where
     userID = ${userID} and session = '${session}'`)
     .then((out) => {
-      console.log(userID, session);
       if (out.length !== 0) resolve();
       else api.conflict(res);
     })

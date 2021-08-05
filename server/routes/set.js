@@ -20,9 +20,10 @@ router.post('/profile', (req, res) => {
 router.post('/avatar', (req, res) => {
   const params = new Object();
   let typeReg = /^data:image\/(\w+);base64,/, basicPath;
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['avatar', 'type'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => {
       basicPath = path.join(__dirname, '../src/avatar');
       return new Promise((resolve, reject) => {
@@ -56,9 +57,10 @@ router.post('/avatar', (req, res) => {
 // setting of unit, page and item
 router.post('/unit', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'unitName'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.editUnit(params.userID, params.unitID, params.unitName))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
@@ -66,9 +68,10 @@ router.post('/unit', (req, res) => {
 
 router.post('/page', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'pageName', 'pagePresent'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.editPage(params.userID, params.unitID,
       params.pageID, params.pageName, params.pagePresent))
     .then(() => api.noContent(res))
@@ -77,10 +80,11 @@ router.post('/page', (req, res) => {
 
 router.post('/item', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID'], res))
     .then(() => api.param(req.body, params, ['query', 'key'], res, api.ignore))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => {
       const field = params.query === undefined ? 'key' : 'query';
       const value = params[field];
@@ -95,9 +99,10 @@ router.post('/item', (req, res) => {
 
 router.post('/recall', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'pure', 'far'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.editThis(params.userID, params.unitID,
       params.pageID, params.pure, params.far))
     .then(() => api.noContent(res))
@@ -107,9 +112,10 @@ router.post('/recall', (req, res) => {
 // move is for item and swap is for unit and page
 router.post('/move', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'src', 'dst'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.moveItem(params.userID, params.unitID, params.pageID, params.src, params.dst))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
@@ -117,10 +123,11 @@ router.post('/move', (req, res) => {
 
 router.post('/swap', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['src'], res))
     .then(() => api.param(req.body, params, ['unitID'], res, api.ignore))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => {
       if (params.unitID === undefined) return db.moveUnit(params.userID, params.src)
       else return db.movePage(params.userID, params.unitID, params.src)
@@ -132,9 +139,10 @@ router.post('/swap', (req, res) => {
 // the icon for editing
 router.post('/cover', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'dst'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.editCover(params.userID, params.unitID, params.pageID, params.dst))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));
@@ -142,9 +150,10 @@ router.post('/cover', (req, res) => {
 
 router.post('/track', (req, res) => {
   const params = new Object();
-  api.param(req.cookies, params, ['userID', 'token'], res)
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID', 'trackID', 'track'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.editTrack(params.userID, params.unitID,
       params.pageID, params.itemID[0], params.trackID, params.track))
     .then(() => api.noContent(res))
