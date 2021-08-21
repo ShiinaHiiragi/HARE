@@ -14,7 +14,7 @@ var newRouter = require('./routes/new');
 var deleteRouter = require('./routes/delete');
 
 app.use(logger('dev'));
-app.use(express.json({ limit: "4mb" }));
+app.use(express.json({ limit: "1536kb" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'build')));

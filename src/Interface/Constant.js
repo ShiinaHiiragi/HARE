@@ -24,7 +24,9 @@ const maxLog = 256;
 const maxFrequency = 16;
 const maxNameLength = 16;
 const maxPresentLength = 512;
-const maxImageBase = 2 * 1024 * 1024;
+const maxImageBase = 1398101;
+// about 4/3 MB, equaling to image of 1MB
+// the server receive up to 3/2 MB (about 1572864) 
 export { maxRecall, maxLog, maxFrequency, maxNameLength, maxPresentLength, maxImageBase };
 
 // some constants about agreement configuration
