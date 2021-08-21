@@ -76,7 +76,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0)
   },
   subLog: {
-    padding: theme.spacing(0, 2)
+    padding: theme.spacing(0, 2),
+    display: "flex",
+    flexDirection: "row"
   }
 }));
 
@@ -246,11 +248,10 @@ export default function License(props) {
                       </div>
                       {item.detail.map((subItem, subIndex) => (
                         <div key={subIndex} className={classes.subLog}>
-                          <Typography variant="subtitle2" component="span">
+                          <Typography variant="subtitle2" style={{ minWidth: "4rem" }}>
                             {subItem.type}
                           </Typography>
-                          {"　"}
-                          <Typography variant="body2" component="span">
+                          <Typography variant="body2">
                             {subItem.content}
                           </Typography>
                         </div>

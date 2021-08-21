@@ -7,7 +7,59 @@ const log = [
       {
         type: "Global",
         content: "Complete the basic architect of main panel"
-      }
+      },
+      {
+        type: "New",
+        content: "Add 404 page"
+      },
+      {
+        type: "New",
+        content: "Add session code for multi-window detection"
+      },
+      {
+        type: "Change",
+        content: "Rewrite the input detection for server"
+      },
+      {
+        type: "Change",
+        content: "Rebuild the language context in React"
+      },
+    ]
+  },
+  {
+    version: "0.4.0",
+    date: "2021-08-02T00:00:00.000Z",
+    detail: [
+      {
+        type: "New",
+        content: "Add recall subpage and its relating shortcuts"
+      },
+      {
+        type: "New",
+        content: "Add diagrams and statistics subpage"
+      },
+    ]
+  },
+  {
+    version: "0.3.0",
+    date: "2021-07-24T00:00:00.000Z",
+    detail: [
+      {
+        type: "Change",
+        content: "Change the default behavior of Data Grid"
+      },
+      {
+        type: "New",
+        content: "Add item grid subpage and some features about"
+      },
+      {
+        type: "New",
+        content: "Add Q&A and shortcuts list for using"
+      },
+      {
+        type: "New",
+        content: "Add support for reponsive layout"
+      },
     ]
   },
   {
@@ -20,6 +72,10 @@ const log = [
       },
       {
         type: "New",
+        content: "Add global menu and list menu"
+      },
+      {
+        type: "New",
         content: "Complete states control of unit lists"
       }
     ]
@@ -29,16 +85,16 @@ const log = [
     date: "2021-07-04T00:00:00.000Z",
     detail: [
       {
+        type: "Global",
+        content: "Complete the architect of login page"
+      },
+      {
         type: "New",
         content: "Add multi-language support"
       },
       {
         type: "New",
         content: "Add token on verification"
-      },
-      {
-        type: "Global",
-        content: "Complete the architect of login page"
       }
     ]
   },
