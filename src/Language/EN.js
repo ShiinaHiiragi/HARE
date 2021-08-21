@@ -168,6 +168,7 @@ const list = {
       table: {
         "Global": {
           "SHIFT+/": "Toggle Shortcut Dialogue",
+          "SHIFT+1": "Toggle Volumn Dialogue",
           "TAB": "Move Focus",
           "F11": "Toggle Full Screen",
           "ESC": "Back to Cover Page"
@@ -203,10 +204,14 @@ const list = {
       tel: "TEL",
       city: "City"
     },
-    katex: {
-      title: "Inline Math",
-      text: "Input LaTeX in the textfield and preview the result.",
-      label: "LaTeX Code"
+    volumn: {
+      title: "Volumn Limit of Current Account",
+      table: {
+        maxUnit: "Group",
+        maxPage: "Booklet",
+        maxItem: "Entry",
+        maxImg: "Gallery"
+      }
     },
     about: {
       title: "About HARE",

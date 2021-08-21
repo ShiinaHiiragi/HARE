@@ -106,6 +106,7 @@ export default function Panel(props) {
   React.useEffect(() => {
     packedRequest("GET/data/profile")
       .then((res) => {
+        console.log(res);
         setProfile({
           userName: res.username,
           email: res.email,
@@ -222,7 +223,11 @@ export default function Panel(props) {
   }, [matches]);
 
   return (
-    <PanelContext.Provider value={{ lang: globalLang, request: packedRequest }}>
+    <PanelContext.Provider value={{
+      lang: globalLang,
+      request: packedRequest,
+      range: range
+    }}>
       <Root>
         <CssBaseline />
         <NavBar

@@ -162,6 +162,7 @@ const list = {
       table: {
         "全局": {
           "SHIFT+/": "唤出快捷键页面",
+          "SHIFT+1": "唤出容量界面",
           "TAB": "移动焦点",
           "F11": "全屏",
           "ESC": "回到上一级"
@@ -197,10 +198,14 @@ const list = {
       tel: "电话",
       city: "城市"
     },
-    katex: {
-      title: "公式",
-      text: "在文本框输入 LaTeX 公式并在下方预览。",
-      label: "LaTeX 公式"
+    volumn: {
+      title: "当前帐号容量",
+      table: {
+        maxUnit: "记忆组",
+        maxPage: "记忆册",
+        maxItem: "词条",
+        maxImg: "画廊图片"
+      }
     },
     about: {
       title: "关于 HARE",
