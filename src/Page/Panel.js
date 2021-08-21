@@ -117,7 +117,8 @@ export default function Panel(props) {
         setRange({
           maxUnit: res.maxunit,
           maxPage: res.maxpage,
-          maxItem: res.maxitem
+          maxItem: res.maxitem,
+          maxImg: res.maximg
         });
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps

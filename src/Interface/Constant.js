@@ -27,10 +27,10 @@ const maxPresentLength = 512;
 const maxImageBase = 1398101;
 const maxItemByte = 32768;
 // the server receive up to 1.5 MB per request
-// each user stores data no more than 3 ~ 4 GB
+// each user stores data no more than 2 ~ 2.4 GB
 // image: less than 1.33 MB, equaling to image of 1MB
-// entry: 16 units × 16 pages × 64 entries × 32 KB = 0.5 GB
-// graphic： 16 units × 16 pages × 8 images × 1MB = 2 GB
+// entry: 8 units × 16 pages × 64 entries × 32 KB = 0.25 GB
+// graphic： 8 units × 16 pages × 16 images × 1MB = 2 GB
 export {
   maxRecall,
   maxLog,
@@ -64,7 +64,7 @@ export { drawerWidth, routeIndex, pageIcon };
 const initialDate = "2019-12-31T16:00:00.000Z";
 const initMenu = { mouseX: null, mouseY: null };
 const defaultProfile = { userName: "", email: "", gender: "U", birth: initialDate, city: "", tel: "" };
-const defaultRange = { maxUnit: 16, maxPage: 16, maxItem: 64 };
+const defaultRange = { maxUnit: 8, maxPage: 16, maxItem: 64, maxImg: 16 };
 const defaultPageDetail = { pageCreateTime: initialDate, itemSize: 0, trackSize: 0, timeThis: null };
 const defaultCurrentSelect = { pageName: "HARE", pagePresent: "", route: routeIndex.intro };
 const defaultColumn = (langGrid) => [
