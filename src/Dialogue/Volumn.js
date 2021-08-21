@@ -38,10 +38,10 @@ export default function Volumn(props) {
           <Table className={classes.table} size="small">
             <TableHead>
               <TableRow>
-                <TableCell align="center">{table.maxUnit}</TableCell>
-                <TableCell align="center">{table.maxPage}</TableCell>
-                <TableCell align="center">{table.maxItem}</TableCell>
-                <TableCell align="center">{table.maxImg}</TableCell>
+                <TableCell align="center" style={{ width: "25%" }}>{table.maxUnit}</TableCell>
+                <TableCell align="center" style={{ width: "25%" }}>{table.maxPage}</TableCell>
+                <TableCell align="center" style={{ width: "25%" }}>{table.maxItem}</TableCell>
+                <TableCell align="center" style={{ width: "25%" }}>{table.maxImg}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -50,6 +50,25 @@ export default function Volumn(props) {
                 <TableCell align="center">{context.range.maxPage}</TableCell>
                 <TableCell align="center">{context.range.maxItem}</TableCell>
                 <TableCell align="center">{context.range.maxImg}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+
+          <Table className={classes.table} size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" style={{ width: "25%" }}>{table.recall}</TableCell>
+                <TableCell align="center" style={{ width: "25%" }}>{table.image}</TableCell>
+                <TableCell align="center" style={{ width: "25%" }}>{table.item}</TableCell>
+                <TableCell align="center" style={{ width: "25%" }}>{table.request}</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell align="center">{"64"}</TableCell>
+                <TableCell align="center">{"1024 KB"}</TableCell>
+                <TableCell align="center">{"32 KB"}</TableCell>
+                <TableCell align="center">{"1536 KB"}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

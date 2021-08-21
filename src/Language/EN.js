@@ -210,7 +210,11 @@ const list = {
         maxUnit: "Group",
         maxPage: "Booklet",
         maxItem: "Entry",
-        maxImg: "Gallery"
+        maxImg: "Gallery",
+        recall: "Recall",
+        image: "Image",
+        item: "Entry Request",
+        request: "Request Body"
       }
     },
     about: {

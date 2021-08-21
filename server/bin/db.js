@@ -34,14 +34,34 @@ exports.dbInitialize = (clearAll) => new Promise((resolve, reject) => {
 });
 
 exports.exec = (cmdLine) => new Promise((resolve, reject) => {
+  // preprocessing
   if (cmdLine[0] === '') cmdLine.shift();
   if (cmdLine[cmdLine.length - 1] === '') cmdLine.pop();
+
   if (cmdLine[0] === 'sign') {
     api.checkRegister(cmdLine)
       .then((newLine) => insertUser(newLine, resolve, reject))
       .catch(reject);
   } else if (cmdLine[0] === 'view') {
-    viewTable(cmdLine, resolve, reject);
+    if (Object.keys(setting.schema).find((item) =>
+      item.toLowerCase() === cmdLine[1].toLowerCase())) {
+      query(`select * from ${cmdLine[1]}`).then((out) => {
+        console.log(out);
+        resolve(out);
+      }).catch(reject)
+    } else reject('ERROR: Nonexistent schema.');
+  } else if (cmdLine[0] === 'cap') {
+    const userID = Number(cmdLine[2]), delta = Number(cmdLine[3])
+    if (cmdLine.length < 4) {
+      reject('ERROR: too few arguments.\n  Try using cap <schema> <userID> <addition>');
+    } else if (['unit', 'page', 'item', 'img'].includes(cmdLine[1].toLowerCase())
+      && !isNaN(delta)) {
+      query(`begin; update userSetting set max${cmdLine[1]} = max${cmdLine[1]} + (${delta})
+        where userID = ${userID}; update userSetting set max${cmdLine[1]} = 0
+        where max${cmdLine[1]} < 0; commit;`)
+        .then(resolve)
+        .catch(reject);
+    } else reject('ERROR: Invalid argument.');
   } else if (cmdLine[0] === 'sql') {
     cmdLine.shift();
     query(cmdLine.join(' '))
@@ -69,15 +89,6 @@ const insertUser = (cmdLine, onsuccess, onerror) => {
       console.log(`INSERT userID: ${returnUserID}`);
       onsuccess();
     }).catch(onerror);
-}
-
-const viewTable = (cmdLine, onsuccess, onerror) => {
-  if (Object.keys(setting.schema).find((item) => item === cmdLine[1]))
-    query(`select * from ${cmdLine[1]}`).then((out) => {
-      console.log(out);
-      onsuccess(out);
-    }).catch(onerror)
-  else onerror('ERROR: Nonexistent schema.');
 }
 
 // db api for profile and avatar extent request

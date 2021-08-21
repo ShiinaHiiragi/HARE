@@ -204,7 +204,11 @@ const list = {
         maxUnit: "记忆组",
         maxPage: "记忆册",
         maxItem: "词条",
-        maxImg: "画廊图片"
+        maxImg: "画廊图片",
+        recall: "回忆记录",
+        image: "单张图片",
+        item: "单个词条",
+        request: "单个请求体"
       }
     },
     about: {

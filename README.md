@@ -18,7 +18,21 @@
 
 ### 1.2 数据库
 
-- PostgreSQL
+1. 数据库命令行
+
+    - 注册 `sign <email> <username> <password>`
+        - 大小写敏感，不能含有空格
+    - 查看 `view <schema>`：
+        - `schema` 忽略大小写，必须是下面列出的某个模式
+    - 扩容 `cap <schema> <userID> <addition>`
+        - `schema` 忽略大小写，必须是 `'unit', 'page', 'item', 'img'` 中的某个
+        - `addition` 可以是负数
+    - 查询 `sql <sql>`
+        - 不能换行，最终用 `query` 函数执行
+    - 执行 `eval <eval>`
+        - 不能换行，最终用 `eval` 函数执行
+
+2. PostgreSQL 模式
 
     ```sql
     create table userInfo(
