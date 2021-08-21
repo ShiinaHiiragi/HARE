@@ -1,6 +1,16 @@
 // type enum = ["Global", "New", "Remove", "Change", "Fix"]
 const log = [
   {
+    version: "1.1.0",
+    date: "2021-08-21T00:00:00.000Z",
+    detail: [
+      {
+        type: "New",
+        content: "Add update log in about dialogue"
+      },
+    ]
+  },
+  {
     version: "1.0.0",
     date: "2021-08-06T00:00:00.000Z",
     detail: [
@@ -10,7 +20,7 @@ const log = [
       },
       {
         type: "New",
-        content: "Add 404 page"
+        content: "Add 404 page alone"
       },
       {
         type: "New",
@@ -85,7 +95,7 @@ const log = [
     date: "2021-07-04T00:00:00.000Z",
     detail: [
       {
-        type: "Global",
+        type: "New",
         content: "Complete the architect of login page"
       },
       {
