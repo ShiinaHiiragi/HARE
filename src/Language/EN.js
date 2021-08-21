@@ -210,9 +210,10 @@ const list = {
     },
     about: {
       title: "About HARE",
-      tab: ["Information", "Help"],
+      tab: ["Information", "Log", "Help"],
       header: ["Dependency", "Description", "Version"],
       copyTip: "Copy to Clipboard",
+      timeFormatString: "MM/dd yyyy",
       info: {
         "Node.js": ["Script for Server", "12.15.4"],
         "Express.js": ["Node.js Server", "4.16.1"],

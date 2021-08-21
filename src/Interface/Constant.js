@@ -5,6 +5,7 @@ import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
 import AlarmOutlinedIcon from "@material-ui/icons/AlarmOutlined";
 import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
+import log from "../Language/Log";
 
 // used for distinguishing dev and release mode
 const isDevMode = window.location.port === "3000";
@@ -13,8 +14,8 @@ export { isDevMode, requestURL };
 
 // the information of the autor
 const author = "Ichinoe";
-const version = "1.0.0";
 const email = "IchinoeMizue@outlook.com";
+const version = log[0].version;
 export { author, version, email };
 
 // some constants about limit volumn

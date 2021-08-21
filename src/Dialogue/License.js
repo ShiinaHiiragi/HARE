@@ -22,7 +22,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
 import copy from "copy-to-clipboard";
-import { author, version, email, requestURL } from "../Interface/Constant";
+import log from "../Language/Log";
+import { author, version, email, requestURL, timeFormat } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -64,6 +65,18 @@ const useStyles = makeStyles((theme) => ({
   notLargeAvatar: {
     width: theme.spacing(8),
     height: theme.spacing(8)
+  },
+  logs: {
+    alignSelf: "flex-start",
+    padding: theme.spacing(0, 4),
+    width: "100%",
+    overflow: "auto"
+  },
+  log: {
+    margin: theme.spacing(1, 0)
+  },
+  subLog: {
+    padding: theme.spacing(0, 2)
   }
 }));
 
@@ -149,9 +162,10 @@ export default function License(props) {
       >
         <Tab label={lang.popup.about.tab[0]} />
         <Tab label={lang.popup.about.tab[1]} />
+        <Tab label={lang.popup.about.tab[2]} />
       </Tabs>
       {(function () {
-        if (tab === 0)
+        if (tab < 2) {
           return (
             <DialogContent className={classes.content}>
               <div className={classes.author}>
@@ -184,7 +198,7 @@ export default function License(props) {
                   </Tooltip>
                 </div>
               </div>
-              {withTab && (
+              {tab === 0 ? (withTab && (
                 <TableContainer className={classes.tableField}>
                   <Table className={classes.table} size="small">
                     <TableHead>
@@ -216,10 +230,39 @@ export default function License(props) {
                     </TableBody>
                   </Table>
                 </TableContainer>
+              )) : (
+                <div className={classes.logs}>
+                  {log.map((item, index) => (
+                    <div key={index} className={classes.log}>
+                      <div>
+                        <Typography component="span" variant="subtitle1">
+                          {item.version}
+                        </Typography>
+                        <Typography component="span" variant="subtitle1" color="textSecondary">
+                          {" ("}
+                          {timeFormat(new Date(item.date), lang.popup.about.timeFormatString)}
+                          {")"}
+                        </Typography>
+                      </div>
+                      {item.detail.map((subItem, subIndex) => (
+                        <div key={subIndex} className={classes.subLog}>
+                          <Typography variant="subtitle2" component="span">
+                            {subItem.type}
+                          </Typography>
+                          {"　"}
+                          <Typography variant="body2" component="span">
+                            {subItem.content}
+                          </Typography>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               )}
             </DialogContent>
           );
-        else
+        }
+        else {
           return (
             <DialogContent>
               {Object.keys(helpObject).map((item, index) => (
@@ -246,6 +289,7 @@ export default function License(props) {
               ))}
             </DialogContent>
           );
+        }
       })()}
       <DialogActions>
         <Button onClick={handleClose} color="primary">
