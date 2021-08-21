@@ -19,7 +19,14 @@ import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
 import { PanelContext } from "../Page/Panel";
-import { stringFormat, cookieTime, underline, emSpace } from "../Interface/Constant";
+import {
+  stringFormat,
+  cookieTime,
+  underline,
+  emSpace,
+  byteSize,
+  maxItemByte
+} from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -220,6 +227,10 @@ export default function NewItem(props) {
       handle.toggleMessageBox(context.lang.message.invalidItemID, "warning");
       return;
     } else setItemIDCheck(false);
+    if (byteSize(query) + byteSize(key) > maxItemByte) {
+      handle.toggleMessageBox(context.lang.message.itemOverflow, "warning");
+      return;
+    }
     if (!state.editItem && !editKey) setApply(true);
     else if (!state.editItem) submitNew();
     else submitEdit();

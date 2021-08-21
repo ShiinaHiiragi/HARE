@@ -25,9 +25,21 @@ const maxFrequency = 16;
 const maxNameLength = 16;
 const maxPresentLength = 512;
 const maxImageBase = 1398101;
-// about 4/3 MB, equaling to image of 1MB
-// the server receive up to 3/2 MB (about 1572864) 
-export { maxRecall, maxLog, maxFrequency, maxNameLength, maxPresentLength, maxImageBase };
+const maxItemByte = 32768;
+// the server receive up to 1.5 MB per request
+// each user stores data no more than 3 ~ 4 GB
+// image: less than 1.33 MB, equaling to image of 1MB
+// entry: 16 units × 16 pages × 64 entries × 32 KB = 0.5 GB
+// graphic： 16 units × 16 pages × 8 images × 1MB = 2 GB
+export {
+  maxRecall,
+  maxLog,
+  maxFrequency,
+  maxNameLength,
+  maxPresentLength,
+  maxImageBase,
+  maxItemByte
+};
 
 // some constants about agreement configuration
 const defaultDigit = 2;
@@ -106,7 +118,8 @@ const cookieTime = (daysCount) =>
   new Date(new Date().getTime() + daysCount * (24 * 3600 * 1000));
 const getRank = (value) => value < 72 ? "D" : value < 84 ? "C"
   : value < 92 ? "B" : value < 96 ? "A" : value < 100 ? "S" : "X";
-export { nil, next, cookieTime, randomTimestamp, getRank};
+const byteSize = str => new Blob([str]).size;
+export { nil, next, cookieTime, randomTimestamp, getRank, byteSize };
 
 // function about formatting
 const stringFormat = (rawString, replaceArray) => {
