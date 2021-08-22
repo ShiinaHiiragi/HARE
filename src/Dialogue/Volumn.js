@@ -58,17 +58,17 @@ export default function Volumn(props) {
             <TableHead>
               <TableRow>
                 <TableCell align="center" style={{ width: "25%" }}>{table.recall}</TableCell>
-                <TableCell align="center" style={{ width: "25%" }}>{table.image}</TableCell>
-                <TableCell align="center" style={{ width: "25%" }}>{table.item}</TableCell>
                 <TableCell align="center" style={{ width: "25%" }}>{table.request}</TableCell>
+                <TableCell align="center" style={{ width: "25%" }}>{table.item}</TableCell>
+                <TableCell align="center" style={{ width: "25%" }}>{table.image}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell align="center">{"64"}</TableCell>
-                <TableCell align="center">{"1024 KB"}</TableCell>
-                <TableCell align="center">{"32 KB"}</TableCell>
                 <TableCell align="center">{"1536 KB"}</TableCell>
+                <TableCell align="center">{"32 KB"}</TableCell>
+                <TableCell align="center">{"1024 KB"}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

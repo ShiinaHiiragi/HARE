@@ -116,8 +116,12 @@ const next = () => new Promise((resolve) => resolve);
 const randomTimestamp = () => CryptoJS.MD5(new Date().toString()).toString();
 const cookieTime = (daysCount) =>
   new Date(new Date().getTime() + daysCount * (24 * 3600 * 1000));
-const getRank = (value) => value < 72 ? "D" : value < 84 ? "C"
-  : value < 92 ? "B" : value < 96 ? "A" : value < 100 ? "S" : "X";
+const rankMap = { "X": "A", "S": "B", "A": "C", "B": "D", "C": "E", "D": "F" };
+const getRank = (value, toLow) => {
+  const rank = value < 72 ? "D" : value < 84 ? "C" : value < 92 ?
+    "B" : value < 96 ? "A" : value < 100 ? "S" : "X";
+  return toLow ? rankMap[rank] : rank;
+}
 const byteSize = str => new Blob([str]).size;
 export { nil, next, cookieTime, randomTimestamp, getRank, byteSize };
 
