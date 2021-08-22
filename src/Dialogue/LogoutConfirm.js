@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LogoutComfirm(props) {
   const classes = useStyles();
-  const { open, userID, handleClose, handleToggleMessageBox } = props;
+  const { open, handleClose } = props;
   const context = React.useContext(PanelContext);
 
   const logout = () => {

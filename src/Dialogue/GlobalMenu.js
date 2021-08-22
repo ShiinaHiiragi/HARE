@@ -106,6 +106,7 @@ export default function GlobalMenu(props) {
       </MenuItem>
       <Password
         open={password}
+        email={state.email}
         handle={{
           close: () => setPassword(false),
           toggleMessageBox: handle.toggleMessageBox

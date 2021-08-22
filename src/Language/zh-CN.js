@@ -331,7 +331,8 @@ const list = {
     completeRecall: "成功完成本次回忆，您的正确率是 {0}%",
     completeRecollect: "成功完成本次回想，此次记录不会被上传。您的正确率是 {0}%，评级为 {1}",
     oldPasswordBlank: "请填写当前密码",
-    newPasswordRange: "新密码的长度超出范围"
+    newPasswordRange: "新密码的长度超出范围",
+    passwordChanged: "密码重置成功"
   },
   grid: {
     column: {

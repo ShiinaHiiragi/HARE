@@ -11,8 +11,14 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import { useTheme } from "@material-ui/core/styles";
 import { PanelContext } from "../Page/Panel";
-import { setStateDelay, stringFormat, rangePassword } from "../Interface/Constant";
+import {
+  setStateDelay,
+  stringFormat,
+  rangePassword,
+  encryptPassword
+} from "../Interface/Constant";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
@@ -28,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Password(props) {
   const classes = useStyles();
-  const { open, handle } = props;
+  const { open, email, handle } = props;
+  const theme = useTheme();
   const context = React.useContext(PanelContext);
 
   const [oldPassword, setOldPassword] = React.useState("");
@@ -61,6 +68,22 @@ export default function Password(props) {
       handle.toggleMessageBox(context.lang.message.newPasswordRange, "warning");
       return;
     }
+
+    const encryptedcurrent = encryptPassword(oldPassword, email);
+    const encryptedNew = encryptPassword(newPassword, email);
+    context.request("POST/set/password", {
+      password: encryptedcurrent,
+      newPassword: encryptedNew
+    })
+      .then(() => {
+        handle.close();
+        handle.toggleMessageBox(context.lang.message.passwordChanged, "success");
+      })
+      .catch((err) => {
+        if (err?.response?.status === 403) {
+          setOldCheck(true);
+        }
+      })
   };
 
   return (
@@ -85,7 +108,9 @@ export default function Password(props) {
           onChange={(event) => setOldPassword(event.target.value)}
         />
         <FormControl fullWidth className={classes.new}>
-          <InputLabel>{context.lang.popup.password.new}</InputLabel>
+          <InputLabel style={{ color: newCheck ? theme.palette.error.main : undefined }}>
+          {context.lang.popup.password.new}
+        </InputLabel>
           <Input
             type={show ? "text" : "password"}
             value={newPassword}

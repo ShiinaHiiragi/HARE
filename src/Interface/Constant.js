@@ -118,6 +118,7 @@ export {
 const nil = () => {};
 const next = () => new Promise((resolve) => resolve);
 const randomTimestamp = () => CryptoJS.MD5(new Date().toString()).toString();
+const encryptPassword = (password, email) => CryptoJS.SHA256(email + password).toString();
 const cookieTime = (daysCount) =>
   new Date(new Date().getTime() + daysCount * (24 * 3600 * 1000));
 const rankMap = { "X": "A", "S": "B", "A": "C", "B": "D", "C": "E", "D": "F" };
@@ -127,7 +128,15 @@ const getRank = (value, toLow) => {
   return toLow ? rankMap[rank] : rank;
 }
 const byteSize = str => new Blob([str]).size;
-export { nil, next, cookieTime, randomTimestamp, getRank, byteSize };
+export {
+  nil,
+  next,
+  encryptPassword,
+  cookieTime,
+  randomTimestamp,
+  getRank,
+  byteSize
+};
 
 // function about formatting
 const stringFormat = (rawString, replaceArray) => {

@@ -98,7 +98,7 @@ export default function Panel(props) {
       closeLoading: closeLoading
     };
     return split === 3 ? packedGET(params) : packedPOST(params);
-  }, [globalLang, userID]);
+  }, [globalLang, session]);
 
   // the sharing state of profile
   const [range, setRange] = React.useState(defaultRange);

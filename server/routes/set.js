@@ -17,6 +17,16 @@ router.post('/profile', (req, res) => {
     .then(() => api.noContent(res));
 });
 
+router.post('/password', (req, res) => {
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
+    .then(() => api.param(req.body, params, ['password'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
+    // .then(() => api.forbidden(res, 'Incorrect password.'))
+    .then(() => api.noContent(res));
+});
+
 router.post('/avatar', (req, res) => {
   const params = new Object();
   let typeReg = /^data:image\/(\w+);base64,/, basicPath;

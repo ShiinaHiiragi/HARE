@@ -7,13 +7,12 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
-import CryptoJS from "crypto-js";
 import cookie from "react-cookies";
 import SignUp from "../Dialogue/SignUp";
 import LanguageSelector from "../Dialogue/LanguageSelector";
 import Panel from "../Page/Panel";
 import requestURL from "../Interface/Constant";
-import { cookieTime } from "../Interface/Constant";
+import { cookieTime, encryptPassword } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -101,9 +100,7 @@ export default function SignInForm(props) {
       props.handle.toggleMessageBox(props.lang.message.signInBlank, "warning");
     } else {
       props.handle.toggleLoading();
-      const encryptedPassword = CryptoJS.SHA256(
-        value.email + value.password
-      ).toString();
+      const encryptedPassword = encryptPassword(value.password, value.email);
       setEmailCookie(memory, value.email);
 
       // we don't use packedPOST for it didn't check token

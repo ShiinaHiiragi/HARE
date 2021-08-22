@@ -337,7 +337,8 @@ const list = {
     completeRecall: "The recall has been completed successfully. Your accuracy is {0}%.",
     completeRecollect: "The recollection has been completed successfully and the record won't be upload to the server. Your accuracy is {0}%, ranked {1}.",
     oldPasswordBlank: "Please fill in the current password.",
-    newPasswordRange: "The size of new password is out of range."
+    newPasswordRange: "The size of new password is out of range.",
+    passwordChanged: "Your password has been changed successfully."
   },
   grid: {
     column: {

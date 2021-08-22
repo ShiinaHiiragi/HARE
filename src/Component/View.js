@@ -227,6 +227,7 @@ export default function View(props) {
         setNewItem(true);
       } else if (params.field === "id") toggleMove();
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiRef]);
 
   React.useEffect(() => {
