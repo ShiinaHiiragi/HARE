@@ -141,6 +141,12 @@ const list = {
       cover: "Choose a Icon for this Booklet",
       track: "Change Record Manually"
     },
+    password: {
+      title: "Change Password",
+      text: "Enter the current password and new password and click 'APPLY' to continue. The password should be between {0} ~ {1} characters.",
+      old: "Current Password",
+      new: "New Password"
+    },
     logout: {
       title: "Logout Confirmation",
       text: "You are attempting to quit your HARE account. Please click 'YES' to logout."
@@ -291,6 +297,7 @@ const list = {
   },
   menu: {
     editProfile: "Edit Profile",
+    changePassword: "Change Password",
     changeAvatar: "Change Avatar",
     changeLanguage: "Change Displaying Language",
     viewCopyright: "About HARE",
@@ -328,7 +335,9 @@ const list = {
     copyEmail: "The E-mail has been copied to your clipboard.",
     saveRecall: "The progress has been uploaded to server.",
     completeRecall: "The recall has been completed successfully. Your accuracy is {0}%.",
-    completeRecollect: "The recollection has been completed successfully and the record won't be upload to the server. Your accuracy is {0}%, ranked {1}."
+    completeRecollect: "The recollection has been completed successfully and the record won't be upload to the server. Your accuracy is {0}%, ranked {1}.",
+    oldPasswordBlank: "Please fill in the current password.",
+    newPasswordRange: "The size of new password is out of range."
   },
   grid: {
     column: {

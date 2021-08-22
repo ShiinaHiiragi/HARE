@@ -135,6 +135,12 @@ const list = {
       cover:  "为此记忆册选择一个图标",
       track: "手动修改记忆结果"
     },
+    password: {
+      title: "更换密码",
+      text: "输出当前密码和新密码，点击「应用」以继续。新密码长度在 {0} ~ {1} 字符之间。",
+      old: "当前密码",
+      new: "新密码"
+    },
     logout: {
       title: "退出登录确认",
       text: "您正准备退出 HARE 登录状态，请点击「确定」以登出。",
@@ -285,6 +291,7 @@ const list = {
   },
   menu: {
     editProfile: "编辑个人资料",
+    changePassword: "更换密码",
     changeAvatar: "更换头像",
     changeLanguage: "更换显示语言",
     viewCopyright: "关于",
@@ -323,6 +330,8 @@ const list = {
     saveRecall: "进度已被保存到服务器",
     completeRecall: "成功完成本次回忆，您的正确率是 {0}%",
     completeRecollect: "成功完成本次回想，此次记录不会被上传。您的正确率是 {0}%，评级为 {1}",
+    oldPasswordBlank: "请填写当前密码",
+    newPasswordRange: "新密码的长度超出范围"
   },
   grid: {
     column: {

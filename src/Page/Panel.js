@@ -106,7 +106,6 @@ export default function Panel(props) {
   React.useEffect(() => {
     packedRequest("GET/data/profile")
       .then((res) => {
-        console.log(res);
         setProfile({
           userName: res.username,
           email: res.email,

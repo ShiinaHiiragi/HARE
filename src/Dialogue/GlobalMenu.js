@@ -4,6 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import LanguageSelector from "./LanguageSelector";
 import License from "./License";
 import LogoutConfirm from "../Dialogue/LogoutConfirm";
+import Password from "./Password";
 import { PanelContext } from "../Page/Panel";
 import { maxImageBase } from "../Interface/Constant";
 
@@ -22,6 +23,7 @@ export default function GlobalMenu(props) {
   const [languageSelector, setLanguageSelector] = React.useState(false);
   const [license, setLicense] = React.useState(false);
   const [logout, setLogout] = React.useState(false);
+  const [password, setPassword] = React.useState(false);
 
   const uploadAvatar = (event) => {
     const targetImage = event.target.files;
@@ -65,6 +67,14 @@ export default function GlobalMenu(props) {
       >
         {context.lang.menu.editProfile}
       </MenuItem>
+      <MenuItem
+        onClick={() => {
+          setPassword(true);
+          handle.close();
+        }}
+      >
+        {context.lang.menu.changePassword}
+      </MenuItem>
       <MenuItem component="label" onClick={handle.close}>
         {context.lang.menu.changeAvatar}
         <input type="file" accept="image/*" onChange={uploadAvatar} hidden />
@@ -94,6 +104,13 @@ export default function GlobalMenu(props) {
       >
         {context.lang.menu.logout}
       </MenuItem>
+      <Password
+        open={password}
+        handle={{
+          close: () => setPassword(false),
+          toggleMessageBox: handle.toggleMessageBox
+        }}
+      />
       <LanguageSelector
         open={languageSelector}
         handleClose={(targetValue) => {
