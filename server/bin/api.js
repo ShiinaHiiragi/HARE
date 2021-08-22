@@ -121,6 +121,7 @@ paramMap = {
   bool: 'boolean',
   email: 'string',
   password: 'string',
+  newPassword: 'string',
   userName: 'string',
   unitName: 'string',
   pageName: 'string',
@@ -159,7 +160,8 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
         if ((['userName', 'unitName', 'pageName', 'tel', 'city'].includes(keyName) &&
           paramString.length > maxNameLength) ||
           (keyName === 'email' && paramString.length > maxEmailLength) ||
-          (keyName === 'password' && paramString.length > maxPasswordLength) ||
+          (keyName === 'password' && paramString.length !== maxPasswordLength) ||
+          (keyName === 'newPassword' && paramString.length !== maxPasswordLength) ||
           (keyName === 'pagePresent' && paramString.length > maxPresentLength))
           { invalid = true; break loop; }
         if ((keyName === 'gender' && !genderRange.includes(paramString)) ||

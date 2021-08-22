@@ -14,17 +14,19 @@ router.post('/profile', (req, res) => {
     .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.editProfile(params.userID, params.userName,
       params.birth, params.gender, params.tel, params.city))
-    .then(() => api.noContent(res));
+    .then(() => api.noContent(res))
+    .catch(() => api.internalServerError(res));
 });
 
 router.post('/password', (req, res) => {
   const params = new Object();
   api.param(req.cookies, params, ['userID', 'token', 'session'], res)
-    .then(() => api.param(req.body, params, ['password'], res))
+    .then(() => api.param(req.body, params, ['password', 'newPassword'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.checkSession(params.userID, params.session, res))
-    // .then(() => api.forbidden(res, 'Incorrect password.'))
-    .then(() => api.noContent(res));
+    .then(() => db.editPassword(params.userID, params.password, params.newPassword, res))
+    .then(() => api.noContent(res))
+    .catch(() => api.internalServerError(res));
 });
 
 router.post('/avatar', (req, res) => {

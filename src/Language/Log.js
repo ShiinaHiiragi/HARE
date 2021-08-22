@@ -6,6 +6,10 @@ const log = [
     detail: [
       {
         type: "New",
+        content: "Add interface for changing current password"
+      },
+      {
+        type: "New",
         content: "Add dialogue for checking remaining volumn"
       },
       {

@@ -107,6 +107,19 @@ exports.editProfile = (userID, userName, birth, gender, tel, city) =>
       .then(resolve).catch(reject)
   );
 
+exports.editPassword = (userID, password, newPassword, res) =>
+  new Promise((resolve, reject) => {
+    query(`select userID from userSetting where userID = ${userID} and password = '${password}'`)
+      .then((out) => {
+        if (out.length > 0) {
+          return query(`update userSetting set password = '${newPassword}'
+            where userID = ${userID}`);
+        } else api.forbidden(res, "Incorrect Password.");
+      })
+      .then(resolve)
+      .catch(reject);
+  });
+
 exports.getAvatarExtent = (userID) => new Promise((resolve, reject) => 
   query(`select avatar from userSetting where userID = ${userID}`)
   .then(resolve).catch(reject)
