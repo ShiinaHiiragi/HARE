@@ -6,6 +6,10 @@ const log = [
     detail: [
       {
         type: "New",
+        content: "Add menu item to change displaying of ranking letter"
+      },
+      {
+        type: "New",
         content: "Add interface for changing current password"
       },
       {
