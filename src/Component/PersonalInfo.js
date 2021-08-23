@@ -45,6 +45,7 @@ export default function PersonalInfo(props) {
           refreshAvatar: handle.refreshAvatar,
           initValue: handle.initValue,
           clearCheck: handle.clearCheck,
+          setLowRank: handle.setLowRank,
           close: () => setAnchorGlobalMenu(null)
         }}
       />

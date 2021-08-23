@@ -13,7 +13,7 @@ const colors = {
 }
 
 export default function Accuracy(props) {
-  const { value, times, anime } = props;
+  const { value, times, anime, lowRank } = props;
   const data = [
     { name: "D", value: Math.min(72, value) },
     { name: "C", value: Math.min(12, Math.max(0, value - 72)) },
@@ -57,7 +57,7 @@ export default function Accuracy(props) {
           color="textSecondary"
           style={{ fontSize: 72 * times }}
         >
-          {getRank(value)}
+          {console.log(value, lowRank) ?? getRank(value, lowRank)}
         </Typography>
       </Box>
     </Box>

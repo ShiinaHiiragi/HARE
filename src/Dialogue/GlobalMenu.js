@@ -1,4 +1,5 @@
 import React from "react";
+import cookie from "react-cookies";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import LanguageSelector from "./LanguageSelector";
@@ -6,7 +7,7 @@ import License from "./License";
 import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
 import { PanelContext } from "../Page/Panel";
-import { maxImageBase } from "../Interface/Constant";
+import { maxImageBase, stringFormat } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -86,6 +87,24 @@ export default function GlobalMenu(props) {
         }}
       >
         {context.lang.menu.changeLanguage}
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.close();
+          handle.setLowRank((lowRank) => {
+            cookie.save("lowRank", !lowRank);
+            handle.toggleMessageBox(
+              stringFormat(
+                context.lang.message.changeRank,
+                [lowRank ? "X ~ D" : "A ~ F"]
+              ),
+              "success"
+            );
+            return !lowRank;
+          });
+        }}
+      >
+        {context.lang.menu.changeRank}
       </MenuItem>
       <MenuItem
         onClick={() => {

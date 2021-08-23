@@ -116,6 +116,7 @@ export default function Main(props) {
       <MainPage index={routeIndex.stat} route={state.current.route}>
         <Statistics
           state={{
+            lowRank: state.lowRank,
             statInfo: state.statInfo,
             itemList: state.itemList,
             pageDetail: state.pageDetail,

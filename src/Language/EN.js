@@ -299,6 +299,7 @@ const list = {
     changePassword: "Change Password",
     changeAvatar: "Change Avatar",
     changeLanguage: "Change Displaying Language",
+    changeRank: "Change Display of Ranking",
     viewCopyright: "About HARE",
     logout: "Logout",
     fold: "Fold",
@@ -337,7 +338,8 @@ const list = {
     completeRecollect: "The recollection has been completed successfully and the record won't be upload to the server. Your accuracy is {0}%, ranked {1}.",
     oldPasswordBlank: "Please fill in the current password.",
     newPasswordRange: "The size of new password is out of range.",
-    passwordChanged: "Your password has been changed successfully."
+    passwordChanged: "Your password has been changed successfully.",
+    changeRank: "The display of rank has been changed to {0}"
   },
   grid: {
     column: {

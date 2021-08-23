@@ -65,6 +65,7 @@ export default function NavList(props) {
           changeGlobalLang: handle.changeGlobalLang,
           refreshAvatar: refreshAvatar,
           initValue: initValue,
+          setLowRank: handle.setLowRank,
           clearCheck: clearCheck
         }}
       />

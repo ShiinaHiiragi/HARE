@@ -293,6 +293,7 @@ const list = {
     changePassword: "更换密码",
     changeAvatar: "更换头像",
     changeLanguage: "更换显示语言",
+    changeRank: "更换评级表示",
     viewCopyright: "关于",
     logout: "退出登录",
     fold: "折叠",
@@ -331,7 +332,8 @@ const list = {
     completeRecollect: "成功完成本次回想，此次记录不会被上传。您的正确率是 {0}%，评级为 {1}",
     oldPasswordBlank: "请填写当前密码",
     newPasswordRange: "新密码的长度超出范围",
-    passwordChanged: "密码重置成功"
+    passwordChanged: "密码重置成功",
+    changeRank: "评级表示已被切换为 {0}"
   },
   grid: {
     column: {

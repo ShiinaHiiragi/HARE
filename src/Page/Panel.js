@@ -57,6 +57,16 @@ export default function Panel(props) {
     cookie.save("lang", targetValue, { expires: cookieTime(3650) });
   };
 
+  // load cookie to seek some setting
+  const [lowRank, setLowRank] = React.useState(true);
+  React.useEffect(() => {
+    const storageRank = cookie.load("lowRank");
+    if (storageRank !== "true") {
+      setLowRank(false);
+      cookie.save("lowRank", false);
+    }
+  });
+
   // the setting of request
   const [kick, setKick] = React.useState(false);
   const [conflict, setConflict] = React.useState(false);
@@ -179,7 +189,7 @@ export default function Panel(props) {
       toggleMessageBox(
         stringFormat(
           globalLang.message.completeRecollect,
-          [accuracy.toFixed(2), getRank(accuracy)]
+          [accuracy.toFixed(2), getRank(accuracy, lowRank)]
         ),
         "info"
       );
@@ -261,6 +271,7 @@ export default function Panel(props) {
             submitRecall: submitRecall,
             setListObject: setListObject,
             setStatInfo: setStatInfo,
+            setLowRank: setLowRank,
             setProfile: setProfile
           }}
         />
@@ -274,6 +285,7 @@ export default function Panel(props) {
             recollect: recollect,
             itemList: itemList,
             statInfo: statInfo,
+            lowRank: lowRank,
             pageDetail: pageDetail
           }}
           handle={{

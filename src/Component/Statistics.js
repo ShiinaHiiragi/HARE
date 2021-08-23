@@ -361,6 +361,7 @@ export default function Statistics(props) {
             anime={anime}
             times={0.92}
             value={(averagePure / itemSize) * 100}
+            lowRank={state.lowRank}
           />
           <div className={classes.textField}>
             <Typography variant="h6">
@@ -499,6 +500,7 @@ export default function Statistics(props) {
               anime={anime}
               times={0.75}
               value={(item.pure / itemSize) * 100}
+              lowRank={state.lowRank}
             />
             <div className={classes.textField}>
               <Typography variant="h6">
