@@ -24,7 +24,8 @@ import {
   routeIndex,
   defaultDigit,
   setStateDelay,
-  maxFrequency
+  maxFrequency,
+  maxRecall
 } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -144,11 +145,26 @@ export default function Statistics(props) {
   React.useEffect(() => {
     if (state.current.route === routeIndex.stat) {
       setAnime(Math.random());
-      setExpandAll(false);
-      setExpandEach(new Array(state.pageDetail.trackSize).fill(false));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.current.route]);
+  
+  React.useEffect(() => {
+    const pageJump = state.current.prevRoute === -1;
+    const quitStat = state.current.prevRoute === routeIndex.stat;
+    if (pageJump || quitStat) {
+      setTimeout(() => {
+        setExpandAll(false);
+        setExpandEach(new Array(maxRecall).fill(false));
+      }, pageJump ? 0 : setStateDelay);
+    }
+    if (pageJump) {
+      setLostAll([]);
+      setLostEach(() => new Array(maxRecall).fill().map(() => []));
+    }
+  // if any of (unitID, pageID, route) change, than the page change
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.current.unitID, state.current.pageID, state.current.route]);
 
   const [deleteID, setDeleteID] = React.useState(0);
   const [deleteConfirm, setDeleteConfirm] = React.useState(false);
@@ -259,13 +275,6 @@ export default function Statistics(props) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expandAll, context.lang]);
-
-  React.useEffect(() => {
-    setExpandAll(false);
-    setExpandEach(new Array(state.pageDetail.trackSize).fill(false));
-    setLostAll([]);
-    setLostEach(() => new Array(state.pageDetail.trackSize).fill().map(() => []));
-  }, [state.current.unitID, state.current.pageID, state.pageDetail.trackSize]);
 
   const toggleDelete = (trackID) => {
     setDeleteID(trackID);

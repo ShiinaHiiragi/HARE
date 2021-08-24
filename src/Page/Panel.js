@@ -152,7 +152,6 @@ export default function Panel(props) {
   const [pageDetail, setPageDetail] = React.useState(defaultPageDetail);
   const [currentSelect, setCurrentSelect] = React.useState(defaultCurrentSelect);
 
-  console.log(currentSelect.prevRoute + " → " + currentSelect.route);
   // ATTENTION: we don't need pass setCurrentSelect to child node because of
   // the effect hook; but we need to pass setRoute because the change on route
   // don't update listObject immediately
