@@ -37,6 +37,7 @@ const list = {
       recall: "Recall",
       view: "View Items",
       stat: "Statistics",
+      gallery: "Gallery",
       nilPresent: "No Description"
     },
     recall: {

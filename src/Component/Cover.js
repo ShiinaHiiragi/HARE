@@ -5,6 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ViewCompactOutlinedIcon from "@material-ui/icons/ViewCompactOutlined";
 import DataUsageOutlinedIcon from "@material-ui/icons/DataUsageOutlined";
+import ViewCarouselOutlinedIcon from "@material-ui/icons/ViewCarouselOutlined";
 import ClearConfirm from "../Dialogue/ClearComfirm";
 import { PanelContext } from "../Page/Panel";
 import {
@@ -57,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonField: {
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    flexWrap: "wrap"
   },
   button: {
     flexGrow: 1,
@@ -191,6 +193,14 @@ export default function Cover(props) {
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">
               {context.lang.panel.cover.stat}
+            </Typography>
+          </div>
+          <div className={classes.button}>
+            <IconButton onClick={() => {}}>
+              <ViewCarouselOutlinedIcon fontSize="large" />
+            </IconButton>
+            <Typography variant="button" color="textSecondary" align="center">
+              {context.lang.panel.cover.gallery}
             </Typography>
           </div>
         </div>

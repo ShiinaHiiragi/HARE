@@ -37,6 +37,7 @@ const list = {
       recall: "回忆",
       view: "查看词条",
       stat: "统计信息",
+      gallery: "画廊",
       nilPresent: "没有描述"
     },
     recall: {

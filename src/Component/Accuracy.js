@@ -57,7 +57,7 @@ export default function Accuracy(props) {
           color="textSecondary"
           style={{ fontSize: 72 * times }}
         >
-          {console.log(value, lowRank) ?? getRank(value, lowRank)}
+          {getRank(value, lowRank)}
         </Typography>
       </Box>
     </Box>
