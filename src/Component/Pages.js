@@ -215,24 +215,25 @@ export default function Pages(props) {
 
   const pageClick = (unitID, pageID) => {
     // clear the previous selected state first
-    let prevUnit = state.listObject.find((item) => item.selected),
-      prevPage;
-    if (prevUnit) {
-      prevUnit.selected = false;
-      prevPage = prevUnit.pages.find((item) => item.selected);
+    const prevUnit = state.listObject.find((item) => item.selected);
+    const prevPage = prevUnit?.pages.find?.((item) => item.selected);
+    const samePage = prevUnit?.unitID === unitID && prevPage?.pageID === pageID;
+    
+    if (state.navListMobile) handle.closeNavListMobile();
+    if (!samePage) {
+      if (prevUnit) prevUnit.selected = false;
+      if (prevPage) prevPage.selected = false;
     }
-    if (prevPage) {
-      const samePage = prevUnit.unitID === unitID && prevPage.pageID === pageID;
+
+    if (prevPage)
       prevPage.route = samePage
         ? state.route
         : state.route !== routeIndex.recall
         ? state.route
         : 1;
-      prevPage.selected = false;
-      if (!samePage && state.route === routeIndex.recall)
-        handle.submitRecall(prevUnit.unitID, prevPage.pageID);
-    }
-    if (state.navListMobile) handle.closeNavListMobile();
+    if (!samePage && state.route === routeIndex.recall)
+      handle.submitRecall(prevUnit.unitID, prevPage.pageID);
+    
     if (state.listObject[unitID - 1].pages[pageID - 1].route === routeIndex.stat)
       context.request("GET/data/stat", {
         unitID: unitID,

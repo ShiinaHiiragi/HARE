@@ -152,12 +152,14 @@ export default function Panel(props) {
   const [pageDetail, setPageDetail] = React.useState(defaultPageDetail);
   const [currentSelect, setCurrentSelect] = React.useState(defaultCurrentSelect);
 
+  console.log(currentSelect.prevRoute + " → " + currentSelect.route);
   // ATTENTION: we don't need pass setCurrentSelect to child node because of
   // the effect hook; but we need to pass setRoute because the change on route
   // don't update listObject immediately
-  const setCurrentRoute = (target) =>
+  const setCurrentRoute = (target) => 
     setCurrentSelect((currentSelect) => ({
       ...currentSelect,
+      prevRoute: currentSelect.route,
       route: target
     }));
   React.useEffect(() => {
@@ -166,6 +168,8 @@ export default function Panel(props) {
     if (selectedUnit)
       selectedPage = selectedUnit.pages.find((item) => item.selected);
     if (selectedPage) {
+      const samePage = (selectedUnit.unitID === currentSelect.unitID
+        && selectedPage.pageID === currentSelect.pageID);
       setCurrentSelect((currentSelect) => ({
         unitID: selectedUnit.unitID,
         unitName: selectedUnit.unitName,
@@ -173,10 +177,8 @@ export default function Panel(props) {
         pageName: selectedPage.pageName,
         pageCover: selectedPage.pageCover,
         pagePresent: selectedPage.pagePresent,
-        route: (selectedUnit.unitID === currentSelect.unitID
-          && selectedPage.pageID === currentSelect.pageID)
-          ? currentSelect.route
-          : selectedPage.route
+        prevRoute: samePage ? currentSelect.prevRoute : -1,
+        route: samePage ? currentSelect.route : selectedPage.route
       }));
     } else setCurrentSelect(defaultCurrentSelect);
   }, [listObject]);

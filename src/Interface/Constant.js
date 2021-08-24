@@ -70,7 +70,12 @@ const initMenu = { mouseX: null, mouseY: null };
 const defaultProfile = { userName: "", email: "", gender: "U", birth: initialDate, city: "", tel: "" };
 const defaultRange = { maxUnit: 8, maxPage: 16, maxItem: 64, maxImg: 16 };
 const defaultPageDetail = { pageCreateTime: initialDate, itemSize: 0, trackSize: 0, timeThis: null };
-const defaultCurrentSelect = { pageName: "HARE", pagePresent: "", route: routeIndex.intro };
+const defaultCurrentSelect = {
+  pageName: "HARE",
+  pagePresent: "",
+  prevRoute: -1,
+  route: routeIndex.intro
+};
 const defaultColumn = (langGrid) => [
   {
     field: "id",
