@@ -8,6 +8,7 @@ import Cover from "../Component/Cover";
 import View from "../Component/View";
 import Statistics from "../Component/Statistics";
 import Recall from "../Component/Recall";
+import Gallery from "../Component/Gallery";
 import { routeIndex } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 
@@ -148,6 +149,15 @@ export default function Main(props) {
             setCurrentRoute: handle.setCurrentRoute,
             setRecall: handle.setRecall,
             submitRecall: handle.submitRecall
+          }}
+        />
+      </MainPage>
+      <MainPage index={routeIndex.gallery} route={state.current.route}>
+        <Gallery
+          state={{
+          }}
+          handle={{
+            setCurrentRoute: handle.setCurrentRoute
           }}
         />
       </MainPage>

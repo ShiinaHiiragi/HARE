@@ -61,7 +61,9 @@ export default function Panel(props) {
   const [lowRank, setLowRank] = React.useState(true);
   React.useEffect(() => {
     const storageRank = cookie.load("lowRank");
-    if (storageRank !== "true") {
+    if (storageRank === undefined) {
+      cookie.save("lowRank", true);
+    } else if (storageRank !== "true") {
       setLowRank(false);
       cookie.save("lowRank", false);
     }

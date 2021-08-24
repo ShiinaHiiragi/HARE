@@ -54,7 +54,7 @@ export { defaultDigit, setStateDelay, underline, emSpace };
 
 // the info about user interface
 const drawerWidth = 320;
-const routeIndex = { intro: 0, cover: 1, view: 2, stat: 3, recall: 4 };
+const routeIndex = { intro: 0, cover: 1, view: 2, stat: 3, recall: 4, gallery: 5 };
 const pageIcon = (iconProps) => [
   <TurnedInNotIcon {...iconProps} />,
   <PlaylistAddCheckIcon {...iconProps} />,

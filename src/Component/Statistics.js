@@ -137,17 +137,16 @@ export default function Statistics(props) {
   const [barData, setBarData] = React.useState([]);
   const [graph, setGraph] = React.useState("line");
 
+  const [lostAll, setLostAll] = React.useState(false);
+  const [lostEach, setLostEach] = React.useState([]);
   const [expandAll, setExpandAll] = React.useState(false);
   const [expandEach, setExpandEach] = React.useState([]);
   React.useEffect(() => {
     if (state.current.route === routeIndex.stat) {
       setAnime(Math.random());
-    } else {
-      setTimeout(() => {
-        setExpandAll(false);
-        setExpandEach(new Array(state.pageDetail.trackSize).fill(false));
-      }, setStateDelay);
-    };
+      setExpandAll(false);
+      setExpandEach(new Array(state.pageDetail.trackSize).fill(false));
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.current.route]);
 
@@ -264,6 +263,8 @@ export default function Statistics(props) {
   React.useEffect(() => {
     setExpandAll(false);
     setExpandEach(new Array(state.pageDetail.trackSize).fill(false));
+    setLostAll([]);
+    setLostEach(() => new Array(state.pageDetail.trackSize).fill().map(() => []));
   }, [state.current.unitID, state.current.pageID, state.pageDetail.trackSize]);
 
   const toggleDelete = (trackID) => {
@@ -418,7 +419,20 @@ export default function Statistics(props) {
               className={clsx(classes.expand, {
                 [classes.expandOpen]: expandAll,
               })}
-              onClick={() => setExpandAll((expandAll) => !expandAll)}
+              onClick={() => {
+                setExpandAll((expandAll) => !expandAll);
+                let lost = [];
+                state.itemList.forEach((item) => {
+                  for (let subItem in Object.keys(item)) {
+                    const times = Number(subItem);
+                    if (!isNaN(times) && item[times] === "F") {
+                      lost.push(item.id);
+                      break;
+                    }
+                  }
+                })
+                setLostAll(lost);
+              }}
             >
               <ExpandMoreIcon />
             </IconButton>
@@ -451,24 +465,15 @@ export default function Statistics(props) {
             <Button
               variant="outlined"
               color="primary"
+              disabled={!lostAll.length}
               startIcon={<CheckCircleOutlinedIcon />}
               style={{ borderRadius: 0, marginRight: 12 }}
               onClick={() => {
-                let lost = [];
-                state.itemList.forEach((item) => {
-                  for (let subItem in Object.keys(item)) {
-                    const times = Number(subItem);
-                    if (!isNaN(times) && item[times] === "F") {
-                      lost.push(item.id);
-                      break;
-                    }
-                  }
-                })
                 handle.setRecollect(true);
                 handle.setTimerInitial((lastValue) => [0, lastValue[1] + 1]);
                 handle.setRecall({
                   pure: [], far: [],
-                  lost: lost.sort((left, right) => left - right)
+                  lost: [...lostAll].sort((left, right) => left - right)
                 });
                 handle.setCurrentRoute(routeIndex.recall);
               }}
@@ -547,9 +552,19 @@ export default function Statistics(props) {
                 className={clsx(classes.expand, {
                   [classes.expandOpen]: expandEach[index],
                 })}
-                onClick={() => setExpandEach((expandEach) => 
-                  expandEach.map((item, subIndex) =>
-                    subIndex === index ? !item : item))}
+                onClick={() => {
+                  let lost = [];
+                  state.itemList.forEach((subItem) => {
+                    if (subItem[index + 1] === "F")
+                      lost.push(subItem.id);
+                  });
+                  setLostEach((lostEach) => lostEach.map((subItem, subIndex) => 
+                    index === subIndex ? lost : subItem
+                  ))
+                  setExpandEach((expandEach) => 
+                    expandEach.map((subItem, subIndex) =>
+                    subIndex === index ? !subItem : subItem));
+                }}
               >
                 <ExpandMoreIcon />
               </IconButton>
@@ -566,19 +581,15 @@ export default function Statistics(props) {
               <Button
                 variant="outlined"
                 color="primary"
+                disabled={!lostEach?.[index]?.length}
                 startIcon={<CheckCircleOutlinedIcon />}
                 style={{ borderRadius: 0, marginRight: 12 }}
                 onClick={() => {
-                  let lost = [];
-                  state.itemList.forEach((subItem) => {
-                    if (subItem[index + 1] === "F")
-                      lost.push(subItem.id);
-                  });
                   handle.setRecollect(true);
                   handle.setTimerInitial((lastValue) => [0, lastValue[1] + 1]);
                   handle.setRecall({
                     pure: [], far: [],
-                    lost: lost.sort((left, right) => left - right)
+                    lost: [...lostEach[index]].sort((left, right) => left - right)
                   });
                   handle.setCurrentRoute(routeIndex.recall);
                 }}

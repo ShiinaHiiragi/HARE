@@ -129,6 +129,15 @@ export default function Cover(props) {
     });
   };
 
+  const toggleGallery = () => {
+    // context.request("GET/data/gallery", {
+    //   unitID: state.current.unitID,
+    //   pageID: state.current.pageID,
+    // }).then((out) => {
+      handle.setCurrentRoute(routeIndex.gallery);
+    // });
+  };
+
   return (
     <div className={classes.root}>
       <Card className={classes.basicInfo}>
@@ -196,7 +205,7 @@ export default function Cover(props) {
             </Typography>
           </div>
           <div className={classes.button}>
-            <IconButton onClick={() => {}}>
+            <IconButton onClick={toggleGallery}>
               <ViewCarouselOutlinedIcon fontSize="large" />
             </IconButton>
             <Typography variant="button" color="textSecondary" align="center">

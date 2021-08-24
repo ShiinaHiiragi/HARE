@@ -223,7 +223,11 @@ export default function Pages(props) {
     }
     if (prevPage) {
       const samePage = prevUnit.unitID === unitID && prevPage.pageID === pageID;
-      prevPage.route = samePage ? state.route : state.route < 4 ? state.route : 1;
+      prevPage.route = samePage
+        ? state.route
+        : state.route !== routeIndex.recall
+        ? state.route
+        : 1;
       prevPage.selected = false;
       if (!samePage && state.route === routeIndex.recall)
         handle.submitRecall(prevUnit.unitID, prevPage.pageID);
