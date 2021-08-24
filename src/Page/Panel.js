@@ -67,7 +67,7 @@ export default function Panel(props) {
       setLowRank(false);
       cookie.save("lowRank", false);
     }
-  });
+  }, []);
 
   // the setting of request
   const [kick, setKick] = React.useState(false);
@@ -180,6 +180,7 @@ export default function Panel(props) {
         route: samePage ? currentSelect.route : selectedPage.route
       }));
     } else setCurrentSelect(defaultCurrentSelect);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listObject]);
 
   // the state of recall and recollection
