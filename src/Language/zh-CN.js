@@ -342,7 +342,7 @@ const list = {
     newPasswordRange: "新密码的长度超出范围",
     passwordChanged: "密码重置成功",
     changeRank: "评级表示已被切换为 {0}",
-    copyImageLink: "此图片链接已被复制到剪切板。请直接复制到 MARKDOWN 编辑器，此图片在本网站之外无法显示。"
+    copyImageLink: "此图片链接已被复制到剪切板，请直接复制到 MARKDOWN 编辑器。此图片在本网站之外无法显示。"
   },
   grid: {
     column: {

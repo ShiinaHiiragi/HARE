@@ -18,6 +18,7 @@ import Chart from "./Chart";
 import Collapse from "@material-ui/core/Collapse";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import { PanelContext } from "../Page/Panel";
+import { HotKeys } from "react-hotkeys";
 import {
   stringFormat,
   timeFormat,
@@ -128,10 +129,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const keyMap = {
+  backToMenu: "esc",
+};
+
 export default function Statistics(props) {
   const classes = useStyles();
   const { state, handle } = props;
   const context = React.useContext(PanelContext);
+  const keyHandler = {
+    backToMenu: () => handle.setCurrentRoute(routeIndex.cover),
+  };
 
   const [anime, setAnime] = React.useState(0);
   const [lineData, setLineData] = React.useState([]);
@@ -338,7 +346,7 @@ export default function Statistics(props) {
   };
 
   return (
-    <div className={classes.root}>
+    <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
       <div className={classes.buttonPanel}>
         <Button
           variant="outlined"
@@ -625,6 +633,6 @@ export default function Statistics(props) {
         handleClose={() => setDeleteConfirm(false)}
         handleDeleteTarget={() => deleteTrack(deleteID)}
       />
-    </div>
+    </HotKeys>
   );
 }

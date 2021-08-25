@@ -71,13 +71,16 @@ const theme = createMuiTheme({
 })
 
 const keyMap = {
+  backToMenu: "esc",
 };
 
 export default function Gallery(props) {
   const classes = useStyles();
   const { state, handle } = props;
   const context = React.useContext(PanelContext);
+  const inputRef = React.createRef();
   const keyHandler = {
+    backToMenu: () => handle.setCurrentRoute(routeIndex.cover),
   };
 
   const imageURL = (id) => `${requestURL}/src/cover` +
@@ -86,6 +89,12 @@ export default function Gallery(props) {
     if (copy(`![](${imageURL(imageID)})`)) {
       handle.toggleMessageBox(context.lang.message.copyImageLink, "info");
     }
+  }
+
+  const uploadImage = (event) => {
+    console.log(event);
+    // clear the value in advance of repeating
+    inputRef.current.value = null;
   }
 
   return (
@@ -161,11 +170,18 @@ export default function Gallery(props) {
                   <Skeleton variant="text" animation={false} style={{ width: "75%" }}/>
                 </CardContent>
                 <CardActions>
-                    <div style={{ flexGrow: 1 }}></div>
-                    <Button size="small" color="primary">
-                      {context.lang.panel.gallery.new}
-                    </Button>
-                  </CardActions>
+                  <div style={{ flexGrow: 1 }}></div>
+                  <Button size="small" color="primary" component="label">
+                    {context.lang.panel.gallery.new}
+                    <input
+                      ref={inputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={uploadImage}
+                      hidden
+                    />
+                  </Button>
+                </CardActions>
               </Card>
             </Grid>}
           </ThemeProvider>
