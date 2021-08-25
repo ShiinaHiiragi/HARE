@@ -29,7 +29,12 @@ export default function Panel(props) {
   const { userID, session } = props;
 
   // the state of language
-  const [globalLang, setGlobalLang] = React.useState(languagePicker(nameMap.English));
+  const [globalLang, setGlobalLang] = React.useState(languagePicker());
+  const changeGlobalLang = React.useCallback((targetValue) => {
+    if (targetValue)
+      setTimeout(() => setGlobalLang(languagePicker(targetValue)), setStateDelay * 0.5);
+    cookie.save("lang", targetValue, { expires: cookieTime(3650) });
+  }, []);
   React.useEffect(() => {
     let storageLang = cookie.load("lang");
     changeGlobalLang(storageLang || nameMap.English);
@@ -53,12 +58,7 @@ export default function Panel(props) {
       toggleMessageBox(languagePicker(storageLang).message.newVersion, "info");
     }
     cookie.save("version", version);
-  }, []);
-  const changeGlobalLang = React.useCallback((targetValue) => {
-    if (targetValue)
-      setTimeout(() => setGlobalLang(languagePicker(targetValue)), setStateDelay * 0.5);
-    cookie.save("lang", targetValue, { expires: cookieTime(3650) });
-  }, []);
+  }, [changeGlobalLang]);
 
   // load cookie to seek some setting
   const [lowRank, setLowRank] = React.useState(true);

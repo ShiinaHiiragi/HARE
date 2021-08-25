@@ -8,11 +8,9 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import AddIcon from "@material-ui/icons/Add";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
-
+import copy from "copy-to-clipboard";
 import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
 import { requestURL, routeIndex, timeFormat } from "../Interface/Constant";
@@ -82,6 +80,14 @@ export default function Gallery(props) {
   const keyHandler = {
   };
 
+  const imageURL = (id) => `${requestURL}/src/cover` +
+    `?unitID=${state.unitID}&pageID=${state.pageID}&imageID=${id}`;
+  const copyLink = (imageID) => {
+    if (copy(`![](${imageURL(imageID)})`)) {
+      handle.toggleMessageBox(context.lang.message.copyImageLink, "info");
+    }
+  }
+
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
       <div tabIndex={-1} className={classes.buttonField}>
@@ -108,8 +114,7 @@ export default function Gallery(props) {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    // TODO: change to src/image
-                    image={`${requestURL}/src/cover?unitID=${state.unitID}&pageID=${state.pageID}&imageID=${item.id}`}
+                    image={imageURL(item.id)}
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography variant="subtitle1">
@@ -133,7 +138,11 @@ export default function Gallery(props) {
                     <Button size="small" color="primary">
                       {context.lang.panel.gallery.rename}
                     </Button>
-                    <Button size="small" color="primary">
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() => copyLink(item.id)}
+                    >
                       {context.lang.panel.gallery.copy}
                     </Button>
                   </CardActions>
@@ -142,8 +151,10 @@ export default function Gallery(props) {
             ))}
             {(state.image.length < state.range.maxImg) && <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Card className={classes.card}>
-                <CardMedia className={clsx(classes.cardMedia, classes.cardFill)}>
-                </CardMedia>
+                <CardMedia
+                  className={clsx(classes.cardMedia, classes.cardFill)}
+                  children={<div />}
+                />
                 <CardContent className={classes.cardContent}>
                   <Skeleton variant="text" animation={false} style={{ width: "50%" }} />
                   <Skeleton variant="text" animation={false} style={{ width: "25%" }} />

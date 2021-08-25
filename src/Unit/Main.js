@@ -162,7 +162,8 @@ export default function Main(props) {
             range: state.range,
           }}
           handle={{
-            setCurrentRoute: handle.setCurrentRoute
+            setCurrentRoute: handle.setCurrentRoute,
+            toggleMessageBox: handle.toggleMessageBox
           }}
         />
       </MainPage>
