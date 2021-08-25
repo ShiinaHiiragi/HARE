@@ -91,6 +91,7 @@ const list = {
       rename: "Rename",
       copy: "Copy Link",
       delete: "Delete",
+      new: "New Image",
       timeFormatString: "MM/dd/yyyy hh:mm:ss"
     }
   },

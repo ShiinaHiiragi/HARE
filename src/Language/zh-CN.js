@@ -85,6 +85,7 @@ const list = {
       rename: "重命名",
       copy: "复制链接",
       delete: "删除",
+      new: "新图片",
       timeFormatString: "yyyy-MM-dd hh:mm:ss"
     }
   },

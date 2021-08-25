@@ -1,4 +1,6 @@
 import React from "react";
+import clsx from "clsx";
+import Skeleton from "@material-ui/lab/Skeleton";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -6,8 +8,11 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import AddIcon from "@material-ui/icons/Add";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
+
 import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
 import { requestURL, routeIndex, timeFormat } from "../Interface/Constant";
@@ -41,10 +46,17 @@ const useStyles = makeStyles((theme) => ({
   },
   cardMedia: {
     paddingTop: "56.25%", // 16:9
+    display: "flex"
   },
   cardContent: {
     flexGrow: 1,
     paddingBottom: 0
+  },
+  cardFill: {
+    backgroundColor: theme.palette.grey[400]
+  },
+  addNew: {
+    zIndex: 2
   }
 }));
 
@@ -67,6 +79,7 @@ export default function Gallery(props) {
   const classes = useStyles();
   const { state, handle } = props;
   const context = React.useContext(PanelContext);
+  console.log(theme);
 
   const [image, setImage] = React.useState([
     { id: 1, title: "LONG TITLE", time: "2021-08-24T09:12:21.020Z", size: 861244 },
@@ -74,9 +87,8 @@ export default function Gallery(props) {
     { id: 3, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 23864 },
     { id: 4, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 84 },
     { id: 5, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 1864 },
-    { id: 6, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 8364 },
-    { id: 7, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 864 },
-    { id: 8, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 4 }
+    { id: 6, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 864 },
+    { id: 7, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 4 }
   ]);
 
   const keyHandler = {
@@ -125,20 +137,37 @@ export default function Gallery(props) {
                     </Typography>
                   </CardContent>
                   <CardActions>
+                    <Button size="small" color="secondary">
+                      {context.lang.panel.gallery.delete}
+                    </Button>
+                    <div style={{ flexGrow: 1 }}></div>
                     <Button size="small" color="primary">
                       {context.lang.panel.gallery.rename}
                     </Button>
                     <Button size="small" color="primary">
                       {context.lang.panel.gallery.copy}
                     </Button>
-                    <div style={{ flexGrow: 1 }}></div>
-                    <Button size="small" color="secondary">
-                      {context.lang.panel.gallery.delete}
-                    </Button>
                   </CardActions>
                 </Card>
               </Grid>
             ))}
+            {(image.length < state.range.maxImg) && <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+              <Card className={classes.card}>
+                <CardMedia className={clsx(classes.cardMedia, classes.cardFill)}>
+                </CardMedia>
+                <CardContent className={classes.cardContent}>
+                  <Skeleton variant="text" animation={false} style={{ width: "50%" }} />
+                  <Skeleton variant="text" animation={false} style={{ width: "25%" }} />
+                  <Skeleton variant="text" animation={false} style={{ width: "75%" }}/>
+                </CardContent>
+                <CardActions>
+                    <div style={{ flexGrow: 1 }}></div>
+                    <Button size="small" color="primary">
+                      {context.lang.panel.gallery.new}
+                    </Button>
+                  </CardActions>
+              </Card>
+            </Grid>}
           </ThemeProvider>
         </Grid>
       </Container>
