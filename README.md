@@ -33,11 +33,11 @@
 2. PostgreSQL 模式
 
     ```sql
-    create table userInfo(
+    create table userInfo (
       userID serial primary key,
       email varchar(32) unique not null)
-    )
-    create table userSetting(
+    );
+    create table userSetting (
       userID integer primary key references userInfo,
       unitSize integer not null default 0,
       password varchar(64) not null,
@@ -51,8 +51,8 @@
       maxPage integer default 16 not null,
       maxItem integer default 64 not null,
       maxImg integer default 16 not null)
-    )
-    create table unit(
+    );
+    create table unit (
       userID integer not null,
       unitID integer not null,
       unitName varchar(16) not null,
@@ -62,8 +62,8 @@
       references userInfo(userID)
       initially deferred,
       primary key(userID, unitID))
-    )
-    create table page(
+    );
+    create table page (
       userID integer not null,
       unitID integer not null,
       pageID integer not null,
@@ -79,8 +79,8 @@
       references unit(userID, unitID)
       on update cascade on delete cascade,
       primary key(userID, unitID, pageID))
-    )
-    create table item(
+    );
+    create table item (
       userID integer not null,
       unitID integer not null,
       pageID integer not null,
@@ -93,8 +93,8 @@
       references page(userID, unitID, pageID)
       on update cascade on delete cascade,
       primary key(userID, unitID, pageID, itemID))
-    )
-    create table track(
+    );
+    create table track (
       userID integer not null,
       unitID integer not null,
       pageID integer not null,
@@ -105,12 +105,24 @@
       references page(userID, unitID, pageID)
       on update cascade on delete cascade,
       primary key(userID, unitID, pageID, trackID))
-    )
-    create table onlineUser(
+    );
+    create table image (
+      userID integer not null,
+      unitID integer not null,
+      pageID integer not null,
+      imageID integer not null,
+      imageName varchar(16) not null,
+      imageCreateTime timestamp not null,
+      size integer not null,
+      foreign key(userID, unitID, pageID) references page(userID, unitID, pageID)
+      on update cascade on delete cascade,
+      primary key(userID, unitID, pageID, imageID)
+    );
+    create table onlineUser (
       userID integer primary key references userInfo,
       token varchar(40) not null,
       lastTime timestamp not null)
-    )
+    );
     ```
 
 ## 2 日志

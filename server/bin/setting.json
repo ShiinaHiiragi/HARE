@@ -81,6 +81,19 @@
       "on update cascade on delete cascade,",
       "primary key(userID, unitID, pageID, trackID));"
     ],
+    "image": [
+      "create table image(",
+      "userID integer not null,",
+      "unitID integer not null,",
+      "pageID integer not null,",
+      "imageID integer not null,",
+      "imageName varchar(16) not null,",
+      "imageCreateTime timestamp not null,",
+      "size integer not null,",
+      "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID)",
+      "on update cascade on delete cascade,",
+      "primary key(userID, unitID, pageID, imageID));"
+    ],
     "onlineUser": [
       "create table onlineUser(",
       "userID integer primary key references userInfo,",

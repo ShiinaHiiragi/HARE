@@ -130,12 +130,13 @@ export default function Cover(props) {
   };
 
   const toggleGallery = () => {
-    // context.request("GET/data/gallery", {
-    //   unitID: state.current.unitID,
-    //   pageID: state.current.pageID,
-    // }).then((out) => {
+    context.request("GET/data/image", {
+      unitID: state.current.unitID,
+      pageID: state.current.pageID,
+    }).then((out) => {
+      handle.setImage(out);
       handle.setCurrentRoute(routeIndex.gallery);
-    // });
+    });
   };
 
   return (

@@ -84,6 +84,7 @@ export default function Main(props) {
             pageDetail: state.pageDetail,
           }}
           handle={{
+            setImage: handle.setImage,
             setCurrentRoute: handle.setCurrentRoute,
             setRecall: handle.setRecall,
             setRecollect: handle.setRecollect,
@@ -155,6 +156,9 @@ export default function Main(props) {
       <MainPage index={routeIndex.gallery} route={state.current.route}>
         <Gallery
           state={{
+            unitID: state.current.unitID,
+            pageID: state.current.pageID,
+            image: state.image,
             range: state.range,
           }}
           handle={{

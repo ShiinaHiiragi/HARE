@@ -229,6 +229,9 @@ export default function Panel(props) {
     })
   }
 
+  // the state of image
+  const [image, setImage] = React.useState([]);
+
   // change navList when change screen size
   const matches = useMediaQuery("(min-width:960px)");
   React.useEffect(() => {
@@ -271,6 +274,7 @@ export default function Panel(props) {
             listObject: listObject
           }}
           handle={{
+            setImage: setImage,
             toggleMessageBox: toggleMessageBox,
             toggleKick: () => setKick(true),
             closeNavListMobile: () => setNavListMobile(false),
@@ -286,6 +290,7 @@ export default function Panel(props) {
           lang={globalLang}
           state={{
             range: range,
+            image: image,
             current: currentSelect,
             navList: navListPC,
             recall: recall,
@@ -302,6 +307,7 @@ export default function Panel(props) {
             submitRecall: submitRecall,
             setItemList: setItemList,
             setRecall: setRecall,
+            setImage: setImage,
             setStatInfo: setStatInfo,
             setRecollect: setRecollect,
             setPageDetail: setPageDetail

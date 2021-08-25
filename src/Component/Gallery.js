@@ -79,18 +79,6 @@ export default function Gallery(props) {
   const classes = useStyles();
   const { state, handle } = props;
   const context = React.useContext(PanelContext);
-  console.log(theme);
-
-  const [image, setImage] = React.useState([
-    { id: 1, title: "LONG TITLE", time: "2021-08-24T09:12:21.020Z", size: 861244 },
-    { id: 2, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 86144 },
-    { id: 3, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 23864 },
-    { id: 4, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 84 },
-    { id: 5, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 1864 },
-    { id: 6, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 864 },
-    { id: 7, title: "TITLE", time: "2021-08-24T09:12:21.020Z", size: 4 }
-  ]);
-
   const keyHandler = {
   };
 
@@ -108,19 +96,20 @@ export default function Gallery(props) {
         </Button>
         <div style={{ flexGrow: 1 }}/>
         <Typography variant="subtitle2" color="textSecondary">
-          {`${image.length} / ${state.range.maxImg}`}
+          {`${state.image.length} / ${state.range.maxImg}`}
           {"　"}
         </Typography>
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={2}>
           <ThemeProvider theme={theme}>
-            {image.map((item, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4} lg={3} xl={2}>
+            {state.image.map((item) => (
+              <Grid item key={item.title} xs={12} sm={6} md={4} lg={3} xl={2}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image={`${requestURL}/src/cover`}
+                    // TODO: change to src/image
+                    image={`${requestURL}/src/cover?unitID=${state.unitID}&pageID=${state.pageID}&imageID=${item.id}`}
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography variant="subtitle1">
@@ -151,7 +140,7 @@ export default function Gallery(props) {
                 </Card>
               </Grid>
             ))}
-            {(image.length < state.range.maxImg) && <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+            {(state.image.length < state.range.maxImg) && <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Card className={classes.card}>
                 <CardMedia className={clsx(classes.cardMedia, classes.cardFill)}>
                 </CardMedia>

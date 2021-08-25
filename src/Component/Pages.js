@@ -234,7 +234,8 @@ export default function Pages(props) {
     if (!samePage && state.route === routeIndex.recall)
       handle.submitRecall(prevUnit.unitID, prevPage.pageID);
     
-    if (state.listObject[unitID - 1].pages[pageID - 1].route === routeIndex.stat)
+    const clickRoute = state.listObject[unitID - 1].pages[pageID - 1].route;
+    if (clickRoute === routeIndex.stat)
       context.request("GET/data/stat", {
         unitID: unitID,
         pageID: pageID,
@@ -242,7 +243,15 @@ export default function Pages(props) {
         handle.setStatInfo(out);
         listSelected(unitID, pageID)
       });
-    else listSelected(unitID, pageID);
+    else if (clickRoute === routeIndex.gallery) {
+      context.request("GET/data/image", {
+        unitID: unitID,
+        pageID: pageID,
+      }).then((out) => {
+        handle.setImage(out);
+        listSelected(unitID, pageID);
+      });
+    } else listSelected(unitID, pageID);
   };
 
   return (

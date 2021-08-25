@@ -79,6 +79,7 @@ export default function NavList(props) {
           currentSelect: state.currentSelect
         }}
         handle={{
+          setImage: handle.setImage,
           toggleMessageBox: handle.toggleMessageBox,
           submitRecall: handle.submitRecall,
           closeNavListMobile: handle.closeNavListMobile,
