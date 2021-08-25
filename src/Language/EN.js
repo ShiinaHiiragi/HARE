@@ -86,6 +86,12 @@ const list = {
       recollect: "Recollect Faulted",
       clearEachRecall: "Clear This Recall",
       clearRecall: "Clear All"
+    },
+    gallery: {
+      rename: "Rename",
+      copy: "Copy Link",
+      delete: "Delete",
+      timeFormatString: "MM/dd/yyyy hh:mm:ss"
     }
   },
   popup: {

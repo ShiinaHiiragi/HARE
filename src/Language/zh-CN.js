@@ -80,6 +80,12 @@ const list = {
       recollect: "回想有误词条",
       clearEachRecall: "清除此次记录",
       clearRecall: "清空所有"
+    },
+    gallery: {
+      rename: "重命名",
+      copy: "复制链接",
+      delete: "删除",
+      timeFormatString: "yyyy-MM-dd hh:mm:ss"
     }
   },
   popup: {

@@ -155,6 +155,7 @@ export default function Main(props) {
       <MainPage index={routeIndex.gallery} route={state.current.route}>
         <Gallery
           state={{
+            range: state.range,
           }}
           handle={{
             setCurrentRoute: handle.setCurrentRoute
