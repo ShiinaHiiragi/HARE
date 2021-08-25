@@ -34,6 +34,9 @@ export default function Panel(props) {
     let storageLang = cookie.load("lang");
     changeGlobalLang(storageLang || nameMap.English);
 
+    // TEMP: delete it later
+    console.log(`load '${storageLang}' from cookie`);
+
     // notice of update
     // the language may not been updated when toggling msgbox
     // so we must use languagePicker()
@@ -51,11 +54,11 @@ export default function Panel(props) {
     }
     cookie.save("version", version);
   }, []);
-  const changeGlobalLang = (targetValue) => {
+  const changeGlobalLang = React.useCallback((targetValue) => {
     if (targetValue)
       setTimeout(() => setGlobalLang(languagePicker(targetValue)), setStateDelay * 0.5);
     cookie.save("lang", targetValue, { expires: cookieTime(3650) });
-  };
+  }, []);
 
   // load cookie to seek some setting
   const [lowRank, setLowRank] = React.useState(true);

@@ -12,6 +12,8 @@ const nameMap = {
 };
 
 const languagePicker = (target) => {
+  // TEMP: delete it later
+  console.log(`change language to '${target}'`);
   if (listMap[target] === undefined) return en;
   else return listMap[target];
 };
