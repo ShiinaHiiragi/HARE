@@ -13,7 +13,7 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import copy from "copy-to-clipboard";
 import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
-import { requestURL, routeIndex, timeFormat } from "../Interface/Constant";
+import { requestURL, routeIndex, timeFormat, maxImageBase } from "../Interface/Constant";
 
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
@@ -92,10 +92,36 @@ export default function Gallery(props) {
   }
 
   const uploadImage = (event) => {
-    console.log(event);
-    // clear the value in advance of repeating
-    inputRef.current.value = null;
-  }
+    const targetImage = event.target.files;
+    if (targetImage && targetImage.length > 0) {
+      if (/image\/.+/.test(targetImage[0].type)) {
+        let reader = new FileReader();
+        reader.readAsDataURL(targetImage[0]);
+        reader.onload = (event) =>
+          imageOnload(event.target.result, targetImage[0].type);
+      } else {
+        handle.toggleMessageBox(context.lang.message.nonImage, "warning");
+        inputRef.current.value = null;
+      }
+    }
+  };
+
+  const imageOnload = (result, type) => {
+    if (result.length > maxImageBase) {
+      handle.toggleMessageBox(context.lang.message.largeImage, "warning");
+      document.querySelector("#inputRef").value = null;
+    } else {
+      context.request("POST/new/image", {
+        unitID: state.unitID,
+        pageID: state.pageID,
+        image: result,
+        type: type.replace(/image\/(\w+)/, ".$1")
+      }).then((out) => {
+        console.log(out);
+        document.querySelector("#inputRef").value = null;
+      });
+    }
+  };
 
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
@@ -158,7 +184,8 @@ export default function Gallery(props) {
                 </Card>
               </Grid>
             ))}
-            {(state.image.length < state.range.maxImg) && <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+            {(state.image.length < state.range.maxImg) &&
+            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Card className={classes.card}>
                 <CardMedia
                   className={clsx(classes.cardMedia, classes.cardFill)}
@@ -174,6 +201,7 @@ export default function Gallery(props) {
                   <Button size="small" color="primary" component="label">
                     {context.lang.panel.gallery.new}
                     <input
+                      id="inputRef"
                       ref={inputRef}
                       type="file"
                       accept="image/*"

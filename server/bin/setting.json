@@ -89,7 +89,8 @@
       "imageID integer not null,",
       "imageName varchar(16) not null,",
       "imageCreateTime timestamp not null,",
-      "size integer not null,",
+      "imageType varchar(16) not null,",
+      "imageByte integer not null,",
       "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID)",
       "on update cascade on delete cascade,",
       "primary key(userID, unitID, pageID, imageID));"

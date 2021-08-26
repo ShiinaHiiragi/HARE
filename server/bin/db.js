@@ -206,6 +206,20 @@ exports.checkRange = (userID, id, offset, res, checkMax) => {
   );
 }
 
+// different from the previous checking, the image only check for volume
+exports.checkImage = (userID, unitID, pageID, res) => new Promise((resolve, reject) => {
+  Promise.all([
+    query(`select maxImg from userSetting where userID = ${userID}`),
+    query(`select imgSize from page where userID = ${userID}
+      and unitID = ${unitID} and pageID = ${pageID}`)
+  ])
+    .then(([[{ maximg }], [{ imgsize }]]) => {
+      if (imgsize < maximg) resolve();
+      else api.invalidArgument(res);
+    })
+    .catch(reject)
+});
+
 // db api for unit
 exports.getUnit = (userID) => new Promise((resolve, reject) => {
   query(`select unitID, unitName from unit

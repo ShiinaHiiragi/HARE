@@ -33,7 +33,7 @@ router.post('/avatar', (req, res) => {
   const params = new Object();
   let typeReg = /^data:image\/(\w+);base64,/, basicPath;
   api.param(req.cookies, params, ['userID', 'token', 'session'], res)
-    .then(() => api.param(req.body, params, ['avatar', 'type'], res))
+    .then(() => api.param(req.body, params, ['image', 'type'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => {
@@ -52,7 +52,7 @@ router.post('/avatar', (req, res) => {
     // save the file uploaded
     .then(() => db.editAvatarExtent(params.userID, params.type))
     .then(() => {
-      let avatarBase = params.avatar.replace(typeReg, '');
+      let avatarBase = params.image.replace(typeReg, '');
       let avatarBuffer = new Buffer(avatarBase, 'base64');
       return new Promise((resolve, reject) => {
         fs.writeFile(

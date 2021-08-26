@@ -127,7 +127,7 @@ paramMap = {
   pageName: 'string',
   gender: 'string',
   birth: 'string',
-  avatar: 'string',
+  image: 'string',
   type: 'string',
   track: 'string',
   tel: 'String',

@@ -42,7 +42,7 @@ export default function GlobalMenu(props) {
       handle.toggleMessageBox(context.lang.message.largeImage, "warning");
     } else {
       context.request("POST/set/avatar", {
-        avatar: result,
+        image: result,
         type: type.replace(/image\/(\w+)/, ".$1")
       }).then(() => {
         handle.refreshAvatar();
