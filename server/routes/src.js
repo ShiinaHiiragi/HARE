@@ -36,9 +36,25 @@ router.get('/avatar', (req, res) => {
     .then((out) => res.sendFile(path.join(
         __dirname,
         `../src/avatar/${params.userID}${out[0].avatar}`
-      ))
-    )
+    )))
     .catch(() => api.internalServerError(res));
+});
+
+router.get('/image', (req, res) => {
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.query, params, ['unitID', 'pageID', 'imageID'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.getImageExtent(params.userID, params.unitID, params.pageID, params.imageID))
+    .then((out) => {
+      const tuple = `${params.userID}_${params.unitID}_${params.pageID}_${params.imageID}`;
+      console.log(`../src/image/${tuple}${out[0].imagetype}`);
+      res.sendFile(path.join(
+        __dirname,
+        `../src/image/${tuple}${out[0].imagetype}`
+      ))
+    })
+    .catch(console.log);
 });
 
 module.exports = router;

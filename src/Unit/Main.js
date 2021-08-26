@@ -162,6 +162,7 @@ export default function Main(props) {
             range: state.range,
           }}
           handle={{
+            setImage: handle.setImage,
             setCurrentRoute: handle.setCurrentRoute,
             toggleMessageBox: handle.toggleMessageBox
           }}

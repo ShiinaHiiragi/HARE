@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
+var fs = require('fs');
 var db = require('../bin/db');
 var api = require('../bin/api');
 
@@ -51,9 +53,30 @@ router.post('/image', (req, res) => {
   api.param(req.cookies, params, ['userID', 'token', 'session'], res)
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'image', 'type'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
-    .then(() => db.checkImage(params.userID, params.unitID, params.pageID, res))
     .then(() => db.checkSession(params.userID, params.session, res))
-    .then(() => res.send("OK"))
+    .then(() => db.checkImage(params.userID, params.unitID, params.pageID, res))
+    .then((imageID) => {
+      let basicPath = path.join(__dirname, '../src/image');
+      let avatarBase = params.image.replace(api.typeReg, '');
+      let avatarBuffer = new Buffer(avatarBase, 'base64');
+      let tuple = `${params.userID}_${params.unitID}_${params.pageID}_${imageID}`;
+      return new Promise((resolve, reject) => {
+        fs.writeFile(
+          path.join(basicPath, `${tuple}${api.typeFormat(params.type)}`),
+          avatarBuffer,
+          (err) => { if (!err) resolve([imageID, avatarBuffer.length]); else reject(); }
+        );
+      });
+    })
+    .then(([imageID, byte]) => db.newImage(
+      params.userID,
+      params.unitID,
+      params.pageID,
+      imageID,
+      api.typeFormat(params.type),
+      byte >> 10
+    ))
+    .then((out) => res.send(out))
     .catch(() => api.internalServerError(res));
 });
 

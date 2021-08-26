@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import copy from "copy-to-clipboard";
+import CryptoJS from "crypto-js";
 import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
 import { requestURL, routeIndex, timeFormat, maxImageBase } from "../Interface/Constant";
@@ -83,10 +84,11 @@ export default function Gallery(props) {
     backToMenu: () => handle.setCurrentRoute(routeIndex.cover),
   };
 
-  const imageURL = (id) => `${requestURL}/src/cover` +
-    `?unitID=${state.unitID}&pageID=${state.pageID}&imageID=${id}`;
-  const copyLink = (imageID) => {
-    if (copy(`![](${imageURL(imageID)})`)) {
+  const imageURL = (id, time) => `${requestURL}/src/image` +
+    `?unitID=${state.unitID}&pageID=${state.pageID}&imageID=${id}` +
+    `&t=${CryptoJS.MD5(time)}`;
+  const copyLink = (imageID, timestamp) => {
+    if (copy(`![](${imageURL(imageID, timestamp)})`)) {
       handle.toggleMessageBox(context.lang.message.copyImageLink, "info");
     }
   }
@@ -109,7 +111,8 @@ export default function Gallery(props) {
   const imageOnload = (result, type) => {
     if (result.length > maxImageBase) {
       handle.toggleMessageBox(context.lang.message.largeImage, "warning");
-      document.querySelector("#inputRef").value = null;
+      if (document.querySelector("#inputRef"))
+        document.querySelector("#inputRef").value = null;
     } else {
       context.request("POST/new/image", {
         unitID: state.unitID,
@@ -117,8 +120,9 @@ export default function Gallery(props) {
         image: result,
         type: type.replace(/image\/(\w+)/, ".$1")
       }).then((out) => {
-        console.log(out);
-        document.querySelector("#inputRef").value = null;
+        handle.setImage((image) => [...image, out]);
+        if (document.querySelector("#inputRef"))
+          document.querySelector("#inputRef").value = null;
       });
     }
   };
@@ -149,7 +153,7 @@ export default function Gallery(props) {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image={imageURL(item.id)}
+                    image={imageURL(item.id, item.time)}
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography variant="subtitle1">
@@ -176,7 +180,7 @@ export default function Gallery(props) {
                     <Button
                       size="small"
                       color="primary"
-                      onClick={() => copyLink(item.id)}
+                      onClick={() => copyLink(item.id, item.time)}
                     >
                       {context.lang.panel.gallery.copy}
                     </Button>

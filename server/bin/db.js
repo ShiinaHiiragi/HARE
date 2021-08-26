@@ -214,7 +214,7 @@ exports.checkImage = (userID, unitID, pageID, res) => new Promise((resolve, reje
       and unitID = ${unitID} and pageID = ${pageID}`)
   ])
     .then(([[{ maximg }], [{ imgsize }]]) => {
-      if (imgsize < maximg) resolve();
+      if (imgsize < maximg) resolve(imgsize + 1);
       else api.invalidArgument(res);
     })
     .catch(reject)
@@ -613,7 +613,37 @@ exports.getImage = (userID, unitID, pageID) => new Promise((resolve, reject) => 
   query(`select imageID, imageName, imageCreateTime, imageByte from image
     where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
     .then((out) => resolve(out.map((item) => ({
-      id: item.imageid, title: imagename, time: imagecreatetime, size: imagebyte
+      id: item.imageid,
+      title: item.imagename,
+      time: item.imagecreatetime,
+      size: item.imagebyte
     }))))
     .catch(reject)
 });
+
+exports.getImageExtent = (userID, unitID, pageID, imageID) =>
+  new Promise((resolve, reject) => {
+    query(`select imageType from image where userID = ${userID} and
+      unitID = ${unitID} and pageID = ${pageID} and imageID = ${imageID}`)
+      .then(resolve)
+      .catch(reject)
+  });
+
+exports.newImage = (userID, unitID, pageID, imageID, type, kilobyte) =>
+  new Promise((resolve, reject) => {
+    query(`begin; insert into image(userID, unitID, pageID, imageID,
+      imageName, imageCreateTime, imageType, imageByte)
+      values(${userID}, ${unitID}, ${pageID}, ${imageID},
+      '${imageID}', now(), '${type}', ${kilobyte});
+      update page set imgSize = imgSize + 1 where userID = ${userID}
+      and unitID = ${unitID} and pageID = ${pageID}; commit;`)
+      .then(() => query(`select imageCreateTime from image where userID = ${userID}
+        and unitID = ${unitID} and pageID = ${pageID} and imageID = ${imageID}`))
+      .then((out) => resolve({
+        id: imageID,
+        title: `${imageID}`,
+        time: out[0].imagecreatetime,
+        size: kilobyte
+      }))
+      .catch(reject);
+  });

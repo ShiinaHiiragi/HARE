@@ -4,6 +4,7 @@ const SHA256 = require('crypto-js').SHA256;
 exports.ignore = true;
 exports.tokenLifeSpan = 24 * 3600 * 1000;
 exports.maxRecall = 64;
+exports.typeReg = /^data:image\/(\w+);base64,/;
 exports.super = {
   unit: "userSetting",
   page: "unit",
@@ -98,6 +99,7 @@ exports.format = (transDate, formatString) => {
       );
   return formatString;
 };
+exports.typeFormat = (type) => type === '.jpeg' ? '.jpg' : type;
 
 // string is not null and String can be null
 maxNameLength = 16;
@@ -113,6 +115,7 @@ paramMap = {
   unitID: 'number',
   pageID: 'number',
   trackID: 'number',
+  imageID: 'number',
   itemID: 'array',
   pure: 'array',
   far: 'array',
