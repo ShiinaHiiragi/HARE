@@ -634,14 +634,14 @@ exports.newImage = (userID, unitID, pageID, imageID, type, kilobyte) =>
     query(`begin; insert into image(userID, unitID, pageID, imageID,
       imageName, imageCreateTime, imageType, imageByte)
       values(${userID}, ${unitID}, ${pageID}, ${imageID},
-      '${imageID}', now(), '${type}', ${kilobyte});
+      'NULL', now(), '${type}', ${kilobyte});
       update page set imgSize = imgSize + 1 where userID = ${userID}
       and unitID = ${unitID} and pageID = ${pageID}; commit;`)
       .then(() => query(`select imageCreateTime from image where userID = ${userID}
         and unitID = ${unitID} and pageID = ${pageID} and imageID = ${imageID}`))
       .then((out) => resolve({
         id: imageID,
-        title: `${imageID}`,
+        title: 'NULL',
         time: out[0].imagecreatetime,
         size: kilobyte
       }))

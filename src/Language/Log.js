@@ -1,6 +1,20 @@
 // type enum = ["Global", "New", "Remove", "Change", "Fix"]
 const log = [
   {
+    version: "1.2.0",
+    date: "2021-08-26T00:00:00.000Z",
+    detail: [
+      {
+        type: "Change",
+        content: "Complete guidance in about part"
+      },
+      {
+        type: "New",
+        content: "Add gallery to store some images inside website server"
+      }
+    ]
+  },
+  {
     version: "1.1.0",
     date: "2021-08-21T00:00:00.000Z",
     detail: [
@@ -19,7 +33,7 @@ const log = [
       {
         type: "New",
         content: "Add update log in about dialogue"
-      },
+      }
     ]
   },
   {
@@ -45,7 +59,7 @@ const log = [
       {
         type: "Change",
         content: "Rebuild the language context in React"
-      },
+      }
     ]
   },
   {
@@ -59,7 +73,7 @@ const log = [
       {
         type: "New",
         content: "Add diagrams and statistics subpage"
-      },
+      }
     ]
   },
   {
@@ -81,7 +95,7 @@ const log = [
       {
         type: "New",
         content: "Add support for reponsive layout"
-      },
+      }
     ]
   },
   {
