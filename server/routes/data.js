@@ -116,15 +116,8 @@ router.get('/image', (req, res) => {
   api.param(req.cookies, params, ['userID', 'token'], res)
     .then(() => api.param(req.query, params, ['unitID', 'pageID'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
-    .then(() => res.send([
-      { id: 1, title: "FIRST", time: "2021-08-25T15:40:45.414Z", size: 175 },
-      { id: 2, title: "SECOND", time: "2021-08-25T15:40:51.138Z", size: 854 },
-      { id: 3, title: "THIRD", time: "2021-08-25T15:40:58.728Z", size: 2 },
-      { id: 4, title: "TITLE", time: "2021-08-25T15:41:07.012Z", size: 119 },
-      { id: 5, title: "ALSO TITLE", time: "2021-08-25T15:41:13.775Z", size: 469 },
-      { id: 6, title: "STILL TITLE", time: "2021-08-25T15:41:22.737Z", size: 920 },
-      { id: 7, title: "NAME HAHAHA", time: "2021-08-25T15:41:29.763Z", size: 47 }
-    ]))
+    .then(() => db.getImage(params.userID, params.unitID, params.pageID))
+    .then((out) => res.send(out))
     .catch((err) => api.catchError(err, res));
 });
 

@@ -607,3 +607,13 @@ exports.deleteStat = (userID, unitID, pageID, trackID) => {
       .catch(reject)
   );
 }
+
+// db api for gallery image
+exports.getImage = (userID, unitID, pageID) => new Promise((resolve, reject) => {
+  query(`select imageID, imageName, imageCreateTime, imageByte from image
+    where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+    .then((out) => resolve(out.map((item) => ({
+      id: item.imageid, title: imagename, time: imagecreatetime, size: imagebyte
+    }))))
+    .catch(reject)
+});
