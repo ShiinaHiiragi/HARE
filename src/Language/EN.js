@@ -107,7 +107,7 @@ const list = {
     },
     signUp: {
       title: "Sign Up is Unavailable Now",
-      text: "We don't provide registration entry temporarily. You can contact the author to register in the server directly."
+      text: "We don't provide registration entry temporarily. You can contact the author (click the E-mail in about author to copy to clipcoard) to register in the server directly."
     },
     newUnitPage: {
       titleUnit: "Create New Group",

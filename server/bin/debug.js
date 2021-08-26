@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const db = require('./db');
 
 // TEMP: delete it later
@@ -33,7 +35,16 @@ exports.debugFunction = () => {
   .then(() => db.getThis(1, 1, 1))
   .then(() => db.editThis(1, 1, 1, [2, 4], [1, 3]))
   .then(() => {
-    require('fs').readdir(require('path').join(__dirname, '../src/avatar'),
-      (err, dir) => { db.editAvatarExtent(1, require('path').extname(dir[0])); });
+    fs.readdir(path.join(__dirname, '../src/avatar'),
+      (_, dir) => { db.editAvatarExtent(1, path.extname(dir[0])); });
+  })
+  .then(() => {
+    fs.readdir(path.join(__dirname, '../src/image'), (_, dir) => {
+      Promise.all(dir.map((item) => new Promise((resolve, reject) => {
+        const param = item.match(/(\d+)_(\d+)_(\d+)_(\d+)(\.\w{3,4})/);
+        db.newImage(param[1], param[2], param[3], param[4], param[5],
+          Math.round(1000 * Math.random()));
+      })))
+    })
   });
 };

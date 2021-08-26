@@ -53,7 +53,7 @@ router.post('/avatar', (req, res) => {
     .then(() => db.editAvatarExtent(params.userID, params.type))
     .then(() => {
       let avatarBase = params.image.replace(typeReg, '');
-      let avatarBuffer = new Buffer(avatarBase, 'base64');
+      let avatarBuffer = Buffer.from(avatarBase, 'base64');
       return new Promise((resolve, reject) => {
         fs.writeFile(
           path.join(basicPath, `${params.userID}${params.type === '.jpeg' ? '.jpg' : params.type}`),

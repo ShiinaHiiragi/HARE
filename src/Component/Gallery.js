@@ -149,7 +149,7 @@ export default function Gallery(props) {
         <Grid container spacing={2}>
           <ThemeProvider theme={theme}>
             {state.image.map((item) => (
-              <Grid item key={item.title} xs={12} sm={6} md={4} lg={3} xl={2}>
+              <Grid item key={item.id} xs={12} sm={6} md={4} lg={3} xl={2}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}

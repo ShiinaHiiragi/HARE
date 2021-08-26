@@ -58,7 +58,7 @@ router.post('/image', (req, res) => {
     .then((imageID) => {
       let basicPath = path.join(__dirname, '../src/image');
       let avatarBase = params.image.replace(api.typeReg, '');
-      let avatarBuffer = new Buffer(avatarBase, 'base64');
+      let avatarBuffer = Buffer.from(avatarBase, 'base64');
       let tuple = `${params.userID}_${params.unitID}_${params.pageID}_${imageID}`;
       return new Promise((resolve, reject) => {
         fs.writeFile(
