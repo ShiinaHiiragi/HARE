@@ -63,7 +63,7 @@ router.post('/image', (req, res) => {
       let tuple = CryptoJS.SHA1(new Date().toString()).toString();
       return new Promise((resolve, reject) => {
         fs.writeFile(
-          path.join(basicPath, `${params.userID}_${tuple}${api.typeFormat(params.type)}`),
+          path.join(basicPath, `${params.userID}i${tuple}${api.typeFormat(params.type)}`),
           avatarBuffer,
           (err) => { if (!err) resolve([imageID, avatarBuffer.length, tuple]); else reject(); }
         );

@@ -42,7 +42,7 @@ exports.debugFunction = () => {
   .then(() => {
     fs.readdir(path.join(__dirname, '../src/image'), (_, dir) => {
       api.syncEachChain(dir, (item, onsuccess, _, index) => {
-        const param = item.match(/(\d+)_([0-9a-f]+)(\.\w{3,4})/);
+        const param = item.match(/(\d+)i([0-9a-f]+)(\.\w{3,4})/);
         fs.stat(path.join(__dirname, `../src/image/${item}`), (_, stats) => {
           db.newImage(param[1], 1, 1, index + 1, `${param[2]}${param[3]}`, stats.size >> 10)
             .then(() => setTimeout(onsuccess, 10))

@@ -49,7 +49,7 @@ router.get('/image', (req, res) => {
     .then((out) => {
       res.sendFile(path.join(
         __dirname,
-        `../src/image/${params.userID}_${out[0].imagetype}`
+        `../src/image/${params.userID}i${out[0].imagetype}`
       ))
     })
     .catch(() => api.internalServerError(res));

@@ -63,7 +63,7 @@ router.post('/image', (req, res) => {
     .then((out) => {
       fs.unlinkSync(path.join(
         __dirname,
-        `../src/image/${params.userID}_${out[0].imagetype}`
+        `../src/image/${params.userID}i${out[0].imagetype}`
         ));
     })
     .then(() => db.deleteImage(params.userID, params.unitID, params.pageID, params.imageID))
