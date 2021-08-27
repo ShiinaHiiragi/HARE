@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
+var path = require('path');
 var db = require('../bin/db');
 var api = require('../bin/api');
 
@@ -57,9 +59,16 @@ router.post('/image', (req, res) => {
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'imageID'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.checkSession(params.userID, params.session, res))
+    .then(() => db.getImageExtent(params.userID, params.unitID, params.pageID, params.imageID))
+    .then((out) => {
+      fs.unlinkSync(path.join(
+        __dirname,
+        `../src/image/${params.userID}_${out[0].imagetype}`
+        ));
+    })
     .then(() => db.deleteImage(params.userID, params.unitID, params.pageID, params.imageID))
     .then(() => api.noContent(res))
-    .catch(console.log);
+    .catch(() => api.internalServerError(res));
 });
 
 module.exports = router;

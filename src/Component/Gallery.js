@@ -153,7 +153,12 @@ export default function Gallery(props) {
       pageID: state.pageID,
       imageID: imageID
     }).then(() => {
-      // TODO
+      handle.setImage((image) => [
+        ...image.slice(0, imageID - 1),
+        ...(image.slice(imageID).map((item) => ({
+          ...item, id: item.id - 1
+        })))
+      ]);
     });
   }
 

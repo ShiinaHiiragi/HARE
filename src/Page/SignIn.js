@@ -43,8 +43,6 @@ export default function SignIn() {
   const [globalLang, setGlobalLang] = React.useState(languagePicker(nameMap.English));
   React.useEffect(() => {
     let storageLang = cookie.load("lang");
-    // TEMP: delete it later
-    console.log(`load '${storageLang}' from cookie`);
     changeGlobalLang(storageLang || nameMap.English);
   }, []);
   const changeGlobalLang = (targetValue) => {

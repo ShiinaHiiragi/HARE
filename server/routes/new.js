@@ -78,7 +78,7 @@ router.post('/image', (req, res) => {
       byte >> 10
     ))
     .then((out) => res.send(out))
-    .catch(console.log);
+    .catch(() => api.internalServerError(res));
 });
 
 module.exports = router;

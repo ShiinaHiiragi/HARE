@@ -52,7 +52,7 @@ router.get('/image', (req, res) => {
         `../src/image/${params.userID}_${out[0].imagetype}`
       ))
     })
-    .catch(console.log);
+    .catch(() => api.internalServerError(res));
 });
 
 module.exports = router;
