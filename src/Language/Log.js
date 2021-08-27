@@ -6,11 +6,15 @@ const log = [
     detail: [
       {
         type: "Change",
+        content: "Change encryption algorithm used in password, token and session"
+      },
+      {
+        type: "Change",
         content: "Complete guidance in about part"
       },
       {
         type: "New",
-        content: "Add gallery to store some images inside website server"
+        content: "Add gallery to store some images inside website server including uploading, renaming, link copying and deleting"
       }
     ]
   },
