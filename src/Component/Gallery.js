@@ -13,6 +13,7 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import copy from "copy-to-clipboard";
 import CryptoJS from "crypto-js";
 import { PanelContext } from "../Page/Panel";
+import EditImage from "../Dialogue/EditImage";
 import { HotKeys } from "react-hotkeys";
 import { requestURL, routeIndex, timeFormat, maxImageBase } from "../Interface/Constant";
 
@@ -88,9 +89,21 @@ export default function Gallery(props) {
     `?unitID=${state.unitID}&pageID=${state.pageID}&imageID=${id}` +
     `&t=${CryptoJS.MD5(time)}`;
   const copyLink = (imageID, timestamp) => {
-    if (copy(`![](${imageURL(imageID, timestamp)})`)) {
+    if (copy(imageURL(imageID, timestamp))) {
       handle.toggleMessageBox(context.lang.message.copyImageLink, "info");
     }
+  }
+
+  // state about rename
+  const [rename, setRename] = React.useState(false);
+  const [imageName, setImageName] = React.useState("");
+  const [imageCheck, setImageCheck] = React.useState(false);
+  const [currentImageID, setCurrentImageID] = React.useState(0);
+  const toggleRename = (title, id) => {
+    setCurrentImageID(id);
+    setImageName(title);
+    setImageCheck(false);
+    setRename(true);
   }
 
   const uploadImage = (event) => {
@@ -174,7 +187,11 @@ export default function Gallery(props) {
                       {context.lang.panel.gallery.delete}
                     </Button>
                     <div style={{ flexGrow: 1 }}></div>
-                    <Button size="small" color="primary">
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() => toggleRename(item.title, item.id)}
+                    >
                       {context.lang.panel.gallery.rename}
                     </Button>
                     <Button
@@ -219,6 +236,23 @@ export default function Gallery(props) {
           </ThemeProvider>
         </Grid>
       </Container>
+      <EditImage
+        open={rename}
+        state={{
+          unitID: state.unitID,
+          pageID: state.pageID,
+          imageID: currentImageID,
+          imageName: imageName,
+          imageCheck: imageCheck
+        }}
+        handle={{
+          setImage: handle.setImage,
+          setImageName: setImageName,
+          setImageCheck: setImageCheck,
+          toggleMessageBox: handle.toggleMessageBox,
+          close: () => setRename(false)
+        }}
+      />
     </HotKeys>
   );
 }

@@ -128,6 +128,7 @@ paramMap = {
   userName: 'string',
   unitName: 'string',
   pageName: 'string',
+  imageName: 'string',
   gender: 'string',
   birth: 'string',
   image: 'string',
@@ -160,8 +161,8 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
           { invalid = true; break loop; }
         if (keyName === 'session' && paramString.length !== 64)
           { invalid = true; break loop; }
-        if ((['userName', 'unitName', 'pageName', 'tel', 'city'].includes(keyName) &&
-          paramString.length > maxNameLength) ||
+        if ((['userName', 'unitName', 'pageName', 'imageName', 'tel', 'city']
+          .includes(keyName) && paramString.length > maxNameLength) ||
           (keyName === 'email' && paramString.length > maxEmailLength) ||
           (keyName === 'password' && paramString.length !== maxPasswordLength) ||
           (keyName === 'newPassword' && paramString.length !== maxPasswordLength) ||

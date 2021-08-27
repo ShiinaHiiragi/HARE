@@ -647,3 +647,11 @@ exports.newImage = (userID, unitID, pageID, imageID, type, kilobyte) =>
       }))
       .catch(reject);
   });
+
+exports.editImage = (userID, unitID, pageID, imageID, imageName) =>
+  new Promise((resolve, reject) => (
+    query(`update image set imageName = '${imageName}' where userID = ${userID}
+      and unitID = ${unitID} and pageID = ${pageID} and imageID = ${imageID}`)
+      .then(resolve)
+      .catch(reject)
+  ));
