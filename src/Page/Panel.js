@@ -39,9 +39,6 @@ export default function Panel(props) {
     let storageLang = cookie.load("lang");
     changeGlobalLang(storageLang || nameMap.English);
 
-    // TEMP: delete it later
-    console.log(`load '${storageLang}' from cookie`);
-
     // notice of update
     // the language may not been updated when toggling msgbox
     // so we must use languagePicker()
@@ -212,7 +209,7 @@ export default function Panel(props) {
       setItemList((itemList) => {
         recall.pure.forEach((id) => itemList[id - 1][lastIndex] = "P");
         recall.far.forEach((id) => itemList[id - 1][lastIndex] = "F");
-        return itemList.map((_) => _);
+        return [...itemList];
       })
       if (disableMessage) {
         let counter = 0;

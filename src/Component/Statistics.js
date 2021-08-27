@@ -307,11 +307,11 @@ export default function Statistics(props) {
       if (trackID && state.pageDetail.trackSize > 1) {
         handle.setStatInfo((statInfo) => {
           statInfo.splice(trackID - 1, 1);
-          return statInfo.map((_) => _);
+          return [...statInfo];
         });
         setExpandEach((expandEach) => {
           expandEach.splice(trackID - 1, 1);
-          return expandEach.map((_) => _);
+          return [...expandEach];
         })
         handle.setPageDetail((pageDetail) => ({
           ...pageDetail, trackSize: pageDetail.trackSize - 1
