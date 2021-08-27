@@ -1,4 +1,4 @@
-const SHA256 = require('crypto-js').SHA256;
+var CryptoJS = require('crypto-js');
 
 // api for constants
 exports.ignore = true;
@@ -57,7 +57,7 @@ exports.checkRegister = (cmdLine) => new Promise((resolve, reject) => {
   else if (cmdLine[3].length > 32 || cmdLine[3].length < 8)
     reject('ERROR: The length of password is out of range.');
   else {
-    cmdLine[3] = SHA256(cmdLine[1] + cmdLine[3]).toString();
+    cmdLine[3] = CryptoJS.SHA512(cmdLine[1] + cmdLine[3]).toString();
     resolve(cmdLine);
   }
 })
@@ -102,13 +102,14 @@ exports.format = (transDate, formatString) => {
 exports.typeFormat = (type) => type === '.jpeg' ? '.jpg' : type;
 
 // string is not null and String can be null
-maxNameLength = 16;
-maxEmailLength = 32;
-maxPasswordLength = 64;
-maxPresentLength = 512;
-genderRange = ['U', 'F', 'M'];
-trackRange = ['P', 'F', 'L'];
-paramMap = {
+const maxNameLength = 16;
+const maxEmailLength = 32;
+const maxPresentLength = 512;
+
+const passwordLength = 128;
+const genderRange = ['U', 'F', 'M'];
+const trackRange = ['P', 'F', 'L'];
+const paramMap = {
   token: 'string',
   session: 'string',
   userID: 'number',
@@ -157,15 +158,15 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
         const paramString = String(src[keyName]).replace(/'/g, `''`);
         if (paramMap[keyName][0] === 's' && paramString.length === 0)
           { invalid = true; break loop; }
-        if (keyName === 'token' && paramString.length !== 128)
+        if (keyName === 'token' && paramString.length !== 64)
           { invalid = true; break loop; }
-        if (keyName === 'session' && paramString.length !== 64)
+        if (keyName === 'session' && paramString.length !== 56)
           { invalid = true; break loop; }
         if ((['userName', 'unitName', 'pageName', 'imageName', 'tel', 'city']
           .includes(keyName) && paramString.length > maxNameLength) ||
           (keyName === 'email' && paramString.length > maxEmailLength) ||
-          (keyName === 'password' && paramString.length !== maxPasswordLength) ||
-          (keyName === 'newPassword' && paramString.length !== maxPasswordLength) ||
+          (keyName === 'password' && paramString.length !== passwordLength) ||
+          (keyName === 'newPassword' && paramString.length !== passwordLength) ||
           (keyName === 'pagePresent' && paramString.length > maxPresentLength))
           { invalid = true; break loop; }
         if ((keyName === 'gender' && !genderRange.includes(paramString)) ||

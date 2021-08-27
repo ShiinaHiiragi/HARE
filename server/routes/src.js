@@ -47,10 +47,9 @@ router.get('/image', (req, res) => {
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.getImageExtent(params.userID, params.unitID, params.pageID, params.imageID))
     .then((out) => {
-      const tuple = `${params.userID}_${params.unitID}_${params.pageID}_${params.imageID}`;
       res.sendFile(path.join(
         __dirname,
-        `../src/image/${tuple}${out[0].imagetype}`
+        `../src/image/${params.userID}_${out[0].imagetype}`
       ))
     })
     .catch(console.log);

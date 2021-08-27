@@ -51,4 +51,15 @@ router.post('/track', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
+router.post('/image', (req, res) => {
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'imageID'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
+    .then(() => db.deleteImage(params.userID, params.unitID, params.pageID, params.imageID))
+    .then(() => api.noContent(res))
+    .catch(console.log);
+});
+
 module.exports = router;

@@ -13,6 +13,7 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import copy from "copy-to-clipboard";
 import CryptoJS from "crypto-js";
 import { PanelContext } from "../Page/Panel";
+import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import EditImage from "../Dialogue/EditImage";
 import { HotKeys } from "react-hotkeys";
 import { requestURL, routeIndex, timeFormat, maxImageBase } from "../Interface/Constant";
@@ -94,16 +95,22 @@ export default function Gallery(props) {
     }
   }
 
-  // state about rename
+  // state about rename and delete
   const [rename, setRename] = React.useState(false);
   const [imageName, setImageName] = React.useState("");
   const [imageCheck, setImageCheck] = React.useState(false);
   const [currentImageID, setCurrentImageID] = React.useState(0);
+  const [deleteConfirm, setDeleteConfirm] = React.useState(false);
   const toggleRename = (title, id) => {
     setCurrentImageID(id);
     setImageName(title);
     setImageCheck(false);
     setRename(true);
+  }
+  const toggleDeleteConfirm = (title, id) => {
+    setCurrentImageID(id);
+    setImageName(title);
+    setDeleteConfirm(true);
   }
 
   const uploadImage = (event) => {
@@ -139,6 +146,16 @@ export default function Gallery(props) {
       });
     }
   };
+
+  const deleteImage = (imageID) => {
+    context.request("POST/delete/image", {
+      unitID: state.unitID,
+      pageID: state.pageID,
+      imageID: imageID
+    }).then(() => {
+      // TODO
+    });
+  }
 
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
@@ -183,7 +200,11 @@ export default function Gallery(props) {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="secondary">
+                    <Button
+                      size="small"
+                      color="secondary"
+                      onClick={() => toggleDeleteConfirm(item.title, item.id)}
+                    >
                       {context.lang.panel.gallery.delete}
                     </Button>
                     <div style={{ flexGrow: 1 }}></div>
@@ -252,6 +273,13 @@ export default function Gallery(props) {
           toggleMessageBox: handle.toggleMessageBox,
           close: () => setRename(false)
         }}
+      />
+      <DeleteConfirm
+        open={deleteConfirm}
+        type="image"
+        name={imageName}
+        handleClose={() => setDeleteConfirm(false)}
+        handleDeleteTarget={() => deleteImage(currentImageID)}
       />
     </HotKeys>
   );

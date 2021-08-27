@@ -4,6 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var db = require('../bin/db');
 var api = require('../bin/api');
+var CryptoJS = require('crypto-js');
 
 router.post('/up', (req, res) => {
   const params = new Object();
@@ -59,25 +60,25 @@ router.post('/image', (req, res) => {
       let basicPath = path.join(__dirname, '../src/image');
       let avatarBase = params.image.replace(api.typeReg, '');
       let avatarBuffer = Buffer.from(avatarBase, 'base64');
-      let tuple = `${params.userID}_${params.unitID}_${params.pageID}_${imageID}`;
+      let tuple = CryptoJS.SHA1(new Date().toString()).toString();
       return new Promise((resolve, reject) => {
         fs.writeFile(
-          path.join(basicPath, `${tuple}${api.typeFormat(params.type)}`),
+          path.join(basicPath, `${params.userID}_${tuple}${api.typeFormat(params.type)}`),
           avatarBuffer,
-          (err) => { if (!err) resolve([imageID, avatarBuffer.length]); else reject(); }
+          (err) => { if (!err) resolve([imageID, avatarBuffer.length, tuple]); else reject(); }
         );
       });
     })
-    .then(([imageID, byte]) => db.newImage(
+    .then(([imageID, byte, tuple]) => db.newImage(
       params.userID,
       params.unitID,
       params.pageID,
       imageID,
-      api.typeFormat(params.type),
+      `${tuple}${api.typeFormat(params.type)}`,
       byte >> 10
     ))
     .then((out) => res.send(out))
-    .catch(() => api.internalServerError(res));
+    .catch(console.log);
 });
 
 module.exports = router;

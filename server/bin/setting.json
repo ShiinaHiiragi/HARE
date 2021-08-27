@@ -15,7 +15,7 @@
       "create table userSetting(",
       "userID integer primary key references userInfo,",
       "unitSize integer not null default 0,",
-      "password varchar(64) not null,",
+      "password varchar(128) not null,",
       "username varchar(16) not null,",
       "avatar varchar(16),",
       "city varchar(16),",
@@ -89,7 +89,7 @@
       "imageID integer not null,",
       "imageName varchar(16) not null,",
       "imageCreateTime timestamp not null,",
-      "imageType varchar(16) not null,",
+      "imageType varchar(64) not null,",
       "imageByte integer not null,",
       "foreign key(userID, unitID, pageID) references page(userID, unitID, pageID)",
       "on update cascade on delete cascade,",
@@ -98,8 +98,8 @@
     "onlineUser": [
       "create table onlineUser(",
       "userID integer primary key references userInfo,",
-      "session varchar(64) not null,",
-      "token varchar(128) not null,",
+      "session varchar(56) not null,",
+      "token varchar(64) not null,",
       "lastTime timestamp not null);"
     ]
   }

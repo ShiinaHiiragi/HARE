@@ -1,6 +1,5 @@
 var express = require('express');
-var SHA512 = require('crypto-js').SHA512;
-var SHA256 = require('crypto-js').SHA256;
+var CryptoJS = require('crypto-js');
 var db = require('../bin/db');
 var api = require('../bin/api');
 var router = express.Router();
@@ -19,8 +18,10 @@ router.post('/sign', (req, res) => {
     .then(() => db.query(`select userID from userInfo natural join userSetting
       where email = '${params.email}' and password = '${params.password}'`))
     .then((out) => {
-      const token = SHA512(params.email + params.password + new Date().toISOString()).toString();
-      const session = SHA256(new Date().toISOString()).toString();
+      const token = CryptoJS.SHA256(
+        params.email + params.password + new Date().toISOString()
+      ).toString();
+      const session = CryptoJS.SHA224(new Date().toISOString()).toString();
       if (out.length > 0) {
         db.newToken(out[0].userid, token, session)
           .then(() => res.send({ uid: out[0].userid, token: token, session: session }));

@@ -2,7 +2,7 @@ const Pool = require('pg').Pool
 const fs = require('fs');
 const path = require('path');
 const api = require('./api');
-var SHA256 = require('crypto-js').SHA256;
+var CryptoJS = require('crypto-js');
 
 const setting = JSON.parse(fs.readFileSync(path.join(__dirname, './setting.json')))
 const pool = new Pool(setting.poolSetting);
@@ -169,7 +169,7 @@ const updateToken = (userID) => newToken(userID);
 
 exports.newToken = newToken;
 exports.updateSession = (userID) => new Promise((resolve, reject) => {
-  const session = SHA256(new Date().toISOString()).toString();
+  const session = CryptoJS.SHA224(new Date().toISOString()).toString();
   return query(`update onlineUser set session = '${session}' where userID = ${userID}`)
     .then(() => resolve(session))
     .catch(reject)
@@ -652,6 +652,20 @@ exports.editImage = (userID, unitID, pageID, imageID, imageName) =>
   new Promise((resolve, reject) => (
     query(`update image set imageName = '${imageName}' where userID = ${userID}
       and unitID = ${unitID} and pageID = ${pageID} and imageID = ${imageID}`)
+      .then(resolve)
+      .catch(reject)
+  ));
+
+exports.deleteImage = (userID, unitID, pageID, imageID) =>
+  new Promise((resolve, reject) => (
+    query(`begin; delete from image where userID = ${userID} and
+      unitID = ${unitID} and pageID = ${pageID} and imageID = ${imageID};
+      update image set imageID = -imageID + 1 where userID = ${userID} and
+      unitID = ${unitID} and pageID = ${pageID} and imageID > ${imageID};
+      update image set imageID = -imageID where userID = ${userID} and
+      unitID = ${unitID} and pageID = ${pageID} and imageID < 0;
+      update page set imgSize = imgSize - 1 where userID = ${userID}
+      and unitID = ${unitID} and pageID = ${pageID}; commit;`)
       .then(resolve)
       .catch(reject)
   ));

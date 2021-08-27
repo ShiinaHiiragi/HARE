@@ -38,13 +38,4 @@ exports.debugFunction = () => {
     fs.readdir(path.join(__dirname, '../src/avatar'),
       (_, dir) => { db.editAvatarExtent(1, path.extname(dir[0])); });
   })
-  .then(() => {
-    fs.readdir(path.join(__dirname, '../src/image'), (_, dir) => {
-      Promise.all(dir.map((item) => new Promise((resolve, reject) => {
-        const param = item.match(/(\d+)_(\d+)_(\d+)_(\d+)(\.\w{3,4})/);
-        db.newImage(param[1], param[2], param[3], param[4], param[5],
-          Math.round(1000 * Math.random()));
-      })))
-    })
-  });
 };

@@ -123,7 +123,7 @@ export {
 const nil = () => {};
 const next = () => new Promise((resolve) => resolve);
 const randomTimestamp = () => CryptoJS.MD5(new Date().toString()).toString();
-const encryptPassword = (password, email) => CryptoJS.SHA256(email + password).toString();
+const encryptPassword = (password, email) => CryptoJS.SHA512(email + password).toString();
 const cookieTime = (daysCount) =>
   new Date(new Date().getTime() + daysCount * (24 * 3600 * 1000));
 const rankMap = { "X": "A", "S": "B", "A": "C", "B": "D", "C": "E", "D": "F" };
