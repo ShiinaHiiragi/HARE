@@ -48,7 +48,6 @@ router.get('/image', (req, res) => {
     .then(() => db.getImageExtent(params.userID, params.unitID, params.pageID, params.imageID))
     .then((out) => {
       const tuple = `${params.userID}_${params.unitID}_${params.pageID}_${params.imageID}`;
-      console.log(`../src/image/${tuple}${out[0].imagetype}`);
       res.sendFile(path.join(
         __dirname,
         `../src/image/${tuple}${out[0].imagetype}`
