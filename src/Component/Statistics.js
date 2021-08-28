@@ -146,10 +146,11 @@ export default function Statistics(props) {
   const [barData, setBarData] = React.useState([]);
   const [graph, setGraph] = React.useState("line");
 
-  const [lostAll, setLostAll] = React.useState(false);
-  const [lostEach, setLostEach] = React.useState([]);
   const [expandAll, setExpandAll] = React.useState(false);
   const [expandEach, setExpandEach] = React.useState([]);
+  const [lostAll, setLostAll] = React.useState(null);
+  const [lostEach, setLostEach] = React.useState(new Array(maxRecall).fill(null));
+  const [logEach, setLogEach] = React.useState(new Array(maxRecall).fill(null));
   React.useEffect(() => {
     if (state.current.route === routeIndex.stat) {
       setAnime(Math.random());
@@ -167,8 +168,9 @@ export default function Statistics(props) {
       }, pageJump ? 0 : setStateDelay);
     }
     if (pageJump) {
-      setLostAll([]);
-      setLostEach(() => new Array(maxRecall).fill().map(() => []));
+      setLostAll(null);
+      setLostEach(new Array(maxRecall).fill(null));
+      setLogEach(new Array(maxRecall).fill(null));
     }
   // if any of (unitID, pageID, route) change, than the page change
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -313,6 +315,14 @@ export default function Statistics(props) {
           expandEach.splice(trackID - 1, 1);
           return [...expandEach];
         })
+        setLostEach((lostEach) => {
+          lostEach.splice(trackID - 1, 1);
+          return [...lostEach];
+        });
+        setLogEach((logEach) => {
+          logEach.splice(trackID - 1, 1);
+          return [...logEach];
+        });
         handle.setPageDetail((pageDetail) => ({
           ...pageDetail, trackSize: pageDetail.trackSize - 1
         }))
@@ -343,6 +353,47 @@ export default function Statistics(props) {
         handle.setCurrentRoute(routeIndex.cover);
       }
     });
+  };
+
+  const toggleCollapseAll = () => {
+    setExpandAll((expandAll) => !expandAll);
+    setLostAll((lostAll) => {
+      if (lostAll === null) {
+        let lost = [];
+        state.itemList.forEach((item) => {
+          for (let subItem in Object.keys(item)) {
+            const times = Number(subItem);
+            if (!isNaN(times) && item[times] === "F") {
+              lost.push(item.id);
+              break;
+            }
+          }
+        })
+        return lost;
+      } else return lostAll;
+    });
+  };
+
+  const toggleCollapseEach = (index) => {
+    let lost = [];
+    state.itemList.forEach((subItem) => {
+      if (subItem[index + 1] === "F")
+        lost.push(subItem.id);
+    });
+    setLostEach((lostEach) => {
+      if (lostEach[index] === null) {
+        return lostEach.map((subItem, subIndex) => 
+          index === subIndex ? lost : subItem);
+      } else return lostEach;
+    })
+    setLogEach((lostEach) => {
+      if (lostEach[index] === null) {
+        return null;
+      } else return lostEach;
+    })
+    setExpandEach((expandEach) => 
+      expandEach.map((subItem, subIndex) =>
+      subIndex === index ? !subItem : subItem));
   };
 
   return (
@@ -436,20 +487,7 @@ export default function Statistics(props) {
               className={clsx(classes.expand, {
                 [classes.expandOpen]: expandAll,
               })}
-              onClick={() => {
-                setExpandAll((expandAll) => !expandAll);
-                let lost = [];
-                state.itemList.forEach((item) => {
-                  for (let subItem in Object.keys(item)) {
-                    const times = Number(subItem);
-                    if (!isNaN(times) && item[times] === "F") {
-                      lost.push(item.id);
-                      break;
-                    }
-                  }
-                })
-                setLostAll(lost);
-              }}
+              onClick={toggleCollapseAll}
             >
               <ExpandMoreIcon />
             </IconButton>
@@ -482,7 +520,7 @@ export default function Statistics(props) {
             <Button
               variant="outlined"
               color="primary"
-              disabled={!lostAll.length}
+              disabled={!lostAll?.length}
               startIcon={<CheckCircleOutlinedIcon />}
               style={{ borderRadius: 0, marginRight: 12 }}
               onClick={() => {
@@ -569,19 +607,7 @@ export default function Statistics(props) {
                 className={clsx(classes.expand, {
                   [classes.expandOpen]: expandEach[index],
                 })}
-                onClick={() => {
-                  let lost = [];
-                  state.itemList.forEach((subItem) => {
-                    if (subItem[index + 1] === "F")
-                      lost.push(subItem.id);
-                  });
-                  setLostEach((lostEach) => lostEach.map((subItem, subIndex) => 
-                    index === subIndex ? lost : subItem
-                  ))
-                  setExpandEach((expandEach) => 
-                    expandEach.map((subItem, subIndex) =>
-                    subIndex === index ? !subItem : subItem));
-                }}
+                onClick={() => toggleCollapseEach(index)}
               >
                 <ExpandMoreIcon />
               </IconButton>
@@ -598,7 +624,7 @@ export default function Statistics(props) {
               <Button
                 variant="outlined"
                 color="primary"
-                disabled={!lostEach?.[index]?.length}
+                disabled={!lostEach[index]?.length}
                 startIcon={<CheckCircleOutlinedIcon />}
                 style={{ borderRadius: 0, marginRight: 12 }}
                 onClick={() => {
