@@ -147,8 +147,8 @@ export default function Statistics(props) {
   const [graph, setGraph] = React.useState("line");
 
   const [expandAll, setExpandAll] = React.useState(false);
-  const [expandEach, setExpandEach] = React.useState([]);
   const [lostAll, setLostAll] = React.useState(null);
+  const [expandEach, setExpandEach] = React.useState(new Array(maxRecall).fill(false));
   const [lostEach, setLostEach] = React.useState(new Array(maxRecall).fill(null));
   const [logEach, setLogEach] = React.useState(new Array(maxRecall).fill(null));
   React.useEffect(() => {
@@ -356,44 +356,54 @@ export default function Statistics(props) {
   };
 
   const toggleCollapseAll = () => {
-    setExpandAll((expandAll) => !expandAll);
-    setLostAll((lostAll) => {
-      if (lostAll === null) {
-        let lost = [];
-        state.itemList.forEach((item) => {
-          for (let subItem in Object.keys(item)) {
-            const times = Number(subItem);
-            if (!isNaN(times) && item[times] === "F") {
-              lost.push(item.id);
-              break;
-            }
-          }
-        })
-        return lost;
-      } else return lostAll;
+    setExpandAll((expandAll) => {
+      if (!expandAll) {
+        setLostAll((lostAll) => {
+          if (lostAll === null) {
+            let lost = [];
+            state.itemList.forEach((item) => {
+              for (let subItem in Object.keys(item)) {
+                const times = Number(subItem);
+                if (!isNaN(times) && item[times] === "F") {
+                  lost.push(item.id);
+                  break;
+                }
+              }
+            })
+            return lost;
+          } else return lostAll;
+        });
+      }
+      return !expandAll;
     });
   };
 
   const toggleCollapseEach = (index) => {
-    let lost = [];
-    state.itemList.forEach((subItem) => {
-      if (subItem[index + 1] === "F")
-        lost.push(subItem.id);
+    setExpandEach((expandEach) => {
+      if (!expandEach[index]) {
+        setLostEach((lostEach) => {
+          let lost = [];
+          state.itemList.forEach((subItem) => {
+            if (subItem[index + 1] === "F")
+              lost.push(subItem.id);
+          });
+          if (lostEach[index] === null) {
+            return lostEach.map((subItem, subIndex) => 
+              index === subIndex ? lost : subItem);
+          } else return lostEach;
+        })
+        setLogEach((logEach) => {
+          console.log(logEach);
+          if (logEach[index] === null) {
+            // TODO: request to replace skeleton
+            return logEach.map((subItem, subIndex) => 
+              index === subIndex ? subItem : subItem);
+          } else return logEach;
+        })
+      }
+      return expandEach.map((subItem, subIndex) =>
+        subIndex === index ? !subItem : subItem)
     });
-    setLostEach((lostEach) => {
-      if (lostEach[index] === null) {
-        return lostEach.map((subItem, subIndex) => 
-          index === subIndex ? lost : subItem);
-      } else return lostEach;
-    })
-    setLogEach((lostEach) => {
-      if (lostEach[index] === null) {
-        return null;
-      } else return lostEach;
-    })
-    setExpandEach((expandEach) => 
-      expandEach.map((subItem, subIndex) =>
-      subIndex === index ? !subItem : subItem));
   };
 
   return (
