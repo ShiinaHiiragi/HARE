@@ -5,6 +5,10 @@ const log = [
     date: "2021-08-26T00:00:00.000Z",
     detail: [
       {
+        type: "New",
+        content: "Add exporting JSON of selected items"
+      },
+      {
         type: "Change",
         content: "Change encryption algorithm used in password, token and session"
       },

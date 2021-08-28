@@ -19,6 +19,7 @@ import NewItem from "../Dialogue/NewItem";
 import Move from "../Dialogue/Move";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import ChangeTrack from "../Dialogue/ChangeTrack";
+import CryptoJS from "crypto-js";
 import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
 import {
@@ -290,6 +291,27 @@ export default function View(props) {
     } else setColumn(defaultColumn(context.lang.grid));
   }, [context.lang, state.itemList]);
 
+  const exportItem = () => {
+    const selectedIndex = [...apiRef.current.getSelectedRows().keys()];
+    let datastr = "data:text/json;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(
+        selectedIndex.map((index) => ({
+          query: state.itemList[index - 1].query,
+          key: state.itemList[index - 1].key
+        })),
+        null,
+        2
+      ));
+    let downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", datastr);
+    downloadAnchorNode.setAttribute(
+      "download",
+      `${CryptoJS.SHA1(new Date().toString()).toString()}.json`
+    );
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
       <div tabIndex={-1} className={classes.buttonField}>
@@ -309,7 +331,7 @@ export default function View(props) {
           disabled={invalidDelete}
           startIcon={<GetAppOutlinedIcon />}
           className={clsx(classes.button, classes.exportButton)}
-          onClick={() => {}}
+          onClick={exportItem}
         >
           {context.lang.grid.buttons.export}
         </Button>
