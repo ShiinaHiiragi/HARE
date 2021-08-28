@@ -22,7 +22,9 @@ exports.dbInitialize = (clearAll) => new Promise((resolve, reject) => {
     const schemaSQL = Object.values(setting.schema).map(item => item.join(' '));
     api.syncEachChain(schemaSQL, (item, onsuccess, onerror) => {
       query(item).then(onsuccess).catch(onerror);
-    }).then(resolve).catch(reject);
+    })
+      .then(resolve)
+      .catch(reject);
   }
   if (clearAll) {
     const schemas = Object.keys(setting.schema).reverse();
@@ -95,7 +97,8 @@ const insertUser = (cmdLine, onsuccess, onerror) => {
 exports.getProfile = (userID) => new Promise((resolve, reject) => 
   query(`select userName, userID, email, gender, birth, city, tel, maxUnit, maxPage, maxItem, maxImg
     from userSetting natural join userInfo where userID = ${userID}`)
-    .then(resolve).catch(reject)
+    .then(resolve)
+    .catch(reject)
 );
 
 exports.editProfile = (userID, userName, birth, gender, tel, city) =>
@@ -104,7 +107,8 @@ exports.editProfile = (userID, userName, birth, gender, tel, city) =>
       birth = '${api.format(new Date(birth), 'yyyy-MM-dd')}',
       gender = '${gender}', tel = '${tel}', city = '${city}'
       where userID = '${userID}'`)
-      .then(resolve).catch(reject)
+      .then(resolve)
+      .catch(reject)
   );
 
 exports.editPassword = (userID, password, newPassword, res) =>
@@ -122,12 +126,15 @@ exports.editPassword = (userID, password, newPassword, res) =>
 
 exports.getAvatarExtent = (userID) => new Promise((resolve, reject) => 
   query(`select avatar from userSetting where userID = ${userID}`)
-  .then(resolve).catch(reject)
+    .then(resolve)
+    .catch(reject)
 );
 
 exports.editAvatarExtent = (userID, type) => new Promise((resolve, reject) => 
   query(`update userSetting set avatar = '${type === '.jpeg' ? '.jpg' : type}'
-    where userID = ${userID}`).then(resolve).catch(reject)
+    where userID = ${userID}`)
+    .then(resolve)
+    .catch(reject)
 );
 
 // db api for token and session
@@ -160,10 +167,12 @@ const newToken = (userID, token, session) => new Promise((resolve, reject) => {
       values(${userID}, '${token}', '${session}', now())
       on conflict (userID) do update set token = EXCLUDED.token,
       session = EXCLUDED.session, lastTime = EXCLUDED.lastTime`)
-      .then(resolve).catch(reject);
+      .then(resolve)
+      .catch(reject);
   else
     query(`update onlineUser set lastTime = now() where userID = ${userID}`)
-      .then(resolve).catch(reject);
+      .then(resolve)
+      .catch(reject);
 })
 const updateToken = (userID) => newToken(userID);
 
@@ -258,13 +267,15 @@ exports.newUnit = (userID, unitID, unitName) => new Promise((resolve, reject) =>
     update userSetting set unitSize = unitSize + 1 where userID = ${userID};
     insert into unit(userID, unitID, unitName, unitCreateTime)
     values(${userID}, ${unitID}, '${unitName}', now()); commit;`)
-    .then(resolve).catch(reject);
+    .then(resolve)
+    .catch(reject);
 });
 
 exports.editUnit = (userID, unitID, unitName) => new Promise((resolve, reject) => {
   query(`update unit set unitName = '${unitName}'
     where userID = ${userID} and unitID = ${unitID}`)
-    .then(resolve).catch(reject);
+    .then(resolve)
+    .catch(reject);
 });
 
 exports.moveUnit = (userID, less) => new Promise((resolve, reject) => {
@@ -274,7 +285,9 @@ exports.moveUnit = (userID, less) => new Promise((resolve, reject) => {
     where userID = ${userID} and unitID = ${less + 1};
     update unit set unitID = -unitID
     where userID = ${userID} and (unitID = ${-less} or unitID = ${-less - 1});
-    commit;`).then(resolve).catch(reject);
+    commit;`)
+    .then(resolve)
+    .catch(reject);
 });
 
 exports.deleteUnit = (userID, unitID) => new Promise((resolve, reject) => {
@@ -284,14 +297,16 @@ exports.deleteUnit = (userID, unitID) => new Promise((resolve, reject) => {
     where userID = ${userID} and unitID > ${unitID};
     update unit set unitID = -unitID
     where userID = ${userID} and unitID < 0; commit;`)
-    .then(resolve).catch(reject);
+    .then(resolve)
+    .catch(reject);
 });
 
 // db api for page
 exports.getPage = (userID, unitID, pageID) => new Promise((resolve, reject) => {
   query(`select itemSize, trackSize, pageCreateTime, timeThis from page
     where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
-    .then(resolve).catch(reject);
+    .then(resolve)
+    .catch(reject);
 });
 
 exports.newPage = (userID, unitID, pageID, pageName, pagePresent) => 
@@ -304,14 +319,17 @@ exports.newPage = (userID, unitID, pageID, pageName, pagePresent) =>
       where userID = ${userID} and unitID = ${unitID};
       insert into page(userID, unitID, pageID, pageName, pagePresent, pageCreateTime)
       values(${userID}, ${unitID}, ${pageID}, '${pageName}', '${pagePresent}', now());
-      commit;`).then(resolve).catch(reject);
+      commit;`)
+      .then(resolve)
+      .catch(reject);
 });
 
 exports.editPage = (userID, unitID, pageID, pageName, pagePresent) =>
   new Promise((resolve, reject) => {
     query(`update page set pageName = '${pageName}', pagePresent = '${pagePresent}'
       where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
-      .then(resolve).catch(reject);
+      .then(resolve)
+      .catch(reject);
   });
 
 exports.movePage = (userID, unitID, less) => new Promise((resolve, reject) => {
@@ -322,13 +340,15 @@ exports.movePage = (userID, unitID, less) => new Promise((resolve, reject) => {
     update page set pageID = -pageID
     where userID = ${userID} and unitID = ${unitID} and (
     pageID = ${-less} or pageID = ${-less - 1}); commit;`)
-    .then(resolve).catch(reject);
+    .then(resolve)
+    .catch(reject);
 });
 
 exports.editCover = (userID, unitID, pageID, cover) => new Promise((resolve, reject) => {
   query(`update page set pageCover = ${cover} where userID = ${userID}
     and unitID = ${unitID} and pageID = ${pageID}`)
-    .then(resolve).catch(reject);
+    .then(resolve)
+    .catch(reject);
 });
 
 exports.deletePage = (userID, unitID, pageID) => new Promise((resolve, reject) => {
@@ -343,14 +363,17 @@ exports.deletePage = (userID, unitID, pageID) => new Promise((resolve, reject) =
     commit;`)
     .then(() => query(`select pageSize from unit
       where userID = ${userID} and unitID = ${unitID}`))
-    .then(resolve).catch(reject);
+    .then(resolve)
+    .catch(reject);
 });
 
 // db api for item
 exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
   query(`select itemID, itemQuery, itemKey, itemCreateTime, itemRecord
     from item where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}
-    order by itemID asc`).then(resolve).catch(reject);
+    order by itemID asc`)
+    .then(resolve)
+    .catch(reject);
 });
 
 exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
@@ -387,16 +410,27 @@ exports.editItem = (userID, unitID, pageID, itemID, field, value) =>
     query(`update item set item${field} = '${value}'
       where userID = ${userID} and unitID = ${unitID}
       and pageID = ${pageID} and itemID = ${itemID}`)
-      .then(resolve).catch(reject)
+      .then(resolve)
+      .catch(reject)
   );
 
 exports.editTrack = (userID, unitID, pageID, itemID, trackID, value) =>
-  new Promise((resolve, reject) => 
-    query(`update item set itemRecord[${trackID}] = '${value}' where
-      userID = ${userID} and unitID = ${unitID}
-      and pageID = ${pageID} and itemID = ${itemID}`)
-      .then(resolve).catch(reject)
-  );
+  new Promise((resolve, reject) =>  {
+    query(`select itemRecord[${trackID}] from item where
+      (userID, unitID, pageID, itemID) = (${userID}, ${unitID}, ${pageID}, ${itemID})`)
+      .then(([{ itemrecord: src }]) => {
+        return new Promise((resolve, reject) =>
+          query(`update item set itemRecord[${trackID}] = '${value}' where
+            (userID, unitID, pageID, itemID) = (${userID}, ${unitID}, ${pageID}, ${itemID})`)
+            .then(() => resolve(src))
+            .catch(reject))
+      })
+      .then((src) => console.log(src) ?? query(`insert into log
+        (userID, unitID, pageID, itemID, trackID, modTime, src, dst)
+        values(${userID}, ${unitID}, ${pageID}, ${itemID}, ${trackID}, now(), '${src}', '${value}')`))
+      .then(resolve)
+      .catch(console.log)
+  });
 
 exports.moveItem = (userID, unitID, pageID, src, dst) =>
   new Promise((resolve, reject) => {
@@ -412,7 +446,9 @@ exports.moveItem = (userID, unitID, pageID, src, dst) =>
       where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID < 0;
       update item set itemID = ${dst}
       where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} and itemID = 0;
-      commit;`).then(resolve).catch(reject);
+      commit;`)
+      .then(resolve)
+      .catch(reject);
   });
 
 exports.deleteItem = (userID, unitID, pageID, itemID) =>

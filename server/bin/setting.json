@@ -95,6 +95,24 @@
       "on update cascade on delete cascade,",
       "primary key(userID, unitID, pageID, imageID));"
     ],
+    "log": [
+      "create table log(",
+      "userID integer not null,",
+      "unitID integer not null,",
+      "pageID integer not null,",
+      "itemID integer not null,",
+      "trackID integer not null,",
+      "modTime timestamp not null,",
+      "src char(1) not null,",
+      "dst char(1) not null,",
+      "foreign key(userID, unitID, pageID, itemID) ",
+      "references item(userID, unitID, pageID, itemID) ",
+      "on update cascade on delete cascade,",
+      "foreign key(userID, unitID, pageID, trackID) ",
+      "references track(userID, unitID, pageID, trackID) ",
+      "on update cascade on delete cascade,",
+      "primary key(userID, unitID, pageID, trackID, modTime));"
+    ],
     "onlineUser": [
       "create table onlineUser(",
       "userID integer primary key references userInfo,",
