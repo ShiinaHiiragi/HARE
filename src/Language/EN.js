@@ -85,7 +85,12 @@ const list = {
       barFar: "Fault",
       recollect: "Recollect Faulted",
       clearEachRecall: "Clear This Recall",
-      clearRecall: "Clear All"
+      clearRecall: "Clear All",
+      noLog: "(No Log Data)",
+      modTitle: "Post-Modify",
+      newTitle: "Append",
+      modData: "At {0} where ID = {1}, '{2} → {3}'",
+      newData: "At {0} where ID = {1}"
     },
     gallery: {
       rename: "Rename",

@@ -132,6 +132,7 @@ const getRank = (value, toLow) => {
     "B" : value < 96 ? "A" : value < 100 ? "S" : "X";
   return toLow ? rankMap[rank] : rank;
 }
+const markMap = { "P": "○", "F": "×", "L": "△" }
 const byteSize = str => new Blob([str]).size;
 export {
   nil,
@@ -140,6 +141,7 @@ export {
   cookieTime,
   randomTimestamp,
   getRank,
+  markMap,
   byteSize
 };
 

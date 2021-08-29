@@ -79,7 +79,12 @@ const list = {
       barFar: "错误",
       recollect: "回想有误词条",
       clearEachRecall: "清除此次记录",
-      clearRecall: "清空所有"
+      clearRecall: "清空所有",
+      noLog: "（没有日志信息）",
+      modTitle: "事后修改",
+      newTitle: "词条追加",
+      modData: "{0}，ID = {1}，「{2} → {3}」",
+      newData: "{0}，ID = {1}"
     },
     gallery: {
       rename: "重命名",

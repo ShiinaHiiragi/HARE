@@ -27,7 +27,8 @@ import {
   defaultDigit,
   setStateDelay,
   maxFrequency,
-  maxRecall
+  maxRecall,
+  markMap
 } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -131,6 +132,11 @@ const useStyles = makeStyles((theme) => ({
   log: {
     width: "100%",
     padding: theme.spacing(0, 2)
+  },
+  subLog: {
+    padding: theme.spacing(0, 2),
+    display: "flex",
+    flexDirection: "row"
   }
 }));
 
@@ -417,7 +423,9 @@ export default function Statistics(props) {
           ])
             .then(([modData, newData]) => {
               const concatData = modData.concat(newData);
-              console.log(concatData);
+              concatData.sort((left, right) =>
+                left.time < right.time ? -1 : left.time > right.time ? 1 : 0
+              );
               setLogEach((logEach) => logEach.map((subItem, subIndex) =>
                 index === subIndex ? concatData : subItem));
             });
@@ -681,18 +689,40 @@ export default function Statistics(props) {
                 {context.lang.panel.stat.clearEachRecall}
               </Button>
             </div>
-            <Typography component="div" className={classes.log}>
+            <div className={classes.log}>
               {logEach[index] === null
-                ? <div>
-                  <Skeleton variant="text" style={{ width: "50%" }} />
-                  <Skeleton variant="text" style={{ width: "60%" }} />
-                  <Skeleton variant="text" style={{ width: "40%" }} />
-                </div>
-                : JSON.stringify(logEach[index])}
-                {/* logEach[index].length
-                ? JSON.stringify(logEach[index])
-                : "NIL ARRAY!" */}
-            </Typography>
+                ? <Skeleton variant="text" style={{ width: "50%" }} />
+                : logEach[index].length
+                ? logEach[index].map((subItem, subIndex) =>
+                  <div key={subIndex}>
+                    {subItem.trans
+                      ? <div className={classes.subLog}>
+                        <Typography component="span" variant="subtitle2" style={{ minWidth: "6rem" }}>
+                          {context.lang.panel.stat.modTitle}
+                        </Typography>
+                        <Typography component="span" variant="body2">
+                          {stringFormat(context.lang.panel.stat.modData, [
+                            timeFormat(subItem.time, context.lang.panel.stat.timeFormatString),
+                            subItem.id,
+                            markMap[subItem.trans[0]],
+                            markMap[subItem.trans[1]]
+                          ])}
+                        </Typography>
+                      </div>
+                      : <div className={classes.subLog}>
+                        <Typography component="span" variant="subtitle2" style={{ minWidth: "6rem" }}>
+                          {context.lang.panel.stat.newTitle}
+                        </Typography>
+                        <Typography component="span" variant="body2">
+                          {stringFormat(context.lang.panel.stat.newData, [
+                            timeFormat(subItem.time, context.lang.panel.stat.timeFormatString),
+                            subItem.id
+                          ])}
+                        </Typography>
+                      </div>}
+                  </div>
+                ) : <Typography>{context.lang.panel.stat.noLog}</Typography>}
+            </div>
           </Collapse>
         </Card>
       ))}
