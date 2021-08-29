@@ -431,7 +431,7 @@ export default function Statistics(props) {
             .then(([modData, newData]) => {
               const concatData = modData.concat(newData);
               concatData.sort((left, right) =>
-                left.time < right.time ? -1 : left.time > right.time ? 1 : 0
+                left.time > right.time ? -1 : left.time < right.time ? 1 : 0
               );
               setLogEach((logEach) => logEach.map((subItem, subIndex) =>
                 index === subIndex ? concatData : subItem));

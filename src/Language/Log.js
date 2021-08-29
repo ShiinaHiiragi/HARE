@@ -6,6 +6,10 @@ const log = [
     detail: [
       {
         type: "New",
+        content: "Add log in statistics page for data modification"
+      },
+      {
+        type: "New",
         content: "Add exporting JSON of selected items"
       },
       {
