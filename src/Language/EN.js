@@ -87,10 +87,10 @@ const list = {
       clearEachRecall: "Clear This Recall",
       clearRecall: "Clear All",
       noLog: "(No Log Data)",
-      modTitle: "Post-Modify",
-      newTitle: "Append",
-      modData: "At {0} where ID = {1}, '{2} → {3}'",
-      newData: "At {0} where ID = {1}"
+      header: ["Log Type", "Entry ID", "Time", "Record"],
+      modData: "Post-Modify",
+      newData: "Append",
+      notApplicable: "N/A"
     },
     gallery: {
       rename: "Rename",

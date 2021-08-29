@@ -1,6 +1,9 @@
 import CryptoJS from "crypto-js";
 import markdownToTxt from "markdown-to-txt";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
+import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
+import CloseIcon from "@material-ui/icons/Close";
+import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
 import AlarmOutlinedIcon from "@material-ui/icons/AlarmOutlined";
@@ -132,7 +135,11 @@ const getRank = (value, toLow) => {
     "B" : value < 96 ? "A" : value < 100 ? "S" : "X";
   return toLow ? rankMap[rank] : rank;
 }
-const markMap = { "P": "○", "F": "×", "L": "△" }
+const markMap = {
+  "P": <RadioButtonUncheckedIcon fontSize="inherit" />,
+  "F": <CloseIcon fontSize="inherit" />,
+  "L": <ChangeHistoryIcon fontSize="inherit" />
+}
 const byteSize = str => new Blob([str]).size;
 export {
   nil,

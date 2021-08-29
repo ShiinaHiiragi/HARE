@@ -7,11 +7,18 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableRow from "@material-ui/core/TableRow";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import Accuracy from "./Accuracy";
 import Frequency from "./Frequency";
 import Chart from "./Chart";
@@ -693,35 +700,44 @@ export default function Statistics(props) {
               {logEach[index] === null
                 ? <Skeleton variant="text" style={{ width: "50%" }} />
                 : logEach[index].length
-                ? logEach[index].map((subItem, subIndex) =>
-                  <div key={subIndex}>
-                    {subItem.trans
-                      ? <div className={classes.subLog}>
-                        <Typography component="span" variant="subtitle2" style={{ minWidth: "6rem" }}>
-                          {context.lang.panel.stat.modTitle}
-                        </Typography>
-                        <Typography component="span" variant="body2">
-                          {stringFormat(context.lang.panel.stat.modData, [
-                            timeFormat(subItem.time, context.lang.panel.stat.timeFormatString),
-                            subItem.id,
-                            markMap[subItem.trans[0]],
-                            markMap[subItem.trans[1]]
-                          ])}
-                        </Typography>
-                      </div>
-                      : <div className={classes.subLog}>
-                        <Typography component="span" variant="subtitle2" style={{ minWidth: "6rem" }}>
-                          {context.lang.panel.stat.newTitle}
-                        </Typography>
-                        <Typography component="span" variant="body2">
-                          {stringFormat(context.lang.panel.stat.newData, [
-                            timeFormat(subItem.time, context.lang.panel.stat.timeFormatString),
-                            subItem.id
-                          ])}
-                        </Typography>
-                      </div>}
-                  </div>
-                ) : <Typography>{context.lang.panel.stat.noLog}</Typography>}
+                ? <TableContainer className={classes.tableField}>
+                  <Table className={classes.table} size="small">
+                    <TableHead>
+                      <TableRow>
+                        {context.lang.panel.stat.header.map((item, index) => (
+                          <TableCell align="center" key={index} children={item} />
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {logEach[index].map((subItem, subIndex) => (
+                        <TableRow key={subIndex}>
+                          <TableCell component="th" scope="row" align="center">
+                            {subItem.trans
+                              ? context.lang.panel.stat.modData
+                              : context.lang.panel.stat.newData}
+                          </TableCell>
+                          <TableCell align="center">
+                            {subItem.id}
+                          </TableCell>
+                          <TableCell align="center">
+                            {timeFormat(subItem.time, context.lang.panel.stat.timeFormatString)}
+                          </TableCell>
+                          <TableCell align="center">
+                            {subItem.trans
+                              ? <span>
+                                {markMap[subItem.trans[0]]}
+                                <ArrowRightAltIcon fontSize="inherit"/>
+                                {markMap[subItem.trans[1]]}
+                              </span>
+                              : context.lang.panel.stat.notApplicable}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                : <Typography>{context.lang.panel.stat.noLog}</Typography>}
             </div>
           </Collapse>
         </Card>

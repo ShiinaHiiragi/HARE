@@ -81,10 +81,10 @@ const list = {
       clearEachRecall: "清除此次记录",
       clearRecall: "清空所有",
       noLog: "（没有日志信息）",
-      modTitle: "事后修改",
-      newTitle: "词条追加",
-      modData: "{0}，ID = {1}，「{2} → {3}」",
-      newData: "{0}，ID = {1}"
+      header: ["类型", "词条序号", "时间","记录"],
+      modData: "事后修改",
+      newData: "追加词条",
+      notApplicable: "不适用"
     },
     gallery: {
       rename: "重命名",
