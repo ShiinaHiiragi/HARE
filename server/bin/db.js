@@ -425,11 +425,11 @@ exports.editTrack = (userID, unitID, pageID, itemID, trackID, value) =>
             .then(() => resolve(src))
             .catch(reject))
       })
-      .then((src) => console.log(src) ?? query(`insert into log
+      .then((src) => query(`insert into log
         (userID, unitID, pageID, itemID, trackID, modTime, src, dst)
         values(${userID}, ${unitID}, ${pageID}, ${itemID}, ${trackID}, now(), '${src}', '${value}')`))
       .then(resolve)
-      .catch(console.log)
+      .catch(reject)
   });
 
 exports.moveItem = (userID, unitID, pageID, src, dst) =>
@@ -702,6 +702,15 @@ exports.deleteImage = (userID, unitID, pageID, imageID) =>
       unitID = ${unitID} and pageID = ${pageID} and imageID < 0;
       update page set imgSize = imgSize - 1 where userID = ${userID}
       and unitID = ${unitID} and pageID = ${pageID}; commit;`)
+      .then(resolve)
+      .catch(reject)
+  ));
+
+// db api for log
+exports.getLog = (userID, unitID, pageID, trackID) =>
+  new Promise((resolve, reject) => (
+    query(`select itemID, modTime, src, dst from log where userID = ${userID}
+      and unitID = ${unitID} and pageID = ${pageID} and trackID = ${trackID}`)
       .then(resolve)
       .catch(reject)
   ));

@@ -90,7 +90,7 @@ const defaultColumn = (langGrid) => [
     type: "dateTime",
     headerName: langGrid?.column?.time,
     valueFormatter: (param) =>
-      timeFormat(new Date(param.value), langGrid.column.timeFormatString),
+      timeFormat(param.value, langGrid.column.timeFormatString),
     width: 200,
     align: "center",
     headerAlign: "center"
@@ -154,6 +154,8 @@ const stringFormat = (rawString, replaceArray) => {
 };
 
 const timeFormat = (transDate, formatString) => {
+  if (typeof transDate === "string")
+    transDate = new Date(transDate);
   var formatComponent = {
     "M+": transDate.getMonth() + 1,
     "d+": transDate.getDate(),

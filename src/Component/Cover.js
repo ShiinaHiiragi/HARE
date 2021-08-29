@@ -158,7 +158,7 @@ export default function Cover(props) {
             &emsp;
             {stringFormat(context.lang.panel.cover.createTime, [
               timeFormat(
-                new Date(state.pageDetail.pageCreateTime),
+                state.pageDetail.pageCreateTime,
                 "yyyy-MM-dd hh:mm:ss"
               )
             ])}

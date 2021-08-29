@@ -84,7 +84,11 @@ export default function Panel(props) {
       ...messageBoxInfo, open: false
     }));
   };
-  const packedRequest = React.useCallback((uri, query, unauthorized) => {
+
+  // unauthorized: function or undefined. the unauthorized will be
+  // executed if unauthorized is a function and return 401 or 409
+  // noLoading: if true, the loading won't be toggled if request for a long time
+  const packedRequest = React.useCallback((uri, query, unauthorized, noLoading) => {
     let clockLoading = null;
     cookie.save("session", session);
     const split = uri.charAt(0).toLowerCase() === "g" ? 3 : 4;
@@ -106,8 +110,8 @@ export default function Panel(props) {
       conflict: () => setConflict(true),
       lang: globalLang,
       unauthorized: unauthorized,
-      toggleLoading: toggleLoading,
-      closeLoading: closeLoading
+      toggleLoading: !noLoading && toggleLoading,
+      closeLoading: !noLoading && closeLoading,
     };
     return split === 3 ? packedGET(params) : packedPOST(params);
   }, [globalLang, session]);

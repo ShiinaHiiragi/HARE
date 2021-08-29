@@ -242,7 +242,7 @@ export default function License(props) {
                         </Typography>
                         <Typography component="span" variant="subtitle1" color="textSecondary">
                           {" ("}
-                          {timeFormat(new Date(item.date), lang.popup.about.timeFormatString)}
+                          {timeFormat(item.date, lang.popup.about.timeFormatString)}
                           {")"}
                         </Typography>
                       </div>

@@ -17,6 +17,7 @@ import Frequency from "./Frequency";
 import Chart from "./Chart";
 import Collapse from "@material-ui/core/Collapse";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
+import Skeleton from "@material-ui/lab/Skeleton";
 import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
 import {
@@ -126,6 +127,10 @@ const useStyles = makeStyles((theme) => ({
   },
   selector: {
     flexDirection: "row"
+  },
+  log: {
+    width: "100%",
+    padding: theme.spacing(0, 2)
   }
 }));
 
@@ -165,12 +170,10 @@ export default function Statistics(props) {
       setTimeout(() => {
         setExpandAll(false);
         setExpandEach(new Array(maxRecall).fill(false));
+        setLostAll(null);
+        setLostEach(new Array(maxRecall).fill(null));
+        setLogEach(new Array(maxRecall).fill(null));
       }, pageJump ? 0 : setStateDelay);
-    }
-    if (pageJump) {
-      setLostAll(null);
-      setLostEach(new Array(maxRecall).fill(null));
-      setLogEach(new Array(maxRecall).fill(null));
     }
   // if any of (unitID, pageID, route) change, than the page change
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -392,14 +395,33 @@ export default function Statistics(props) {
               index === subIndex ? lost : subItem);
           } else return lostEach;
         })
-        setLogEach((logEach) => {
-          console.log(logEach);
-          if (logEach[index] === null) {
-            // TODO: request to replace skeleton
-            return logEach.map((subItem, subIndex) => 
-              index === subIndex ? subItem : subItem);
-          } else return logEach;
-        })
+
+        if (logEach[index] === null) {
+          Promise.all([
+            context.request("GET/data/log", {
+              unitID: state.current.unitID,
+              pageID: state.current.pageID,
+              trackID: index + 1
+            }, undefined, true),
+            new Promise((resolve) => {
+              let newData = [], endTime = state.statInfo[index].endTime;
+              if (endTime) {
+                endTime = new Date(endTime);
+                state.itemList.forEach((item) => {
+                  if (new Date(item.time) - endTime > 0)
+                    newData.push({ id: item.id, time: item.time });
+                })
+                resolve(newData);
+              } else resolve(newData);
+            })
+          ])
+            .then(([modData, newData]) => {
+              const concatData = modData.concat(newData);
+              console.log(concatData);
+              setLogEach((logEach) => logEach.map((subItem, subIndex) =>
+                index === subIndex ? concatData : subItem));
+            });
+        }
       }
       return expandEach.map((subItem, subIndex) =>
         subIndex === index ? !subItem : subItem)
@@ -580,13 +602,13 @@ export default function Statistics(props) {
               </Typography>
               <Typography variant="subtitle2" color="textSecondary">
                 {timeFormat(
-                  new Date(item.startTime),
+                  item.startTime,
                   context.lang.panel.stat.timeFormatString
                 )}
                 {item.endTime
                   ? " ~ " +
                     timeFormat(
-                      new Date(item.endTime),
+                      item.endTime,
                       context.lang.panel.stat.timeFormatString
                     ) +
                     ` (${Stat.timestampCount(
@@ -659,6 +681,18 @@ export default function Statistics(props) {
                 {context.lang.panel.stat.clearEachRecall}
               </Button>
             </div>
+            <Typography component="div" className={classes.log}>
+              {logEach[index] === null
+                ? <div>
+                  <Skeleton variant="text" style={{ width: "50%" }} />
+                  <Skeleton variant="text" style={{ width: "60%" }} />
+                  <Skeleton variant="text" style={{ width: "40%" }} />
+                </div>
+                : JSON.stringify(logEach[index])}
+                {/* logEach[index].length
+                ? JSON.stringify(logEach[index])
+                : "NIL ARRAY!" */}
+            </Typography>
           </Collapse>
         </Card>
       ))}

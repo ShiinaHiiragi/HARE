@@ -199,7 +199,7 @@ export default function Gallery(props) {
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
                       {timeFormat(
-                        new Date(item.time),
+                        item.time,
                         context.lang.panel.gallery.timeFormatString
                       )}
                     </Typography>

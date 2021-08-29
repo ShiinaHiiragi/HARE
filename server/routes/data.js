@@ -122,4 +122,18 @@ router.get('/image', (req, res) => {
     .catch((err) => api.catchError(err, res));
 });
 
+router.get('/log', (req, res) => {
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => api.param(req.query, params, ['unitID', 'pageID', 'trackID'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.getLog(params.userID, params.unitID, params.pageID, params.trackID))
+    .then((out) => res.send(out.map((item) => ({
+      id: item.itemid,
+      time: item.modtime,
+      trans: [item.src, item.dst]
+    }))))
+    .catch((err) => api.catchError(err, res));
+});
+
 module.exports = router;
