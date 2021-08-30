@@ -11,6 +11,9 @@ exports.super = {
   item: "page"
 };
 
+const maxItemByte = 32768;
+const byteSize = (str) => Buffer.from(str).length;
+
 // api for respond status
 const noContent = (res) => res.status(204).send();
 const notAuthorized = (res, msg) => res.status(401).send(msg);
@@ -175,6 +178,9 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
         if (keyName === 'birth' &&
           (isNaN(new Date(paramString)) ||
           (new Date() - new Date(paramString) < 0)))
+          { invalid = true; break loop; }
+        if ((keyName === 'query' || keyName === 'key') &&
+          byteSize(paramString) > maxItemByte)
           { invalid = true; break loop; }
         dst[keyName] = paramString
       } else if (paramType === 'array') {
