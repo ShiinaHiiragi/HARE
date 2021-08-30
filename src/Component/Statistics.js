@@ -474,7 +474,7 @@ export default function Statistics(props) {
       state.statInfo[index].pure / itemSize);
     const linearRegression = new SLR(xAxis, yAxis);
     const polynomialRegression = new PolynomialRegression(xAxis, yAxis, times);
-    const katexString =  linearRegression.toLaTeX?.(precision)
+    const katexString =  linearRegression.toLaTeX?.(precision || 1)
       .replace?.(/\*/g, "").replace?.(/x/g, "n");
     setNegative(linearRegression.coefficients[1] < 0);
     setLinear(typeof katexString === "string" ? katexString : " ");
