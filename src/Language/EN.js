@@ -60,7 +60,8 @@ const list = {
         tooRare: "Too Rarely",
         tooFew: "Too Few Entries",
         noData: "No Data",
-        negative: "Negative Correlation"
+        negative: "Negative Correlation",
+        overfit: "Overfitting"
       },
       timeFormatString: "MM/dd/yyyy hh:mm:ss",
       ongoing: " (Ongoing)",

@@ -60,7 +60,8 @@ const list = {
         tooRare: "间隔过长",
         tooFew: "词条过少",
         noData: "暂无数据",
-        negative: "负相关"
+        negative: "负相关",
+        overfit: "过拟合"
       },
       timeFormatString: "yyyy-MM-dd hh:mm:ss",
       ongoing: "（正在进行）",

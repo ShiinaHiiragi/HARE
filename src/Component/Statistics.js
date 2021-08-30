@@ -581,6 +581,7 @@ export default function Statistics(props) {
                 {context.lang.panel.stat.prediction}
               </Typography>
               {Stat.digitsPercentage(poly, 1, precision)}
+              {(poly > 1 || poly < 0) && ` (${context.lang.panel.stat.judge.overfit})`}
             </Typography>}
             <Popover
               open={Boolean(anchorEl)}
