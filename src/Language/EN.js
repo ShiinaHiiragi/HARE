@@ -366,7 +366,9 @@ const list = {
     newPasswordRange: "The size of new password is out of range.",
     passwordChanged: "Your password has been changed successfully.",
     changeRank: "The display of rank has been changed to {0}",
-    copyImageLink: "The link of the image has been copied to clipboard. Paste it in MARKDOWN editor and it won't be displayed outside of this site."
+    copyImageLink: "The link of the image has been copied to clipboard. Paste it in MARKDOWN editor and it won't be displayed outside of this site.",
+    nonJSON: "The file you selected is not JSON.",
+    invalidJSON: "Formatting of uploaded JSON is invalid.",
   },
   grid: {
     column: {

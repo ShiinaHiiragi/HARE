@@ -576,7 +576,10 @@ export default function Statistics(props) {
                 variant="body2"
                 color="textSecondary"
                 component="span"
-                onMouseEnter={(event) => setAnchorEl(event.currentTarget)}
+                onMouseEnter={(event) => {
+                  if (state.statInfo.length >= 3)
+                    setAnchorEl(event.currentTarget);
+                }}
                 onMouseLeave={() => leaveOverlay = setTimeout(() => setAnchorEl(null), leaveDelay)}>
                 {context.lang.panel.stat.prediction}
               </Typography>
@@ -601,7 +604,7 @@ export default function Statistics(props) {
                   valueLabelDisplay="auto"
                   step={1}
                   min={1}
-                  max={trackSize - 1}
+                  max={trackSize}
                 />
               </Paper>
             </Popover>

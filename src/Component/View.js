@@ -15,7 +15,7 @@ import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 import PublishOutlinedIcon from "@material-ui/icons/PublishOutlined";
-import { defaultColumn, routeIndex } from "../Interface/Constant";
+import { defaultColumn, routeIndex, byteSize, maxItemByte } from "../Interface/Constant";
 import NewItem from "../Dialogue/NewItem";
 import Move from "../Dialogue/Move";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
@@ -92,6 +92,7 @@ export default function View(props) {
   const apiRef = useGridApiRef();
   const { state, handle } = props;
   const context = React.useContext(PanelContext);
+  const jsonRef = React.createRef();
 
   const [column, setColumn] = React.useState(defaultColumn(context.lang.grid));
   const [invalidDelete, setInvalidDelete] = React.useState(true);
@@ -232,7 +233,7 @@ export default function View(props) {
         setNewItem(true);
       } else if (params.field === "id") toggleMove();
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiRef]);
 
   React.useEffect(() => {
@@ -248,7 +249,7 @@ export default function View(props) {
       const handleFilterChange = (event) => {
         applyValue({ ...item, value: event.target.value });
       };
-  
+
       return (
         <FormControl variant="standard">
           <InputLabel>{context.lang.grid.inherent.filterPanelInputLabel}</InputLabel>
@@ -295,9 +296,49 @@ export default function View(props) {
     } else setColumn(defaultColumn(context.lang.grid));
   }, [context.lang, state.itemList]);
 
-  const importItem = () => {
 
+  const readJSON = (event) => {
+    const targetFile = event.target.files[0];
+    if (targetFile.type !== "application/json") {
+      if (document.querySelector("#jsonRef"))
+        document.querySelector("#jsonRef").value = null;
+      handle.toggleMessageBox(context.lang.message.nonJSON, "warning");
+      return;
+    }
+    let reader = new FileReader();
+    reader.readAsText(targetFile);
+    reader.onload = (event) => {
+      let resultObject;
+      if (document.querySelector("#jsonRef"))
+        document.querySelector("#jsonRef").value = null;
+      try {
+        resultObject = JSON.parse(event.target.result);
+        if (!resultObject instanceof Array)
+          throw new Error();
+        let filterObject = resultObject.filter((item) => {
+          if (typeof item !== "object")
+            return false;
+          if (Object.keys(item).length !== 2)
+            return false;
+          if (typeof item.key !== "string" || typeof item.query !== "string")
+            return false;
+          if (byteSize(item.query) + byteSize(item.key) > maxItemByte)
+            return false;
+          return true;
+        })
+        if (filterObject.length !== resultObject.length)
+          throw new Error();
+        importItem(resultObject);
+      } catch (err) {
+        handle.toggleMessageBox(context.lang.message.invalidJSON, "warning");
+        return;
+      }
+    }
   };
+
+  const importItem = (items) => {
+    console.log(items);
+  }
 
   const exportItem = () => {
     const selectedIndex = [...apiRef.current.getSelectedRows().keys()];
@@ -338,8 +379,16 @@ export default function View(props) {
           color="primary"
           startIcon={<PublishOutlinedIcon />}
           className={clsx(classes.button, classes.exportButton)}
-          onClick={importItem}
+          component="label"
         >
+          <input
+            id="jsonRef"
+            ref={jsonRef}
+            type="file"
+            accept="application/json"
+            onChange={readJSON}
+            hidden
+          />
           {context.lang.grid.buttons.import}
         </Button>
         <Button
