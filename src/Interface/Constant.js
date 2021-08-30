@@ -51,9 +51,10 @@ export { rangePassword };
 // some constants about agreement configuration
 const defaultDigit = 2;
 const setStateDelay = 400;
+const leaveDelay = 200;
 const underline = "<u>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</u>";
 const emSpace = "&emsp;"
-export { defaultDigit, setStateDelay, underline, emSpace };
+export { defaultDigit, setStateDelay, leaveDelay, underline, emSpace };
 
 // the info about user interface
 const drawerWidth = 320;

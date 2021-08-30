@@ -74,6 +74,8 @@ const list = {
       class: "Frequency: ",
       acc: "Accuracy: ",
       linearRegression: "Linear Regression: ",
+      prediction: "Polynomial Regression Accuracy Prediction: ",
+      slider: "Times of Polynomial",
       timeSpan: [
         "Less than one second",
         (value) => value <= 1 ? "second" : "seconds",
@@ -270,6 +272,7 @@ const list = {
         "React Markdown": ["MARKDOWN Renderer", "6.0.2"],
         "Rehype Raw": ["HTML Renderer", "5.1.0"],
         "Rehype KaTeX": ["LaTeX Renderer", "0.13.11"],
+        "React KaTeX": ["React LaTeX Renderer", "2.0.2"],
         "React Syntax Highlighter": ["Code Highlight", "0.43.0"],
         "React Compound Timer": ["Timer when recalling", "1.2.0"],
         "Recharts": ["Statistics Charts Drawing", "2.0.10"],
@@ -277,6 +280,7 @@ const list = {
         "React App Rewired": ["Webpack Configuration Override", "2.1.8"],
         "Date-fns": ["Date Tool", "2.22.1"],
         "Copy to Clipboard": ["Clipboard Copying", "3.3.1"],
+        "ML Regression": ["Regression for Machine Learning", "5.0.0"],
         "Markdown to Text": ["Convert MARKDOWN String to Plain Text", "1.0.1"],
         "Github CSS": ["Stylesheet of Github Markdown", "4.0.0"]
       },

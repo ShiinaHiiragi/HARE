@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
+import Popover from "@material-ui/core/Popper";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
@@ -19,13 +20,14 @@ import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import Accuracy from "./Accuracy";
 import Frequency from "./Frequency";
 import Chart from "./Chart";
 import Collapse from "@material-ui/core/Collapse";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { SLR } from "ml-regression";
+import { SLR, PolynomialRegression } from "ml-regression";
 import { InlineMath } from "react-katex";
 import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
@@ -37,7 +39,8 @@ import {
   setStateDelay,
   maxFrequency,
   maxRecall,
-  markMap
+  markMap,
+  leaveDelay
 } from "../Interface/Constant";
 import "katex/dist/katex.min.css";
 
@@ -166,10 +169,6 @@ export default function Statistics(props) {
   const [lineData, setLineData] = React.useState([]);
   const [barData, setBarData] = React.useState([]);
   const [graph, setGraph] = React.useState("line");
-
-  // state about regression
-  const [linear, setLinear] = React.useState(" ");
-  const [negative, setNegative] = React.useState(false);
 
   const [expandAll, setExpandAll] = React.useState(false);
   const [lostAll, setLostAll] = React.useState(null);
@@ -379,7 +378,6 @@ export default function Statistics(props) {
   };
 
   const toggleCollapseAll = () => {
-    console.log(linear);
     setExpandAll((expandAll) => {
       if (!expandAll) {
         setLostAll((lostAll) => {
@@ -451,6 +449,14 @@ export default function Statistics(props) {
     });
   };
 
+  // state about regression
+  let leaveOverlay = null;
+  const [times, setTimes] = React.useState(0);
+  const [linear, setLinear] = React.useState(" ");
+  const [poly, setPoly] = React.useState(0);
+  const [negative, setNegative] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  
   React.useEffect(() => {
     const trackSize = state.statInfo.length;
     if (trackSize < 2) {
@@ -461,13 +467,14 @@ export default function Statistics(props) {
     const xAxis = new Array(trackSize).fill().map((_, index) => index + 1);
     const yAxis = new Array(trackSize).fill().map((_, index) =>
       state.statInfo[index].pure / itemSize);
-    const regression = new SLR(xAxis, yAxis);
-    let katexString =  regression.toLaTeX?.(precision)
+    const linearRegression = new SLR(xAxis, yAxis);
+    const polynomialRegression = new PolynomialRegression(xAxis, yAxis, times);
+    const katexString =  linearRegression.toLaTeX?.(precision)
       .replace?.(/\*/g, "").replace?.(/x/g, "n");
-
-    setNegative(regression.coefficients[1] < 0);
+    setNegative(linearRegression.coefficients[1] < 0);
     setLinear(typeof katexString === "string" ? katexString : " ");
-  }, [state.statInfo, precision, itemSize]);
+    setPoly(polynomialRegression.predict(trackSize + 1));
+  }, [state.statInfo, precision, itemSize, times]);
 
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
@@ -486,7 +493,6 @@ export default function Statistics(props) {
           {context.lang.panel.stat.precision}
         </Typography>
         <Slider
-          marks
           value={precision}
           step={1}
           min={0}
@@ -559,6 +565,54 @@ export default function Statistics(props) {
               <InlineMath math={linear} />
               {negative && ` (${context.lang.panel.stat.judge.negative})`}
             </Typography>}
+            {state.statInfo.length >= 2 &&
+            <Typography variant="body2" color="textSecondary">
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                component="span"
+                onMouseEnter={(event) => setAnchorEl(event.currentTarget)}
+                onMouseLeave={() => leaveOverlay = setTimeout(() => setAnchorEl(null), leaveDelay)}>
+                {context.lang.panel.stat.prediction}
+              </Typography>
+              {Stat.digitsPercentage(poly, 1, precision)}
+            </Typography>}
+
+            <Popover
+              // className={classes.popover}
+              // classes={{ paper: classes.paper }}
+              open={Boolean(anchorEl)}
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              onMouseEnter={() => { if (leaveOverlay) clearTimeout(leaveOverlay) }}
+              onMouseLeave={() => setAnchorEl(null)}
+              disableRestoreFocus
+            >
+              <Typography>I use Popover.</Typography>
+            </Popover>
+            
+            {/* <div className={classes.predictSlider}>
+              <Typography component="div" variant="body2" color="textSecondary" >
+                <p nowrap>{context.lang.panel.stat.slider}</p>
+              </Typography>
+              <Slider
+                component="div"
+                value={times}
+                onChange={(_, value) => setTimes(value)}
+                getAriaValueText={String}
+                valueLabelDisplay="auto"
+                step={1}
+                min={1}
+                max={trackSize - 1}
+              />
+            </div> */}
           </div>
           <div className={classes.buttonField}>
             <IconButton

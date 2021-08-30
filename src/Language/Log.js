@@ -6,11 +6,15 @@ const log = [
     detail: [
       {
         type: "New",
+        content: "Add linear and polynomial regression for analyzing accuracy data"
+      },
+      {
+        type: "New",
         content: "Add log in statistics page for data modification"
       },
       {
         type: "New",
-        content: "Add exporting JSON of selected items"
+        content: "Add function of exporting JSON of selected items"
       },
       {
         type: "Change",
