@@ -59,7 +59,8 @@ const list = {
         tooOften: "Too Often",
         tooRare: "Too Rarely",
         tooFew: "Too Few Entries",
-        noData: "No Data"
+        noData: "No Data",
+        negative: "Negative Correlation"
       },
       timeFormatString: "MM/dd/yyyy hh:mm:ss",
       ongoing: " (Ongoing)",
@@ -72,6 +73,7 @@ const list = {
       bestWorst: "Best Correct Rate / Worst Fault Rate: ",
       class: "Frequency: ",
       acc: "Accuracy: ",
+      linearRegression: "Linear Regression: ",
       timeSpan: [
         "Less than one second",
         (value) => value <= 1 ? "second" : "seconds",

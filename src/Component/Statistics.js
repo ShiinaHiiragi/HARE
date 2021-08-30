@@ -18,13 +18,15 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import Accuracy from "./Accuracy";
 import Frequency from "./Frequency";
 import Chart from "./Chart";
 import Collapse from "@material-ui/core/Collapse";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import Skeleton from "@material-ui/lab/Skeleton";
+import { SLR } from "ml-regression";
+import { InlineMath } from "react-katex";
 import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
 import {
@@ -37,6 +39,7 @@ import {
   maxRecall,
   markMap
 } from "../Interface/Constant";
+import "katex/dist/katex.min.css";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -163,6 +166,10 @@ export default function Statistics(props) {
   const [lineData, setLineData] = React.useState([]);
   const [barData, setBarData] = React.useState([]);
   const [graph, setGraph] = React.useState("line");
+
+  // state about regression
+  const [linear, setLinear] = React.useState(" ");
+  const [negative, setNegative] = React.useState(false);
 
   const [expandAll, setExpandAll] = React.useState(false);
   const [lostAll, setLostAll] = React.useState(null);
@@ -372,6 +379,7 @@ export default function Statistics(props) {
   };
 
   const toggleCollapseAll = () => {
+    console.log(linear);
     setExpandAll((expandAll) => {
       if (!expandAll) {
         setLostAll((lostAll) => {
@@ -442,6 +450,24 @@ export default function Statistics(props) {
         subIndex === index ? !subItem : subItem)
     });
   };
+
+  React.useEffect(() => {
+    const trackSize = state.statInfo.length;
+    if (trackSize < 2) {
+      setNegative(true);
+      setLinear(" ");
+      return;
+    };
+    const xAxis = new Array(trackSize).fill().map((_, index) => index + 1);
+    const yAxis = new Array(trackSize).fill().map((_, index) =>
+      state.statInfo[index].pure / itemSize);
+    const regression = new SLR(xAxis, yAxis);
+    let katexString =  regression.toLaTeX?.(precision)
+      .replace?.(/\*/g, "").replace?.(/x/g, "n");
+
+    setNegative(regression.coefficients[1] < 0);
+    setLinear(typeof katexString === "string" ? katexString : " ");
+  }, [state.statInfo, precision, itemSize]);
 
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
@@ -528,6 +554,11 @@ export default function Statistics(props) {
               {" / "}
               {Stat.digitsPercentage(Math.max(...eachFar), itemSize, precision)}
             </Typography>
+            {state.statInfo.length >= 2 && <Typography variant="body2" color="textSecondary">
+              {context.lang.panel.stat.linearRegression}
+              <InlineMath math={linear} />
+              {negative && ` (${context.lang.panel.stat.judge.negative})`}
+            </Typography>}
           </div>
           <div className={classes.buttonField}>
             <IconButton

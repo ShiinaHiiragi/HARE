@@ -59,7 +59,8 @@ const list = {
         tooOften: "过于频繁",
         tooRare: "间隔过长",
         tooFew: "词条过少",
-        noData: "暂无数据"
+        noData: "暂无数据",
+        negative: "负相关"
       },
       timeFormatString: "yyyy-MM-dd hh:mm:ss",
       ongoing: "（正在进行）",
@@ -72,6 +73,7 @@ const list = {
       bestWorst: "最大正确率 / 最大错误率：",
       class: "频数：",
       acc: "准确率：",
+      linearRegression: "线性回归：",
       timeSpan: ["少于一秒", () => "秒", () => "分钟", () => "小时", () => "天"],
       line: "准确率变化趋势",
       bar: "错误最多",
