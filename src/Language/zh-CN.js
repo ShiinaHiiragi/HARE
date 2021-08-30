@@ -75,7 +75,7 @@ const list = {
       acc: "准确率：",
       linearRegression: "线性回归：",
       prediction: "多项式回归预测：",
-      slider: "多项式次数",
+      predictLabel: "多项式次数",
       timeSpan: ["少于一秒", () => "秒", () => "分钟", () => "小时", () => "天"],
       line: "准确率变化趋势",
       bar: "错误最多",

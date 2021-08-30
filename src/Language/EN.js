@@ -75,7 +75,7 @@ const list = {
       acc: "Accuracy: ",
       linearRegression: "Linear Regression: ",
       prediction: "Polynomial Regression Accuracy Prediction: ",
-      slider: "Times of Polynomial",
+      predictLabel: "Times of Polynomial",
       timeSpan: [
         "Less than one second",
         (value) => value <= 1 ? "second" : "seconds",

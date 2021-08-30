@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Popover from "@material-ui/core/Popper";
+import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
@@ -20,7 +21,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
-import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import Accuracy from "./Accuracy";
 import Frequency from "./Frequency";
 import Chart from "./Chart";
@@ -150,7 +150,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 2),
     display: "flex",
     flexDirection: "row"
-  }
+  },
+  popover: {
+    width: "20vw",
+    padding: theme.spacing(1, 4)
+  },
 }));
 
 const keyMap = {
@@ -192,6 +196,7 @@ export default function Statistics(props) {
         setLostAll(null);
         setLostEach(new Array(maxRecall).fill(null));
         setLogEach(new Array(maxRecall).fill(null));
+        setTimes(1);
       }, pageJump ? 0 : setStateDelay);
     }
   // if any of (unitID, pageID, route) change, than the page change
@@ -577,42 +582,28 @@ export default function Statistics(props) {
               </Typography>
               {Stat.digitsPercentage(poly, 1, precision)}
             </Typography>}
-
             <Popover
-              // className={classes.popover}
-              // classes={{ paper: classes.paper }}
               open={Boolean(anchorEl)}
               anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
               onMouseEnter={() => { if (leaveOverlay) clearTimeout(leaveOverlay) }}
               onMouseLeave={() => setAnchorEl(null)}
-              disableRestoreFocus
             >
-              <Typography>I use Popover.</Typography>
+              <Paper square className={classes.popover}>
+                <Typography variant="subtitle2" color="textSecondary">
+                  {context.lang.panel.stat.predictLabel}
+                </Typography>
+                <Slider
+                  component="div"
+                  value={times}
+                  onChange={(_, value) => setTimes(value)}
+                  getAriaValueText={String}
+                  valueLabelDisplay="auto"
+                  step={1}
+                  min={1}
+                  max={trackSize - 1}
+                />
+              </Paper>
             </Popover>
-            
-            {/* <div className={classes.predictSlider}>
-              <Typography component="div" variant="body2" color="textSecondary" >
-                <p nowrap>{context.lang.panel.stat.slider}</p>
-              </Typography>
-              <Slider
-                component="div"
-                value={times}
-                onChange={(_, value) => setTimes(value)}
-                getAriaValueText={String}
-                valueLabelDisplay="auto"
-                step={1}
-                min={1}
-                max={trackSize - 1}
-              />
-            </div> */}
           </div>
           <div className={classes.buttonField}>
             <IconButton
