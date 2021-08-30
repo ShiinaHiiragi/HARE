@@ -374,6 +374,7 @@ const list = {
       delete: "删除",
       move: "移动",
       newItem: "新建",
+      import: "导入",
       export: "导出",
       recollect: "回想"
     },

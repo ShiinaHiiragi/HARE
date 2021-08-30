@@ -14,6 +14,7 @@ import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
 import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
+import PublishOutlinedIcon from "@material-ui/icons/PublishOutlined";
 import { defaultColumn, routeIndex } from "../Interface/Constant";
 import NewItem from "../Dialogue/NewItem";
 import Move from "../Dialogue/Move";
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 0
   },
   exportButton: {
-    margin: theme.spacing(0, 2)
+    margin: theme.spacing(0, 2, 0, 0)
   },
   innerButton: {
     borderRadius: 0,
@@ -73,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
       width: 20,
       height: 20
     }
+  },
+  footer: {
+    minHeight: "44px !important"
   }
 }));
 
@@ -291,6 +295,10 @@ export default function View(props) {
     } else setColumn(defaultColumn(context.lang.grid));
   }, [context.lang, state.itemList]);
 
+  const importItem = () => {
+
+  };
+
   const exportItem = () => {
     const selectedIndex = [...apiRef.current.getSelectedRows().keys()];
     let datastr = "data:text/json;charset=utf-8," +
@@ -328,6 +336,15 @@ export default function View(props) {
         <Button
           variant="outlined"
           color="primary"
+          startIcon={<PublishOutlinedIcon />}
+          className={clsx(classes.button, classes.exportButton)}
+          onClick={importItem}
+        >
+          {context.lang.grid.buttons.import}
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
           disabled={invalidDelete}
           startIcon={<GetAppOutlinedIcon />}
           className={clsx(classes.button, classes.exportButton)}
@@ -361,6 +378,9 @@ export default function View(props) {
           columns={column}
           disableColumnMenu
           components={{ Toolbar: InnerToolbar }}
+          componentsProps={{
+            footer: { className: classes.footer },
+          }}
           columnBuffer={16}
           apiRef={apiRef}
           style={{ borderRadius: 0 }}

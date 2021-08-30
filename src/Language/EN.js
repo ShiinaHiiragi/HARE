@@ -380,6 +380,7 @@ const list = {
       delete: "Delete",
       move: "Move",
       newItem: "New",
+      import: "Import",
       export: "Export",
       recollect: "Recollect"
     },
