@@ -3,7 +3,6 @@ const path = require('path');
 const db = require('./db');
 const api = require('./api');
 
-// TEMP: delete it later
 exports.debugFunction = () => {
   db.exec('sign abc@xyz.com Ichinoe 123123123'.split(/\s+/))
   .then(() => db.newUnit(1, 1, 'Operating System'))

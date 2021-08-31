@@ -7,12 +7,12 @@
   },
   "schema": {
     "userInfo": [
-      "create table userInfo(",
+      "create table if not exists userInfo(",
       "userID serial primary key,",
       "email varchar(32) unique not null);"
     ],
     "userSetting": [
-      "create table userSetting(",
+      "create table if not exists userSetting(",
       "userID integer primary key references userInfo,",
       "unitSize integer not null default 0,",
       "password varchar(128) not null,",
@@ -28,7 +28,7 @@
       "maxImg integer default 16 not null);"
     ],
     "unit": [
-      "create table unit(",
+      "create table if not exists unit(",
       "userID integer not null,",
       "unitID integer not null,",
       "unitName varchar(16) not null,",
@@ -39,7 +39,7 @@
       "primary key(userID, unitID));"
     ],
     "page": [
-      "create table page(",
+      "create table if not exists page(",
       "userID integer not null,",
       "unitID integer not null,",
       "pageID integer not null,",
@@ -56,7 +56,7 @@
       "primary key(userID, unitID, pageID));"
     ],
     "item": [
-      "create table item(",
+      "create table if not exists item(",
       "userID integer not null,",
       "unitID integer not null,",
       "pageID integer not null,",
@@ -70,7 +70,7 @@
       "primary key(userID, unitID, pageID, itemID));"
     ],
     "track": [
-      "create table track(",
+      "create table if not exists track(",
       "userID integer not null,",
       "unitID integer not null,",
       "pageID integer not null,",
@@ -82,7 +82,7 @@
       "primary key(userID, unitID, pageID, trackID));"
     ],
     "image": [
-      "create table image(",
+      "create table if not exists image(",
       "userID integer not null,",
       "unitID integer not null,",
       "pageID integer not null,",
@@ -96,7 +96,7 @@
       "primary key(userID, unitID, pageID, imageID));"
     ],
     "log": [
-      "create table log(",
+      "create table if not exists log(",
       "userID integer not null,",
       "unitID integer not null,",
       "pageID integer not null,",
@@ -114,7 +114,7 @@
       "primary key(userID, unitID, pageID, trackID, modTime));"
     ],
     "onlineUser": [
-      "create table onlineUser(",
+      "create table if not exists onlineUser(",
       "userID integer primary key references userInfo,",
       "session varchar(56) not null,",
       "token varchar(64) not null,",

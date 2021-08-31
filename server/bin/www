@@ -97,8 +97,7 @@ function onListening() {
  * Initialize the databse
  */
 
-dbInitialize(true)
-  .then(require('./debug').debugFunction);
+dbInitialize(false);
 
 /**
  * Read lines when listening to the port.

@@ -30,11 +30,12 @@
     > 创造 ID 为 1 的账号，使用以下账号（修改密码）：
     >
     > ```shell
-    > sign IchinoeMizue@outlook.com Ichinoe mono142857
-    > cap unit 1 24
-    > cap page 1 16
-    > cap item 1 192
-    > cap img 1 48
+    > server> npm start
+    > server> sign IchinoeMizue@outlook.com Ichinoe mono142857
+    > server> cap unit 1 24
+    > server> cap page 1 16
+    > server> cap item 1 192
+    > server> cap img 1 48
     > ```
 
 2. PostgreSQL 模式
