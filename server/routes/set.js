@@ -42,7 +42,7 @@ router.post('/avatar', (req, res) => {
         fs.readdir(basicPath, (err, dir) => {
           if (err) { reject(); return; }
           // delete the previous image first
-          const userReg = new RegExp(`${params.userID}\\.(\w{3,4})`);
+          const userReg = new RegExp(`^${params.userID}\\.(\\w{3,4})$`);
           const prevAvatar = dir.find((fileItem) => userReg.test(fileItem));
           if (prevAvatar) fs.unlinkSync(path.join(basicPath, prevAvatar));
           resolve();

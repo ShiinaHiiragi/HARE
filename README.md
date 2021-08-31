@@ -8,7 +8,6 @@
 
 ### 1.1 未完成
 
-- [ ] 导入 JSON
 - [ ] 滚动条同步
 
 ### 1.2 数据库
@@ -442,7 +441,7 @@
 #### 4.3.1 NPM 脚本
 
 1. `npm run build` 是生成 React 的 `build` 文件的指令；`npm run build-copy` 在前者的基础上将 `build` 复制到了 `server/build`，由于 `ROBOCOPY` 指令执行成功会返回比 `7` 小的数值，导致 `npm` 报错，请忽略 `npm` 的报错。
-2. `npm run server` 是运行 `Express` 服务器的指令。注意：在 `server` 下运行 `npm run server` 会传入 `--disable-cors` 的参数，导致跨域失败；另外，服务器下面的指令也不支持热更新。
+2. `npm run server` 是运行 `Express` 服务器的指令。注意：在 `server` 下运行 `npm run dev` 会传入 `--disable-cors` 的参数，导致跨域失败；另外，服务器下面的 ` npm start` 指令也不支持热更新。
 
 #### 4.3.2 路径
 
