@@ -21,12 +21,17 @@ const useStyles = makeStyles((theme) => ({
   image: {
     backgroundImage: `url(${requestURL}/src/cover)`,
     backgroundRepeat: "no-repeat",
-    backgroundColor:
+    backgroundColor: 
       theme.palette.type === "light"
         ? theme.palette.grey[50]
         : theme.palette.grey[900],
     backgroundSize: "cover",
     backgroundPosition: "center"
+  },
+  overlay: {
+    height: "100%",
+    width: "100%",
+    backgroundColor: "rgba(33, 37, 41, 0.5)"
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -106,7 +111,9 @@ export default function SignIn() {
           />
         </div>
       </Grid>
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={false} sm={4} md={7} className={classes.image}>
+        <div className={classes.overlay} />
+      </Grid>
       <MessageBox
         open={messageBoxInfo.open}
         handleClose={closeMessageBox}

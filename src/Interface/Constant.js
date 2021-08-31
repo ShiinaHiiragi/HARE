@@ -12,7 +12,7 @@ import log from "../Language/Log";
 
 // used for distinguishing dev and release mode
 const isDevMode = window.location.port === "3000";
-const requestURL = isDevMode ? "http://localhost:8000" : "";
+const requestURL = isDevMode ? "http://localhost" : "";
 export { isDevMode, requestURL };
 
 // the information of the autor
