@@ -1,6 +1,20 @@
 // type enum = ["Global", "New", "Remove", "Change", "Fix"]
 const log = [
   {
+    version: "1.3.0",
+    date: "2021-09-01T00:00:00.000Z",
+    detail: [
+      {
+        type: "Global",
+        content: "Deploy the application to server"
+      },
+      {
+        type: "Change",
+        content: "Change the behavior of throwing error"
+      }
+    ]
+  },
+  {
     version: "1.2.0",
     date: "2021-08-26T00:00:00.000Z",
     detail: [

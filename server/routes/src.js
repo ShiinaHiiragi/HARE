@@ -21,11 +21,14 @@ router.get('/cover', (req, res) => {
   });
 });
 
+const adminID = 1;
 router.get('/about', (req, res) => {
-  fs.readdir(path.join(__dirname, '../src/about'), (err, dir) => {
-    if (err) api.internalServerError(res);
-    else res.sendFile(path.join(__dirname, `../src/about/${dir[0]}`));
-  });
+  db.getAvatarExtent(adminID)
+    .then((out) => res.sendFile(path.join(
+        __dirname,
+        `../src/avatar/${adminID}${out[0].avatar}`
+    )))
+    .catch(() => api.internalServerError(res));
 });
 
 router.get('/avatar', (req, res) => {

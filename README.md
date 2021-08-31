@@ -27,6 +27,16 @@
     - 执行 `eval <eval>`
         - 不能换行，最终用 `eval` 函数执行
 
+    > 创造 ID 为 1 的账号，使用以下账号（修改密码）：
+    >
+    > ```shell
+    > sign IchinoeMizue@outlook.com Ichinoe mono142857
+    > cap unit 1 24
+    > cap page 1 16
+    > cap item 1 192
+    > cap img 1 48
+    > ```
+
 2. PostgreSQL 模式
 
     ```sql
