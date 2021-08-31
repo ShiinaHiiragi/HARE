@@ -337,6 +337,14 @@ export default function View(props) {
   };
 
   const importItem = (items) => {
+    context.request("POST/new/items", {
+      unitID: state.current.unitID,
+      pageID: state.current.pageID,
+      items: items
+    })
+      .then((times) => {
+        console.log(times);
+      });
     console.log(items);
   }
 

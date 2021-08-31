@@ -142,7 +142,8 @@ const paramMap = {
   city: 'String',
   pagePresent: 'String',
   query: 'String',
-  key: 'String'
+  key: 'String',
+  items: 'objectArray'
 };
 
 exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
@@ -150,48 +151,74 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
   loop: for (let supIndex = 0; supIndex < supLength; supIndex += 1) {
     const keyName = list[supIndex];
     const paramType = paramMap[keyName].toLowerCase();
-    if (!ignore && src[keyName] === undefined)
-      { invalid = true; break loop; }
+    if (!ignore && src[keyName] === undefined) {
+      invalid = true; break loop;
+    }
     else if (src[keyName] !== undefined) {
       if (paramType === 'number') {
         const paramNumber = Number(src[keyName]);
-        if (isNaN(paramNumber)) { invalid = true; break loop; }
+        if (isNaN(paramNumber)) {
+          invalid = true; break loop;
+        }
         dst[keyName] = paramNumber;
       } else if (paramType === 'string') {
         const paramString = String(src[keyName]).replace(/'/g, `''`);
-        if (paramMap[keyName][0] === 's' && paramString.length === 0)
-          { invalid = true; break loop; }
-        if (keyName === 'token' && paramString.length !== 64)
-          { invalid = true; break loop; }
-        if (keyName === 'session' && paramString.length !== 56)
-          { invalid = true; break loop; }
+        if (paramMap[keyName][0] === 's' && paramString.length === 0) {
+          invalid = true; break loop;
+        }
+        if (keyName === 'token' && paramString.length !== 64) {
+          invalid = true; break loop;
+        }
+        if (keyName === 'session' && paramString.length !== 56) {
+          invalid = true; break loop;
+        }
         if ((['userName', 'unitName', 'pageName', 'imageName', 'tel', 'city']
           .includes(keyName) && paramString.length > maxNameLength) ||
           (keyName === 'email' && paramString.length > maxEmailLength) ||
           (keyName === 'password' && paramString.length !== passwordLength) ||
           (keyName === 'newPassword' && paramString.length !== passwordLength) ||
-          (keyName === 'pagePresent' && paramString.length > maxPresentLength))
-          { invalid = true; break loop; }
+          (keyName === 'pagePresent' && paramString.length > maxPresentLength)) {
+            invalid = true; break loop;
+          }
         if ((keyName === 'gender' && !genderRange.includes(paramString)) ||
-          (keyName === 'track' && !trackRange.includes(paramString)))
-          { invalid = true; break loop; }
+          (keyName === 'track' && !trackRange.includes(paramString))) {
+          invalid = true; break loop;
+        }
         if (keyName === 'birth' &&
           (isNaN(new Date(paramString)) ||
-          (new Date() - new Date(paramString) < 0)))
-          { invalid = true; break loop; }
+          (new Date() - new Date(paramString) < 0))) {
+          invalid = true; break loop;
+        }
         if ((keyName === 'query' || keyName === 'key') &&
-          byteSize(paramString) > maxItemByte)
-          { invalid = true; break loop; }
+          byteSize(paramString) > maxItemByte) {
+          invalid = true; break loop;
+        }
         dst[keyName] = paramString
       } else if (paramType === 'array') {
-        if (!(src[keyName] instanceof Array)) { invalid = true; break loop; }
+        if (!(src[keyName] instanceof Array)) {
+          invalid = true; break loop;
+        }
         const length = src[keyName].length;
         dst[keyName] = new Array(length).fill(0);
         for (let index = 0; index < length; index += 1) {
           const subNumber = Number(src[keyName][index]);
-          if (isNaN(subNumber)) { invalid = true; break loop; }
+          if (isNaN(subNumber)) {
+            invalid = true; break loop;
+          }
           else dst[keyName][index] = subNumber;
         }
+      } else if (paramType === 'objectArray') {
+        if (!(src[keyName] instanceof Array)) {
+          invalid = true; break loop;
+        }
+        const length = src[keyName].length;
+        for (let index = 0; index < length; index += 1) {
+          if (typeof src[keyName][index] !== 'object') {
+            invalid = true; break loop;
+          }
+        }
+        // dst[keyName][index] is not checked yet in this branch
+        dst[keyName] = src[keyName];
       } else dst[keyName] = !!src[keyName]
     }
   }

@@ -81,4 +81,14 @@ router.post('/image', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
+router.post('/items', (req, res) => {
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token', 'session'], res)
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'items'], res))
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.checkSession(params.userID, params.session, res))
+    .then(() => res.send("OK"))
+    .catch(() => api.internalServerError(res));
+});
+
 module.exports = router;
