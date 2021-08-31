@@ -21,7 +21,6 @@
     "markdown-to-txt": "^1.0.1",
     "ml-regression": "^5.0.0",
     "monaco-editor-webpack-plugin": "^4.1.1",
-    "pg": "^8.6.0",
     "react": "^17.0.2",
     "react-compound-timer": "^1.2.0",
     "react-cookies": "^0.1.1",
