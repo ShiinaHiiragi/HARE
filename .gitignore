@@ -13,6 +13,7 @@ server/node_modules
 /build
 server/build
 server/src
+server/bin/https
 
 # misc
 .DS_Store

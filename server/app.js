@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.static(path.join(__dirname, 'view')));
-if (!process.argv.find(item => item === "--disable-cors"))
+if (!process.argv.includes('--disable-cors')) {
   app.use(cors({
     origin: ['http://localhost:3000'],
     methods: ["GET", "POST"],
@@ -27,6 +27,7 @@ if (!process.argv.find(item => item === "--disable-cors"))
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
     credentials: true,
   }));
+}
 
 app.use('/', indexRouter);
 app.use('/src', srcRouter);

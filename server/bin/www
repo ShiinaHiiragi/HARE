@@ -7,6 +7,9 @@
 var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
+var https = require('https');
+var fs = require('fs');
+var path = require('path');
 var readline = require('readline');
 var dbInitialize = require('./db').dbInitialize;
 var exec = require('./db').exec;
@@ -14,44 +17,34 @@ var exec = require('./db').exec;
 /**
  * Get port from environment and store in Express.
  */
-
-var port = normalizePort(process.env.PORT || '8000');
+var httpsArg = process.argv.includes('--https');
+var port = httpsArg ? 443 : 80;
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTP(S) server.
  */
 
-var server = http.createServer(app);
+var server;
+if (httpsArg) {
+  var privateCrt = fs.readFileSync(path.join(__dirname, 'https/1_s.ichinoe.xyz_bundle.crt'), 'utf8');
+  var privateKey = fs.readFileSync(path.join(__dirname, 'https/2_s.ichinoe.xyz.key'), 'utf8');
+  const HTTPS_OPTOIN = {
+    key: privateKey,
+    cert: privateCrt
+  };
+  server = https.createServer(HTTPS_OPTOIN, app);
+} else server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, () => {
+  console.log(`Listening on http${httpsArg ? "s" : ""}://localhost:${port}/`)
+});
 server.on('error', onError);
 server.on('listening', onListening);
-console.log(`Express is listening on http://localhost:${port}/`);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
 
 /**
  * Event listener for HTTP server 'error' event.

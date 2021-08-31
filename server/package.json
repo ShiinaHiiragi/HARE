@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www --disable-cors",
+    "start": "node ./bin/www --disable-cors --https",
     "dev": "node-dev ./bin/www"
   },
   "dependencies": {
