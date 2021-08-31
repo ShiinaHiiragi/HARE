@@ -14,7 +14,7 @@ const log = [
       },
       {
         type: "New",
-        content: "Add function of exporting JSON of selected items"
+        content: "Add function of importing and exporting JSON of selected items"
       },
       {
         type: "Change",
@@ -22,7 +22,7 @@ const log = [
       },
       {
         type: "Change",
-        content: "Complete guidance in about part"
+        content: "Complete guidance in ABOUT part"
       },
       {
         type: "New",

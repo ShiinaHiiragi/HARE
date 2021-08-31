@@ -604,7 +604,7 @@ export default function Statistics(props) {
                   valueLabelDisplay="auto"
                   step={1}
                   min={1}
-                  max={trackSize}
+                  max={trackSize - 1}
                 />
               </Paper>
             </Popover>

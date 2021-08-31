@@ -362,7 +362,11 @@ export default function View(props) {
             ...times[index],
             ...item
           }))
-        ])
+        ]);
+        handle.setPageDetail((pageDetail) => ({
+          ...pageDetail,
+          itemSize: pageDetail.itemSize + items.length,
+        }))
       });
   }
   const exportItem = () => {
