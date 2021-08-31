@@ -27,8 +27,10 @@ app.set('port', port);
 
 var server;
 if (httpsArg) {
-  var privateCrt = fs.readFileSync(path.join(__dirname, 'https/1_s.ichinoe.xyz_bundle.crt'), 'utf8');
-  var privateKey = fs.readFileSync(path.join(__dirname, 'https/2_s.ichinoe.xyz.key'), 'utf8');
+  // Nginx license: put two files in bin/https and change domain name
+  var domain = 's.ichinoe.xyz';
+  var privateCrt = fs.readFileSync(path.join(__dirname, `https/1_${domain}_bundle.crt`), 'utf8');
+  var privateKey = fs.readFileSync(path.join(__dirname, `https/2_${domain}.key`), 'utf8');
   const HTTPS_OPTOIN = {
     key: privateKey,
     cert: privateCrt
