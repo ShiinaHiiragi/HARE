@@ -136,11 +136,6 @@ const getRank = (value, toLow) => {
     "B" : value < 96 ? "A" : value < 100 ? "S" : "X";
   return toLow ? rankMap[rank] : rank;
 }
-const markMap = {
-  "P": <RadioButtonUncheckedIcon fontSize="inherit" />,
-  "F": <CloseIcon fontSize="inherit" />,
-  "L": <ChangeHistoryIcon fontSize="inherit" />
-}
 const byteSize = str => new Blob([str]).size;
 export {
   nil,
@@ -149,9 +144,22 @@ export {
   cookieTime,
   randomTimestamp,
   getRank,
-  markMap,
   byteSize
 };
+
+// functions which are not used so often
+const markMap = {
+  "P": <RadioButtonUncheckedIcon fontSize="inherit" />,
+  "F": <CloseIcon fontSize="inherit" />,
+  "L": <ChangeHistoryIcon fontSize="inherit" />
+}
+const lostGenerator = (trackSize) => {
+  const resultObject = new Object();
+  for (let index = 0; index < trackSize; index += 1)
+    resultObject[index + 1] = "L";
+  return resultObject;
+}
+export { markMap, lostGenerator };
 
 // function about formatting
 const stringFormat = (rawString, replaceArray) => {

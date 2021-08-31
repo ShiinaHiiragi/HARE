@@ -146,6 +146,7 @@ const paramMap = {
   items: 'objectArray'
 };
 
+// ignore: ignore undefined attribute though it is in the list
 exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
   let supLength = list.length, invalid = false;
   loop: for (let supIndex = 0; supIndex < supLength; supIndex += 1) {
@@ -207,7 +208,7 @@ exports.param = (src, dst, list, res, ignore) => new Promise((resolve) => {
           }
           else dst[keyName][index] = subNumber;
         }
-      } else if (paramType === 'objectArray') {
+      } else if (paramType === 'objectarray') {
         if (!(src[keyName] instanceof Array)) {
           invalid = true; break loop;
         }

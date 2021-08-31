@@ -376,7 +376,7 @@ exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
+const newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
   new Promise((resolve, reject) => {
     query(`begin; update item set itemID = -itemID - 1
       where userID = ${userID} and unitID = ${unitID}
@@ -403,6 +403,39 @@ exports.newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
     and unitID = ${unitID} and pageID = ${pageID} and itemID = ${itemID};`))
     .then((out) => resolve(out[0].itemcreatetime.toISOString()))
     .catch(reject);
+  });
+exports.newItem = newItem;
+
+exports.newItems = (userID, unitID, pageID, items, res) =>
+  new Promise((resolve, reject) => {
+    Promise.all([
+      query(`select maxItem from userSetting where userID = ${userID}`),
+      query(`select itemSize from page where userID = ${userID}
+        and unitID = ${unitID} and pageID = ${pageID}`)
+    ])
+      .then(([[{ maxitem }], [{ itemsize }]]) => new Promise((resolve) => {
+        if (itemsize + items.length <= maxitem) resolve(itemsize + 1);
+        else api.invalidArgument(res);
+      }))
+      .then((itemID) => new Promise((resolve, reject) => {
+        api.syncEachChain(items, (item, onsuccess, onerror, itemIndex) => {
+          const params = new Object();
+          api.param(item, params, ['query', 'key'], res)
+            .then(() => newItem(userID, unitID, pageID,
+              itemID + itemIndex, params.query, params.key))
+            .then(onsuccess)
+            .catch(onerror);
+        })
+          .then(() => resolve(itemID))
+          .catch(reject)
+      }))
+      .then((itemID) => query(`select itemID, itemCreateTime from item
+        where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}
+        and itemID >= ${itemID} order by itemID asc`))
+      .then((out) => resolve(out.map((item) => ({
+        id: item.itemid, time: item.itemcreatetime
+      }))))
+      .catch(reject);
   });
 
 exports.editItem = (userID, unitID, pageID, itemID, field, value) =>

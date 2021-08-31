@@ -87,8 +87,9 @@ router.post('/items', (req, res) => {
     .then(() => api.param(req.body, params, ['unitID', 'pageID', 'items'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.checkSession(params.userID, params.session, res))
-    .then(() => res.send("OK"))
-    .catch(() => api.internalServerError(res));
+    .then(() => db.newItems(params.userID, params.unitID, params.pageID, params.items, res))
+    .then((out) => res.send(out))
+    .catch(console.log);
 });
 
 module.exports = router;

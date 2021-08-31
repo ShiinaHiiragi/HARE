@@ -15,7 +15,6 @@ import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import ChangeHistoryIcon from "@material-ui/icons/ChangeHistory";
 import PublishOutlinedIcon from "@material-ui/icons/PublishOutlined";
-import { defaultColumn, routeIndex, byteSize, maxItemByte } from "../Interface/Constant";
 import NewItem from "../Dialogue/NewItem";
 import Move from "../Dialogue/Move";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
@@ -23,6 +22,13 @@ import ChangeTrack from "../Dialogue/ChangeTrack";
 import CryptoJS from "crypto-js";
 import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
+import {
+  defaultColumn,
+  routeIndex,
+  byteSize,
+  maxItemByte,
+  lostGenerator
+} from "../Interface/Constant";
 import {
   XGrid,
   useGridApiRef,
@@ -313,8 +319,10 @@ export default function View(props) {
         document.querySelector("#jsonRef").value = null;
       try {
         resultObject = JSON.parse(event.target.result);
+        if (state.itemList.length + resultObject.length > state.range.maxItem)
+          throw new Error(-1);
         if (!resultObject instanceof Array)
-          throw new Error();
+          throw new Error(1);
         let filterObject = resultObject.filter((item) => {
           if (typeof item !== "object")
             return false;
@@ -327,10 +335,13 @@ export default function View(props) {
           return true;
         })
         if (filterObject.length !== resultObject.length)
-          throw new Error();
+          throw new Error(1);
         importItem(resultObject);
       } catch (err) {
-        handle.toggleMessageBox(context.lang.message.invalidJSON, "warning");
+        handle.toggleMessageBox(
+          context.lang.message[err.message === 1 ? "invalidJSON" : "largeJSON"],
+          "warning"
+        );
         return;
       }
     }
@@ -343,11 +354,17 @@ export default function View(props) {
       items: items
     })
       .then((times) => {
-        console.log(times);
+        const lostObject = lostGenerator(state.pageDetail.trackSize);
+        handle.setItemList((itemList) => [
+          ...itemList,
+          ...items.map((item, index) => ({
+            ...lostObject,
+            ...times[index],
+            ...item
+          }))
+        ])
       });
-    console.log(items);
   }
-
   const exportItem = () => {
     const selectedIndex = [...apiRef.current.getSelectedRows().keys()];
     let datastr = "data:text/json;charset=utf-8," +
@@ -385,6 +402,7 @@ export default function View(props) {
         <Button
           variant="outlined"
           color="primary"
+          disabled={state.pageDetail.itemSize >= state.range.maxItem}
           startIcon={<PublishOutlinedIcon />}
           className={clsx(classes.button, classes.exportButton)}
           component="label"
