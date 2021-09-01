@@ -4,21 +4,23 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('server:server');
+var express = require('express');
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
 var path = require('path');
 var readline = require('readline');
+var debug = require('debug')('server:server');
+var app = require('../app');
 var dbInitialize = require('./db').dbInitialize;
 var exec = require('./db').exec;
+var api = require('./api');
 
 /**
  * Get port from environment and store in Express.
  */
 var httpsArg = process.argv.includes('--https');
-var port = httpsArg ? 443 : 80;
+var port = api.port[httpsArg ? "https" : "http"];
 app.set('port', port);
 
 /**
@@ -28,14 +30,22 @@ app.set('port', port);
 var server;
 if (httpsArg) {
   // Nginx license: put two files in bin/https and change domain name
-  var domain = 's.ichinoe.xyz';
-  var privateCrt = fs.readFileSync(path.join(__dirname, `https/1_${domain}_bundle.crt`), 'utf8');
-  var privateKey = fs.readFileSync(path.join(__dirname, `https/2_${domain}.key`), 'utf8');
+  var privateCrt = fs.readFileSync(path.join(__dirname, `https/1_${api.domain}_bundle.crt`), 'utf8');
+  var privateKey = fs.readFileSync(path.join(__dirname, `https/2_${api.domain}.key`), 'utf8');
   const HTTPS_OPTOIN = {
     key: privateKey,
     cert: privateCrt
   };
   server = https.createServer(HTTPS_OPTOIN, app);
+
+  // redirect http to https
+  const httpApp = express();
+  httpApp.all('*', (req, res) => {
+    var host = req.headers.host.replace(/\:\d+$/, '');
+    res.redirect(301, `https://${host}${req.path}`);
+  });
+  const httpServer = http.createServer(httpApp);
+  httpServer.listen(api.port.http);
 } else server = http.createServer(app);
 
 /**
