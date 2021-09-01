@@ -76,6 +76,8 @@ exports.arrayLostString = (size) => {
   return res + ']';
 }
 exports.format = (transDate, formatString) => {
+  if (typeof transDate === "string")
+    transDate = new Date(transDate);
   var formatComponent = {
     'M+': transDate.getMonth() + 1,
     'd+': transDate.getDate(),

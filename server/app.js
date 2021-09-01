@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var api = require('./bin/api');
 
 var app = express();
 var indexRouter = require('./routes/index');
@@ -12,8 +13,10 @@ var dataRouter = require('./routes/data');
 var setRouter = require('./routes/set');
 var newRouter = require('./routes/new');
 var deleteRouter = require('./routes/delete');
+logger.token('timestamp', () => api.format(new Date(), "yyyy-MM-dd hh:mm:ss"));
 
-app.use(logger('dev'));
+// middlewares for server
+app.use(logger('[:remote-addr :timestamp] :method :url :status :response-time ms - :res[content-length]'));
 app.use(express.json({ limit: "1536kb" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -27,8 +30,9 @@ if (!process.argv.includes('--disable-cors')) {
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
     credentials: true,
   }));
-}
+};
 
+// router of server
 app.use('/', indexRouter);
 app.use('/src', srcRouter);
 app.use('/data', dataRouter);
