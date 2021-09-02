@@ -43,7 +43,7 @@
     "dev": "cd server && npm run dev",
     "server": "cd server && npm start",
     "build": "react-app-rewired build",
-    "build-copy": "react-app-rewired build && (ROBOCOPY ./build ./server/build /e || exit 0)",
+    "deploy": "react-app-rewired build && (rmdir /s /q server\\build || exit 0) && (ROBOCOPY ./build ./server/build /e || exit 0)",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
