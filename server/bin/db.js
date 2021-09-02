@@ -530,11 +530,13 @@ exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, rejec
 
   query(`select timeThis, trackSize from page
     where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
-    .then((out) => {
+    .then((out) => new Promise((resolve) => {
       timeThis = out[0].timethis;
       trackSize = out[0].tracksize;
-      if (timeThis === null && trackSize >= api.maxRecall) throw 406;
-    })
+      if (timeThis === null && trackSize >= api.maxRecall)
+        api.invalidArgument(res);
+      else resolve();
+    }))
     .then(() => {
       const queryString = (timeThis && clear)
         ? `update item set itemRecord[${trackSize}] = 'L' where
@@ -607,9 +609,12 @@ exports.editThis = (userID, unitID, pageID, pure, far) => {
   return new Promise((resolve, reject) => {
     query(`select trackSize, timeThis from page where userID = ${userID}
       and unitID = ${unitID} and pageID = ${pageID}`)
-      .then((out) => {
+      .then((out) => new Promise((resolve, reject) => {
         trackSize = out[0].tracksize;
-        if (out[0].timethis === null) throw 406;
+        if (out[0].timethis === null) {
+          api.invalidArgument(res);
+          return;
+        }
         if (pure.length) promiseArray.push(
           query(`update item set itemRecord[${trackSize}] = 'P' where userID = ${userID}
             and unitID = ${unitID} and pageID = ${pageID} and itemID in ${pureTuple}`)
@@ -618,8 +623,8 @@ exports.editThis = (userID, unitID, pageID, pure, far) => {
           query(`update item set itemRecord[${trackSize}] = 'F' where userID = ${userID}
             and unitID = ${unitID} and pageID = ${pageID} and itemID in ${farTuple}`)
         );
-        return Promise.all(promiseArray)
-      })
+        Promise.all(promiseArray).then(resolve).catch(reject);
+      }))
       .then(() => query(`select itemID from item where userID = ${userID}
         and unitID = ${unitID} and pageID = ${pageID} and itemRecord[${trackSize}] = 'L'`))
       .then((out) => {

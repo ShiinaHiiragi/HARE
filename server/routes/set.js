@@ -118,7 +118,7 @@ router.post('/recall', (req, res) => {
     .then(() => db.editThis(params.userID, params.unitID,
       params.pageID, params.pure, params.far))
     .then(() => api.noContent(res))
-    .catch((err) => api.catchError(err, res));
+    .catch(() => api.internalServerError(res));
 });
 
 // move is for item and swap is for unit and page

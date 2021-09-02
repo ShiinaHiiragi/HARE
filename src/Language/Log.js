@@ -1,6 +1,20 @@
 // type enum = ["Global", "New", "Remove", "Change", "Fix"]
 const log = [
   {
+    version: "1.3.1",
+    date: "2021-09-02T00:00:00.000Z",
+    detail: [
+      {
+        type: "New",
+        content: "Add redirection for http router"
+      },
+      {
+        type: "Change",
+        content: "Change to promise chain in async function"
+      }
+    ]
+  },
+  {
     version: "1.3.0",
     date: "2021-09-01T00:00:00.000Z",
     detail: [

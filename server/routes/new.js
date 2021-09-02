@@ -17,19 +17,25 @@ router.post('/up', (req, res) => {
       unit: params.unitID,
       page: params.pageID
     }, 1, res, true))
-    .then(() => {
+    .then(() => new Promise((resolve, reject) => {
       const newUnit = Number(params.unitName !== undefined);
       const newPage = Number(params.pageID !== undefined);
-      if (newUnit + newPage !== 1) throw 406;
+      if (newUnit + newPage !== 1) api.invalidArgument(res);
       if (params.unitName !== undefined) {
-        return db.newUnit(params.userID, params.unitID, params.unitName)
+        db.newUnit(params.userID, params.unitID, params.unitName)
           .then(() => db.newPage(params.userID, params.unitID,
             1, params.pageName, params.pagePresent))
-      } else return db.newPage(params.userID, params.unitID,
-        params.pageID, params.pageName, params.pagePresent)
-    })
+          .then(resolve)
+          .catch(reject);
+      } else {
+        db.newPage(params.userID, params.unitID, params.pageID,
+          params.pageName, params.pagePresent)
+          .then(resolve)
+          .catch(reject);
+      }
+    }))
     .then(() => api.noContent(res))
-    .catch((err) => api.catchError(err, res));
+    .catch(() => api.internalServerError(res));
 });
 
 router.post('/item', (req, res) => {

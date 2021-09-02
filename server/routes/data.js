@@ -109,7 +109,7 @@ router.post('/this', (req, res) => {
     .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.getThis(params.userID, params.unitID, params.pageID, params.bool))
     .then((out) => res.send(out))
-    .catch((err) => api.catchError(err, res));
+    .catch(() => api.internalServerError(res));
 });
 
 router.get('/image', (req, res) => {
@@ -119,7 +119,7 @@ router.get('/image', (req, res) => {
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.getImage(params.userID, params.unitID, params.pageID))
     .then((out) => res.send(out))
-    .catch((err) => api.catchError(err, res));
+    .catch(() => api.internalServerError(res));
 });
 
 router.get('/log', (req, res) => {
@@ -133,7 +133,7 @@ router.get('/log', (req, res) => {
       time: item.modtime,
       trans: [item.src, item.dst]
     }))))
-    .catch((err) => api.catchError(err, res));
+    .catch(() => api.internalServerError(res));
 });
 
 module.exports = router;
