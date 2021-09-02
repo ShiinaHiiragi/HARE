@@ -1,17 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# dependencies and development
 /node_modules
 server/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
+/.vscode
 
 # production
 /build
 server/build
+
+# config differ
 server/src
 server/bin/https
 
