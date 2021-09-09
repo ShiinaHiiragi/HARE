@@ -54,6 +54,11 @@ export default function PackedMarkdown(props) {
               {children}
             </code>
           );
+        },
+        line: ({node, ...props}) => {
+          let size = Number(props.children);
+          size = isNaN(size) ? 8 : size;
+          return <u>{"\u2003".repeat(size)}</u>
         }
       }}
       children={children}

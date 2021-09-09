@@ -52,7 +52,7 @@ export { rangePassword };
 const defaultDigit = 2;
 const setStateDelay = 400;
 const leaveDelay = 200;
-const underline = "<u>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</u>";
+const underline = "<line>8</line>";
 const emSpace = "&emsp;"
 export { defaultDigit, setStateDelay, leaveDelay, underline, emSpace };
 
@@ -154,7 +154,7 @@ const markMap = {
   "L": <ChangeHistoryIcon fontSize="inherit" />
 }
 const lostGenerator = (trackSize) => {
-  const resultObject = new Object();
+  const resultObject = {};
   for (let index = 0; index < trackSize; index += 1)
     resultObject[index + 1] = "L";
   return resultObject;

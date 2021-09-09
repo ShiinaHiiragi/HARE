@@ -1,6 +1,16 @@
 // type enum = ["Global", "New", "Remove", "Change", "Fix"]
 const log = [
   {
+    version: "1.3.2",
+    date: "2021-09-09T00:00:00.000Z",
+    detail: [
+      {
+        type: "Change",
+        content: "New tag in markdown to insert undeline"
+      }
+    ]
+  },
+  {
     version: "1.3.1",
     date: "2021-09-02T00:00:00.000Z",
     detail: [
