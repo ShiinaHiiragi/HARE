@@ -602,7 +602,7 @@
   background-color: #fafbfc;
   border: 1px solid #d1d5da;
   border-radius: 3px;
-  box-shadow: inset 0 -1px 0 #d1d5da;
+  box-shadow: none;
 }
 
 .markdown-body:after,
@@ -637,7 +637,7 @@
 .markdown-body table,
 .markdown-body ul {
   margin-top: 0;
-  margin-bottom: 16px;
+  margin-bottom: 6px;
 }
 
 .markdown-body hr {
@@ -723,7 +723,7 @@
 }
 
 .markdown-body li>p {
-  margin-top: 16px;
+  margin-top: 6px;
 }
 
 .markdown-body li+li {
