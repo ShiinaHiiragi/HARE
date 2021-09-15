@@ -384,7 +384,7 @@ export default function View(props) {
     downloadAnchorNode.setAttribute("href", datastr);
     downloadAnchorNode.setAttribute(
       "download",
-      `${CryptoJS.SHA1(new Date().toString()).toString()}.json`
+      `${state.current.pageName}_${CryptoJS.SHA1(new Date().toString()).toString()}.json`
     );
     downloadAnchorNode.click();
     downloadAnchorNode.remove();

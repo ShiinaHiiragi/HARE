@@ -5,8 +5,16 @@ const log = [
     date: "2021-09-09T00:00:00.000Z",
     detail: [
       {
+        type: "New",
+        content: "Add new tag in markdown to insert undeline"
+      },
+      {
         type: "Change",
-        content: "New tag in markdown to insert undeline"
+        content: "Change margin pixel between paragraphs"
+      },
+      {
+        type: "Change",
+        content: "A booklet name will be attached to the downloaded json file"
       }
     ]
   },
