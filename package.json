@@ -20,6 +20,7 @@
     "katex": "^0.13.11",
     "markdown-to-txt": "^1.0.1",
     "ml-regression": "^5.0.0",
+    "monaco-editor": "^0.27.0",
     "monaco-editor-webpack-plugin": "^4.1.1",
     "react": "^17.0.2",
     "react-compound-timer": "^1.2.0",

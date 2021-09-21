@@ -54,7 +54,17 @@ const setStateDelay = 400;
 const leaveDelay = 200;
 const underline = "<line>8</line>";
 const emSpace = "&emsp;"
-export { defaultDigit, setStateDelay, leaveDelay, underline, emSpace };
+const autoKey = "{{}}";
+const autoKeyReg = /([^\\]){{(.+?)}}/g;
+export {
+  defaultDigit,
+  setStateDelay,
+  leaveDelay,
+  underline,
+  emSpace,
+  autoKey,
+  autoKeyReg
+};
 
 // the info about user interface
 const drawerWidth = 320;

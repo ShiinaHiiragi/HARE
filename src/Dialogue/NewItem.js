@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import MonacoEditor from "react-monaco-editor";
+import { Selection } from "monaco-editor";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -24,8 +25,10 @@ import {
   cookieTime,
   underline,
   emSpace,
+  autoKey,
   byteSize,
-  maxItemByte
+  maxItemByte,
+  autoKeyReg
 } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -119,6 +122,8 @@ export default function NewItem(props) {
   const [itemID, setItemID] = React.useState(0);
   const [query, setQuery] = React.useState("");
   const [key, setKey] = React.useState("");
+  const [markQuery, setMarkQuery] = React.useState("");
+  const [markKey, setMarkKey] = React.useState("");
   const [itemIDCheck, setItemIDCheck] = React.useState(false);
   const [wordWrap, setWordWrap] = React.useState("on");
 
@@ -195,6 +200,31 @@ export default function NewItem(props) {
         editor.executeEdits("space", [operation]);
       }
     });
+
+    editor.addAction({
+      id: "answer",
+      label: "Insert Answer Tag",
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_K],
+      contextMenuGroupId: "1_modification",
+      run: (editor) => {
+        const { startLineNumber, startColumn } = editor.getSelection();
+        const operation = {
+          range: editor.getSelection(),
+          text: autoKey,
+          forceMoveMarkers: true
+        };
+        editor.executeEdits(
+          "key-tag",
+          [operation],
+          [new Selection(
+            startLineNumber,
+            startColumn + 2,
+            startLineNumber,
+            startColumn + 2
+          )]
+        );
+      }
+    });
   };
 
   const tabChange = (_, index) => {
@@ -220,6 +250,8 @@ export default function NewItem(props) {
     handle.close();
     setQuery("");
     setKey("");
+    setMarkQuery("");
+    setMarkKey("");
     setEditKey(false);
     setItemIDCheck(false);
     setTab(0);
@@ -306,6 +338,20 @@ export default function NewItem(props) {
     window.addEventListener("beforeunload", unloadListener);
     return () => window.removeEventListener("beforeunload", unloadListener);
   }, [noSave, context.lang.panel.recall.unload]);
+
+  React.useEffect(() => {
+    if (key.length === 0) {
+      const keys = [];
+      setMarkQuery(query.replace(autoKeyReg, (_, before, answer) => {
+        keys.push(answer);
+        return `${before}<line>8</line>`;
+      }))
+      setMarkKey(keys.join("\n\n"));
+    } else {
+      setMarkQuery(query);
+      setMarkKey(key);
+    }
+  }, [query, key])
 
   return (
     <Dialog
@@ -394,7 +440,7 @@ export default function NewItem(props) {
               component="div"
               variant="body2"
             >
-              <PackedMarkdown children={tab ? key : query} />
+              <PackedMarkdown children={tab ? markKey : markQuery} />
             </Typography>
           </div>
         </Paper>

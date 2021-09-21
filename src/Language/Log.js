@@ -2,7 +2,7 @@
 const log = [
   {
     version: "1.4.0",
-    date: "2021-09-09T00:00:00.000Z",
+    date: "2021-09-21T00:00:00.000Z",
     detail: [
       {
         type: "New",
