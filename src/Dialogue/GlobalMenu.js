@@ -7,7 +7,7 @@ import License from "./License";
 import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
 import { PanelContext } from "../Page/Panel";
-import { maxImageBase, stringFormat } from "../Interface/Constant";
+import { maxImageBase, stringFormat, cookieTime } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +92,7 @@ export default function GlobalMenu(props) {
         onClick={() => {
           handle.close();
           handle.setLowRank((lowRank) => {
-            cookie.save("lowRank", !lowRank);
+            cookie.save("lowRank", !lowRank, { expires: cookieTime(3650) });
             handle.toggleMessageBox(
               stringFormat(
                 context.lang.message.changeRank,

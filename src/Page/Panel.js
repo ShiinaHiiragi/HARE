@@ -54,7 +54,7 @@ export default function Panel(props) {
           && thisVersion[2] > saveVersion[2]))) {
       toggleMessageBox(languagePicker(storageLang).message.newVersion, "info");
     }
-    cookie.save("version", version);
+    cookie.save("version", version, { expires: cookieTime(3650) });
   }, [changeGlobalLang]);
 
   // load cookie to seek some setting
@@ -62,10 +62,10 @@ export default function Panel(props) {
   React.useEffect(() => {
     const storageRank = cookie.load("lowRank");
     if (storageRank === undefined) {
-      cookie.save("lowRank", true);
+      cookie.save("lowRank", true, { expires: cookieTime(3650) });
     } else if (storageRank !== "true") {
       setLowRank(false);
-      cookie.save("lowRank", false);
+      cookie.save("lowRank", false, { expires: cookieTime(3650) });
     }
   }, []);
 

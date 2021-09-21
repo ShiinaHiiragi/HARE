@@ -1,6 +1,20 @@
 // type enum = ["Global", "New", "Remove", "Change", "Fix"]
 const log = [
   {
+    version: "1.4.0",
+    date: "2021-09-09T00:00:00.000Z",
+    detail: [
+      {
+        type: "New",
+        content: "Closing unsaved editor will toggle a confirmation"
+      },
+      {
+        type: "Fix",
+        content: "Set expires of lowRank and version to 3650 days"
+      }
+    ]
+  },
+  {
     version: "1.3.2",
     date: "2021-09-09T00:00:00.000Z",
     detail: [
