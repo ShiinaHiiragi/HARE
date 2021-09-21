@@ -54,16 +54,12 @@ const setStateDelay = 400;
 const leaveDelay = 200;
 const underline = "<line>8</line>";
 const emSpace = "&emsp;"
-const autoKey = "{{}}";
-const autoKeyReg = /([^\\]){{(.+?)}}/g;
 export {
   defaultDigit,
   setStateDelay,
   leaveDelay,
   underline,
-  emSpace,
-  autoKey,
-  autoKeyReg
+  emSpace
 };
 
 // the info about user interface
@@ -169,7 +165,37 @@ const lostGenerator = (trackSize) => {
     resultObject[index + 1] = "L";
   return resultObject;
 }
-export { markMap, lostGenerator };
+const underlineLength = (size) => {
+  if (size <= 4) return 4;
+  else if (size <= 8) return 8;
+  else if (size <= 12) return 12;
+  else if (size <= 16) return 16;
+  else return 20;
+}
+export { markMap, lostGenerator, underlineLength };
+
+// function about markdown blank
+const autoKey = "{{}}";
+const autoKeyReg = [/^{{(.+?)}}/, /([^\\]){{(.+?)}}/g];
+const autoQuery = (query) => {
+  let keys = [];
+  query = query.replace(autoKeyReg[0], (_, answer) => {
+    keys.push(answer);
+    return `<line>${underlineLength(answer.length)}</line>`;
+  }).replace(autoKeyReg[1], (_, before, answer) => {
+    keys.push(answer);
+    return `${before}<line>${underlineLength(answer.length)}</line>`;
+  })
+  return { query: query, keys: keys }
+}
+const autoKeys = (keys, lang) => {
+  return `${keys.join("  \n")}\n\n${
+    keys.length
+    ? `<p align="right" style="color: #999;">${lang.popup.newItem.autoGenerate}</p>`
+    : `<p align="left" style="color: #999;">${lang.popup.newItem.noTag}</p>`
+  }`;
+};
+export { autoKey, autoQuery, autoKeys };
 
 // function about formatting
 const stringFormat = (rawString, replaceArray) => {

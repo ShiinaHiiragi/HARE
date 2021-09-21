@@ -143,7 +143,9 @@ const list = {
       exitTitle: "Exit Confirm",
       exitText: "You are attempting to discard editing contents and quit. Please click 'YES' to continue.",
       applyTitle: "Submit Confirm",
-      applyText: "You are attempting to submit a new entry, though you didn't edit 'Answer'. Please click 'YES' to continue submitting."
+      applyText: "You are attempting to submit a new entry, though you didn't edit 'Answer'. Please click 'YES' to continue submitting.",
+      autoGenerate: "Auto Generated",
+      noTag: "No Answer Tag Detected"
     },
     edit: {
       titleUnit: "Edit Group Information",

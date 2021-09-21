@@ -28,7 +28,8 @@ import {
   autoKey,
   byteSize,
   maxItemByte,
-  autoKeyReg
+  autoQuery,
+  autoKeys
 } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -341,17 +342,14 @@ export default function NewItem(props) {
 
   React.useEffect(() => {
     if (key.length === 0) {
-      const keys = [];
-      setMarkQuery(query.replace(autoKeyReg, (_, before, answer) => {
-        keys.push(answer);
-        return `${before}<line>8</line>`;
-      }))
-      setMarkKey(keys.join("\n\n"));
+      const { query: processQuery, keys } = autoQuery(query);
+      setMarkQuery(processQuery)
+      setMarkKey(autoKeys(keys, context.lang));
     } else {
       setMarkQuery(query);
       setMarkKey(key);
     }
-  }, [query, key])
+  }, [query, key, context.lang])
 
   return (
     <Dialog
