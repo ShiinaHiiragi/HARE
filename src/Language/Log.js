@@ -5,12 +5,16 @@ const log = [
     date: "2021-09-21T00:00:00.000Z",
     detail: [
       {
-        type: "Change",
-        content: "Change behavior of detecting editor without saving"
+        type: "New",
+        content: "Add syntax for editor to auto generate answers"
       },
       {
         type: "New",
         content: "Closing unsaved editor will toggle a confirmation"
+      },
+      {
+        type: "Change",
+        content: "Change behavior of detecting editor without saving"
       },
       {
         type: "Fix",

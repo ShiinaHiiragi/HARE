@@ -14,7 +14,7 @@ import PackedMarkdown from "../Component/Markdown";
 import ForwardTimer from "../Interface/Timer";
 import { HotKeys } from "react-hotkeys";
 import { PanelContext } from "../Page/Panel";
-import { routeIndex, maxLog } from "../Interface/Constant";
+import { routeIndex, maxLog, autoQuery, autoKeys } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -189,6 +189,15 @@ export default function Recall(props) {
     revoke: cancel
   };
 
+  const processMarkdown = (index, reverse) => {
+    const targetItem = state.itemList[index - 1];
+    if (targetItem === undefined) return "";
+    const { query, keys } = autoQuery(targetItem.query);
+    if (reverse === "query") return query;
+    else if (targetItem.key.length) return targetItem.key;
+    else return autoKeys(keys, context.lang);
+  }
+
   return (
     <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.root}>
       <div className={classes.header}>
@@ -258,7 +267,7 @@ export default function Recall(props) {
               variant="body2"
               className="markdown-body"
             >
-              <PackedMarkdown children={state.itemList[state.recall.lost[pointer] - 1]?.[reverse]} />
+              <PackedMarkdown children={processMarkdown(state.recall.lost[pointer], reverse)} />
             </Typography>
           </Card>
         </div>
