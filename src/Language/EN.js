@@ -145,7 +145,8 @@ const list = {
       applyTitle: "Submit Confirm",
       applyText: "You are attempting to submit a new entry, though you didn't edit 'Answer'. Please click 'YES' to continue submitting.",
       autoGenerate: "Auto Generated",
-      noTag: "No Answer Tag Detected"
+      noTag: "No Answer Tag Detected",
+      noSave: " (No Save)"
     },
     edit: {
       titleUnit: "Edit Group Information",

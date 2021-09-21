@@ -139,7 +139,8 @@ const list = {
       applyTitle: "提交确认",
       applyText: "您正准备提交新词条（虽然从未编辑“答案”部分），请点击「确定」以继续。",
       autoGenerate: "自动生成",
-      noTag: "未检测到答案标签"
+      noTag: "未检测到答案标签",
+      noSave: "（未保存）"
     },
     edit: {
       titleUnit: "编辑记忆组信息",

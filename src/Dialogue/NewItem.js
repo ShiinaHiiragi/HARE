@@ -243,8 +243,7 @@ export default function NewItem(props) {
 
   // the icon button of exit
   const toggleExit = () => {
-    if (!state.editItem && (query !== "" || key !== ""))
-      setExit(true);
+    if (noSave) setExit(true);
     else clearClose();
   };
   const clearClose = () => {
@@ -271,7 +270,7 @@ export default function NewItem(props) {
       handle.toggleMessageBox(context.lang.message.itemOverflow, "warning");
       return;
     }
-    if (!state.editItem && !editKey) setApply(true);
+    if (!state.editItem && !editKey && !autoQuery(query).keys.length) setApply(true);
     else if (!state.editItem) submitNew();
     else submitEdit();
   };
@@ -341,6 +340,10 @@ export default function NewItem(props) {
   }, [noSave, context.lang.panel.recall.unload]);
 
   React.useEffect(() => {
+    if (state.editItem === "key") {
+      setMarkQuery(query.length ? query : autoKeys(state.keyTag, context.lang))
+      return;
+    }
     if (key.length === 0) {
       const { query: processQuery, keys } = autoQuery(query);
       setMarkQuery(processQuery)
@@ -349,7 +352,7 @@ export default function NewItem(props) {
       setMarkQuery(query);
       setMarkKey(key);
     }
-  }, [query, key, context.lang])
+  }, [state.editItem, state.keyTag, query, key, context.lang])
 
   return (
     <Dialog
@@ -368,6 +371,7 @@ export default function NewItem(props) {
             {state.editItem
               ? context.lang.popup.newItem.editTitle
               : context.lang.popup.newItem.title}
+            {noSave && context.lang.popup.newItem.noSave}
           </Typography>
           <IconButton color="inherit" onClick={toggleApply}>
             <DoneIcon />
