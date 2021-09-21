@@ -52,7 +52,7 @@ export { rangePassword };
 const defaultDigit = 2;
 const setStateDelay = 400;
 const leaveDelay = 200;
-const underline = "<line>8</line>";
+const underline = "<line size={8}>";
 const emSpace = "&emsp;"
 export {
   defaultDigit,
@@ -181,10 +181,10 @@ const autoQuery = (query) => {
   let keys = [];
   query = query.replace(autoKeyReg[0], (_, answer) => {
     keys.push(answer);
-    return `<line>${underlineLength(answer.length)}</line>`;
+    return `<line size={${underlineLength(answer.length)}}>`;
   }).replace(autoKeyReg[1], (_, before, answer) => {
     keys.push(answer);
-    return `${before}<line>${underlineLength(answer.length)}</line>`;
+    return `${before}<line size={${underlineLength(answer.length)}}>`;
   })
   return { query: query, keys: keys }
 }
