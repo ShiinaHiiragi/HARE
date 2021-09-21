@@ -127,6 +127,12 @@ export default function NewItem(props) {
   const [editKey, setEditKey] = React.useState(false);
   const [exit, setExit] = React.useState(false);
   const [apply, setApply] = React.useState(false);
+  const [noSave, setNoSave] = React.useState(false);
+
+  const monacoChange = (value) => {
+    setNoSave(true);
+    tab ? setKey(value) : setQuery(value);
+  }
 
   React.useEffect(() => {
     if (open) {
@@ -217,6 +223,7 @@ export default function NewItem(props) {
     setEditKey(false);
     setItemIDCheck(false);
     setTab(0);
+    setNoSave(false);
   };
 
   // the text button of continue
@@ -288,6 +295,18 @@ export default function NewItem(props) {
     })
   };
 
+  React.useEffect(() => {
+    const unloadListener = (event) => {
+      event.preventDefault();
+      if (noSave) {
+        event.returnValue = context.lang.panel.recall.unload;
+        return context.lang.panel.recall.unload;
+      }
+    };
+    window.addEventListener("beforeunload", unloadListener);
+    return () => window.removeEventListener("beforeunload", unloadListener);
+  }, [noSave, context.lang.panel.recall.unload]);
+
   return (
     <Dialog
       fullScreen
@@ -356,7 +375,7 @@ export default function NewItem(props) {
                 height="100%"
                 language="markdown"
                 value={tab ? key : query}
-                onChange={tab ? setKey : setQuery}
+                onChange={monacoChange}
                 editorDidMount={onEditorReady}
                 options={{
                   minimap: { enabled: false },
