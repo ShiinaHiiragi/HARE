@@ -9,8 +9,8 @@ const log = [
         content: "Add syntax for editor to auto generate answers"
       },
       {
-        type: "New",
-        content: "Closing unsaved editor will toggle a confirmation"
+        type: "Change",
+        content: "Change the appearance of line tag"
       },
       {
         type: "Change",

@@ -56,7 +56,7 @@ export default function PackedMarkdown(props) {
           );
         }
       }}
-      children={children.replace(/<line size=\{(\d*)\}>/g, (_, num) => {
+      children={children.replace(/<line +size=\{(\d*)\} *\/? *>/g, (_, num) => {
         const size = Number(num);
         return `<u>${"\u2003".repeat(!size || isNaN(size) ? 8 : size)}</u>`
       })}
