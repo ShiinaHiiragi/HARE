@@ -41,7 +41,8 @@ if (httpsArg) {
   // redirect http to https
   const httpApp = express();
   httpApp.all('*', (req, res) => {
-    res.redirect(301, `https://${req.hostname}${req.originalUrl}`);
+    const hostWithPort = `${req.hostname}${api.port.https === 443 ? "" : `:${api.port.https}`}`
+    res.redirect(301, `https://${hostWithPort}${req.originalUrl}`);
   });
   const httpServer = http.createServer(httpApp);
   httpServer.listen(api.port.http);
