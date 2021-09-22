@@ -257,7 +257,6 @@ const list = {
         "Cookie Parser": ["服务端 Cookie 解析", "1.4.4"],
         "CORS": ["跨域资源处理", "2.8.5"],
         "Node Dev": ["Node.js 代码热更新", "7.0.0"],
-        "Jade": ["模板引擎", "1.11.0"],
         "Crypto-JS": ["标准加密库", "4.0.0"],
         "React.js": ["前端界面渲染", "17.0.2"],
         "Create React App": ["React 脚手架", "4.0.3"],

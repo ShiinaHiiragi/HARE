@@ -5,16 +5,12 @@
 </div>
 
 ## 1 设计
-
 ### 1.1 未完成内容
-
 - [ ] 编辑器保存键
 - [ ] 自定义 CSS
 
 ### 1.2 数据库
-
 1. 数据库命令行
-
     - 注册 `sign <email> <username> <password>`
         - 大小写敏感，不能含有空格
     - 查看 `view <schema>`：
@@ -151,24 +147,41 @@
     );
     ```
 
-## 2 日志
+## 2 部署
+1. 下载文件并安装对应依赖
 
-- 2021 08-06 1.0.0 项目第一阶段完成
-- 2021 07-01 0.0.1 项目开始
+    ```shell
+    git clone https://github.com/ShiinaHiiragi/hare
+    cd hare
+    npm install
+    npm run deploy
+    cd server
+    npm install
+    ```
+
+2. 下载 PostgreSQL，如果配置不顺利，建议下载版本 12.6。建立一个数据库（建议取名为 `hare`），将数据库名和密码填写到 `server/bin/setting.json` 中
+3. 如果需要发布到公网，假设域名为 `s.ichinoe.xyz`，需要修改以下配置
+    - 将域名填写到 `server/bin/api.jh` 的 `exports.domain` 字符串中
+    - 将 SSL 证书放到 `server/bin/https` 下，名字按照例子名为 `1_s.ichinoe.xyz_bundle.crt` 和 `2_s.ichinoe.xyz.key`
+4. 指令 `npm run server` 或 `npm run dev` 运行服务器
 
 ## 3 依赖
+1. 服务端
 
-- Dependencies
+    | 项目            | 说明                  | 版本    |
+    | --------------- | --------------------- | ------- |
+    | `Node.js`       | 服务端脚本            | 12.15.4 |
+    | `Express.js`    | Node.js 服务器        | 4.16.1  |
+    | `Node-Postgre`  | PostgreSQL 数据库连接 | 8.6.0   |
+    | `Cookie Parser` | 服务端 Cookie 解析    | 1.4.4   |
+    | `CORS`          | 跨域资源处理          | 2.8.5   |
+    | `Node Dev`      | Node.js 代码热更新    | 7.0.0   |
+    | `Crypto-JS`     | 标准加密库            | 4.0.0   |
+
+2. 客户端
 
     | 项目                       | 说明                                              | 版本    |
     | -------------------------- | ------------------------------------------------- | ------- |
-    | `Node.js`                  | 服务端脚本                                        | 12.15.4 |
-    | `Express.js`               | Node.js 服务器                                    | 4.16.1  |
-    | `Node-Postgre`             | PostgreSQL 数据库连接                             | 8.6.0   |
-    | `Cookie Parser`            | 服务端 Cookie 解析                                | 1.4.4   |
-    | `CORS`                     | 跨域资源处理                                      | 2.8.5   |
-    | `Node Dev`                 | Node.js 代码热更新                                | 7.0.0   |
-    | `Jade`                     | 模板引擎                                          | 1.11.0  |
     | `Crypto-JS`                | 标准加密库                                        | 4.0.0   |
     | `React.js`                 | 前端界面渲染                                      | 17.0.2  |
     | `Create React App`         | React 脚手架                                      | 4.0.3   |
@@ -193,11 +206,8 @@
     | `Markdown to Text`         | MAKRDOWN 转换为纯文本                             | 1.0.1   |
     | `Github CSS`               | Github MARKDOWN 样式表                            | 4.0.0   |
 
-
 ## 4 备忘
-
 ### 4.1 XGrid 修改记录
-
 1. 删除水印产生：GridBody.tsx
 
     ```diff
@@ -400,19 +410,16 @@
 ### 4.2 通讯
 
 1. 登录时，服务器返回 `uid` 分配一个令牌 `token`；`uid` 用于获取资源，`token` 用于取得与服务器得到其他数据的许可；每次打开一个新的页面，服务器分配一个会话 `session`，用于验证页面当前状态是最新状态。
-
 2. 在浏览器端，`uid` 和 `token` 保存一天在 `cookie` 中
     - 点开新网页或者刷新，检测 `cookie`；更新 `session`，这个 `session` 是 `Panel` 的状态，随时会消失。
     - 每一次请求回应后更新过期时间（请求时间点顺延一天）；
     - 如果服务器返回了错误表示令牌错误，说明可能发生了异地登陆等情况，退出到登陆界面；
     - 如果服务器返回了错误表示令牌过期，说明可能发生了页面长时间（超过一天）没有请求等情况，退出到登陆界面
-    
 3. 在服务器端，`uid` 和 `token` 一直保存，同时维护一个最后请求时间
     - 当有新的登录要求时，覆盖原来的令牌；
     - 当有新的请求时，更新最后请求时间；
     - 当请求提供了错误的令牌，回应异常状态码；
     - 当请求提供了正确的令牌，但是最后请求时间距现在超过了一天，也回应异常状态码
-    
 4. 全部返回状态码
 
     | 状态码 | 名称                  | 出现时机                         |
@@ -438,15 +445,15 @@
     | SHA512   | 128  | 密码单向加密                         |
 
 ### 4.3 文件配置
-
 #### 4.3.1 NPM 脚本
-
-1. `npm run build` 是生成 React 的 `build` 文件的指令；`npm run build-copy` 在前者的基础上将 `build` 复制到了 `server/build`，由于 `ROBOCOPY` 指令执行成功会返回比 `7` 小的数值，导致 `npm` 报错，请忽略 `npm` 的报错。
-2. `npm run server` 是运行 `Express` 服务器的指令。注意：在 `server` 下运行 `npm run dev` 会传入 `--disable-cors` 的参数，导致跨域失败；另外，服务器下面的 ` npm start` 指令也不支持热更新。
+1. `npm run build` 是生成 React 的 `build` 文件的指令；`npm run deploy` 在前者的基础上将 `build` 复制到了 `server/build`，并删除原本在 `server/build` 内的所有文件
+2. `npm run server` 是运行 `Express` 服务器的指令，也是运行 `server` 文件夹内的 `npm start`；`npm run dev` 是本地测试服务器的指令，同时是 `server` 文件夹内的同名指令
+    - 运行 `npm run server` 会传入 `--disable-cors` 和 `--https` 的参数，导致跨域失败，同时开启 `https` 对应端口的监听
+    - `npm run dev` 指令支持热更新
 
 #### 4.3.2 路径
-
-1. 在 `server/build` 中存放的是 React 生成的单页应用，这个目录不能有其他的内容，否则会被下一次 `npm run build` 覆盖。
-2. SPA 通过检测自己的端口号为 `3000` 时，认为是开发模式；此时会向 `http://localhost:8000/` 请求数据；除此之外均认为是发布模式，会通过 `axios` 直接向 `/` 请求数据。
+1. 在 `server/build` 中存放的是 React 生成的单页应用，这个目录不能有其他的内容，否则会被下一次 `npm run deploy` 覆盖
+2. SPA 通过检测自己的端口号为 `3000` 时，认为是开发模式；此时会向 `http://localhost:8000/` 请求数据；除此之外均认为是发布模式，会通过 `axios` 直接向 `/` 请求数据
+3. 服务器在 `--https` 模式下接收到 `http` 对应端口传来的请求时，会重定向到 `https` 对应监听的端口。如果 `https` 监听端口不是 `443`，则会在重定向 URL 中附加端口号
 
 <p align="right"> Ichinoe Mizue </p>
