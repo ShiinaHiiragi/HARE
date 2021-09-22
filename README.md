@@ -23,16 +23,16 @@
     - 执行 `eval <eval>`
         - 不能换行，最终用 `eval` 函数执行
 
-    > 创造 ID 为 1 的账号，使用以下账号（修改密码）：
-    >
-    > ```shell
-    > server> npm start
-    > server> sign IchinoeMizue@outlook.com Ichinoe mono142857
-    > server> cap unit 1 24
-    > server> cap page 1 16
-    > server> cap item 1 192
-    > server> cap img 1 48
-    > ```
+      > 创造 ID 为 1 的账号，使用以下账号（修改密码）：
+      >
+      > ```shell
+      > server> npm start
+      > server> sign IchinoeMizue@outlook.com Ichinoe mono142857
+      > server> cap unit 1 24
+      > server> cap page 1 16
+      > server> cap item 1 192
+      > server> cap img 1 48
+      > ```
 
 2. PostgreSQL 模式
 
@@ -151,12 +151,12 @@
 1. 下载文件并安装对应依赖
 
     ```shell
-    git clone https://github.com/ShiinaHiiragi/hare
-    cd hare
-    npm install
-    npm run deploy
-    cd server
-    npm install
+    > git clone https://github.com/ShiinaHiiragi/hare
+    > cd hare
+    > npm install
+    > npm run deploy
+    > cd server
+    > npm install
     ```
 
 2. 下载 PostgreSQL，如果配置不顺利，建议下载版本 12.6。建立一个数据库（建议取名为 `hare`），将数据库名和密码填写到 `server/bin/setting.json` 中
@@ -176,6 +176,7 @@
     | `Cookie Parser` | 服务端 Cookie 解析    | 1.4.4   |
     | `CORS`          | 跨域资源处理          | 2.8.5   |
     | `Node Dev`      | Node.js 代码热更新    | 7.0.0   |
+    | `Morgan`        | 日志生成              | 1.9.1   |
     | `Crypto-JS`     | 标准加密库            | 4.0.0   |
 
 2. 客户端
@@ -434,11 +435,11 @@
     | 409    | Conflict              | 会话过期                         |
     | 500    | Internal Server Error | 服务器内部错误                   |
 
-5. 加密
+5. 使用的加密算法
 
     | 加密算法 | 位数 | 出现时机                             |
     | -------- | ---- | ------------------------------------ |
-    | MD5      | 32   | 请求图片时的（随机）时间戳           |
+    | MD5      | 32   | 请求图片时的（随机）时间戳，刷新缓存 |
     | SHA1     | 40   | 保存图片的图片名，导出的 JSON 文件名 |
     | SHA224   | 56   | 生成会话                             |
     | SHA256   | 64   | 生成令牌                             |
@@ -449,7 +450,7 @@
 1. `npm run build` 是生成 React 的 `build` 文件的指令；`npm run deploy` 在前者的基础上将 `build` 复制到了 `server/build`，并删除原本在 `server/build` 内的所有文件
 2. `npm run server` 是运行 `Express` 服务器的指令，也是运行 `server` 文件夹内的 `npm start`；`npm run dev` 是本地测试服务器的指令，同时是 `server` 文件夹内的同名指令
     - 运行 `npm run server` 会传入 `--disable-cors` 和 `--https` 的参数，导致跨域失败，同时开启 `https` 对应端口的监听
-    - `npm run dev` 指令支持热更新
+    - 运行 `npm run dev` 指令支持热更新
 
 #### 4.3.2 路径
 1. 在 `server/build` 中存放的是 React 生成的单页应用，这个目录不能有其他的内容，否则会被下一次 `npm run deploy` 覆盖

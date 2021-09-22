@@ -263,6 +263,7 @@ const list = {
         "Cookie Parser": ["Cookie Parser for Express", "1.4.4"],
         "CORS": ["Cross-Origin Resource Sharing", "2.8.5"],
         "Node Dev": ["Node.js Code Hot Update", "7.0.0"],
+        "Morgan": ["Log Generating", "1.9.1"],
         "Crypto-JS": ["Standard Encryption Library", "4.0.0"],
         "React.js": ["Front-end Interface Rendering", "17.0.2"],
         "Create React App": ["React Scaffold", "4.0.3"],
