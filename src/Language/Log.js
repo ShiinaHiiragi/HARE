@@ -8,7 +8,11 @@ const log = [
       {
         type: "Change",
         content: "Change vertical align of version in ABOUT"
-      }
+      },
+      {
+        type: "Change",
+        content: "Unifying time format in locale setting"
+      },
     ]
   },
   {
