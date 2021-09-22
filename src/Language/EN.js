@@ -331,6 +331,7 @@ const list = {
     changeAvatar: "Change Avatar",
     changeLanguage: "Change Displaying Language",
     changeRank: "Change Display of Ranking",
+    changeMove: "Change Display of Move in View",
     viewCopyright: "About HARE",
     logout: "Logout",
     fold: "Fold",
@@ -375,7 +376,9 @@ const list = {
     copyImageLink: "The link of the image has been copied to clipboard. Paste it in MARKDOWN editor and it won't be displayed outside of this site.",
     nonJSON: "The file you selected is not JSON.",
     invalidJSON: "Formatting of uploaded JSON is invalid.",
-    largeJSON: "The entries to be added exceed the limit of this account."
+    largeJSON: "The entries to be added exceed the limit of this account.",
+    hideMove: "The MOVE button in View page has been hidden.",
+    showMove: "The MOVE button in View page has been shown."
   },
   grid: {
     column: {

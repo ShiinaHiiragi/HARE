@@ -21,7 +21,8 @@ import {
   defaultCurrentSelect,
   setStateDelay,
   stringFormat,
-  getRank
+  getRank,
+  cookieSetting
 } from "../Interface/Constant";
 
 const PanelContext = React.createContext({});
@@ -59,14 +60,10 @@ export default function Panel(props) {
 
   // load cookie to seek some setting
   const [lowRank, setLowRank] = React.useState(true);
+  const [hideMove, setHideMove] = React.useState(true);
   React.useEffect(() => {
-    const storageRank = cookie.load("lowRank");
-    if (storageRank === undefined) {
-      cookie.save("lowRank", true, { expires: cookieTime(3650) });
-    } else if (storageRank !== "true") {
-      setLowRank(false);
-      cookie.save("lowRank", false, { expires: cookieTime(3650) });
-    }
+    cookieSetting("lowRank", setLowRank);
+    cookieSetting("hideMove", setHideMove);
   }, []);
 
   // the setting of request
@@ -284,6 +281,7 @@ export default function Panel(props) {
             setListObject: setListObject,
             setStatInfo: setStatInfo,
             setLowRank: setLowRank,
+            setHideMove: setHideMove,
             setProfile: setProfile
           }}
         />
@@ -299,6 +297,7 @@ export default function Panel(props) {
             itemList: itemList,
             statInfo: statInfo,
             lowRank: lowRank,
+            hideMove: hideMove,
             pageDetail: pageDetail
           }}
           handle={{

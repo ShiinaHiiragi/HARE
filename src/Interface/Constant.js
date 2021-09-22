@@ -1,4 +1,5 @@
 import CryptoJS from "crypto-js";
+import cookie from "react-cookies"
 import markdownToTxt from "markdown-to-txt";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
@@ -172,7 +173,16 @@ const underlineLength = (size) => {
   else if (size <= 16) return 16;
   else return 20;
 }
-export { markMap, lostGenerator, underlineLength };
+const cookieSetting = (cookieName, setState) => {
+  const storageCookie = cookie.load(cookieName);
+  if (storageCookie === undefined) {
+    cookie.save(cookieName, true, { expires: cookieTime(3650) });
+  } else if (storageCookie !== "true") {
+    setState(false);
+    cookie.save(cookieName, false, { expires: cookieTime(3650) });
+  }
+}
+export { markMap, lostGenerator, underlineLength, cookieSetting };
 
 // function about markdown blank
 const autoKey = "{{}}";

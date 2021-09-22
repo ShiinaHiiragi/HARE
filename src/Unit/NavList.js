@@ -66,6 +66,7 @@ export default function NavList(props) {
           refreshAvatar: refreshAvatar,
           initValue: initValue,
           setLowRank: handle.setLowRank,
+          setHideMove: handle.setHideMove,
           clearCheck: clearCheck
         }}
       />

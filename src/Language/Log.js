@@ -2,7 +2,7 @@
 const log = [
   {
     version: "1.4.1",
-    date: "2021-09-22T00:00:00.000Z",
+    date: "2021-09-23T00:00:00.000Z",
     detail: [
       {
         type: "Change",
@@ -15,6 +15,14 @@ const log = [
       {
         type: "Change",
         content: "Adjust back route in recall page"
+      },
+      {
+        type: "Fix",
+        content: "Fix display error in auto generated syntax"
+      },
+      {
+        type: "Remove",
+        content: "Make MOVE button a selective cmponent"
       }
     ]
   },

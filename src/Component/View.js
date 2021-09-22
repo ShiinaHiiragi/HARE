@@ -205,7 +205,7 @@ export default function View(props) {
         >
           {context.lang.grid.buttons.delete}
         </Button>
-        <Button
+        {!state.hideMove && <Button
           variant="outlined"
           color="primary"
           disabled={invalidMove}
@@ -214,7 +214,7 @@ export default function View(props) {
           onClick={toggleMove}
         >
           {context.lang.grid.buttons.move}
-        </Button>
+        </Button>}
         <Button
           variant="outlined"
           color="primary"

@@ -109,6 +109,21 @@ export default function GlobalMenu(props) {
       <MenuItem
         onClick={() => {
           handle.close();
+          handle.setHideMove((hideMove) => {
+            cookie.save("hideMove", !hideMove, { expires: cookieTime(3650) });
+            handle.toggleMessageBox(
+              context.lang.message[hideMove ? "showMove": "hideMove"],
+              "success"
+            );
+            return !hideMove;
+          });
+        }}
+      >
+        {context.lang.menu.changeMove}
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.close();
           setLicense(true);
         }}
       >

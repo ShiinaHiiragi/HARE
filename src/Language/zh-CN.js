@@ -325,6 +325,7 @@ const list = {
     changeAvatar: "更换头像",
     changeLanguage: "更换显示语言",
     changeRank: "更换评级表示",
+    changeMove: "改变视图移动按钮显隐",
     viewCopyright: "关于",
     logout: "退出登录",
     fold: "折叠",
@@ -369,7 +370,9 @@ const list = {
     copyImageLink: "此图片链接已被复制到剪切板，请直接复制到 MARKDOWN 编辑器。此图片在本网站之外无法显示。",
     nonJSON: "上传的文件不是 JSON 文件",
     invalidJSON: "上传的 JSON 文件格式有误",
-    largeJSON: "可新建的条目超出上限"
+    largeJSON: "可新建的条目超出上限",
+    hideMove: "视图中移动按钮已被隐藏",
+    showMove: "显示视图中移动按钮"
   },
   grid: {
     column: {

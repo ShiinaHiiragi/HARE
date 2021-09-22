@@ -46,6 +46,7 @@ export default function PersonalInfo(props) {
           initValue: handle.initValue,
           clearCheck: handle.clearCheck,
           setLowRank: handle.setLowRank,
+          setHideMove: handle.setHideMove,
           close: () => setAnchorGlobalMenu(null)
         }}
       />

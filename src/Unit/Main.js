@@ -101,6 +101,7 @@ export default function Main(props) {
             range: state.range,
             current: state.current,
             pageDetail: state.pageDetail,
+            hideMove: state.hideMove,
             itemList: state.itemList
           }}
           handle={{
