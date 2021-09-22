@@ -382,8 +382,7 @@ const list = {
       itemID: "Entry ID",
       query: "Question",
       key: "Answer",
-      time: "Time Created",
-      timeFormatString: "MM/dd/yyyy hh:mm"
+      time: "Time Created"
     },
     buttons: {
       delete: "Delete",
@@ -453,7 +452,8 @@ const list = {
         `${visibleCount.toLocaleString()} of ${totalCount.toLocaleString()}`,
       checkboxSelectionHeaderName: "Checkbox selection",
       booleanCellTrueLabel: "true",
-      booleanCellFalseLabel: "false"
+      booleanCellFalseLabel: "false",
+      timeFormatStringFilter: "MM/dd/yyyy hh:mm"
     },
     ordinal: [
       "First",         "Second",         "Third",

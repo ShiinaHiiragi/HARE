@@ -100,7 +100,7 @@ const defaultColumn = (langGrid) => [
     type: "dateTime",
     headerName: langGrid?.column?.time,
     valueFormatter: (param) =>
-      timeFormat(param.value, langGrid.column.timeFormatString),
+      timeFormat(param.value, langGrid.inherent.timeFormatStringFilter),
     width: 200,
     align: "center",
     headerAlign: "center"

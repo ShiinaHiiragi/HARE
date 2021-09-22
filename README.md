@@ -288,7 +288,7 @@
     }
     ```
 
-5. 修改数字比较对应的标签：gridNumericOperators.ts
+5. 修改数字比较对应的标签：gridNumericOperators.tsx
 
     ```diff
     {
@@ -310,7 +310,9 @@
     }
     ```
 
-6. 修改时间选择器，加入时间组件。即在输入内建类型标签为 `datetime-local` 时使用 `DateTimePicker` 而不是 `TextField`。注意，如果今后需要选择 `date` 类型，那么也要特判，使用 `DatePicker`：GridFilterInputValue.tsx
+6. 修改时间选择器，加入时间组件。即在输入内建类型标签为 `datetime-local` 时使用 `DateTimePicker` 而不是 `TextField`。
+    - 如果今后需要选择 `date` 类型，那么也要特判，使用 `DatePicker`：GridFilterInputValue.tsx
+    - `format` 使用的是 `localeText`，注意需要特别规定这里的文本内容
 
     ```tsx
     return (
@@ -322,7 +324,7 @@
             variant="inline"
             label={apiRef.current.getLocaleText('filterPanelInputLabel')}
             placeholder={apiRef.current.getLocaleText('filterPanelInputPlaceholder')}
-            format="yyyy-MM-dd HH:mm"
+            format={apiRef.current.getLocaleText('timeFormatStringFilter')}
             value={filterValueState || new Date()}
             onChange={onFilterChange}
           />

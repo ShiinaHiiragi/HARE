@@ -376,8 +376,7 @@ const list = {
       itemID: "词条序号",
       query: "问题",
       key: "答案",
-      time: "创建时间",
-      timeFormatString: "yyyy MM-dd hh:mm"
+      time: "创建时间"
     },
     buttons: {
       delete: "删除",
@@ -441,7 +440,8 @@ const list = {
         `${visibleCount.toLocaleString()} / ${totalCount.toLocaleString()}`,
       checkboxSelectionHeaderName: "选择",
       booleanCellTrueLabel: "真",
-      booleanCellFalseLabel: "假"
+      booleanCellFalseLabel: "假",
+      timeFormatStringFilter: "yyyy MM-dd hh:mm"
     },
     ordinal: [
       "第一次", "第二次", "第三次", "第四次",
