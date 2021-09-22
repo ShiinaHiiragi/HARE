@@ -140,6 +140,7 @@ export default function Main(props) {
           state={{
             recall: state.recall,
             itemList: state.itemList,
+            prevRoute: state.current.prevRoute,
             route: state.current.route,
             unitID: state.current.unitID,
             pageID: state.current.pageID,

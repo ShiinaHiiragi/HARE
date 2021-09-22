@@ -2,7 +2,6 @@
 const log = [
   {
     version: "1.4.1",
-    // TODO: change it to date of deploying
     date: "2021-09-22T00:00:00.000Z",
     detail: [
       {
@@ -13,6 +12,10 @@ const log = [
         type: "Change",
         content: "Unifying time format in locale setting"
       },
+      {
+        type: "Change",
+        content: "Adjust back route in recall page"
+      }
     ]
   },
   {

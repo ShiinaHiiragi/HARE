@@ -138,7 +138,7 @@ export default function Recall(props) {
   }
 
   const back = () => {
-    handle.setCurrentRoute(routeIndex.cover);
+    handle.setCurrentRoute(state.prevRoute);
     handle.submitRecall(state.unitID, state.pageID);
   }
 
