@@ -241,7 +241,7 @@ export default function View(props) {
         setNewItem(true);
         if (params.field === "key") {
           setKeyTag(autoQuery(params.row.query).keys);
-        }
+        } else setKeyTag([params.row.key]);
       } else if (params.field === "id") toggleMove();
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

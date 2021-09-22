@@ -344,7 +344,7 @@ export default function NewItem(props) {
       setMarkQuery(query.length ? query : autoKeys(state.keyTag, context.lang))
       return;
     }
-    if (key.length === 0) {
+    if ((state.editItem === "query" ? state.keyTag[0] : key).length === 0) {
       const { query: processQuery, keys } = autoQuery(query);
       setMarkQuery(processQuery)
       setMarkKey(autoKeys(keys, context.lang));

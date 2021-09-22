@@ -193,7 +193,8 @@ export default function Recall(props) {
     const targetItem = state.itemList[index - 1];
     if (targetItem === undefined) return "";
     const { query, keys } = autoQuery(targetItem.query);
-    if (reverse === "query") return query;
+    if (reverse === "query" && !targetItem.key.length) return query;
+    else if (reverse === "query") return targetItem.query;
     else if (targetItem.key.length) return targetItem.key;
     else return autoKeys(keys, context.lang);
   }
