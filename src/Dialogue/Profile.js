@@ -143,7 +143,7 @@ export default function Profile(props) {
               <DatePicker
                 disableFuture
                 variant="inline"
-                format="yyyy/MM/dd"
+                format={context.lang.popup.profile.timeFormatString}
                 margin="normal"
                 label={context.lang.popup.profile.birth}
                 value={state.value.birth}

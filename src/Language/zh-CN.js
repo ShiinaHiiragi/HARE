@@ -38,7 +38,8 @@ const list = {
       view: "查看词条",
       stat: "统计信息",
       gallery: "画廊",
-      nilPresent: "没有描述"
+      nilPresent: "没有描述",
+      timeFormatString: "yyyy MM-dd hh:mm:ss",
     },
     recall: {
       switch: "切换问题/答案",
@@ -63,7 +64,7 @@ const list = {
         negative: "负相关",
         overfit: "过拟合"
       },
-      timeFormatString: "yyyy-MM-dd hh:mm:ss",
+      timeFormatString: "yyyy MM-dd hh:mm:ss",
       ongoing: "（正在进行）",
       avgSpan: "平均用时 / 平均每词条用时：",
       avgInterval: "平均间隔：",
@@ -96,7 +97,7 @@ const list = {
       copy: "复制链接",
       delete: "删除",
       new: "新图片",
-      timeFormatString: "yyyy-MM-dd hh:mm:ss"
+      timeFormatString: "yyyy MM-dd hh:mm:ss"
     }
   },
   popup: {
@@ -227,7 +228,8 @@ const list = {
       birth: "生日",
       gender: "性别",
       tel: "电话",
-      city: "城市"
+      city: "城市",
+      timeFormatString: "yyyy MM-dd"
     },
     volumn: {
       title: "当前帐号容量",
@@ -375,7 +377,7 @@ const list = {
       query: "问题",
       key: "答案",
       time: "创建时间",
-      timeFormatString: "yyyy-MM-dd hh:mm"
+      timeFormatString: "yyyy MM-dd hh:mm"
     },
     buttons: {
       delete: "删除",

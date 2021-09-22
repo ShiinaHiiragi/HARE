@@ -1,6 +1,17 @@
 // type enum = ["Global", "New", "Remove", "Change", "Fix"]
 const log = [
   {
+    version: "1.4.1",
+    // TODO: change it to date of deploying
+    date: "2021-09-22T00:00:00.000Z",
+    detail: [
+      {
+        type: "Change",
+        content: "Change vertical align of version in ABOUT"
+      }
+    ]
+  },
+  {
     version: "1.4.0",
     date: "2021-09-21T00:00:00.000Z",
     detail: [

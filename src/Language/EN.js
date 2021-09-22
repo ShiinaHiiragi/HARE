@@ -38,7 +38,8 @@ const list = {
       view: "View Items",
       stat: "Statistics",
       gallery: "Gallery",
-      nilPresent: "No Description"
+      nilPresent: "No Description",
+      timeFormatString: "MM/dd/yyyy hh:mm:ss",
     },
     recall: {
       switch: "Switch Question/Answer",
@@ -233,7 +234,8 @@ const list = {
       birth: "Birthday",
       gender: "Gender",
       tel: "TEL",
-      city: "City"
+      city: "City",
+      timeFormatString: "MM/dd/yyyy"
     },
     volumn: {
       title: "Volumn Limit of Current Account",
@@ -253,7 +255,7 @@ const list = {
       tab: ["Information", "Log", "Help"],
       header: ["Dependency", "Description", "Version"],
       copyTip: "Copy to Clipboard",
-      timeFormatString: "MM/dd yyyy",
+      timeFormatString: "MM/dd/yyyy",
       info: {
         "Node.js": ["Script for Server", "12.15.4"],
         "Express.js": ["Node.js Server", "4.16.1"],

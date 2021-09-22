@@ -159,7 +159,7 @@ export default function Cover(props) {
             {stringFormat(context.lang.panel.cover.createTime, [
               timeFormat(
                 state.pageDetail.pageCreateTime,
-                "yyyy-MM-dd hh:mm:ss"
+                context.lang.panel.cover.timeFormatString
               )
             ])}
           </Typography>
