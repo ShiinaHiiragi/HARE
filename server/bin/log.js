@@ -7,6 +7,10 @@ exports.log = [
       {
         type: "Change",
         content: "Return to previous interface when finishing recollection"
+      },
+      {
+        type: "Fix",
+        content: "Fix the unordered items when exporting all booklets"
       }
     ]
   },

@@ -385,8 +385,8 @@ exports.getItems = (userID) => new Promise((resolve, reject) => {
           .then(([{ pagesize }]) => {
             result[unitIndex] = new Array(pagesize).fill();
             return api.syncEachChain(result[unitIndex], (_, onsuccess, onerror, pageIndex) => {
-              query(`select itemQuery, itemKey from item where userID = ${userID}
-                and unitID = ${unitIndex + 1} and pageID = ${pageIndex + 1}`)
+              query(`select itemQuery, itemKey from item where userID = ${userID} and
+                unitID = ${unitIndex + 1} and pageID = ${pageIndex + 1} order by itemID asc`)
                 .then((targetItems) => {
                   result[unitIndex][pageIndex] = targetItems.map((item) => ({
                     query: item.itemquery, key: item.itemkey
