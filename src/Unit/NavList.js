@@ -61,6 +61,7 @@ export default function NavList(props) {
           listObject: state.listObject,
           lowRank: state.lowRank,
           hideMove: state.hideMove,
+          languageName: state.languageName,
           log: state.log
         }}
         handle={{

@@ -170,12 +170,14 @@ export default function GlobalMenu(props) {
         open={localSetting}
         state={{
           lowRank: state.lowRank,
-          hideMove: state.hideMove
+          hideMove: state.hideMove,
+          languageName: state.languageName
         }}
         handle={{
           close: () => setLocalSetting(false),
           setLowRank: handle.setLowRank,
-          setHideMove: handle.setHideMove
+          setHideMove: handle.setHideMove,
+          changeGlobalLang: handle.changeGlobalLang
         }}
       />
     </Menu>

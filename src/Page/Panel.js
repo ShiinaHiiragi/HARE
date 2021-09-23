@@ -10,7 +10,7 @@ import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
 import Kick from "../Dialogue/Kick";
 import Conflict from "../Dialogue/Conflict";
-import { languagePicker, nameMap } from "../Language/Lang";
+import { languagePicker, nameMap, containLanguage } from "../Language/Lang";
 import { packedGET, packedPOST } from "../Interface/Request";
 import {
   cookieTime,
@@ -32,15 +32,19 @@ export default function Panel(props) {
   const { userID, session } = props;
 
   // the state of language
+  const [languageName, setLanguageName] = React.useState(nameMap.English);
   const [globalLang, setGlobalLang] = React.useState(languagePicker());
   const changeGlobalLang = React.useCallback((targetValue) => {
-    if (targetValue)
+    if (targetValue) {
       setTimeout(() => setGlobalLang(languagePicker(targetValue)), setStateDelay * 0.5);
+      setLanguageName(targetValue);
+    }
     cookie.save("lang", targetValue, { expires: cookieTime(3650) });
   }, []);
   React.useEffect(() => {
-    let storageLang = cookie.load("lang");
-    changeGlobalLang(storageLang || nameMap.English);
+    let storageLang = cookie.load("lang") ?? nameMap.English;
+    setLanguageName(containLanguage(storageLang));
+    changeGlobalLang(storageLang);
   }, [changeGlobalLang]);
 
   // load cookie to seek some setting
@@ -287,6 +291,7 @@ export default function Panel(props) {
             listObject: listObject,
             lowRank: lowRank,
             hideMove: hideMove,
+            languageName: languageName,
             log: log
           }}
           handle={{

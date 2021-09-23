@@ -16,5 +16,10 @@ const languagePicker = (target) => {
   else return listMap[target];
 };
 
-export { nameMap, languagePicker };
+const containLanguage = (target) => {
+  if (Object.keys(listMap).includes(target)) return target;
+  else return nameMap.English;
+}
+
+export { nameMap, languagePicker, containLanguage };
 export default languagePicker;

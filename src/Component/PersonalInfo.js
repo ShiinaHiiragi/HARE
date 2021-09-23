@@ -31,7 +31,6 @@ export default function PersonalInfo(props) {
           <MoreVertIcon />
         </IconButton>
       </ListItem>
-
       <GlobalMenu
         state={{
           userID: state.userID,
@@ -41,6 +40,7 @@ export default function PersonalInfo(props) {
           listObject: state.listObject,
           lowRank: state.lowRank,
           hideMove: state.hideMove,
+          languageName: state.languageName,
           log: state.log
         }}
         handle={{

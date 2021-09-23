@@ -14,6 +14,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import { PanelContext } from "../Page/Panel";
+import { nameMap } from "../Language/Lang";
 import { cookieTime } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -140,15 +141,12 @@ export default function LocalSetting(props) {
             </FormLabel>
             <Select
               className={classes.selector}
-              // value={age}
-              // onChange={handleChange}
-              // displayEmpty
-              // className={classes.selectEmpty}
+              value={state.languageName}
+              onChange={(event) => handle.changeGlobalLang(event.target.value)}
             >
-              <MenuItem value={0}>Zero</MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {Object.keys(nameMap).map((displayName, index) => (
+                <MenuItem value={nameMap[displayName]} key={index}>{displayName}</MenuItem>
+              ))}
             </Select>
           </FormControl>
       </DialogContent>
