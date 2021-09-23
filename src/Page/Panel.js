@@ -36,13 +36,12 @@ export default function Panel(props) {
   const changeGlobalLang = React.useCallback((targetValue) => {
     if (targetValue) {
       setGlobalLang(languagePicker(targetValue));
-      setLanguageName(targetValue);
+      setLanguageName(containLanguage(targetValue));
     }
     cookie.save("lang", targetValue, { expires: cookieTime(3650) });
   }, []);
   React.useEffect(() => {
     let storageLang = cookie.load("lang") ?? nameMap.English;
-    setLanguageName(containLanguage(storageLang));
     changeGlobalLang(storageLang);
   }, [changeGlobalLang]);
 

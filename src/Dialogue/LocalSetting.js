@@ -22,9 +22,6 @@ const useStyles = makeStyles((theme) => ({
   noneSelect: {
     userSelect: "none"
   },
-  text: {
-    marginBottom: 0
-  },
   formControl: {
     display: "flex",
     alignItems: "center",
@@ -101,13 +98,13 @@ export default function LocalSetting(props) {
               <FormControlLabel
                 className={classes.formControlLabel}
                 value={"true"}
-                control={<Radio />}
+                control={<Radio color="primary" />}
                 label="A ~ F"
               />
               <FormControlLabel
                 className={classes.formControlLabel}
                 value={"false"}
-                control={<Radio />}
+                control={<Radio color="primary" />}
                 label="X ~ D"
               />
             </RadioGroup>
@@ -124,13 +121,13 @@ export default function LocalSetting(props) {
               <FormControlLabel
                 className={classes.formControlLabel}
                 value={"false"}
-                control={<Radio />}
+                control={<Radio color="primary" />}
                 label={context.lang.popup.localSetting.showMoveButton}
               />
               <FormControlLabel
                 className={classes.formControlLabel}
                 value={"true"}
-                control={<Radio />}
+                control={<Radio color="primary" />}
                 label={context.lang.popup.localSetting.hideMoveButton}
               />
             </RadioGroup>
