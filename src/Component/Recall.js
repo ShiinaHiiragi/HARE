@@ -171,7 +171,7 @@ export default function Recall(props) {
         return { ...recall, [param]: recall[param], lost: recall.lost };
       })
       if (size === 1) {
-        handle.setCurrentRoute(routeIndex.cover);
+        handle.setCurrentRoute(state.prevRoute);
         handle.submitRecall(state.unitID, state.pageID, true);
       }
       else setPointer((pointer) => pointer % (size - 1));
