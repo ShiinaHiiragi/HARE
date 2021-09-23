@@ -18,7 +18,7 @@ export { isDevMode, requestURL };
 // the information of the autor
 const author = "Ichinoe";
 const email = "IchinoeMizue@outlook.com";
-const versionLatest = (log, defaultVersion = "0.0.0") => log[0]?.["version"] ?? defaultVersion;
+const versionLatest = (log, defaultVersion = "0.0.0") => log?.[0]?.["version"] ?? defaultVersion;
 const versionParser = (version, bits = 3) => version.match(/\d+/g).slice(0, bits).join(".");
 export { author, email, versionLatest, versionParser };
 

@@ -19,7 +19,6 @@ import NewItem from "../Dialogue/NewItem";
 import Move from "../Dialogue/Move";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import ChangeTrack from "../Dialogue/ChangeTrack";
-import CryptoJS from "crypto-js";
 import { PanelContext } from "../Page/Panel";
 import { HotKeys } from "react-hotkeys";
 import {
@@ -387,10 +386,7 @@ export default function View(props) {
       ));
     let downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", datastr);
-    downloadAnchorNode.setAttribute(
-      "download",
-      `${state.current.pageName}_${CryptoJS.SHA1(new Date().toString()).toString()}.json`
-    );
+    downloadAnchorNode.setAttribute("download", `${state.current.pageName}`);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
   }

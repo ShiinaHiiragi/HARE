@@ -3,7 +3,6 @@ import cookie from "react-cookies";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import JSZip from "jszip";
-import CryptoJS from "crypto-js";
 import { saveAs } from "file-saver";
 import LanguageSelector from "./LanguageSelector";
 import License from "./License";
@@ -140,12 +139,7 @@ export default function GlobalMenu(props) {
                 })
               })
               zip.generateAsync({ type: "blob" })
-                .then((content) => {
-                  saveAs(
-                    content,
-                    `${state.userName}_${CryptoJS.SHA1(new Date().toString()).toString()}`
-                  );
-                });
+                .then((content) => saveAs(content, `${state.userName}`));
             })
         }}
       >
