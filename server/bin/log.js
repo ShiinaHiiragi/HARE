@@ -7,6 +7,10 @@ exports.log = [
       {
         type: "New",
         content: "Add feature of exporting all booklets in zip"
+      },
+      {
+        type: "Change",
+        content: "More flexible version system"
       }
     ]
   },

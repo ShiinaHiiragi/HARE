@@ -21,6 +21,7 @@ import {
   setStateDelay,
   stringFormat,
   getRank,
+  versionLatest,
   cookieSetting
 } from "../Interface/Constant";
 
@@ -120,28 +121,26 @@ export default function Panel(props) {
   }, []);
 
   const [log, setLog] = React.useState([]);
-  const [version, setVersion] = React.useState("");
   React.useEffect(() => {
     packedRequest("GET/src/log").then((out) => {
-      const version = out[0]?.["version"] ?? "0.0.0"
+      const version = versionLatest(out);
       setLog(out);
-      setVersion(version);
 
       // notice of update
       // the language may not been updated when toggling msgbox
       // so we must use languagePicker()
       let storageLang = cookie.load("lang");
-      const thisVersion = version.match(/\d+/g);
-      const saveVersion = String(cookie.load("version")).match(/\d+/g);
-      if (saveVersion instanceof Array
-        && saveVersion.length === 3
-        && (thisVersion[0] > saveVersion[0]
-          || (thisVersion[0] === saveVersion[0]
-            && thisVersion[1] > saveVersion[1])
-          || (thisVersion[0] === saveVersion[0]
-            && thisVersion[1] === saveVersion[1]
-            && thisVersion[2] > saveVersion[2]))) {
-        toggleMessageBox(languagePicker(storageLang).message.newVersion, "info");
+      let storageVersion = String(cookie.load("version", true))
+      const thisVersion = version.match(/\d+/g).map(Number).concat([0, 0, 0, 0]).slice(0, 4);
+      const saveVersion = storageVersion.match(/\d+/g).map(Number).concat([0, 0, 0, 0]).slice(0, 4);
+      for (let index = 0; index < 4; index += 1) {
+        const versionDiff = thisVersion[index] - saveVersion[index];
+        if (versionDiff) {
+          if (versionDiff > 0) {
+            toggleMessageBox(languagePicker(storageLang).message.newVersion, "info");
+          }
+          break;
+        }
       }
       cookie.save("version", version, { expires: cookieTime(3650) });
     });
@@ -281,8 +280,7 @@ export default function Panel(props) {
             route: currentSelect.route,
             navListMobile: navListMobile,
             listObject: listObject,
-            log: log,
-            version: version
+            log: log
           }}
           handle={{
             setImage: setImage,

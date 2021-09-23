@@ -187,7 +187,6 @@ export default function GlobalMenu(props) {
         withTab
         open={license}
         log={state.log}
-        version={state.version}
         handleClose={() => setLicense(false)}
         handleToggleMessageBox={handle.toggleMessageBox}
       />

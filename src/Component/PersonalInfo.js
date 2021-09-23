@@ -39,8 +39,7 @@ export default function PersonalInfo(props) {
           anchor: anchorGlobalMenu,
           email: state.profile.email,
           listObject: state.listObject,
-          log: state.log,
-          version: state.version
+          log: state.log
         }}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,

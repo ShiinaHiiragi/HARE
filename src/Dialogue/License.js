@@ -22,7 +22,14 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
 import copy from "copy-to-clipboard";
-import { author, email, requestURL, timeFormat } from "../Interface/Constant";
+import {
+  author,
+  email,
+  requestURL,
+  timeFormat,
+  versionLatest,
+  versionParser
+} from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -124,7 +131,7 @@ const AccordionDetails = withStyles((theme) => ({
 
 export default function License(props) {
   const classes = useStyles();
-  const { withTab, open, log, version, handleClose, handleToggleMessageBox } = props;
+  const { withTab, open, log, handleClose, handleToggleMessageBox } = props;
   const context = React.useContext(PanelContext);
   const lang = context.lang ?? props.lang
 
@@ -150,7 +157,7 @@ export default function License(props) {
       <DialogTitle style={{ paddingBottom: withTab ? 0 : 16 }}>
         {lang.popup.about.title}
         <Typography component="span" variant="body2" style={{ verticalAlign: "text-top" }}>
-          &ensp;{version}
+          &ensp;{versionParser(versionLatest(log))}
         </Typography>
       </DialogTitle>
       <Tabs
@@ -237,7 +244,7 @@ export default function License(props) {
                     <div key={index} className={classes.log}>
                       <div>
                         <Typography component="span" variant="subtitle1">
-                          {item.version}
+                          {versionParser(item.version)}
                         </Typography>
                         <Typography component="span" variant="subtitle1" color="textSecondary">
                           {" ("}
