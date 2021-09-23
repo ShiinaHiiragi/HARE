@@ -8,6 +8,7 @@ import LanguageSelector from "./LanguageSelector";
 import License from "./License";
 import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
+import LocalSetting from "./LocalSetting";
 import { PanelContext } from "../Page/Panel";
 import { maxImageBase, stringFormat, cookieTime } from "../Interface/Constant";
 
@@ -27,6 +28,7 @@ export default function GlobalMenu(props) {
   const [license, setLicense] = React.useState(false);
   const [logout, setLogout] = React.useState(false);
   const [password, setPassword] = React.useState(false);
+  const [localSetting, setLocalSetting] = React.useState(false);
 
   const uploadAvatar = (event) => {
     const targetImage = event.target.files;
@@ -126,6 +128,14 @@ export default function GlobalMenu(props) {
       <MenuItem
         onClick={() => {
           handle.close();
+          setLocalSetting(true);
+        }}
+      >
+        {context.lang.menu.localSetting}
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.close();
           let zip = JSZip();
           context.request("GET/data/items")
             .then((units) => {
@@ -189,6 +199,13 @@ export default function GlobalMenu(props) {
         userID={state.userID}
         handleClose={() => setLogout(false)}
         handleToggleMessageBox={handle.toggleMessageBox}
+      />
+      <LocalSetting
+        open={localSetting}
+        state={{  }}
+        handle={{
+          close: () => setLocalSetting(false)
+        }}
       />
     </Menu>
   );

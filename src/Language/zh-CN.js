@@ -114,6 +114,10 @@ const list = {
       title: "注册暂不可用",
       text: "我们暂时不提供注册功能，如有需要请联系作者（点击「关于」作者邮箱处以复制）在后台直接注册。"
     },
+    localSetting: {
+      title: "本地设置",
+      text: "以下设定仅保存在本地 Cookie，且作用仅是对相同的数据以不同的方式呈现。"
+    },
     newUnitPage: {
       titleUnit: "创建新记忆组",
       titlePage: "创建新记忆册",
@@ -327,6 +331,7 @@ const list = {
     changeLanguage: "更换显示语言",
     changeRank: "更换评级表示",
     changeMove: "改变视图移动按钮显隐",
+    localSetting: "打开本地设置",
     exportAll: "导出所有记忆册",
     viewCopyright: "关于",
     logout: "退出登录",

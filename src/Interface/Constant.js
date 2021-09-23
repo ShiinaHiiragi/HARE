@@ -18,9 +18,17 @@ export { isDevMode, requestURL };
 // the information of the autor
 const author = "Ichinoe";
 const email = "IchinoeMizue@outlook.com";
+export { author, email };
+
+// the api function for version
+const innerVersionBit = 4;
 const versionLatest = (log, defaultVersion = "0.0.0") => log?.[0]?.["version"] ?? defaultVersion;
 const versionParser = (version, bits = 3) => version.match(/\d+/g).slice(0, bits).join(".");
-export { author, email, versionLatest, versionParser };
+const disjunctVersion = (version, bits = innerVersionBit) => {
+  const versionArray = String(version).match(/\d+/g) ?? [];
+  return versionArray.map(Number).concat(new Array(bits).fill(0)).slice(0, bits)
+}
+export { innerVersionBit, versionLatest, versionParser, disjunctVersion }
 
 // some constants about limit volumn
 // the server receive up to 1.5 MB per request

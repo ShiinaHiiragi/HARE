@@ -21,7 +21,9 @@ import {
   setStateDelay,
   stringFormat,
   getRank,
+  innerVersionBit,
   versionLatest,
+  disjunctVersion,
   cookieSetting
 } from "../Interface/Constant";
 
@@ -129,15 +131,18 @@ export default function Panel(props) {
       // notice of update
       // the language may not been updated when toggling msgbox
       // so we must use languagePicker()
-      let storageLang = cookie.load("lang");
-      let storageVersion = String(cookie.load("version", true))
-      const thisVersion = version.match(/\d+/g).map(Number).concat([0, 0, 0, 0]).slice(0, 4);
-      const saveVersion = storageVersion.match(/\d+/g).map(Number).concat([0, 0, 0, 0]).slice(0, 4);
-      for (let index = 0; index < 4; index += 1) {
+      const storageLang = cookie.load("lang");
+      const storageVersion = cookie.load("version", true);
+      const thisVersion = disjunctVersion(version);
+      const saveVersion = disjunctVersion(storageVersion);
+      for (let index = 0; index < innerVersionBit; index += 1) {
         const versionDiff = thisVersion[index] - saveVersion[index];
         if (versionDiff) {
-          if (versionDiff > 0) {
-            toggleMessageBox(languagePicker(storageLang).message.newVersion, "info");
+          if (versionDiff > 0 && /^(\d+)(\.\d+){2,3}$/.test(storageVersion)) {
+            toggleMessageBox(
+              languagePicker(storageLang).message.newVersion,
+              "info"
+            );
           }
           break;
         }

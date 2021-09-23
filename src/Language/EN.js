@@ -120,6 +120,10 @@ const list = {
       title: "Sign Up is Unavailable Now",
       text: "We don't provide registration entry temporarily. You can contact the author (click the E-mail in about author to copy to clipcoard) to register in the server directly."
     },
+    localSetting: {
+      title: "Local Setting",
+      text: "These setting are stored in cookies and only display the same data in defferent ways."
+    },
     newUnitPage: {
       titleUnit: "Create New Group",
       titlePage: "Create New Booklet",
@@ -333,6 +337,7 @@ const list = {
     changeLanguage: "Change Displaying Language",
     changeRank: "Change Display of Ranking",
     changeMove: "Change Display of Move in View",
+    localSetting: "Toggle Local Setting",
     exportAll: "Export All Booklets",
     viewCopyright: "About HARE",
     logout: "Logout",
