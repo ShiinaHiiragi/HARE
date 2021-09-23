@@ -386,7 +386,7 @@ export default function View(props) {
       ));
     let downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", datastr);
-    downloadAnchorNode.setAttribute("download", `${state.current.pageName}`);
+    downloadAnchorNode.setAttribute("download", `${state.current.pageName}.json`);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
   }
