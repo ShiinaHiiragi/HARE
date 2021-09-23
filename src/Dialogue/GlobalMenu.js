@@ -1,5 +1,4 @@
 import React from "react";
-import cookie from "react-cookies";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import JSZip from "jszip";
@@ -10,7 +9,7 @@ import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
 import LocalSetting from "./LocalSetting";
 import { PanelContext } from "../Page/Panel";
-import { maxImageBase, stringFormat, cookieTime } from "../Interface/Constant";
+import { maxImageBase } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -92,39 +91,6 @@ export default function GlobalMenu(props) {
       >
         {context.lang.menu.changeLanguage}
       </MenuItem>
-      {/* <MenuItem
-        onClick={() => {
-          handle.close();
-          handle.setLowRank((lowRank) => {
-            cookie.save("lowRank", !lowRank, { expires: cookieTime(3650) });
-            handle.toggleMessageBox(
-              stringFormat(
-                context.lang.message.changeRank,
-                [lowRank ? "X ~ D" : "A ~ F"]
-              ),
-              "success"
-            );
-            return !lowRank;
-          });
-        }}
-      >
-        {context.lang.menu.changeRank}
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handle.close();
-          handle.setHideMove((hideMove) => {
-            cookie.save("hideMove", !hideMove, { expires: cookieTime(3650) });
-            handle.toggleMessageBox(
-              context.lang.message[hideMove ? "showMove": "hideMove"],
-              "success"
-            );
-            return !hideMove;
-          });
-        }}
-      >
-        {context.lang.menu.changeMove}
-      </MenuItem> */}
       <MenuItem
         onClick={() => {
           handle.close();
@@ -202,9 +168,14 @@ export default function GlobalMenu(props) {
       />
       <LocalSetting
         open={localSetting}
-        state={{  }}
+        state={{
+          lowRank: state.lowRank,
+          hideMove: state.hideMove
+        }}
         handle={{
-          close: () => setLocalSetting(false)
+          close: () => setLocalSetting(false),
+          setLowRank: handle.setLowRank,
+          setHideMove: handle.setHideMove
         }}
       />
     </Menu>

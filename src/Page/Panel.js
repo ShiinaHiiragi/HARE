@@ -285,6 +285,8 @@ export default function Panel(props) {
             route: currentSelect.route,
             navListMobile: navListMobile,
             listObject: listObject,
+            lowRank: lowRank,
+            hideMove: hideMove,
             log: log
           }}
           handle={{

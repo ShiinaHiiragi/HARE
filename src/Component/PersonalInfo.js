@@ -39,6 +39,8 @@ export default function PersonalInfo(props) {
           anchor: anchorGlobalMenu,
           email: state.profile.email,
           listObject: state.listObject,
+          lowRank: state.lowRank,
+          hideMove: state.hideMove,
           log: state.log
         }}
         handle={{

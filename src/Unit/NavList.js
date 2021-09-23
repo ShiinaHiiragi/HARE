@@ -59,6 +59,8 @@ export default function NavList(props) {
           avatar: avatarURL,
           profile: state.profile,
           listObject: state.listObject,
+          lowRank: state.lowRank,
+          hideMove: state.hideMove,
           log: state.log
         }}
         handle={{

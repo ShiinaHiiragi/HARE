@@ -378,13 +378,10 @@ const list = {
     oldPasswordBlank: "请填写当前密码",
     newPasswordRange: "新密码的长度超出范围",
     passwordChanged: "密码重置成功",
-    changeRank: "评级表示已被切换为 {0}",
     copyImageLink: "此图片链接已被复制到剪切板，请直接复制到 MARKDOWN 编辑器。此图片在本网站之外无法显示。",
     nonJSON: "上传的文件不是 JSON 文件",
     invalidJSON: "上传的 JSON 文件格式有误",
-    largeJSON: "可新建的条目超出上限",
-    hideMove: "视图中移动按钮已被隐藏",
-    showMove: "显示视图中移动按钮"
+    largeJSON: "可新建的条目超出上限"
   },
   grid: {
     column: {
