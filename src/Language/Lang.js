@@ -7,8 +7,8 @@ const listMap = {
 };
 
 const nameMap = {
-  English: "en",
-  简体中文: "zh-CN"
+  "English": "en",
+  "简体中文": "zh-CN"
 };
 
 const languagePicker = (target) => {
