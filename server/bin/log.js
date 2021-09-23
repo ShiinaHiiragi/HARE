@@ -1,12 +1,20 @@
 // type enum = ["Global", "New", "Remove", "Change", "Fix"]
 exports.log = [
   {
-    version: "1.4.2",
+    version: "1.4.2.2",
     date: "2021-09-24T00:00:00.000Z",
     detail: [
       {
         type: "New",
         content: "Add feature of exporting all booklets in zip"
+      },
+      {
+        type: "New",
+        content: "Add local setting dialogue to unify global menu items"
+      },
+      {
+        type: "Change",
+        content: "Logs are now requested after the page is fully downloaded"
       },
       {
         type: "Change",

@@ -18,7 +18,6 @@ import {
   defaultRange,
   defaultPageDetail,
   defaultCurrentSelect,
-  setStateDelay,
   stringFormat,
   getRank,
   innerVersionBit,
@@ -36,7 +35,7 @@ export default function Panel(props) {
   const [globalLang, setGlobalLang] = React.useState(languagePicker());
   const changeGlobalLang = React.useCallback((targetValue) => {
     if (targetValue) {
-      setTimeout(() => setGlobalLang(languagePicker(targetValue)), setStateDelay * 0.5);
+      setGlobalLang(languagePicker(targetValue));
       setLanguageName(targetValue);
     }
     cookie.save("lang", targetValue, { expires: cookieTime(3650) });

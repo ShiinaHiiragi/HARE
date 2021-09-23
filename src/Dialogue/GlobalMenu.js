@@ -3,7 +3,6 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import LanguageSelector from "./LanguageSelector";
 import License from "./License";
 import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
@@ -23,7 +22,6 @@ export default function GlobalMenu(props) {
   const { state, handle } = props;
   const context = React.useContext(PanelContext);
 
-  const [languageSelector, setLanguageSelector] = React.useState(false);
   const [license, setLicense] = React.useState(false);
   const [logout, setLogout] = React.useState(false);
   const [password, setPassword] = React.useState(false);
@@ -86,14 +84,6 @@ export default function GlobalMenu(props) {
       <MenuItem
         onClick={() => {
           handle.close();
-          setLanguageSelector(true);
-        }}
-      >
-        {context.lang.menu.changeLanguage}
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handle.close();
           let zip = JSZip();
           context.request("GET/data/items")
             .then((units) => {
@@ -144,13 +134,6 @@ export default function GlobalMenu(props) {
         handle={{
           close: () => setPassword(false),
           toggleMessageBox: handle.toggleMessageBox
-        }}
-      />
-      <LanguageSelector
-        open={languageSelector}
-        handleClose={(targetValue) => {
-          setLanguageSelector(false);
-          handle.changeGlobalLang(targetValue);
         }}
       />
       <License
