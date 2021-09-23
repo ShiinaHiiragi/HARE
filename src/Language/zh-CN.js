@@ -282,6 +282,7 @@ const list = {
         "Copy to Clipboard": ["剪切板复制", "3.3.1"],
         "ML Regression": ["机器学习回归分析", "5.0.0"],
         "Markdown to Text": ["MAKRDOWN 转换为纯文本", "1.0.1"],
+        "JSZip": ["浏览器端打包 Zip", "3.7.1"],
         "Github CSS": ["Github MARKDOWN 样式表", "4.0.0"]
       },
       help: {
@@ -326,6 +327,7 @@ const list = {
     changeLanguage: "更换显示语言",
     changeRank: "更换评级表示",
     changeMove: "改变视图移动按钮显隐",
+    exportAll: "导出所有记忆册",
     viewCopyright: "关于",
     logout: "退出登录",
     fold: "折叠",

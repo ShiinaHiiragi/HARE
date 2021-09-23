@@ -288,6 +288,7 @@ const list = {
         "Copy to Clipboard": ["Clipboard Copying", "3.3.1"],
         "ML Regression": ["Regression for Machine Learning", "5.0.0"],
         "Markdown to Text": ["Convert MARKDOWN String to Plain Text", "1.0.1"],
+        "JSZip": ["Zip files in browswer", "3.7.1"],
         "Github CSS": ["Stylesheet of Github Markdown", "4.0.0"]
       },
       help: {
@@ -332,6 +333,7 @@ const list = {
     changeLanguage: "Change Displaying Language",
     changeRank: "Change Display of Ranking",
     changeMove: "Change Display of Move in View",
+    exportAll: "Export All Booklets",
     viewCopyright: "About HARE",
     logout: "Logout",
     fold: "Fold",

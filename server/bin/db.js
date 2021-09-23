@@ -376,6 +376,34 @@ exports.getItem = (userID, unitID, pageID) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+exports.getItems = (userID) => new Promise((resolve, reject) => {
+  query(`select unitSize from userSetting where userID = ${userID}`)
+    .then(([{ unitsize }]) => {
+      let result = new Array(unitsize).fill();
+      api.syncEachChain(result, (_, onsuccess, onerror, unitIndex) => {
+        query(`select pageSize from unit where userID = ${userID} and unitID = ${unitIndex + 1}`)
+          .then(([{ pagesize }]) => {
+            result[unitIndex] = new Array(pagesize).fill();
+            return api.syncEachChain(result[unitIndex], (_, onsuccess, onerror, pageIndex) => {
+              query(`select itemQuery, itemKey from item where userID = ${userID}
+                and unitID = ${unitIndex + 1} and pageID = ${pageIndex + 1}`)
+                .then((targetItems) => {
+                  result[unitIndex][pageIndex] = targetItems.map((item) => ({
+                    query: item.itemquery, key: item.itemkey
+                  }))
+                  onsuccess();
+                })
+                .catch(onerror)
+            })
+          })
+          .then(onsuccess)
+          .catch(onerror)
+      })
+        .then(() => resolve(result))
+        .catch(reject)
+    });
+});
+
 const newItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
   new Promise((resolve, reject) => {
     query(`begin; update item set itemID = -itemID - 1

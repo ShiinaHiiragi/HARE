@@ -17,6 +17,8 @@
     "copy-to-clipboard": "^3.3.1",
     "crypto-js": "^4.0.0",
     "date-fns": "^2.22.1",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.7.1",
     "katex": "^0.13.11",
     "markdown-to-txt": "^1.0.1",
     "ml-regression": "^5.0.0",

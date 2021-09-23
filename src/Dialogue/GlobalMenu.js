@@ -2,6 +2,9 @@ import React from "react";
 import cookie from "react-cookies";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import JSZip from "jszip";
+import CryptoJS from "crypto-js";
+import { saveAs } from "file-saver";
 import LanguageSelector from "./LanguageSelector";
 import License from "./License";
 import LogoutConfirm from "../Dialogue/LogoutConfirm";
@@ -120,6 +123,33 @@ export default function GlobalMenu(props) {
         }}
       >
         {context.lang.menu.changeMove}
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.close();
+          let zip = JSZip();
+          context.request("GET/data/items")
+            .then((units) => {
+              units.map((pages, unitIndex) => {
+                let pagesFile = zip.folder(`${unitIndex + 1}_${state.listObject[unitIndex].unitName}`);
+                pages.map((items, pageIndex) => {
+                  pagesFile.file(
+                    `${pageIndex + 1}_${state.listObject[unitIndex].pages[pageIndex].pageName}.json`,
+                    JSON.stringify(items, null, 2)
+                  )
+                })
+              })
+              zip.generateAsync({ type: "blob" })
+                .then((content) => {
+                  saveAs(
+                    content,
+                    `${state.userName}_${CryptoJS.SHA1(new Date().toString()).toString()}`
+                  );
+                });
+            })
+        }}
+      >
+        {context.lang.menu.exportAll}
       </MenuItem>
       <MenuItem
         onClick={() => {
