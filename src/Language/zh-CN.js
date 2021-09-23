@@ -116,7 +116,12 @@ const list = {
     },
     localSetting: {
       title: "本地设置",
-      text: "以下设定仅保存在本地 Cookie，且作用仅是对相同的数据以不同的方式呈现。"
+      text: "以下设定仅保存在本地 Cookie，且作用仅是对相同的数据以不同的方式呈现。",
+      ranking: "评级表示",
+      moveButton: "视图移动按钮",
+      hideMoveButton: "隐藏",
+      showMoveButton: "显示",
+      language: "语言",
     },
     newUnitPage: {
       titleUnit: "创建新记忆组",

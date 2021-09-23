@@ -122,7 +122,12 @@ const list = {
     },
     localSetting: {
       title: "Local Setting",
-      text: "These setting are stored in cookies and only display the same data in defferent ways."
+      text: "These setting are stored in cookies and only display the same data in defferent ways.",
+      ranking: "Display of Ranking",
+      moveButton: "Move Button in View",
+      hideMoveButton: "Hide",
+      showMoveButton: "Show",
+      language: "Language",
     },
     newUnitPage: {
       titleUnit: "Create New Group",

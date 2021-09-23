@@ -92,7 +92,7 @@ export default function GlobalMenu(props) {
       >
         {context.lang.menu.changeLanguage}
       </MenuItem>
-      <MenuItem
+      {/* <MenuItem
         onClick={() => {
           handle.close();
           handle.setLowRank((lowRank) => {
@@ -124,15 +124,7 @@ export default function GlobalMenu(props) {
         }}
       >
         {context.lang.menu.changeMove}
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handle.close();
-          setLocalSetting(true);
-        }}
-      >
-        {context.lang.menu.localSetting}
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem
         onClick={() => {
           handle.close();
@@ -154,6 +146,14 @@ export default function GlobalMenu(props) {
         }}
       >
         {context.lang.menu.exportAll}
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.close();
+          setLocalSetting(true);
+        }}
+      >
+        {context.lang.menu.localSetting}
       </MenuItem>
       <MenuItem
         onClick={() => {
