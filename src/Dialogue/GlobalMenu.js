@@ -130,9 +130,9 @@ export default function GlobalMenu(props) {
           let zip = JSZip();
           context.request("GET/data/items")
             .then((units) => {
-              units.map((pages, unitIndex) => {
+              units.forEach((pages, unitIndex) => {
                 let pagesFile = zip.folder(`${unitIndex + 1}_${state.listObject[unitIndex].unitName}`);
-                pages.map((items, pageIndex) => {
+                pages.forEach((items, pageIndex) => {
                   pagesFile.file(
                     `${pageIndex + 1}_${state.listObject[unitIndex].pages[pageIndex].pageName}.json`,
                     JSON.stringify(items, null, 2)
@@ -186,6 +186,8 @@ export default function GlobalMenu(props) {
       <License
         withTab
         open={license}
+        log={state.log}
+        version={state.version}
         handleClose={() => setLicense(false)}
         handleToggleMessageBox={handle.toggleMessageBox}
       />

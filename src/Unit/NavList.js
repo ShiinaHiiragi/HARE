@@ -58,7 +58,9 @@ export default function NavList(props) {
           userID: state.userID,
           avatar: avatarURL,
           profile: state.profile,
-          listObject: state.listObject
+          listObject: state.listObject,
+          log: state.log,
+          version: state.version
         }}
         handle={{
           toggleMessageBox: handle.toggleMessageBox,

@@ -22,8 +22,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
 import copy from "copy-to-clipboard";
-import log from "../Language/Log";
-import { author, version, email, requestURL, timeFormat } from "../Interface/Constant";
+import { author, email, requestURL, timeFormat } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -125,7 +124,7 @@ const AccordionDetails = withStyles((theme) => ({
 
 export default function License(props) {
   const classes = useStyles();
-  const { withTab, open, handleClose, handleToggleMessageBox } = props;
+  const { withTab, open, log, version, handleClose, handleToggleMessageBox } = props;
   const context = React.useContext(PanelContext);
   const lang = context.lang ?? props.lang
 

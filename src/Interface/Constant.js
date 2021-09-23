@@ -9,7 +9,6 @@ import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
 import AlarmOutlinedIcon from "@material-ui/icons/AlarmOutlined";
 import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
-import log from "../Language/Log";
 
 // used for distinguishing dev and release mode
 const isDevMode = window.location.port === "3000";
@@ -19,8 +18,7 @@ export { isDevMode, requestURL };
 // the information of the autor
 const author = "Ichinoe";
 const email = "IchinoeMizue@outlook.com";
-const version = log[0].version;
-export { author, version, email };
+export { author, email };
 
 // some constants about limit volumn
 // the server receive up to 1.5 MB per request

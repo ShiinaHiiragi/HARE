@@ -1,5 +1,15 @@
 // type enum = ["Global", "New", "Remove", "Change", "Fix"]
-const log = [
+exports.log = [
+  {
+    version: "1.4.2",
+    date: "2021-09-24T00:00:00.000Z",
+    detail: [
+      {
+        type: "New",
+        content: "Add feature of exporting all booklets in zip"
+      }
+    ]
+  },
   {
     version: "1.4.1",
     date: "2021-09-23T00:00:00.000Z",
@@ -255,5 +265,3 @@ const log = [
     ]
   }
 ];
-
-export default log;

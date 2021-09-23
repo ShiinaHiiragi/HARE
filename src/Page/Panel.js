@@ -13,7 +13,6 @@ import Conflict from "../Dialogue/Conflict";
 import { languagePicker, nameMap } from "../Language/Lang";
 import { packedGET, packedPOST } from "../Interface/Request";
 import {
-  version,
   cookieTime,
   defaultProfile,
   defaultRange,
@@ -39,23 +38,6 @@ export default function Panel(props) {
   React.useEffect(() => {
     let storageLang = cookie.load("lang");
     changeGlobalLang(storageLang || nameMap.English);
-
-    // notice of update
-    // the language may not been updated when toggling msgbox
-    // so we must use languagePicker()
-    const thisVersion = version.match(/\d+/g);
-    const saveVersion = String(cookie.load("version")).match(/\d+/g);
-    if (saveVersion instanceof Array
-      && saveVersion.length === 3
-      && (thisVersion[0] > saveVersion[0]
-        || (thisVersion[0] === saveVersion[0]
-          && thisVersion[1] > saveVersion[1])
-        || (thisVersion[0] === saveVersion[0]
-          && thisVersion[1] === saveVersion[1]
-          && thisVersion[2] > saveVersion[2]))) {
-      toggleMessageBox(languagePicker(storageLang).message.newVersion, "info");
-    }
-    cookie.save("version", version, { expires: cookieTime(3650) });
   }, [changeGlobalLang]);
 
   // load cookie to seek some setting
@@ -134,6 +116,35 @@ export default function Panel(props) {
           maxImg: res.maximg
         });
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [log, setLog] = React.useState([]);
+  const [version, setVersion] = React.useState("");
+  React.useEffect(() => {
+    packedRequest("GET/src/log").then((out) => {
+      const version = out[0]?.["version"] ?? "0.0.0"
+      setLog(out);
+      setVersion(version);
+
+      // notice of update
+      // the language may not been updated when toggling msgbox
+      // so we must use languagePicker()
+      let storageLang = cookie.load("lang");
+      const thisVersion = version.match(/\d+/g);
+      const saveVersion = String(cookie.load("version")).match(/\d+/g);
+      if (saveVersion instanceof Array
+        && saveVersion.length === 3
+        && (thisVersion[0] > saveVersion[0]
+          || (thisVersion[0] === saveVersion[0]
+            && thisVersion[1] > saveVersion[1])
+          || (thisVersion[0] === saveVersion[0]
+            && thisVersion[1] === saveVersion[1]
+            && thisVersion[2] > saveVersion[2]))) {
+        toggleMessageBox(languagePicker(storageLang).message.newVersion, "info");
+      }
+      cookie.save("version", version, { expires: cookieTime(3650) });
+    });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -269,7 +280,9 @@ export default function Panel(props) {
             currentSelect: currentSelect,
             route: currentSelect.route,
             navListMobile: navListMobile,
-            listObject: listObject
+            listObject: listObject,
+            log: log,
+            version: version
           }}
           handle={{
             setImage: setImage,

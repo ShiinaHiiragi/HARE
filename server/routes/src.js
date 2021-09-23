@@ -4,6 +4,7 @@ var fs = require('fs');
 var db = require('../bin/db');
 var api = require('../bin/api');
 var router = express.Router();
+var log = require('../bin/log');
 
 // get a number randomly in [sub, sup];
 const dice = (sub, sup) => {
@@ -55,6 +56,13 @@ router.get('/image', (req, res) => {
         `../src/image/${params.userID}i${out[0].imagetype}`
       ))
     })
+    .catch(() => api.internalServerError(res));
+});
+
+router.get('/log', (req, res) => {
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => res.send(log.log))
     .catch(() => api.internalServerError(res));
 });
 
