@@ -1,7 +1,7 @@
 // type enum = ["Global", "New", "Remove", "Change", "Fix"]
 exports.log = [
   {
-    version: "1.5.0",
+    version: "1.5.0.1",
     date: "2021-09-26T00:00:00.000Z",
     detail: [
       {
