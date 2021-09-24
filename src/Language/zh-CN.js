@@ -14,11 +14,12 @@ const list = {
     intro: [
       "欢迎来到 HARE！",
       "听说按「？」可以呼出快捷键菜单",
+      "听说按 CTRL 或 SHIFT 同时点击数据表格列可以多行排列",
       "想要提高评级？增加词条的个数，减小单个词条的规模吧！",
       "不要再学习了，摸会鱼吧！",
       "是想要学习的 Friends 呢！",
       "你为什么要登录进来呢？是因为要考试了吗？",
-      "听说如果一口气背下 514 个词条，网站就会爆炸。",
+      "听说如果一口气背下 514 个词条，服务器就会爆炸。",
       "我很可爱，请给我钱。",
       "你醒了？手术很成功。",
       "console.log(\"Hello World!\");",
@@ -121,6 +122,7 @@ const list = {
       moveButton: "视图移动按钮",
       hideMoveButton: "隐藏",
       showMoveButton: "显示",
+      hideMoveTip: "双击数据格 ID 同样可以移动词条",
       language: "语言",
     },
     newUnitPage: {

@@ -13,6 +13,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
+import Tooltip from "@material-ui/core/Tooltip";
 import { PanelContext } from "../Page/Panel";
 import { nameMap } from "../Language/Lang";
 import { cookieTime } from "../Interface/Constant";
@@ -124,12 +125,17 @@ export default function LocalSetting(props) {
                 control={<Radio color="primary" />}
                 label={context.lang.popup.localSetting.showMoveButton}
               />
-              <FormControlLabel
-                className={classes.formControlLabel}
-                value={"true"}
-                control={<Radio color="primary" />}
-                label={context.lang.popup.localSetting.hideMoveButton}
-              />
+              <Tooltip
+                title={context.lang.popup.localSetting.hideMoveTip}
+                classes={{ tooltip: classes.noneSelect }}
+              >
+                <FormControlLabel
+                  className={classes.formControlLabel}
+                  value={"true"}
+                  control={<Radio color="primary" />}
+                  label={context.lang.popup.localSetting.hideMoveButton}
+                />
+              </Tooltip>
             </RadioGroup>
           </FormControl>
           <FormControl className={classes.formControl}>

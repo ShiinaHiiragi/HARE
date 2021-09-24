@@ -1,6 +1,6 @@
 [
   {
-    "version": "1.5.0.6",
+    "version": "1.5.0.7",
     "date": "2021-09-26T00:00:00.000Z",
     "detail": [
       {
@@ -17,7 +17,7 @@
       },
       {
         "type": "Change",
-        "content": "Change all 'MARKDOWN' to 'Markdown' in help dialogue"
+        "content": "Format existsed and add more information in help dialogue"
       },
       {
         "type": "Fix",

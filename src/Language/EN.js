@@ -14,11 +14,12 @@ const list = {
     intro: [
       "Welcome to HARE!",
       "It's said that pressing '?' may toggle shortcut list.",
+      "It's said that pressing CTRL or SHIFT and clicking the data table column may sort by multiple columns at the same time.",
       "Want higher ranking? Increasing the number of entries may work!",
       "Do not study anymore. Let's have fun!",
       "Are you Friends who want to study?",
       "Why do you log in? Do you have exams in the near future?",
-      "It's said that if you recite 514 entries in one go, the website will explode.",
+      "It's said that if you recite 514 entries in one go, the server will explode.",
       "I'm cute. Please give me money.",
       "Are you awake? The operation was very successful.",
       "console.log(\"Hello World!\");",
@@ -127,6 +128,7 @@ const list = {
       moveButton: "Move Button in View",
       hideMoveButton: "Hide",
       showMoveButton: "Show",
+      hideMoveTip: "Double clicking the data grid ID may also move the entry",
       language: "Language",
     },
     newUnitPage: {
