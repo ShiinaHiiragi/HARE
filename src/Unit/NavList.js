@@ -61,6 +61,7 @@ export default function NavList(props) {
           listObject: state.listObject,
           lowRank: state.lowRank,
           hideMove: state.hideMove,
+          lineTag: state.lineTag,
           languageName: state.languageName,
           log: state.log
         }}
@@ -72,6 +73,7 @@ export default function NavList(props) {
           initValue: initValue,
           setLowRank: handle.setLowRank,
           setHideMove: handle.setHideMove,
+          setLineTag: handle.setLineTag,
           clearCheck: clearCheck
         }}
       />

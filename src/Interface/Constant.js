@@ -61,7 +61,7 @@ export { rangePassword };
 const defaultDigit = 2;
 const setStateDelay = 400;
 const leaveDelay = 200;
-const lineReg = /<line(?: +(?:size|length|width)=\{(\d*)\})? *\/? *>/g;
+const lineReg = /<(line|underline|cloze)(?: +(?:size|length|width)=\{(\d*)\})? *\/? *>/g;
 const underline = "<line>";
 const emSpace = "&emsp;"
 export {

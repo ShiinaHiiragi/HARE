@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import cookie from "react-cookies";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -14,6 +15,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
+import TextField from "@material-ui/core/TextField";
 import { PanelContext } from "../Page/Panel";
 import { nameMap } from "../Language/Lang";
 import { cookieTime } from "../Interface/Constant";
@@ -33,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "column",
     },
   },
+  marginTop: {
+    marginTop: 12
+  },
   formLabel: {
     width: "60%",
     [theme.breakpoints.down("xs")]: {
@@ -51,12 +56,20 @@ const useStyles = makeStyles((theme) => ({
   selector: {
     width: "40%",
   },
+  textField: {
+    width: "40%",
+  },
   formControlLabel: {
     [theme.breakpoints.up("sm")]: {
       width: "45%",
     },
     [theme.breakpoints.down("xs")]: {
       width: "100%",
+    }
+  },
+  codeFont: {
+    "& input": {
+      fontFamily: "'consolas', monospace !important"
     }
   }
 }));
@@ -151,6 +164,18 @@ export default function LocalSetting(props) {
                 <MenuItem value={nameMap[displayName]} key={index}>{displayName}</MenuItem>
               ))}
             </Select>
+          </FormControl>
+          <FormControl className={clsx(classes.formControl, classes.marginTop)}>
+            <FormLabel className={classes.formLabel}>
+              {context.lang.popup.localSetting.lineTag}
+            </FormLabel>
+            <TextField
+              className={classes.textField}
+              classes={{ root: classes.codeFont }}
+              value={state.lineCode}
+              error={!state.localLineReg.test(state.lineCode)}
+              onChange={(event) => handle.setLineCode(event.target.value)}
+            />
           </FormControl>
       </DialogContent>
       <DialogActions>

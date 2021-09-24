@@ -298,6 +298,7 @@ export default function Panel(props) {
             listObject: listObject,
             lowRank: lowRank,
             hideMove: hideMove,
+            lineTag: lineTag,
             languageName: languageName,
             log: log
           }}
@@ -312,6 +313,7 @@ export default function Panel(props) {
             setStatInfo: setStatInfo,
             setLowRank: setLowRank,
             setHideMove: setHideMove,
+            setLineTag: setLineTag,
             setProfile: setProfile
           }}
         />

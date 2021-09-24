@@ -1,4 +1,5 @@
 import React from "react";
+import cookie from "react-cookies";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import JSZip from "jszip";
@@ -8,7 +9,7 @@ import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
 import LocalSetting from "./LocalSetting";
 import { PanelContext } from "../Page/Panel";
-import { maxImageBase } from "../Interface/Constant";
+import { maxImageBase, lineReg, cookieTime } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -26,6 +27,9 @@ export default function GlobalMenu(props) {
   const [logout, setLogout] = React.useState(false);
   const [password, setPassword] = React.useState(false);
   const [localSetting, setLocalSetting] = React.useState(false);
+
+  const [lineCode, setLineCode] = React.useState("");
+  const localLineReg = React.useMemo(() => new RegExp(`^${lineReg.source}$`), []);
 
   const uploadAvatar = (event) => {
     const targetImage = event.target.files;
@@ -51,6 +55,14 @@ export default function GlobalMenu(props) {
       });
     }
   };
+
+  const closeLocalSetting = () => {
+    setLocalSetting(false);
+    if (localLineReg.test(lineCode)) {
+      handle.setLineTag(lineCode);
+      cookie.save("lineTag", lineCode, { expires: cookieTime(3650) });
+    }
+  }
 
   return (
     <Menu
@@ -106,6 +118,7 @@ export default function GlobalMenu(props) {
       <MenuItem
         onClick={() => {
           handle.close();
+          setLineCode(state.lineTag);
           setLocalSetting(true);
         }}
       >
@@ -152,12 +165,15 @@ export default function GlobalMenu(props) {
       <LocalSetting
         open={localSetting}
         state={{
+          lineCode: lineCode,
           lowRank: state.lowRank,
           hideMove: state.hideMove,
-          languageName: state.languageName
+          languageName: state.languageName,
+          localLineReg: localLineReg
         }}
         handle={{
-          close: () => setLocalSetting(false),
+          close: closeLocalSetting,
+          setLineCode: setLineCode,
           setLowRank: handle.setLowRank,
           setHideMove: handle.setHideMove,
           changeGlobalLang: handle.changeGlobalLang
