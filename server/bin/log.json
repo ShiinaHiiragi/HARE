@@ -1,6 +1,6 @@
 [
   {
-    "version": "1.5.0.7",
+    "version": "1.5.0.8",
     "date": "2021-09-26T00:00:00.000Z",
     "detail": [
       {
@@ -22,6 +22,10 @@
       {
         "type": "Fix",
         "content": "Fix the unordered items when exporting all booklets"
+      },
+      {
+        "type": "Fix",
+        "content": "Fix the abnormal italic font in markdown editor"
       },
       {
         "type": "Fix",

@@ -99,6 +99,12 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: {
       width: "49%",
       height: "100%"
+    },
+    "& .mtki": {
+      fontStyle: "normal !important"
+    },
+    "& .mtkb": {
+      fontWeight: "normal !important"
     }
   },
   editorPreview: {
@@ -201,7 +207,6 @@ export default function NewItem(props) {
         editor.executeEdits("space", [operation]);
       }
     });
-
     editor.addAction({
       id: "answer",
       label: "Insert Answer Tag",

@@ -1,6 +1,7 @@
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = function override(config, env) {
+  config.devtool = config.mode === 'development' ? 'cheap-module-source-map' : false;
   config.plugins.push(new MonacoWebpackPlugin({
     languages: [
       // static, dynamic, markup, stylesheet, query, hardware, special
