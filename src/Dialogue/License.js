@@ -192,7 +192,7 @@ export default function License(props) {
                     <Link
                       variant="body2"
                       color="inherit"
-                      href="#"
+                      style={{ cursor: "pointer" }}
                       onClick={() => {
                         if (copy(email))
                           handleToggleMessageBox(
