@@ -7,6 +7,7 @@ import "katex/dist/katex.min.css";
 import "../Interface/Markdown.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vs } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { lineReg } from "../Interface/Constant";
 
 export default function PackedMarkdown(props) {
   const { children } = props;
@@ -64,7 +65,7 @@ export default function PackedMarkdown(props) {
       // <line length={8}> <line width={8}>
       // these are invalid:
       // < line> <linesize={8}> </line> <line>8</line>
-      children={children.replace(/<line(?: +(?:size|length|width)=\{(\d*)\})? *\/? *>/g, (_, num) => {
+      children={children.replace(lineReg, (_, num) => {
         const size = Number(num);
         return `<u>${"\u2003".repeat(!size || isNaN(size) ? 8 : size)}</u>`
       })}

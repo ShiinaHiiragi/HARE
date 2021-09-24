@@ -23,7 +23,9 @@ import {
   innerVersionBit,
   versionLatest,
   disjunctVersion,
-  cookieSetting
+  cookieSetting,
+  underline,
+  lineReg
 } from "../Interface/Constant";
 
 const PanelContext = React.createContext({});
@@ -48,9 +50,16 @@ export default function Panel(props) {
   // load cookie to seek some setting
   const [lowRank, setLowRank] = React.useState(true);
   const [hideMove, setHideMove] = React.useState(true);
+  const [lineTag, setLineTag] = React.useState(underline);
   React.useEffect(() => {
     cookieSetting("lowRank", setLowRank);
     cookieSetting("hideMove", setHideMove);
+
+    // lineTag is a little special from others
+    const storageLineTag = cookie.load("lineTag");
+    if (storageLineTag !== "string" || !lineReg.test(storageLineTag)) {
+      cookie.save("lineTag", underline, { expires: cookieTime(3650) });
+    } else setLineTag(storageLineTag);
   }, []);
 
   // the setting of request
@@ -310,6 +319,7 @@ export default function Panel(props) {
           lang={globalLang}
           state={{
             range: range,
+            lineTag: lineTag,
             image: image,
             current: currentSelect,
             navList: navListPC,

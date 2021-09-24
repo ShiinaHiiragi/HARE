@@ -470,6 +470,7 @@ export default function View(props) {
         open={newItem}
         state={{
           editItem: editItem,
+          lineTag: state.lineTag,
           apiItemID: apiItemID,
           apiValue: apiValue,
           unitID: state.current.unitID,

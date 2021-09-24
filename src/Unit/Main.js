@@ -99,6 +99,7 @@ export default function Main(props) {
         <View
           state={{
             range: state.range,
+            lineTag: state.lineTag,
             current: state.current,
             pageDetail: state.pageDetail,
             hideMove: state.hideMove,

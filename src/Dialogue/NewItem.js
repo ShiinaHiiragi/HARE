@@ -23,7 +23,6 @@ import { PanelContext } from "../Page/Panel";
 import {
   stringFormat,
   cookieTime,
-  underline,
   emSpace,
   autoKey,
   byteSize,
@@ -187,7 +186,7 @@ export default function NewItem(props) {
       run: (editor) => {
         const operation = {
           range: editor.getSelection(),
-          text: underline,
+          text: state.lineTag,
           forceMoveMarkers: true
         };
         editor.executeEdits("underline", [operation]);
