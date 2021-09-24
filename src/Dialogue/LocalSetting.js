@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "column",
     },
   },
+  marginTopLess: {
+    marginTop: 8
+  },
   marginTop: {
     marginTop: 12
   },
@@ -55,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   selector: {
     width: "40%",
+    marginTop: "8px !important"
   },
   textField: {
     width: "40%",
@@ -152,7 +156,7 @@ export default function LocalSetting(props) {
             </RadioGroup>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <FormLabel className={classes.formLabel}>
+            <FormLabel className={clsx(classes.formLabel, classes.marginTopLess)}>
               {context.lang.popup.localSetting.language}
             </FormLabel>
             <Select

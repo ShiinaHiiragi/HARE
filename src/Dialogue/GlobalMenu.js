@@ -29,7 +29,11 @@ export default function GlobalMenu(props) {
   const [localSetting, setLocalSetting] = React.useState(false);
 
   const [lineCode, setLineCode] = React.useState("");
-  const localLineReg = React.useMemo(() => new RegExp(`^${lineReg.source}$`), []);
+  const localLineReg = React.useMemo(() => {
+    const windowReg = new RegExp(`^${lineReg.source}$`);
+    window.tagReg = windowReg;
+    return windowReg;
+  }, []);
 
   const uploadAvatar = (event) => {
     const targetImage = event.target.files;
