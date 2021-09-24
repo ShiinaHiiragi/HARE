@@ -231,7 +231,7 @@ const list = {
         "Create New Item Page": {
           "F1": "Toggle Command Palette",
           "ALT+Z": "Switch Word Wrap",
-          "CTRL+Q": "Insert MARKDOWN Underline",
+          "CTRL+Q": "Insert Markdown Underline",
           "CTRL+S": "Insert EM Space"
         }
       }
@@ -284,7 +284,7 @@ const list = {
         "React Cookies": ["Cookie Operating", "0.1.1"],
         "React Hotkeys": ["Shortcut Settings", "0.1.1"],
         "React Monaco": ["Code Editor", "0.43.0"],
-        "React Markdown": ["MARKDOWN Renderer", "6.0.2"],
+        "React Markdown": ["Markdown Renderer", "6.0.2"],
         "Rehype Raw": ["HTML Renderer", "5.1.0"],
         "Rehype KaTeX": ["LaTeX Renderer", "0.13.11"],
         "React KaTeX": ["React LaTeX Renderer", "2.0.2"],
@@ -296,7 +296,7 @@ const list = {
         "Date-fns": ["Date Tool", "2.22.1"],
         "Copy to Clipboard": ["Clipboard Copying", "3.3.1"],
         "ML Regression": ["Regression for Machine Learning", "5.0.0"],
-        "Markdown to Text": ["Convert MARKDOWN String to Plain Text", "1.0.1"],
+        "Markdown to Text": ["Convert Markdown String to Plain Text", "1.0.1"],
         "JSZip": ["Zip files in browswer", "3.7.1"],
         "Github CSS": ["Stylesheet of Github Markdown", "4.0.0"]
       },
@@ -317,12 +317,12 @@ const list = {
           "How are the levels of the ranking panel divided? Is it calculated dynamically?": "The level is only divided according to the correct rate of the question, the correct rate is 100% as A; higher than 96% is B; higher than 92% is C; higher than 84% is D; higher than 72% is E; the correct rate is lower than the above lowest standard will be marked as F. If you don’t like the current rating method, we also provide a more 'music game'-like rating, that is, the A ~ F level which corresponds to 'X, S, A, B, C, D'. The ranking of recall changes dynamically. With the progress of a recall, the ranking and accuracy is constantly changing; after the recall is completed, the modification of the record or the appending of new entries afterwards will cause the accuracy of the completed recall to change. Click the drop-down part of the record and the factor in this booklet which influence the accuracy rate of clicked recall can be seen after the recall is completed.",
         },
         "About Editor": {
-          "What does 'No Answer Tag Detected' Means?": "When the Answer MARKDOWN Editor is empty, the content surrounded by '{{ }}' in the Question MARKDOWN Editor will be used as the basis for automatically generating the answer. If the answer editor is empty and the tag cannot be detected in question editor, the words described will appear.",
-          "How to upload image in markdown editor?": "We provide a gallery for each booklet and each book can save up to 16 images by default. Please upload an image that does not exceed 1MB in size, click the copy link, and then paste the contents of the clipboard directly in the MARKDOWN editor. Please note that since the server tends to protects your privacy, returning images need to check the user token, so you can use this picture in all editors on this site (even in your other booklet), but you cannot use it in other places (such as copy to other people) to use.",
+          "What does 'No Answer Tag Detected' Means?": "When the Answer Markdown Editor is empty, the content surrounded by '{{ }}' in the Question Markdown Editor will be used as the basis for automatically generating the answer. If the answer editor is empty and the tag cannot be detected in question editor, the words described will appear.",
+          "How to upload image in markdown editor?": "We provide a gallery for each booklet and each book can save up to 16 images by default. Please upload an image that does not exceed 1MB in size, click the copy link, and then paste the contents of the clipboard directly in the Markdown editor. Please note that since the server tends to protects your privacy, returning images need to check the user token, so you can use this picture in all editors on this site (even in your other booklet), but you cannot use it in other places (such as copy to other people) to use.",
           "In addition to the gallery, is there any way to insert images?": "There are two ways generally to upload your image. The one is to refer an address directly in `![]()` block, which means you have find a place to store your image other than our server and the request for the image won't be blocked by that server due to the CORS policy. The second way is to store the image in the form of an <img> tag with BASE64 encoding in the editor. Generally speaking, larger images will take up a lot of space in the editor, and doing so will make the editing process troublesome. Moreover, the maximum request body size that the server can accept cannot exceed 32KB, and the server will not accept your entry if it exceeds this size.",
           "Why is the context menu of editors always English?": "The Editor we are using is Monaco developed by Microsoft. The Monaco Editor doesn't support localization in ESM now. Sorry for inconvenience.",
           "How to change the configuration in the editor?": "With the cursor in the Monaco editor, press F1 to view Mocano's configuration items and shortcut keys (there are more shortcut keys listed here than in the shortcut list). For Example, you can change the wrap attribute by clicking 'Word Wrap' in context menu or just pressing 'ALT+Z'. This setting will be remembered by your browser cookie.",
-          "What language does the editor support to highlight?": "We now choose to support C, C++, C#, Java, Rust, Lua, Python, Ruby, JavaScript, TypeScript, CoffeeScript, HTML, XML, YML, MARKDOWN, JSON, CSS, LESS, SCSS, SQL, MySQL, PostgreSQL, Verilog, SystemVerilog, HCL, MIPS, Shell in Monaco Editor. And the markdown renderer support  highlighting of almost all language such as JavaScript or Haskell, which Monaco Editor may not support yet. PS: the actual languages the Monaco Editor supports is much more than what we listed above."
+          "What language does the editor support to highlight?": "We now choose to support C, C++, C#, Java, Rust, Lua, Python, Ruby, JavaScript, TypeScript, CoffeeScript, HTML, XML, YML, Markdown, JSON, CSS, LESS, SCSS, SQL, MySQL, PostgreSQL, Verilog, SystemVerilog, HCL, MIPS, Shell in Monaco Editor. And the markdown renderer support  highlighting of almost all language such as JavaScript or Haskell, which Monaco Editor may not support yet. PS: the actual languages the Monaco Editor supports is much more than what we listed above."
         },
         "About Application": {
           "How does HARE's name come from?": "HARE means 'sunny', which is the Romanization spelling of '晴れ'. This word can probably be pronounced as /hʌle/. When reading this word, the mouth will grow relatively large, giving reader a feeling of brightness. This is a word that the author likes very much.",
@@ -381,7 +381,7 @@ const list = {
     oldPasswordBlank: "Please fill in the current password.",
     newPasswordRange: "The size of new password is out of range.",
     passwordChanged: "Your password has been changed successfully.",
-    copyImageLink: "The link of the image has been copied to clipboard. Paste it in MARKDOWN editor and it won't be displayed outside of this site.",
+    copyImageLink: "The link of the image has been copied to clipboard. Paste it in Markdown editor and it won't be displayed outside of this site.",
     nonJSON: "The file you selected is not JSON.",
     invalidJSON: "Formatting of uploaded JSON is invalid.",
     largeJSON: "The entries to be added exceed the limit of this account."

@@ -1,6 +1,6 @@
 [
   {
-    "version": "1.5.0.4",
+    "version": "1.5.0.5",
     "date": "2021-09-26T00:00:00.000Z",
     "detail": [
       {
@@ -14,6 +14,10 @@
       {
         "type": "Change",
         "content": "Change the format of the log file"
+      },
+      {
+        "type": "Change",
+        "content": "Change all 'MARKDOWN' to 'Markdown' in help dialogue"
       },
       {
         "type": "Fix",
