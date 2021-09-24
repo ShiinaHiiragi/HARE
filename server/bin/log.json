@@ -1,6 +1,6 @@
 [
   {
-    "version": "1.5.0.5",
+    "version": "1.5.0.6",
     "date": "2021-09-26T00:00:00.000Z",
     "detail": [
       {
@@ -13,7 +13,7 @@
       },
       {
         "type": "Change",
-        "content": "Change the format of the log file"
+        "content": "Change the format of the log file and rearrange it"
       },
       {
         "type": "Change",
@@ -68,12 +68,12 @@
         "content": "Adjust back route in recall page"
       },
       {
-        "type": "Fix",
-        "content": "Fix display error in auto generated syntax"
-      },
-      {
         "type": "Remove",
         "content": "Make MOVE button a selective cmponent"
+      },
+      {
+        "type": "Fix",
+        "content": "Fix display error in auto generated syntax"
       }
     ]
   },
@@ -162,16 +162,16 @@
         "content": "Add function of importing and exporting JSON of selected items"
       },
       {
+        "type": "New",
+        "content": "Add gallery to store some images inside website server including uploading, renaming, link copying and deleting"
+      },
+      {
         "type": "Change",
         "content": "Change encryption algorithm used in password, token and session"
       },
       {
         "type": "Change",
         "content": "Complete guidance in ABOUT part"
-      },
-      {
-        "type": "New",
-        "content": "Add gallery to store some images inside website server including uploading, renaming, link copying and deleting"
       }
     ]
   },
@@ -242,10 +242,6 @@
     "date": "2021-07-24T00:00:00.000Z",
     "detail": [
       {
-        "type": "Change",
-        "content": "Change the default behavior of Data Grid"
-      },
-      {
         "type": "New",
         "content": "Add item grid subpage and some features about"
       },
@@ -256,6 +252,10 @@
       {
         "type": "New",
         "content": "Add support for reponsive layout"
+      },
+      {
+        "type": "Change",
+        "content": "Change the default behavior of Data Grid"
       }
     ]
   },
