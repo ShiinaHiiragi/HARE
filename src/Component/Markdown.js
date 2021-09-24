@@ -56,7 +56,15 @@ export default function PackedMarkdown(props) {
           );
         }
       }}
-      children={children.replace(/<line +size=\{(\d*)\} *\/? *>/g, (_, num) => {
+      // these are valid:
+      // <line> <line > <line/> <line /> <line/ > <line / >
+      // <line size={}> <line size={8}> <line size={16}>
+      // <line size={8} > <line size={8}/> <line size={8}/ >
+      // <line size={8} /> <line size={8} / >
+      // <line length={8}> <line width={8}>
+      // these are invalid:
+      // < line> <linesize={8}> </line> <line>8</line>
+      children={children.replace(/<line(?: +(?:size|length|width)=\{(\d*)\})? *\/? *>/g, (_, num) => {
         const size = Number(num);
         return `<u>${"\u2003".repeat(!size || isNaN(size) ? 8 : size)}</u>`
       })}
