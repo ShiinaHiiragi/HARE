@@ -129,7 +129,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const keyMap = {
-  save: "ctrl+s"
+  save: "ctrl+s",
+  submit: "ctrl+enter",
+  query: "ctrl+left",
+  key: "ctrl+right"
 };
 
 export default function NewItem(props) {
@@ -185,10 +188,10 @@ export default function NewItem(props) {
     // the editor is loaded the closure should be updated
     let closureWordWrap = wordWrap;
     editor.addAction({
-      id: "wordWrap",
+      id: "word-wrap",
       label: "Word Wrap",
       keybindings: [monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z],
-      contextMenuGroupId: "1_modification",
+      contextMenuGroupId: "2_outershortcut",
       run: () => {
         if (closureWordWrap === "on") {
           setWordWrap("off");
@@ -202,8 +205,8 @@ export default function NewItem(props) {
       }
     });
     editor.addAction({
-      id: "underline",
-      label: "Insert Underline",
+      id: "line-tag",
+      label: "Insert Line Tag",
       keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_Q],
       contextMenuGroupId: "1_modification",
       run: (editor) => {
@@ -212,7 +215,7 @@ export default function NewItem(props) {
           text: state.lineTag,
           forceMoveMarkers: true
         };
-        editor.executeEdits("underline", [operation]);
+        editor.executeEdits("line-tag", [operation]);
       }
     });
     editor.addAction({
@@ -253,18 +256,35 @@ export default function NewItem(props) {
         );
       }
     });
-    // editor.addAction({
-    //   id: "save-in-editor",
-    //   label: "Save",
-    //   keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S],
-    //   contextMenuGroupId: "1_modification",
-    //   run: () => {
-    //     (function() { console.log(query, key); toggleSave(query, key) })();
-    //   }
-    // });
+    editor.addAction({
+      id: "save-in-editor",
+      label: "Save",
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S],
+      contextMenuGroupId: "2_outershortcut",
+      run: () => document.getElementById("save-button").click()
+    });
+    editor.addAction({
+      id: "submit-in-editor",
+      label: "Submit and Quit",
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
+      contextMenuGroupId: "2_outershortcut",
+      run: () => document.getElementById("submit-button").click()
+    });
+    editor.addAction({
+      id: "query-tab",
+      label: "Switch to Question",
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.LeftArrow],
+      contextMenuGroupId: "2_outershortcut",
+      run: () => document.getElementById("query-tab").click()
+    });
+    editor.addAction({
+      id: "key-tab",
+      label: "Switch to Answer",
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.RightArrow],
+      contextMenuGroupId: "2_outershortcut",
+      run: () => document.getElementById("key-tab").click()
+    });
   };
-
-
 
   const tabChange = (_, index) => {
     if (index) setEditKey(true);
@@ -298,7 +318,6 @@ export default function NewItem(props) {
   };
 
   const toggleSave = () => {
-    console.log(`(${query}, ${key})`)
     toggleApply(true);
     setNoSave(false);
     handle.setEditItem((editItem) => {
@@ -314,7 +333,10 @@ export default function NewItem(props) {
     save: (event) => {
       event.preventDefault();
       if (noSave) toggleSave();
-    }
+    },
+    submit: () => toggleApply(false),
+    query: () => setTab(0),
+    key: () => setTab(1)
   };
 
   // the text button of continue
@@ -427,13 +449,18 @@ export default function NewItem(props) {
               {noSave && context.lang.popup.newItem.noSave}
             </Typography>
             <IconButton
+              id="save-button"
               color="inherit"
               onClick={toggleSave}
               disabled={!noSave && !!state.editItem}
             >
               <SaveOutlinedIcon />
             </IconButton>
-            <IconButton color="inherit" onClick={() => toggleApply(false)}>
+            <IconButton
+              id="submit-button"
+              color="inherit"
+              onClick={() => toggleApply(false)}
+            >
               <DoneIcon />
             </IconButton>
           </Toolbar>
@@ -473,8 +500,8 @@ export default function NewItem(props) {
               variant="fullWidth"
               indicatorColor="primary"
             >
-              <Tab label={context.lang.popup.newItem.query} />
-              <Tab label={context.lang.popup.newItem.key} />
+              <Tab id="query-tab" label={context.lang.popup.newItem.query} />
+              <Tab id="key-tab" label={context.lang.popup.newItem.key} />
             </Tabs>
             <div className={classes.editorInput}>
               <div className={classes.editorContainer}>

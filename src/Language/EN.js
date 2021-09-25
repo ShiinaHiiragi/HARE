@@ -231,11 +231,16 @@ const list = {
           "CTRL+C": "Create new entry",
           "CTRL+M": "Move selected entry",
         },
-        "Create New Item Page": {
+        "Monaco Editor Page": {
           "F1": "Toggle Command Palette",
+          "CTRL+S": "Save the Change",
+          "CTRL+ENTER": "Submit the Change and Quit",
+          "CTRL+←": "Switch to Question Editor",
+          "CTRL+→": "Switch to Answer Editor",
           "ALT+Z": "Switch Word Wrap",
-          "CTRL+Q": "Insert Markdown Underline",
-          "CTRL+S": "Insert EM Space"
+          "CTRL+Q": "Insert Line Tag",
+          "CTRL+D": "Insert EM Space",
+          "CTRL+K": "Insert Answer Tag"
         }
       }
     },
