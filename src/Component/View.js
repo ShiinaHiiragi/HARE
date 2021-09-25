@@ -26,8 +26,7 @@ import {
   routeIndex,
   byteSize,
   maxItemByte,
-  lostGenerator,
-  autoQuery
+  lostGenerator
 } from "../Interface/Constant";
 import {
   XGrid,
@@ -481,7 +480,8 @@ export default function View(props) {
           toggleKick: handle.toggleKick,
           setPageDetail: handle.setPageDetail,
           setItemList: handle.setItemList,
-          setEditItem: setEditItem
+          setEditItem: setEditItem,
+          setApiItemID: setApiItemID
         }}
       />
       <Move

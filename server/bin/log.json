@@ -1,11 +1,15 @@
 [
   {
-    "version": "1.5.0.10",
+    "version": "1.5.0.11",
     "date": "2021-09-26T00:00:00.000Z",
     "detail": [
       {
         "type": "New",
         "content": "Add more line tag styles and interfaces for changing default line in local setting dialogue"
+      },
+      {
+        "type": "New",
+        "content": "Add save button in editor"
       },
       {
         "type": "Change",

@@ -20,6 +20,7 @@ import PackedMarkdown from "../Component/Markdown";
 import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
 import SubmitConfirm from "./SubmitConfirm";
+import { HotKeys } from "react-hotkeys";
 import { PanelContext } from "../Page/Panel";
 import {
   stringFormat,
@@ -39,6 +40,13 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     overflowY: "hidden"
+  },
+  hotkey: {
+    overflowY: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    height: "100%"
   },
   bar: {
     position: "relative"
@@ -119,6 +127,10 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "auto"
   }
 }));
+
+const keyMap = {
+  save: "ctrl+s"
+};
 
 export default function NewItem(props) {
   const classes = useStyles();
@@ -241,7 +253,18 @@ export default function NewItem(props) {
         );
       }
     });
+    // editor.addAction({
+    //   id: "save-in-editor",
+    //   label: "Save",
+    //   keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S],
+    //   contextMenuGroupId: "1_modification",
+    //   run: () => {
+    //     (function() { console.log(query, key); toggleSave(query, key) })();
+    //   }
+    // });
   };
+
+
 
   const tabChange = (_, index) => {
     if (index) setEditKey(true);
@@ -275,9 +298,23 @@ export default function NewItem(props) {
   };
 
   const toggleSave = () => {
+    console.log(`(${query}, ${key})`)
     toggleApply(true);
     setNoSave(false);
-    handle.setEditItem("query");
+    handle.setEditItem((editItem) => {
+      if (!editItem) handle.setApiItemID(Number(itemID) | 0);
+      // both "query" and "key" is true when cast to boolean
+      // and this value is just used to set tab route when comming
+      // into edit item panel, so saving is no matter which to set
+      return "query";
+    });
+  };
+
+  const keyHandler = {
+    save: (event) => {
+      event.preventDefault();
+      if (noSave) toggleSave();
+    }
   };
 
   // the text button of continue
@@ -330,10 +367,6 @@ export default function NewItem(props) {
   };
 
   const submitEdit = (save) => {
-    if (state.apiValue.query === query && state.apiValue.key === key) {
-      clearClose(save);
-      return;
-    };
     context.request("POST/set/item", {
       unitID: state.unitID,
       pageID: state.pageID,
@@ -381,98 +414,100 @@ export default function NewItem(props) {
       className={classes.noneSelect}
       classes={{ paper: classes.container }}
     >
-      <AppBar className={classes.bar}>
-        <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={toggleExit}>
-            <CloseIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            {state.editItem
-              ? context.lang.popup.newItem.editTitle
-              : context.lang.popup.newItem.title}
-            {noSave && context.lang.popup.newItem.noSave}
-          </Typography>
-          <IconButton
-            color="inherit"
-            onClick={toggleSave}
-            disabled={!noSave}
-          >
-            <SaveOutlinedIcon />
-          </IconButton>
-          <IconButton color="inherit" onClick={() => toggleApply(false)}>
-            <DoneIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <DialogContent className={classes.content}>
-        <DialogContentText style={state.editItem ? {} : { margin: "0" }}>
-          {state.editItem
-            ? stringFormat(context.lang.popup.newItem.editText, [
-              context.lang.popup.newItem.editTextZero[tab ? "key" : "query"],
-              state.apiItemID
-            ])
-            : stringFormat(context.lang.popup.newItem.text, [
-              state.listLength
-                ? stringFormat(context.lang.popup.newItem.aboveOne, [
-                    state.listLength + 1
-                  ])
-                : context.lang.popup.newItem.onlyOne,
-              state.listLength ? context.lang.popup.newItem.supply : ""
-            ])}
-        </DialogContentText>
-        {!state.editItem && <div className={classes.itemField}>
-          <TextField
-            required
-            type="number"
-            disabled={!state.listLength}
-            error={itemIDCheck}
-            value={itemID}
-            onChange={idChange}
-            label={context.lang.popup.newItem.itemID}
-            className={classes.itemInput}
-          />
-        </div>}
-        <Paper className={classes.editorField} variant="outlined" square>
-          <Tabs
-            value={tab}
-            onChange={tabChange}
-            variant="fullWidth"
-            indicatorColor="primary"
-          >
-            <Tab label={context.lang.popup.newItem.query} />
-            <Tab label={context.lang.popup.newItem.key} />
-          </Tabs>
-          <div className={classes.editorInput}>
-            <div className={classes.editorContainer}>
-              <MonacoEditor
-                width="100%"
-                height="100%"
-                language="markdown"
-                value={tab ? key : query}
-                onChange={monacoChange}
-                editorDidMount={onEditorReady}
-                options={{
-                  minimap: { enabled: false },
-                  automaticLayout: true,
-                  wordWrap: wordWrap
-                }}
-              />
-            </div>
-            <div style={{ width: "2%", height: "2%" }}></div>
-            <Typography
-              className={clsx(
-                classes.editorContainer,
-                classes.editorPreview,
-                "markdown-body"
-              )}
-              component="div"
-              variant="body2"
-            >
-              <PackedMarkdown children={tab ? markKey : markQuery} />
+      <HotKeys keyMap={keyMap} handlers={keyHandler} className={classes.hotkey}>
+        <AppBar className={classes.bar}>
+          <Toolbar>
+            <IconButton edge="start" color="inherit" onClick={toggleExit}>
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              {state.editItem
+                ? context.lang.popup.newItem.editTitle
+                : context.lang.popup.newItem.title}
+              {noSave && context.lang.popup.newItem.noSave}
             </Typography>
-          </div>
-        </Paper>
-      </DialogContent>
+            <IconButton
+              color="inherit"
+              onClick={toggleSave}
+              disabled={!noSave && !!state.editItem}
+            >
+              <SaveOutlinedIcon />
+            </IconButton>
+            <IconButton color="inherit" onClick={() => toggleApply(false)}>
+              <DoneIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <DialogContent className={classes.content}>
+          <DialogContentText style={state.editItem ? {} : { margin: "0" }}>
+            {state.editItem
+              ? stringFormat(context.lang.popup.newItem.editText, [
+                context.lang.popup.newItem.editTextZero[tab ? "key" : "query"],
+                state.apiItemID
+              ])
+              : stringFormat(context.lang.popup.newItem.text, [
+                state.listLength
+                  ? stringFormat(context.lang.popup.newItem.aboveOne, [
+                      state.listLength + 1
+                    ])
+                  : context.lang.popup.newItem.onlyOne,
+                state.listLength ? context.lang.popup.newItem.supply : ""
+              ])}
+          </DialogContentText>
+          {!state.editItem && <div className={classes.itemField}>
+            <TextField
+              required
+              type="number"
+              disabled={!state.listLength}
+              error={itemIDCheck}
+              value={itemID}
+              onChange={idChange}
+              label={context.lang.popup.newItem.itemID}
+              className={classes.itemInput}
+            />
+          </div>}
+          <Paper className={classes.editorField} variant="outlined" square>
+            <Tabs
+              value={tab}
+              onChange={tabChange}
+              variant="fullWidth"
+              indicatorColor="primary"
+            >
+              <Tab label={context.lang.popup.newItem.query} />
+              <Tab label={context.lang.popup.newItem.key} />
+            </Tabs>
+            <div className={classes.editorInput}>
+              <div className={classes.editorContainer}>
+                <MonacoEditor
+                  width="100%"
+                  height="100%"
+                  language="markdown"
+                  value={tab ? key : query}
+                  onChange={monacoChange}
+                  editorDidMount={onEditorReady}
+                  options={{
+                    minimap: { enabled: false },
+                    automaticLayout: true,
+                    wordWrap: wordWrap
+                  }}
+                />
+              </div>
+              <div style={{ width: "2%", height: "2%" }}></div>
+              <Typography
+                className={clsx(
+                  classes.editorContainer,
+                  classes.editorPreview,
+                  "markdown-body"
+                )}
+                component="div"
+                variant="body2"
+              >
+                <PackedMarkdown children={tab ? markKey : markQuery} />
+              </Typography>
+            </div>
+          </Paper>
+        </DialogContent>
+      </HotKeys>
       <ExitConfirm
         open={exit}
         handleClose={() => setExit(false)}
