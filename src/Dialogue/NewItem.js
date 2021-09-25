@@ -15,6 +15,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import PackedMarkdown from "../Component/Markdown";
 import cookie from "react-cookies";
 import ExitConfirm from "./ExitConfirm";
@@ -156,13 +157,13 @@ export default function NewItem(props) {
         cookie.save("__wordWrap", "on", { expires: cookieTime(3650) })
       } else setWordWrap(savedWrap);
 
-      // set new ID or edit query and key
+      // set query and key in edit mode
+      setItemID(state.listLength + 1);
       if (state.editItem) {
         if (state.editItem === "key") setTab(1);
         setQuery(state.apiValue.query);
         setKey(state.apiValue.key);
       }
-      setItemID(state.listLength + 1);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -205,7 +206,7 @@ export default function NewItem(props) {
     editor.addAction({
       id: "space",
       label: "Insert EM Space",
-      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S],
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_D],
       contextMenuGroupId: "1_modification",
       run: (editor) => {
         const operation = {
@@ -258,9 +259,10 @@ export default function NewItem(props) {
   // the icon button of exit
   const toggleExit = () => {
     if (noSave) setExit(true);
-    else clearClose();
+    else clearClose(false);
   };
-  const clearClose = () => {
+  const clearClose = (save) => {
+    if (save) return;
     handle.close();
     setTab(0);
     setItemIDCheck(false);
@@ -272,8 +274,14 @@ export default function NewItem(props) {
     setNoSave(false);
   };
 
+  const toggleSave = () => {
+    toggleApply(true);
+    setNoSave(false);
+    handle.setEditItem("query");
+  };
+
   // the text button of continue
-  const toggleApply = () => {
+  const toggleApply = (save) => {
     const targetNumber = Number(itemID) | 0;
     if (targetNumber <= 0 || targetNumber > state.listLength + 1) {
       setItemIDCheck(true);
@@ -284,12 +292,13 @@ export default function NewItem(props) {
       handle.toggleMessageBox(context.lang.message.itemOverflow, "warning");
       return;
     }
-    if (!state.editItem && !editKey && !autoQuery(query).keys.length) setApply(true);
-    else if (!state.editItem) submitNew();
-    else submitEdit();
+    if (!state.editItem && !save && !editKey && !autoQuery(query).keys.length) {
+      setApply(true);
+    } else if (!state.editItem) submitNew(save);
+    else submitEdit(save);
   };
 
-  const submitNew = () => {
+  const submitNew = (save) => {
     const targetItemID = Number(itemID) | 0;
     context.request("POST/new/item", {
       unitID: state.unitID,
@@ -316,13 +325,13 @@ export default function NewItem(props) {
         ...pageDetail,
         itemSize: pageDetail.itemSize + 1
       }))
-      clearClose();
+      clearClose(save);
     });
   };
 
-  const submitEdit = () => {
+  const submitEdit = (save) => {
     if (state.apiValue.query === query && state.apiValue.key === key) {
-      clearClose();
+      clearClose(save);
       return;
     };
     context.request("POST/set/item", {
@@ -337,15 +346,9 @@ export default function NewItem(props) {
           ? { ...item, query: query, key: key }
           : item
       )));
-      clearClose();
+      clearClose(save);
     })
   };
-
-        // {
-        //   ...item,
-        //   query: item.id === state.apiItemID ? query : item.query,
-        //   key: item.id === state.apiItemID ? key : item.key
-        // }
 
   React.useEffect(() => {
     const unloadListener = (event) => {
@@ -389,7 +392,14 @@ export default function NewItem(props) {
               : context.lang.popup.newItem.title}
             {noSave && context.lang.popup.newItem.noSave}
           </Typography>
-          <IconButton color="inherit" onClick={toggleApply}>
+          <IconButton
+            color="inherit"
+            onClick={toggleSave}
+            disabled={!noSave}
+          >
+            <SaveOutlinedIcon />
+          </IconButton>
+          <IconButton color="inherit" onClick={() => toggleApply(false)}>
             <DoneIcon />
           </IconButton>
         </Toolbar>
@@ -398,7 +408,7 @@ export default function NewItem(props) {
         <DialogContentText style={state.editItem ? {} : { margin: "0" }}>
           {state.editItem
             ? stringFormat(context.lang.popup.newItem.editText, [
-              context.lang.popup.newItem.editTextZero[state.editItem],
+              context.lang.popup.newItem.editTextZero[tab ? "key" : "query"],
               state.apiItemID
             ])
             : stringFormat(context.lang.popup.newItem.text, [
@@ -466,12 +476,12 @@ export default function NewItem(props) {
       <ExitConfirm
         open={exit}
         handleClose={() => setExit(false)}
-        handleClearClose={() => clearClose()}
+        handleClearClose={() => clearClose(false)}
       />
       <SubmitConfirm
         open={apply}
         handleClose={() => setApply(false)}
-        handleSubmit={submitNew}
+        handleSubmit={() => submitNew(false)}
       />
     </Dialog>
   );

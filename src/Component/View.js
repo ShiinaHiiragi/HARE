@@ -471,8 +471,6 @@ export default function View(props) {
           trackSize: state.pageDetail.trackSize,
           listLength: state.itemList.length,
           lineTag: state.lineTag,
-
-
           editItem: editItem,
           apiItemID: apiItemID,
           apiValue: apiValue
@@ -482,7 +480,8 @@ export default function View(props) {
           toggleMessageBox: handle.toggleMessageBox,
           toggleKick: handle.toggleKick,
           setPageDetail: handle.setPageDetail,
-          setItemList: handle.setItemList
+          setItemList: handle.setItemList,
+          setEditItem: setEditItem
         }}
       />
       <Move
