@@ -107,7 +107,6 @@ export default function View(props) {
   const [apiItemID, setApiItemID] = React.useState(0);
   const [apiTrackID, setApiTrackID] = React.useState(0);
   const [apiValue, setApiValue] = React.useState(null);
-  const [keyTag, setKeyTag] = React.useState([]);
 
   const [newItem, setNewItem] = React.useState(false);
   const [editItem, setEditItem] = React.useState(false);
@@ -236,11 +235,9 @@ export default function View(props) {
         setApiTrackID(Number(params.field));
         setChangeTrack(true);
       } else if (params.field === "query" || params.field === "key") {
+        setApiValue(params.row);
         setEditItem(params.field);
         setNewItem(true);
-        if (params.field === "key") {
-          setKeyTag(autoQuery(params.row.query).keys);
-        } else setKeyTag([params.row.key]);
       } else if (params.field === "id") toggleMove();
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -469,15 +466,16 @@ export default function View(props) {
       <NewItem
         open={newItem}
         state={{
-          editItem: editItem,
-          lineTag: state.lineTag,
-          apiItemID: apiItemID,
-          apiValue: apiValue,
           unitID: state.current.unitID,
           pageID: state.current.pageID,
           trackSize: state.pageDetail.trackSize,
           listLength: state.itemList.length,
-          keyTag: keyTag
+          lineTag: state.lineTag,
+
+
+          editItem: editItem,
+          apiItemID: apiItemID,
+          apiValue: apiValue
         }}
         handle={{
           close: () => setNewItem(false),

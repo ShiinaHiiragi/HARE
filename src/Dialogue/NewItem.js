@@ -124,20 +124,22 @@ export default function NewItem(props) {
   const { open, state, handle } = props;
   const context = React.useContext(PanelContext);
 
-  // the state of text input
+  // the state of ID and tab
   const [itemID, setItemID] = React.useState(0);
+  const [itemIDCheck, setItemIDCheck] = React.useState(false);
+  const [tab, setTab] = React.useState(0);
+
+  // the state of text input
   const [query, setQuery] = React.useState("");
   const [key, setKey] = React.useState("");
   const [markQuery, setMarkQuery] = React.useState("");
   const [markKey, setMarkKey] = React.useState("");
-  const [itemIDCheck, setItemIDCheck] = React.useState(false);
   const [wordWrap, setWordWrap] = React.useState("on");
 
-  // the state of tab and dialogue
-  const [tab, setTab] = React.useState(0);
-  const [editKey, setEditKey] = React.useState(false);
+  // the state and dialogue
   const [exit, setExit] = React.useState(false);
   const [apply, setApply] = React.useState(false);
+  const [editKey, setEditKey] = React.useState(false);
   const [noSave, setNoSave] = React.useState(false);
 
   const monacoChange = (value) => {
@@ -145,22 +147,31 @@ export default function NewItem(props) {
     tab ? setKey(value) : setQuery(value);
   }
 
+  // whata to do when opening dislogue
   React.useEffect(() => {
     if (open) {
+      // load wordwrap from cookie
       const savedWrap = cookie.load("__wordWrap");
-      if (savedWrap) setWordWrap(savedWrap);
-      else cookie.save("__wordWrap", "on", { expires: cookieTime(3650) });
-      setItemID(state.listLength + 1);
-      if (state.editItem) setQuery(state.apiValue);
+      if (savedWrap !== "off") {
+        cookie.save("__wordWrap", "on", { expires: cookieTime(3650) })
+      } else setWordWrap(savedWrap);
+
+      // set new ID or edit query and key
+      if (state.editItem) {
+        if (state.editItem === "key") setTab(1);
+        setQuery(state.apiValue.query);
+        setKey(state.apiValue.key);
+      } else {
+        setItemID(state.listLength + 1);
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   const onEditorReady = (editor, monaco) => {
+    // the editor may be wraped by closure so every time
+    // the editor is loaded the closure should be updated
     let closureWordWrap = wordWrap;
-    // editor.onDidChangeCursorPosition((event) => {
-    //   console.log(event);
-    // });
     editor.addAction({
       id: "wordWrap",
       label: "Word Wrap",
@@ -252,13 +263,13 @@ export default function NewItem(props) {
   };
   const clearClose = () => {
     handle.close();
+    setTab(0);
+    setItemIDCheck(false);
     setQuery("");
     setKey("");
     setMarkQuery("");
     setMarkKey("");
     setEditKey(false);
-    setItemIDCheck(false);
-    setTab(0);
     setNoSave(false);
   };
 
@@ -344,19 +355,15 @@ export default function NewItem(props) {
   }, [noSave, context.lang.panel.recall.unload]);
 
   React.useEffect(() => {
-    if (state.editItem === "key") {
-      setMarkQuery(query.length ? query : autoKeys(state.keyTag, context.lang))
-      return;
-    }
-    if ((state.editItem === "query" ? state.keyTag[0] : key).length === 0) {
+    if (key.length) {
+      setMarkQuery(query);
+      setMarkKey(key);
+    } else {
       const { query: processQuery, keys } = autoQuery(query);
       setMarkQuery(processQuery)
       setMarkKey(autoKeys(keys, context.lang));
-    } else {
-      setMarkQuery(query);
-      setMarkKey(key);
     }
-  }, [state.editItem, state.keyTag, query, key, context.lang])
+  }, [state.editItem, query, key, context.lang])
 
   return (
     <Dialog
@@ -411,7 +418,7 @@ export default function NewItem(props) {
           />
         </div>}
         <Paper className={classes.editorField} variant="outlined" square>
-          {!state.editItem && <Tabs
+          <Tabs
             value={tab}
             onChange={tabChange}
             variant="fullWidth"
@@ -419,7 +426,7 @@ export default function NewItem(props) {
           >
             <Tab label={context.lang.popup.newItem.query} />
             <Tab label={context.lang.popup.newItem.key} />
-          </Tabs>}
+          </Tabs>
           <div className={classes.editorInput}>
             <div className={classes.editorContainer}>
               <MonacoEditor
