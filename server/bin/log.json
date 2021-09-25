@@ -1,6 +1,6 @@
 [
   {
-    "version": "1.5.0.9",
+    "version": "1.5.0.10",
     "date": "2021-09-26T00:00:00.000Z",
     "detail": [
       {
@@ -18,6 +18,10 @@
       {
         "type": "Change",
         "content": "Format existsed and add more information in help dialogue"
+      },
+      {
+        "type": "Change",
+        "content": "Allow tabs in editing existed item and change question and answer at the same time"
       },
       {
         "type": "Fix",
@@ -306,6 +310,10 @@
       {
         "type": "Global",
         "content": "Start the project"
+      },
+      {
+        "type": "Global",
+        "content": "Preparing environment for developement"
       }
     ]
   }

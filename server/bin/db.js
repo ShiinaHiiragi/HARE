@@ -466,9 +466,9 @@ exports.newItems = (userID, unitID, pageID, items, res) =>
       .catch(reject);
   });
 
-exports.editItem = (userID, unitID, pageID, itemID, field, value) =>
+exports.editItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
   new Promise((resolve, reject) => 
-    query(`update item set item${field} = '${value}'
+    query(`update item set (itemQuery, itemKey) = ('${itemQuery}', '${itemKey}')
       where userID = ${userID} and unitID = ${unitID}
       and pageID = ${pageID} and itemID = ${itemID}`)
       .then(resolve)

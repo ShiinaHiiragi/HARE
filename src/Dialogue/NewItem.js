@@ -161,9 +161,8 @@ export default function NewItem(props) {
         if (state.editItem === "key") setTab(1);
         setQuery(state.apiValue.query);
         setKey(state.apiValue.key);
-      } else {
-        setItemID(state.listLength + 1);
       }
+      setItemID(state.listLength + 1);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -322,7 +321,7 @@ export default function NewItem(props) {
   };
 
   const submitEdit = () => {
-    if (state.apiValue === query) {
+    if (state.apiValue.query === query && state.apiValue.key === key) {
       clearClose();
       return;
     };
@@ -330,17 +329,23 @@ export default function NewItem(props) {
       unitID: state.unitID,
       pageID: state.pageID,
       itemID: [state.apiItemID],
-      [state.editItem]: query
+      query: query,
+      key: key
     }).then(() => {
-      handle.setItemList((itemList) => itemList.map((item) => ({
-        ...item,
-        [state.editItem]: item.id === state.apiItemID
-          ? query
-          : item[state.editItem]
-      })));
+      handle.setItemList((itemList) => itemList.map((item) => (
+        item.id === state.apiItemID
+          ? { ...item, query: query, key: key }
+          : item
+      )));
       clearClose();
     })
   };
+
+        // {
+        //   ...item,
+        //   query: item.id === state.apiItemID ? query : item.query,
+        //   key: item.id === state.apiItemID ? key : item.key
+        // }
 
   React.useEffect(() => {
     const unloadListener = (event) => {

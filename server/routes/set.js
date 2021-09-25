@@ -93,20 +93,13 @@ router.post('/page', (req, res) => {
 router.post('/item', (req, res) => {
   const params = new Object();
   api.param(req.cookies, params, ['userID', 'token', 'session'], res)
-    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID'], res))
-    .then(() => api.param(req.body, params, ['query', 'key'], res, api.ignore))
+    .then(() => api.param(req.body, params, ['unitID', 'pageID', 'itemID', 'query', 'key'], res))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.checkSession(params.userID, params.session, res))
-    .then(() => {
-      const field = params.query === undefined ? 'key' : 'query';
-      const value = params[field];
-      // if both query and key are undefined
-      if (value !== undefined)
-        return db.editItem(params.userID, params.unitID,
-          params.pageID, params.itemID[0], field, value);
-    })
+    .then(() => db.editItem(params.userID, params.unitID,
+      params.pageID, params.itemID[0], params.query, params.key))
     .then(() => api.noContent(res))
-    .catch(() => api.internalServerError(res));
+    .catch(console.log);
 });
 
 router.post('/recall', (req, res) => {
