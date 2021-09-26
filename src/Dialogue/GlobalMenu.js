@@ -9,7 +9,7 @@ import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
 import LocalSetting from "./LocalSetting";
 import { PanelContext } from "../Page/Panel";
-import { maxImageBase, lineReg, cookieTime } from "../Interface/Constant";
+import { maxImageBase, lineReg, checkLineReg, cookieTime } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -30,9 +30,10 @@ export default function GlobalMenu(props) {
 
   const [lineCode, setLineCode] = React.useState("");
   const localLineReg = React.useMemo(() => {
-    const windowReg = new RegExp(`^${lineReg.source}$`);
-    window.tagReg = windowReg;
-    return windowReg;
+    // these two tag should be different object
+    // to avoid being changed in console
+    window.LineTag = checkLineReg();
+    return checkLineReg();
   }, []);
 
   const uploadAvatar = (event) => {

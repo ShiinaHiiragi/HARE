@@ -25,7 +25,8 @@ import {
   disjunctVersion,
   cookieSetting,
   underline,
-  lineReg
+  lineReg,
+  checkLineReg
 } from "../Interface/Constant";
 
 const PanelContext = React.createContext({});
@@ -57,7 +58,7 @@ export default function Panel(props) {
 
     // lineTag is a little special from others
     const storageLineTag = cookie.load("lineTag");
-    if (storageLineTag !== "string" || !lineReg.test(storageLineTag)) {
+    if (typeof(storageLineTag) !== "string" || !checkLineReg().test(storageLineTag)) {
       cookie.save("lineTag", underline, { expires: cookieTime(3650) });
     } else setLineTag(storageLineTag);
   }, []);

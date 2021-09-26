@@ -1,11 +1,15 @@
 [
   {
-    "version": "1.5.1",
+    "version": "1.5.1.1",
     "date": "2021-09-27T00:00:00.000Z",
     "detail": [
       {
         "type": "Change",
         "content": "Rewrite help dialogue"
+      },
+      {
+        "type": "Fix",
+        "content": "Fix the display of line tag"
       }
     ]
   },
