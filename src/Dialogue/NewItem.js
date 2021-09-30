@@ -30,7 +30,8 @@ import {
   byteSize,
   maxItemByte,
   autoQuery,
-  autoKeys
+  autoKeys,
+  inlineCode
 } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -252,6 +253,30 @@ export default function NewItem(props) {
             startColumn + 2,
             startLineNumber,
             startColumn + 2
+          )]
+        );
+      }
+    });
+    editor.addAction({
+      id: "code",
+      label: "Insert Inline Code",
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.US_BACKTICK],
+      contextMenuGroupId: "1_modification",
+      run: (editor) => {
+        const { startLineNumber, startColumn } = editor.getSelection();
+        const operation = {
+          range: editor.getSelection(),
+          text: inlineCode,
+          forceMoveMarkers: true
+        };
+        editor.executeEdits(
+          "key-tag",
+          [operation],
+          [new Selection(
+            startLineNumber,
+            startColumn + 1,
+            startLineNumber,
+            startColumn + 1
           )]
         );
       }

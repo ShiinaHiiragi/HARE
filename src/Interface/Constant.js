@@ -196,7 +196,8 @@ const cookieSetting = (cookieName, setState) => {
 }
 export { markMap, lostGenerator, underlineLength, cookieSetting };
 
-// function about markdown blank
+// function about markdown blank and code
+const inlineCode = "``"
 const autoKey = "{{}}";
 const autoKeyReg = [/^{{(.+?)}}/, /([^\\]){{(.+?)}}/g];
 const autoQuery = (query) => {
@@ -217,7 +218,7 @@ const autoKeys = (keys, lang) => {
     : `<p align="left" style="color: #999;">${lang.popup.newItem.noTag}</p>`
   }`;
 };
-export { autoKey, autoQuery, autoKeys };
+export { inlineCode, autoKey, autoQuery, autoKeys };
 
 // function about formatting
 const stringFormat = (rawString, replaceArray) => {
