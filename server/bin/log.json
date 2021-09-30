@@ -1,11 +1,15 @@
 [
   {
-    "version": "1.5.1.1",
+    "version": "1.5.1.2",
     "date": "2021-09-27T00:00:00.000Z",
     "detail": [
       {
         "type": "Change",
         "content": "Rewrite help dialogue"
+      },
+      {
+        "type": "Fix",
+        "content": "Fix error in cascade image deleteing"
       },
       {
         "type": "Fix",

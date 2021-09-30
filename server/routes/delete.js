@@ -12,6 +12,13 @@ router.post('/up', (req, res) => {
     .then(() => api.param(req.body, params, ['pageID'], res, api.ignore))
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.checkSession(params.userID, params.session, res))
+    .then(() => db.getImageExtents(params.userID, params.unitID, params.pageID))
+    .then((out) => Promise.all(out.map(({ imagetype }) => new Promise((resolve, reject) =>
+      fs.unlink(path.join(
+        __dirname,
+        `../src/image/${params.userID}i${imagetype}`
+      ), (err) => err ? reject() : resolve())
+    ))))
     .then(() => {
       if (params.pageID === undefined) {
         db.deleteUnit(params.userID, params.unitID)
@@ -60,12 +67,10 @@ router.post('/image', (req, res) => {
     .then(() => db.checkToken(params.userID, params.token, res))
     .then(() => db.checkSession(params.userID, params.session, res))
     .then(() => db.getImageExtent(params.userID, params.unitID, params.pageID, params.imageID))
-    .then((out) => {
-      fs.unlinkSync(path.join(
-        __dirname,
-        `../src/image/${params.userID}i${out[0].imagetype}`
-        ));
-    })
+    .then((out) => new Promise((resolve, reject) => fs.unlink(path.join(
+      __dirname,
+      `../src/image/${params.userID}i${out[0].imagetype}`
+    ), (err) => err ? reject() : resolve())))
     .then(() => db.deleteImage(params.userID, params.unitID, params.pageID, params.imageID))
     .then(() => api.noContent(res))
     .catch(() => api.internalServerError(res));

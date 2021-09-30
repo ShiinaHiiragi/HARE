@@ -731,6 +731,14 @@ exports.getImageExtent = (userID, unitID, pageID, imageID) =>
       .catch(reject)
   });
 
+exports.getImageExtents = (userID, unitID, pageID) =>
+  new Promise((resolve, reject) => {
+    query(`select imageType from image where userID = ${userID} and
+      unitID = ${unitID} ${pageID ? `and pageID = ${pageID}` : ``}`)
+      .then(resolve)
+      .catch(reject)
+  })
+
 exports.newImage = (userID, unitID, pageID, imageID, type, kilobyte) =>
   new Promise((resolve, reject) => {
     query(`begin; insert into image(userID, unitID, pageID, imageID,
