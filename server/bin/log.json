@@ -1,5 +1,27 @@
 [
   {
+    "version": "1.5.2",
+    "date": "2021-11-28T00:00:00.000Z",
+    "detail": [
+      {
+        "type": "Fix",
+        "content": "Fix focus color in local setting dialogue"
+      },
+      {
+        "type": "Fix",
+        "content": "Fix compatibility problem of scrollbar color in Mozilla Firefox browser"
+      },
+      {
+        "type": "Fix",
+        "content": "Fix caption error inside the English editor dialogue"
+      },
+      {
+        "type": "Remove",
+        "content": "Remove void version number in page of logging in"
+      }
+    ]
+  },
+  {
     "version": "1.5.1.3",
     "date": "2021-09-30T00:00:00.000Z",
     "detail": [

@@ -145,7 +145,7 @@ const list = {
       title: "Create New Entry",
       editTitle: "Edit Existed Entry",
       text: "The new entry will be inserted to the entry ID appointed, which {0}{1}.",
-      editText: "Your are editing {0} of the entry whose ID is {1}.",
+      editText: "You are editing {0} of the entry whose ID is {1}.",
       editTextZero: { query: "question", key: "answer" },
       supply: "; those entries whose ID is larger will be put off",
       itemID: "Target Entry ID",

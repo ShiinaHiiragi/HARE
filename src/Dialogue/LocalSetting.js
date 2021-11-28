@@ -83,6 +83,8 @@ export default function LocalSetting(props) {
   const { open, state, handle } = props;
   const context = React.useContext(PanelContext);
 
+  const [lineTagFocus, setLineTagFocus] = React.useState(false);
+
   const changeRank = (event) => {
     handle.setLowRank(event.target.value === "true");
     cookie.save("lowRank", event.target.value, { expires: cookieTime(3650) });
@@ -169,7 +171,10 @@ export default function LocalSetting(props) {
               ))}
             </Select>
           </FormControl>
-          <FormControl className={clsx(classes.formControl, classes.marginTop)}>
+          <FormControl
+            className={clsx(classes.formControl, classes.marginTop)}
+            focused={lineTagFocus}
+          >
             <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.lineTag}
             </FormLabel>
@@ -178,6 +183,8 @@ export default function LocalSetting(props) {
               classes={{ root: classes.codeFont }}
               value={state.lineCode}
               error={!state.localLineReg.test(state.lineCode)}
+              onFocus={() => setLineTagFocus(true)}
+              onBlur={() => setLineTagFocus(false)}
               onChange={(event) => handle.setLineCode(event.target.value)}
             />
           </FormControl>

@@ -25,7 +25,6 @@ import {
   disjunctVersion,
   cookieSetting,
   underline,
-  lineReg,
   checkLineReg
 } from "../Interface/Constant";
 

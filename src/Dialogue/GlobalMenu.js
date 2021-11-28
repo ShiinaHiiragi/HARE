@@ -9,7 +9,7 @@ import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
 import LocalSetting from "./LocalSetting";
 import { PanelContext } from "../Page/Panel";
-import { maxImageBase, lineReg, checkLineReg, cookieTime } from "../Interface/Constant";
+import { maxImageBase, checkLineReg, cookieTime } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({

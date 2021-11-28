@@ -156,9 +156,9 @@ export default function License(props) {
     >
       <DialogTitle style={{ paddingBottom: withTab ? 0 : 16 }}>
         {lang.popup.about.title}
-        <Typography component="span" variant="body2" style={{ verticalAlign: "text-top" }}>
+        {log && <Typography component="span" variant="body2" style={{ verticalAlign: "text-top" }}>
           &ensp;{versionParser(versionLatest(log))}
-        </Typography>
+        </Typography>}
       </DialogTitle>
       <Tabs
         value={tab}
