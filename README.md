@@ -1,11 +1,13 @@
 # HARE
 
 <div align="center">
-  <img src="public/concept.ico" style="zoom:60%; text-align: center;" />
+  <img src="public/concept.ico" style="zoom:48%; text-align: center;" />
 </div>
 
 ## 1 设计
 ### 1.1 计划
+- [ ] **手动修改所有 LOST 会陷入异常状态**
+- [ ] **RECALL 失序**
 - [ ] 隐藏答案预览
 - [ ] 回忆 Shuffle
 - [ ] 定时邮件备份

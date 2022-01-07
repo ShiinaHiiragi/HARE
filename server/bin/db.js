@@ -476,7 +476,7 @@ exports.editItem = (userID, unitID, pageID, itemID, itemQuery, itemKey) =>
   );
 
 exports.editTrack = (userID, unitID, pageID, itemID, trackID, value) =>
-  new Promise((resolve, reject) =>  {
+  new Promise((resolve, reject) => {
     query(`select itemRecord[${trackID}] from item where
       (userID, unitID, pageID, itemID) = (${userID}, ${unitID}, ${pageID}, ${itemID})`)
       .then(([{ itemrecord: src }]) => {
