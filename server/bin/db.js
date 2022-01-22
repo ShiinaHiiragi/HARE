@@ -723,7 +723,6 @@ exports.getImage = (userID, unitID, pageID) => new Promise((resolve, reject) => 
     .catch(reject)
 });
 
-
 exports.getImages = (userID) => new Promise((resolve, reject) => {
   query(`select unitSize from userSetting where userID = ${userID}`)
     .then(([{ unitsize }]) => {
@@ -733,7 +732,7 @@ exports.getImages = (userID) => new Promise((resolve, reject) => {
           .then(([{ pagesize }]) => {
             result[unitIndex] = new Array(pagesize).fill();
             return api.syncEachChain(result[unitIndex], (_, onsuccess, onerror, pageIndex) => {
-              query(`select imageID, imageName, imageCreateTime, imageByte from image
+              query(`select imageID, imageName, imageCreateTime, imageType from image
                 where userID = ${userID} and unitID = ${unitIndex + 1} and
                 pageID = ${pageIndex + 1} order by imageID asc`)
                 .then((targetItems) => {
@@ -741,10 +740,51 @@ exports.getImages = (userID) => new Promise((resolve, reject) => {
                     id: item.imageid,
                     title: item.imagename,
                     time: item.imagecreatetime,
-                    size: item.imagebyte
+                    type: item.imagetype.match(/\.\w{3,4}/)[0]
                   }))
                   onsuccess();
                 })
+                .catch(onerror)
+            })
+          })
+          .then(onsuccess)
+          .catch(onerror)
+      })
+        .then(() => resolve(result))
+        .catch(reject)
+    });
+});
+
+exports.getBases = (userID) => new Promise((resolve, reject) => {
+  query(`select unitSize from userSetting where userID = ${userID}`)
+    .then(([{ unitsize }]) => {
+      let result = new Array(unitsize).fill();
+      api.syncEachChain(result, (_, onsuccess, onerror, unitIndex) => {
+        query(`select pageSize from unit where userID = ${userID} and unitID = ${unitIndex + 1}`)
+          .then(([{ pagesize }]) => {
+            result[unitIndex] = new Array(pagesize).fill();
+            return api.syncEachChain(result[unitIndex], (_, onsuccess, onerror, pageIndex) => {
+              query(`select imageType from image where userID = ${userID} and
+                unitID = ${unitIndex + 1} and pageID = ${pageIndex + 1} order by imageID asc`)
+                .then((targetItems) => new Promise((resolve, reject) => {
+                  result[unitIndex][pageIndex] = new Array(targetItems.length).fill();
+                  api.syncEachChain(targetItems, (targetItem, onsuccess, onerror, targetIndex) => {
+                    fs.readFile(path.join(
+                      __dirname,
+                      `../src/image/${userID}i${targetItem.imagetype}`
+                    ), (err, data) => {
+                      if (err) {
+                        onerror();
+                        return;
+                      }
+                      result[unitIndex][pageIndex][targetIndex] = data.toString('base64');
+                      onsuccess();
+                    })
+                  })
+                    .then(resolve)
+                    .catch(reject)
+                }))
+                .then(onsuccess)
                 .catch(onerror)
             })
           })

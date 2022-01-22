@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import cookie from "react-cookies";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -9,7 +10,7 @@ import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
 import LocalSetting from "./LocalSetting";
 import { PanelContext } from "../Page/Panel";
-import { maxImageBase, checkLineReg, cookieTime, syncEachChain } from "../Interface/Constant";
+import { maxImageBase, checkLineReg, cookieTime, syncEachChain, imageURL } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -66,10 +67,12 @@ export default function GlobalMenu(props) {
     let unitsZip = JSZip();
     Promise.all([
       context.request("GET/data/items"),
-      context.request("GET/data/images")
+      context.request("GET/data/images"),
+      context.request("GET/src/images")
     ])
-      .then(([units, images]) => new Promise((resolve, reject) => {
-        syncEachChain(units, (unit, onsuccess, onerror, unitIndex) => {
+      .then(([units, images, bases]) => new Promise((resolve, reject) => {
+        console.log(bases);
+        return syncEachChain(units, (unit, onsuccess, onerror, unitIndex) => {
           let unitFolder = unitsZip.folder(`${unitIndex + 1}_${state.listObject[unitIndex].unitName}`);
           syncEachChain(unit, (page, onsuccess, onerror, pageIndex) => {
             let pageFolder = unitFolder
@@ -77,7 +80,13 @@ export default function GlobalMenu(props) {
             pageFolder.file(`text.json`, JSON.stringify(page, null, 2));
             if (images[unitIndex][pageIndex].length) {
               let imageFolder = pageFolder.folder("assets");
-              
+              images[unitIndex][pageIndex].forEach((image, imageIndex) => {
+                imageFolder.file(
+                  `${imageIndex + 1}_${image.title}${image.type}`,
+                  bases[unitIndex][pageIndex][imageIndex],
+                  { base64: true }
+                );
+              });
             }
             onsuccess();
           })

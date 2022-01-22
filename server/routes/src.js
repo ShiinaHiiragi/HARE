@@ -58,6 +58,15 @@ router.get('/image', (req, res) => {
     .catch(() => api.internalServerError(res));
 });
 
+router.get('/images', (req, res) => {
+  const params = new Object();
+  api.param(req.cookies, params, ['userID', 'token'], res)
+    .then(() => db.checkToken(params.userID, params.token, res))
+    .then(() => db.getBases(params.userID))
+    .then((out) => res.send(out))
+    .catch(() => api.internalServerError(res));
+});
+
 router.get('/log', (req, res) => {
   const params = new Object();
   api.param(req.cookies, params, ['userID', 'token'], res)

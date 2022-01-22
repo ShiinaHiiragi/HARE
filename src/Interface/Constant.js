@@ -264,7 +264,7 @@ const timeFormat = (transDate, formatString) => {
 };
 export { stringFormat, timeFormat };
 
-// function about async function
+// function about async function and images
 const syncEachChain = (arrayObject, eachTemp) =>
   arrayObject.reduce(
     (promiseChain, arrayItem, arrayIndex) =>
