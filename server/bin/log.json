@@ -6,6 +6,10 @@
       {
         "type": "Fix",
         "content": "Fix the bug of modifying all items"
+      },
+      {
+        "type": "Fix",
+        "content": "Fix the ocassion of statistics' losing sequence"
       }
     ]
   },

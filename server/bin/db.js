@@ -605,8 +605,8 @@ exports.getThis = (userID, unitID, pageID, clear) => new Promise((resolve, rejec
 });
 
 exports.getStat = (userID, unitID, pageID) => new Promise((resolve, reject) => {
-  query(`select trackID, startTime, endTime from track where
-    userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+  query(`select trackID, startTime, endTime from track where userID = ${userID}
+    and unitID = ${unitID} and pageID = ${pageID} order by trackID asc`)
     .then((out) => Promise.all(out.map((item) => new Promise((resolve, reject) => {
       Promise.all([
         query(`select count(itemID) from item where userID = ${userID}
