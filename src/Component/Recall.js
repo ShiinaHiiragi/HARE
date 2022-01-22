@@ -104,7 +104,9 @@ const keyMap = {
   next: "right",
   previous: "left",
   switch: "ctrl+a",
-  revoke: "ctrl+z"
+  revoke: "ctrl+z",
+  shuffle: "ctrl+i",
+  sort: "ctrl+q"
 };
 
 export default function Recall(props) {
@@ -136,7 +138,6 @@ export default function Recall(props) {
   }, [state.recollect, state.route, state.recall, context.lang]);
 
   const switcher = () => {
-    console.log(state.recall);
     setReverse((reverse) => reverse === "query" ? "key" : "query");
   }
 
@@ -189,7 +190,15 @@ export default function Recall(props) {
     next: () => changeItem(1),
     previous: () => changeItem(-1),
     switch: switcher,
-    revoke: cancel
+    revoke: cancel,
+    shuffle: () => {
+      if (state.recall.lost.length > 1)
+        handle.rearrangeLost(true);
+    },
+    sort: () => {
+      if (!state.recall.lost.reduce((n, item) => n !== false && item >= n && item, true))
+        handle.rearrangeLost(false);
+    }
   };
 
   const processMarkdown = (index, reverse) => {

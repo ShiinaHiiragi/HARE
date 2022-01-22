@@ -226,6 +226,8 @@ const list = {
           "CTRL+Z": "Revoke Latest Mark",
           "CTRL+X": "Mark as Fault",
           "CTRL+C": "Mark as Correct",
+          "CTRL+Q": "Sort Entries",
+          "CTRL+I": "Shuffle Entries",
           "→": "Next",
           "←": "Previous"
         },
