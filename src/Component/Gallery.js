@@ -11,12 +11,11 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import copy from "copy-to-clipboard";
-import CryptoJS from "crypto-js";
 import { PanelContext } from "../Page/Panel";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
 import EditImage from "../Dialogue/EditImage";
 import { HotKeys } from "react-hotkeys";
-import { requestURL, routeIndex, timeFormat, maxImageBase } from "../Interface/Constant";
+import { routeIndex, timeFormat, maxImageBase, imageURL } from "../Interface/Constant";
 
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
@@ -86,11 +85,8 @@ export default function Gallery(props) {
     backToMenu: () => handle.setCurrentRoute(routeIndex.cover),
   };
 
-  const imageURL = (id, time) => `${requestURL}/src/image` +
-    `?unitID=${state.unitID}&pageID=${state.pageID}&imageID=${id}` +
-    `&t=${CryptoJS.MD5(time)}`;
   const copyLink = (imageID, timestamp) => {
-    if (copy(imageURL(imageID, timestamp))) {
+    if (copy(imageURL(imageID, timestamp, state.unitID, state.pageID))) {
       handle.toggleMessageBox(context.lang.message.copyImageLink, "info");
     }
   }
@@ -188,7 +184,7 @@ export default function Gallery(props) {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image={imageURL(item.id, item.time)}
+                    image={imageURL(item.id, item.time, state.unitID, state.pageID)}
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography variant="subtitle1">

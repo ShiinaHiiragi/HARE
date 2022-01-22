@@ -9,7 +9,7 @@ import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
 import LocalSetting from "./LocalSetting";
 import { PanelContext } from "../Page/Panel";
-import { maxImageBase, checkLineReg, cookieTime } from "../Interface/Constant";
+import { maxImageBase, checkLineReg, cookieTime, syncEachChain } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -64,24 +64,31 @@ export default function GlobalMenu(props) {
   const backup = () => {
     handle.close();
     let unitsZip = JSZip();
-    context.request("GET/data/items")
-      .then((units) => {
-        context.request("GET/data/images")
-        .then((images) => {
-          console.log(images);
-          units.forEach((unit, unitIndex) => {
-            let unitFolder = unitsZip.folder(`${unitIndex + 1}_${state.listObject[unitIndex].unitName}`);
-            unit.forEach((page, pageIndex) => {
-              let pageFolder = unitFolder
-                .folder(`${pageIndex + 1}_${state.listObject[unitIndex].pages[pageIndex].pageName}`);
-              pageFolder.file(`text.json`, JSON.stringify(page, null, 2));
+    Promise.all([
+      context.request("GET/data/items"),
+      context.request("GET/data/images")
+    ])
+      .then(([units, images]) => new Promise((resolve, reject) => {
+        syncEachChain(units, (unit, onsuccess, onerror, unitIndex) => {
+          let unitFolder = unitsZip.folder(`${unitIndex + 1}_${state.listObject[unitIndex].unitName}`);
+          syncEachChain(unit, (page, onsuccess, onerror, pageIndex) => {
+            let pageFolder = unitFolder
+              .folder(`${pageIndex + 1}_${state.listObject[unitIndex].pages[pageIndex].pageName}`);
+            pageFolder.file(`text.json`, JSON.stringify(page, null, 2));
+            if (images[unitIndex][pageIndex].length) {
               let imageFolder = pageFolder.folder("assets");
-            })
+              
+            }
+            onsuccess();
           })
-          unitsZip.generateAsync({ type: "blob" })
-            .then((content) => saveAs(content, `${state.userName}`));
+            .then(onsuccess)
+            .catch(onerror);
         })
-      })
+        .then(resolve)
+        .catch(reject)
+      }))
+      .then(() => unitsZip.generateAsync({ type: "blob" }))
+      .then((content) => saveAs(content, `${state.userName}`));
   };
 
   const closeLocalSetting = () => {

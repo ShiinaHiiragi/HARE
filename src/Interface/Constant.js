@@ -263,4 +263,18 @@ const timeFormat = (transDate, formatString) => {
   return formatString;
 };
 export { stringFormat, timeFormat };
+
+// function about async function
+const syncEachChain = (arrayObject, eachTemp) =>
+  arrayObject.reduce(
+    (promiseChain, arrayItem, arrayIndex) =>
+      promiseChain.then(() => new Promise((resolve, reject) =>
+        eachTemp(arrayItem, resolve, reject, arrayIndex))),
+    Promise.resolve()
+  );
+
+const imageURL = (id, time, unitID, pageID) => `${requestURL}/src/image` +
+  `?unitID=${unitID}&pageID=${pageID}&imageID=${id}` +
+  `&t=${CryptoJS.MD5(time)}`;
+export { syncEachChain, imageURL };
 export default requestURL;
