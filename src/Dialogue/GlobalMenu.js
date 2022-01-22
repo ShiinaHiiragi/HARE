@@ -73,16 +73,20 @@ export default function GlobalMenu(props) {
       .then(([units, images, bases]) => new Promise((resolve, reject) => {
         console.log(bases);
         return syncEachChain(units, (unit, onsuccess, onerror, unitIndex) => {
-          let unitFolder = unitsZip.folder(`${unitIndex + 1}_${state.listObject[unitIndex].unitName}`);
+          let unitFolder = unitsZip.folder(
+            `${unitIndex + 1}_${state.listObject[unitIndex].unitName.replace(/\//g, "_")}`
+          );
           syncEachChain(unit, (page, onsuccess, onerror, pageIndex) => {
             let pageFolder = unitFolder
-              .folder(`${pageIndex + 1}_${state.listObject[unitIndex].pages[pageIndex].pageName}`);
+              .folder(
+                `${pageIndex + 1}_${state.listObject[unitIndex].pages[pageIndex].pageName.replace(/\//g, "_")}`
+              );
             pageFolder.file(`text.json`, JSON.stringify(page, null, 2));
             if (images[unitIndex][pageIndex].length) {
               let imageFolder = pageFolder.folder("assets");
               images[unitIndex][pageIndex].forEach((image, imageIndex) => {
                 imageFolder.file(
-                  `${imageIndex + 1}_${image.title}${image.type}`,
+                  `${imageIndex + 1}_${image.title.replace(/\//g, "_")}${image.type}`,
                   bases[unitIndex][pageIndex][imageIndex],
                   { base64: true }
                 );
