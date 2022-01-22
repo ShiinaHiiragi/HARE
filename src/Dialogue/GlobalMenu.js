@@ -61,6 +61,29 @@ export default function GlobalMenu(props) {
     }
   };
 
+  const backup = () => {
+    handle.close();
+    let unitsZip = JSZip();
+    context.request("GET/data/items")
+      .then((units) => {
+        context.request("GET/data/images")
+        .then((images) => {
+          console.log(images);
+          units.forEach((unit, unitIndex) => {
+            let unitFolder = unitsZip.folder(`${unitIndex + 1}_${state.listObject[unitIndex].unitName}`);
+            unit.forEach((page, pageIndex) => {
+              let pageFolder = unitFolder
+                .folder(`${pageIndex + 1}_${state.listObject[unitIndex].pages[pageIndex].pageName}`);
+              pageFolder.file(`text.json`, JSON.stringify(page, null, 2));
+              let imageFolder = pageFolder.folder("assets");
+            })
+          })
+          unitsZip.generateAsync({ type: "blob" })
+            .then((content) => saveAs(content, `${state.userName}`));
+        })
+      })
+  };
+
   const closeLocalSetting = () => {
     setLocalSetting(false);
     if (localLineReg.test(lineCode)) {
@@ -98,26 +121,7 @@ export default function GlobalMenu(props) {
         {context.lang.menu.changeAvatar}
         <input type="file" accept="image/*" onChange={uploadAvatar} hidden />
       </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handle.close();
-          let zip = JSZip();
-          context.request("GET/data/items")
-            .then((units) => {
-              units.forEach((pages, unitIndex) => {
-                let pagesFile = zip.folder(`${unitIndex + 1}_${state.listObject[unitIndex].unitName}`);
-                pages.forEach((items, pageIndex) => {
-                  pagesFile.file(
-                    `${pageIndex + 1}_${state.listObject[unitIndex].pages[pageIndex].pageName}.json`,
-                    JSON.stringify(items, null, 2)
-                  )
-                })
-              })
-              zip.generateAsync({ type: "blob" })
-                .then((content) => saveAs(content, `${state.userName}`));
-            })
-        }}
-      >
+      <MenuItem onClick={backup}>
         {context.lang.menu.exportAll}
       </MenuItem>
       <MenuItem

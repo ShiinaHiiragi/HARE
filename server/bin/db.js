@@ -712,8 +712,8 @@ exports.deleteStat = (userID, unitID, pageID, trackID) => {
 
 // db api for gallery image
 exports.getImage = (userID, unitID, pageID) => new Promise((resolve, reject) => {
-  query(`select imageID, imageName, imageCreateTime, imageByte from image
-    where userID = ${userID} and unitID = ${unitID} and pageID = ${pageID}`)
+  query(`select imageID, imageName, imageCreateTime, imageByte from image where
+    userID = ${userID} and unitID = ${unitID} and pageID = ${pageID} order by imageID asc`)
     .then((out) => resolve(out.map((item) => ({
       id: item.imageid,
       title: item.imagename,
@@ -721,6 +721,39 @@ exports.getImage = (userID, unitID, pageID) => new Promise((resolve, reject) => 
       size: item.imagebyte
     }))))
     .catch(reject)
+});
+
+
+exports.getImages = (userID) => new Promise((resolve, reject) => {
+  query(`select unitSize from userSetting where userID = ${userID}`)
+    .then(([{ unitsize }]) => {
+      let result = new Array(unitsize).fill();
+      api.syncEachChain(result, (_, onsuccess, onerror, unitIndex) => {
+        query(`select pageSize from unit where userID = ${userID} and unitID = ${unitIndex + 1}`)
+          .then(([{ pagesize }]) => {
+            result[unitIndex] = new Array(pagesize).fill();
+            return api.syncEachChain(result[unitIndex], (_, onsuccess, onerror, pageIndex) => {
+              query(`select imageID, imageName, imageCreateTime, imageByte from image
+                where userID = ${userID} and unitID = ${unitIndex + 1} and
+                pageID = ${pageIndex + 1} order by imageID asc`)
+                .then((targetItems) => {
+                  result[unitIndex][pageIndex] = targetItems.map((item) => ({
+                    id: item.imageid,
+                    title: item.imagename,
+                    time: item.imagecreatetime,
+                    size: item.imagebyte
+                  }))
+                  onsuccess();
+                })
+                .catch(onerror)
+            })
+          })
+          .then(onsuccess)
+          .catch(onerror)
+      })
+        .then(() => resolve(result))
+        .catch(reject)
+    });
 });
 
 exports.getImageExtent = (userID, unitID, pageID, imageID) =>
