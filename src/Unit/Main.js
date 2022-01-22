@@ -85,6 +85,7 @@ export default function Main(props) {
           }}
           handle={{
             setImage: handle.setImage,
+            toggleMessageBox: handle.toggleMessageBox,
             setCurrentRoute: handle.setCurrentRoute,
             setRecall: handle.setRecall,
             setRecollect: handle.setRecollect,

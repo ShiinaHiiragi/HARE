@@ -375,6 +375,7 @@ const list = {
   message: {
     error: "Error",
     serverError: "Server Error",
+    nilLost: "The recall is already accomplished, please try again.",
     newVersion: "The HARE has been updated to the latest version.",
     signInBlank: "Please enter the E-mail and password.",
     changeAvatar: "Your avatar has been set successfully.",

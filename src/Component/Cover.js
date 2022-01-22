@@ -95,27 +95,41 @@ export default function Cover(props) {
       pageID: state.current.pageID,
       bool: clear
     }).then((out) => {
-      const attribute = clear ? state.pageDetail.trackSize : state.pageDetail.trackSize + 1;
-      if (clear !== false)
-        handle.setItemList((itemList) => itemList.map((item) => ({
-          ...item, [attribute]: "L"
-        })));
       const startTime = out.time;
-      handle.setRecollect(false);
-      handle.setRecall({
-        pure: [],
-        far: [],
-        lost: clear === false
-          ? out.lost
-          : new Array(state.pageDetail.itemSize).fill().map((_, index) => index + 1)
-      });
-      handle.setPageDetail((pageDetail) => ({
-        ...pageDetail,
-        timeThis: true,
-        trackSize: pageDetail.trackSize + (clear === undefined ? 1 : 0)
-      }))
-      handle.setCurrentRoute(routeIndex.recall);
-      handle.setTimerInitial((lastValue) => [startTime, lastValue[1] + 1]);
+      const attribute = clear ? state.pageDetail.trackSize : state.pageDetail.trackSize + 1;
+
+      if (out.lost instanceof Array && !out.lost.length) {
+        context.request("POST/set/recall", {
+          unitID: state.current.unitID,
+          pageID: state.current.pageID,
+          pure: [],
+          far: []
+        }).then(() => {
+          handle.setPageDetail((pageDetail) => ({ ...pageDetail, timeThis: null }))
+          handle.toggleMessageBox(context.lang.message.nilLost, "info");
+        })
+      } else {
+        // switch to recall page
+        if (clear !== false)
+          handle.setItemList((itemList) => itemList.map((item) => ({
+            ...item, [attribute]: "L"
+          })));
+        handle.setRecollect(false);
+        handle.setRecall({
+          pure: [],
+          far: [],
+          lost: clear === false
+            ? out.lost
+            : new Array(state.pageDetail.itemSize).fill().map((_, index) => index + 1)
+        });
+        handle.setPageDetail((pageDetail) => ({
+          ...pageDetail,
+          timeThis: true,
+          trackSize: pageDetail.trackSize + (clear === undefined ? 1 : 0)
+        }))
+        handle.setCurrentRoute(routeIndex.recall);
+        handle.setTimerInitial((lastValue) => [startTime, lastValue[1] + 1]);
+      }
     });
   };
 

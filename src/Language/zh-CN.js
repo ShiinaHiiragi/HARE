@@ -369,6 +369,7 @@ const list = {
   message: {
     error: "错误",
     serverError: "服务器错误",
+    nilLost: "本次回忆已完成，请重试",
     newVersion: "HARE 已经升级到最新版本",
     signInBlank: "请填写邮箱和密码",
     changeAvatar: "头像已成功上传",

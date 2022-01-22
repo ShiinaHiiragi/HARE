@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.5.3",
+    "date": "2022-01-22T00:00:00.000Z",
+    "detail": [
+      {
+        "type": "Fix",
+        "content": "Fix the bug of modifying all items"
+      }
+    ]
+  },
+  {
     "version": "1.5.2",
     "date": "2021-11-28T00:00:00.000Z",
     "detail": [
