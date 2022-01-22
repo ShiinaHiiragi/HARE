@@ -491,7 +491,7 @@ export default function NewItem(props) {
           </Toolbar>
         </AppBar>
         <DialogContent className={classes.content}>
-          <DialogContentText style={state.editItem ? {} : { margin: "0" }}>
+          {state.showCaption && <DialogContentText style={state.editItem ? {} : { margin: "0" }}>
             {state.editItem
               ? stringFormat(context.lang.popup.newItem.editText, [
                 context.lang.popup.newItem.editTextZero[tab ? "key" : "query"],
@@ -505,7 +505,7 @@ export default function NewItem(props) {
                   : context.lang.popup.newItem.onlyOne,
                 state.listLength ? context.lang.popup.newItem.supply : ""
               ])}
-          </DialogContentText>
+          </DialogContentText>}
           {!state.editItem && <div className={classes.itemField}>
             <TextField
               required

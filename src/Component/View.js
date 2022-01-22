@@ -271,7 +271,7 @@ export default function View(props) {
 
     if (state.itemList.length) {
       setColumn(
-        defaultColumn(context.lang.grid).concat(
+        defaultColumn(context.lang.grid, state.showKey).concat(
           new Array(Object.keys(state.itemList[0]).length - 4)
             .fill()
             .map((_, index) => ({
@@ -300,7 +300,7 @@ export default function View(props) {
         )
       );
     } else setColumn(defaultColumn(context.lang.grid));
-  }, [context.lang, state.itemList]);
+  }, [context.lang, state.itemList, state.showKey]);
 
 
   const readJSON = (event) => {
@@ -469,6 +469,7 @@ export default function View(props) {
           pageID: state.current.pageID,
           trackSize: state.pageDetail.trackSize,
           listLength: state.itemList.length,
+          showCaption: state.showCaption,
           lineTag: state.lineTag,
           editItem: editItem,
           apiItemID: apiItemID,

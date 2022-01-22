@@ -126,8 +126,10 @@ const list = {
       text: "These setting are stored in cookies and will take into effect immediately upon being changed.",
       ranking: "Display of Ranking",
       moveButton: "Move Button in View",
-      hideMoveButton: "Hide",
-      showMoveButton: "Show",
+      showKey: "Show Answers in View",
+      showCaption: "Show Redundant Caption",
+      hideButton: "Hide",
+      showButton: "Show",
       hideMoveTip: "Double clicking the data grid ID may also move the entry",
       language: "Language",
       lineTag: "Custom Line Tag"

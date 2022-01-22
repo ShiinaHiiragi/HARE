@@ -104,6 +104,8 @@ export default function Main(props) {
             current: state.current,
             pageDetail: state.pageDetail,
             hideMove: state.hideMove,
+            showKey: state.showKey,
+            showCaption: state.showCaption,
             itemList: state.itemList
           }}
           handle={{

@@ -93,6 +93,14 @@ export default function LocalSetting(props) {
     handle.setHideMove(event.target.value === "true");
     cookie.save("hideMove", event.target.value, { expires: cookieTime(3650) });
   }
+  const changeKey = (event) => {
+    handle.setShowKey(event.target.value === "true");
+    cookie.save("showKey", event.target.value, { expires: cookieTime(3650) });
+  }
+  const changeCaption = (event) => {
+    handle.setShowCaption(event.target.value === "true");
+    cookie.save("showCaption", event.target.value, { expires: cookieTime(3650) });
+  }
 
   return (
     <Dialog
@@ -131,6 +139,52 @@ export default function LocalSetting(props) {
           </FormControl>
           <FormControl className={classes.formControl}>
             <FormLabel className={classes.formLabel}>
+              {context.lang.popup.localSetting.showCaption}
+            </FormLabel>
+            <RadioGroup
+              className={classes.radioGroup}
+              value={String(state.showCaption)}
+              onChange={changeCaption}
+            >
+              <FormControlLabel
+                className={classes.formControlLabel}
+                value={"true"}
+                control={<Radio color="primary" />}
+                label={context.lang.popup.localSetting.showButton}
+              />
+              <FormControlLabel
+                className={classes.formControlLabel}
+                value={"false"}
+                control={<Radio color="primary" />}
+                label={context.lang.popup.localSetting.hideButton}
+              />
+            </RadioGroup>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.formLabel}>
+              {context.lang.popup.localSetting.showKey}
+            </FormLabel>
+            <RadioGroup
+              className={classes.radioGroup}
+              value={String(state.showKey)}
+              onChange={changeKey}
+            >
+              <FormControlLabel
+                className={classes.formControlLabel}
+                value={"true"}
+                control={<Radio color="primary" />}
+                label={context.lang.popup.localSetting.showButton}
+              />
+              <FormControlLabel
+                className={classes.formControlLabel}
+                value={"false"}
+                control={<Radio color="primary" />}
+                label={context.lang.popup.localSetting.hideButton}
+              />
+            </RadioGroup>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.moveButton}
             </FormLabel>
             <RadioGroup
@@ -142,7 +196,7 @@ export default function LocalSetting(props) {
                 className={classes.formControlLabel}
                 value={"false"}
                 control={<Radio color="primary" />}
-                label={context.lang.popup.localSetting.showMoveButton}
+                label={context.lang.popup.localSetting.showButton}
               />
               <Tooltip
                 title={context.lang.popup.localSetting.hideMoveTip}
@@ -152,7 +206,7 @@ export default function LocalSetting(props) {
                   className={classes.formControlLabel}
                   value={"true"}
                   control={<Radio color="primary" />}
-                  label={context.lang.popup.localSetting.hideMoveButton}
+                  label={context.lang.popup.localSetting.hideButton}
                 />
               </Tooltip>
             </RadioGroup>

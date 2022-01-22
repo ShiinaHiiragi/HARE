@@ -50,10 +50,14 @@ export default function Panel(props) {
   // load cookie to seek some setting
   const [lowRank, setLowRank] = React.useState(true);
   const [hideMove, setHideMove] = React.useState(true);
+  const [showKey, setShowKey] = React.useState(true);
+  const [showCaption, setShowCaption] = React.useState(true);
   const [lineTag, setLineTag] = React.useState(underline);
   React.useEffect(() => {
     cookieSetting("lowRank", setLowRank);
     cookieSetting("hideMove", setHideMove);
+    cookieSetting("showKey", setShowKey);
+    cookieSetting("showCaption", setShowCaption);
 
     // lineTag is a little special from others
     const storageLineTag = cookie.load("lineTag");
@@ -298,6 +302,8 @@ export default function Panel(props) {
             listObject: listObject,
             lowRank: lowRank,
             hideMove: hideMove,
+            showKey: showKey,
+            showCaption: showCaption,
             lineTag: lineTag,
             languageName: languageName,
             log: log
@@ -313,6 +319,8 @@ export default function Panel(props) {
             setStatInfo: setStatInfo,
             setLowRank: setLowRank,
             setHideMove: setHideMove,
+            setShowKey: setShowKey,
+            setShowCaption: setShowCaption,
             setLineTag: setLineTag,
             setProfile: setProfile
           }}
@@ -331,6 +339,8 @@ export default function Panel(props) {
             statInfo: statInfo,
             lowRank: lowRank,
             hideMove: hideMove,
+            showKey: showKey,
+            showCaption: showCaption,
             pageDetail: pageDetail
           }}
           handle={{

@@ -120,8 +120,10 @@ const list = {
       text: "此设定保存在本地 Cookie，更改后立即生效。",
       ranking: "评级表示",
       moveButton: "视图移动按钮",
-      hideMoveButton: "隐藏",
-      showMoveButton: "显示",
+      showKey: "视图答案显示",
+      showCaption: "显示冗余字幕",
+      hideButton: "隐藏",
+      showButton: "显示",
       hideMoveTip: "双击数据格 ID 同样可以移动词条",
       language: "语言",
       lineTag: "自定义完型标签"

@@ -41,6 +41,8 @@ export default function PersonalInfo(props) {
           lowRank: state.lowRank,
           hideMove: state.hideMove,
           lineTag: state.lineTag,
+          showKey: state.showKey,
+          showCaption: state.showCaption,
           languageName: state.languageName,
           log: state.log
         }}
@@ -53,6 +55,8 @@ export default function PersonalInfo(props) {
           clearCheck: handle.clearCheck,
           setLowRank: handle.setLowRank,
           setHideMove: handle.setHideMove,
+          setShowKey: handle.setShowKey,
+          setShowCaption: handle.setShowCaption,
           setLineTag: handle.setLineTag,
           close: () => setAnchorGlobalMenu(null)
         }}

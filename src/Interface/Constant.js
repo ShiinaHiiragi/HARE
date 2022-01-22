@@ -89,6 +89,7 @@ export { drawerWidth, routeIndex, pageIcon };
 
 // the initial state of some object state
 const initialDate = "2019-12-31T16:00:00.000Z";
+const hideAnswerString = "#".repeat(20);
 const initMenu = { mouseX: null, mouseY: null };
 const defaultProfile = { userName: "", email: "", gender: "U", birth: initialDate, city: "", tel: "" };
 const defaultRange = { maxUnit: 8, maxPage: 16, maxItem: 64, maxImg: 16 };
@@ -99,7 +100,7 @@ const defaultCurrentSelect = {
   prevRoute: -1,
   route: routeIndex.intro
 };
-const defaultColumn = (langGrid) => [
+const defaultColumn = (langGrid, showKey) => [
   {
     field: "id",
     type: "number",
@@ -129,7 +130,7 @@ const defaultColumn = (langGrid) => [
     field: "key",
     headerName: langGrid?.column?.key,
     width: 200,
-    valueFormatter: (param) => markdownToTxt(param.value),
+    valueFormatter: (param) => showKey ? markdownToTxt(param.value) : hideAnswerString,
     headerAlign: "center"
   }
 ];

@@ -6,10 +6,8 @@
 
 ## 1 设计
 ### 1.1 计划
-- [ ] 隐藏答案预览
 - [ ] 回忆 Shuffle
 - [ ] 定时邮件备份
-- [ ] 冗余字幕隐藏
 - [ ] 导出所有图片
 - [ ] 导出 Markdown
 - [ ] 自定义 CSS
@@ -465,5 +463,9 @@
 1. 在 `server/build` 中存放的是 React 生成的单页应用，这个目录不能有其他的内容，否则会被下一次 `npm run deploy` 覆盖
 2. SPA 通过检测自己的端口号为 `3000` 时，认为是开发模式；此时会向 `http://localhost:8000/` 请求数据；除此之外均认为是发布模式，会通过 `axios` 直接向 `/` 请求数据
 3. 服务器在 `--https` 模式下接收到 `http` 对应端口传来的请求时，会重定向到 `https` 对应监听的端口。如果 `https` 监听端口不是 `443`，则会在重定向 URL 中附加端口号
+
+### 4.4 远程连接
+1. 找不到 Remote Desktop Connection：搜索查找「mstsc」
+2. 剪贴板异常：在远端终止 RDP 剪贴盘监视程序，命令行运行 `rdpclip`
 
 <p align="right"> Ichinoe Mizue </p>

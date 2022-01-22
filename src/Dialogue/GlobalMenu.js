@@ -173,6 +173,8 @@ export default function GlobalMenu(props) {
           lineCode: lineCode,
           lowRank: state.lowRank,
           hideMove: state.hideMove,
+          showKey: state.showKey,
+          showCaption: state.showCaption,
           languageName: state.languageName,
           localLineReg: localLineReg
         }}
@@ -181,6 +183,8 @@ export default function GlobalMenu(props) {
           setLineCode: setLineCode,
           setLowRank: handle.setLowRank,
           setHideMove: handle.setHideMove,
+          setShowKey: handle.setShowKey,
+          setShowCaption: handle.setShowCaption,
           changeGlobalLang: handle.changeGlobalLang
         }}
       />
