@@ -153,6 +153,7 @@ export default function Main(props) {
             timerInitial: timerInitial
           }}
           handle={{
+            rearrangeLost: handle.rearrangeLost,
             setCurrentRoute: handle.setCurrentRoute,
             setRecall: handle.setRecall,
             submitRecall: handle.submitRecall

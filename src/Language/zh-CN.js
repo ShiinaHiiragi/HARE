@@ -45,6 +45,8 @@ const list = {
     recall: {
       switch: "切换问题/答案",
       revoke: "撤销最近一次标记",
+      shuffle: "乱序",
+      sort: "顺序",
       previous: "上一个",
       next: "下一个",
       pure: "标记为正确",

@@ -256,6 +256,12 @@ export default function Panel(props) {
       } else toggleMessageBox(globalLang.message.saveRecall, "info");
     })
   }
+  const rearrangeLost = (shuffle) => setRecall((recall) => ({
+    ...recall, lost: recall.lost.sort(shuffle
+      ? () =>  0.5 - Math.random()
+      : (left, right) => left - right
+    )
+  }))
 
   // the state of image
   const [image, setImage] = React.useState([]);
@@ -348,6 +354,7 @@ export default function Panel(props) {
             toggleKick: () => setKick(true),
             setCurrentRoute: setCurrentRoute,
             submitRecall: submitRecall,
+            rearrangeLost: rearrangeLost,
             setItemList: setItemList,
             setRecall: setRecall,
             setImage: setImage,

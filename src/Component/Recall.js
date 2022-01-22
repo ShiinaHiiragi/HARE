@@ -8,6 +8,8 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
+import SortIcon from "@material-ui/icons/Sort";
+import ShuffleIcon from "@material-ui/icons/Shuffle";
 import FlipIcon from "@material-ui/icons/Flip";
 import CloseIcon from "@material-ui/icons/Close";
 import PackedMarkdown from "../Component/Markdown";
@@ -134,6 +136,7 @@ export default function Recall(props) {
   }, [state.recollect, state.route, state.recall, context.lang]);
 
   const switcher = () => {
+    console.log(state.recall);
     setReverse((reverse) => reverse === "query" ? "key" : "query");
   }
 
@@ -260,6 +263,20 @@ export default function Recall(props) {
               </IconButton>
             </span>
           </Tooltip>
+          <Tooltip
+            title={context.lang.panel.recall.shuffle}
+            classes={{ tooltip: classes.noneSelect }}
+          >
+            <span>
+              <IconButton
+                className={classes.iconButton}
+                disabled={state.recall.lost.length <= 1}
+                onClick={() => handle.rearrangeLost(true)}
+              >
+                <ShuffleIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
         </div>
         <div className={classes.middleField}>
           <Card className={classes.middle}>
@@ -305,6 +322,20 @@ export default function Recall(props) {
             >
               <CloseIcon />
             </IconButton>
+          </Tooltip>
+          <Tooltip
+            title={context.lang.panel.recall.sort}
+            classes={{ tooltip: classes.noneSelect }}
+          >
+            <span>
+              <IconButton
+                className={classes.iconButton}
+                disabled={!!state.recall.lost.reduce((n, item) => n !== false && item >= n && item, true)}
+                onClick={() => handle.rearrangeLost(false)}
+              >
+                <SortIcon />
+              </IconButton>
+            </span>
           </Tooltip>
         </div>
       </div>

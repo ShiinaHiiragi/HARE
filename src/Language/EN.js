@@ -45,6 +45,8 @@ const list = {
     recall: {
       switch: "Switch Question/Answer",
       revoke: "Revoke Latest Mark",
+      shuffle: "Shuffle",
+      sort: "Sort",
       previous: "Previous",
       next: "Next",
       pure: "Mark as Correct",

@@ -1,8 +1,12 @@
 [
   {
-    "version": "1.6.0",
+    "version": "1.6.0.1",
     "date": "2022-01-23T00:00:00.000Z",
     "detail": [
+      {
+        "type": "New",
+        "content": "Add shuffling and sorting in the recall or recollection page"
+      },
       {
         "type": "New",
         "content": "Add local setting of hiding answers"
