@@ -293,20 +293,37 @@ export default function Pages(props) {
       }
     })
 
-  // downloading Markdown or PDF
-  const downloadPageMarkdown = (unitID, pageID) => {
-    let pageZip = JSZip();
-    addPageMarkdown(pageZip, unitID, pageID)
-      .then(() => pageZip.generateAsync({ type: "blob" }))
-      .then((content) => saveAs(content, `${state.listObject[unitID - 1].pages[pageID - 1].pageName}`))
-  };
-  const addPageMarkdown = (supFolder, unitID, pageID) => new Promise((resolve, reject) => {
+  // downloading Markdown
+  const downloadUnitMarkdown = (unitID) => {
+    let unitZip = JSZip();
     Promise.all([
-      context.request("GET/data/item", { unitID: unitID, pageID: pageID}),
       context.request("GET/data/images"),
       context.request("GET/src/images")
     ])
-      .then(([items, images, bases]) => {
+      .then(([images, bases]) => new Promise((resolve, reject) => {
+        Promise.all(state.listObject[unitID - 1].pages.map((pageItem, pageIndex) => addPageMarkdown(
+          unitZip.folder(`${pageIndex + 1}_${pageItem.pageName}`), unitID, pageIndex + 1, images, bases
+        )))
+          .then(resolve)
+          .catch(reject);
+      }))
+      .then(() => unitZip.generateAsync({ type: "blob" }))
+      .then((content) => saveAs(content, state.listObject[unitID - 1].unitName))
+  }
+
+  const downloadPageMarkdown = (unitID, pageID) => {
+    let pageZip = JSZip();
+    Promise.all([
+      context.request("GET/data/images"),
+      context.request("GET/src/images")
+    ])
+      .then(([images, bases]) => addPageMarkdown(pageZip, unitID, pageID, images, bases))
+      .then(() => pageZip.generateAsync({ type: "blob" }))
+      .then((content) => saveAs(content, `${state.listObject[unitID - 1].pages[pageID - 1].pageName}`))
+  };
+  const addPageMarkdown = (supFolder, unitID, pageID, images, bases) => new Promise((resolve, reject) => {
+    context.request("GET/data/item", { unitID: unitID, pageID: pageID})
+      .then((items) => {
         let pictures = [];
         const synthesis = [false];
         supFolder.file("questions.md", items.map((item) => {
@@ -394,7 +411,8 @@ export default function Pages(props) {
               toggleEditUnit: toggleEditUnit,
               closeMenu: () => setUnitMenu(initMenu),
               changeUnit: changeUnit,
-              moveUnit: (less) => changeMove(true, less)
+              moveUnit: (less) => changeMove(true, less),
+              downloadUnitMarkdown: downloadUnitMarkdown
             }}
           />
           <PageMenu

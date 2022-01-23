@@ -72,7 +72,6 @@ export default function PageMenu(props) {
         {context.lang.menu.addPageBelow}
       </MenuItem>
       <MenuItem
-        disabled={state.currentPageSize >= state.range.maxPage}
         onClick={() => {
           handle.closeMenu();
           handle.downloadPageMarkdown(state.unitID, state.pageID);

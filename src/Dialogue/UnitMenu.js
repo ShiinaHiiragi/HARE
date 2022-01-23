@@ -80,6 +80,14 @@ export default function UnitMenu(props) {
         {context.lang.menu.addUnitBelow}
       </MenuItem>
       <MenuItem
+        onClick={() => {
+          handle.closeMenu();
+          handle.downloadUnitMarkdown(state.unitID);
+        }}
+      >
+        {context.lang.menu.downloadMarkdown}
+      </MenuItem>
+      <MenuItem
         className={classes.alarm}
         onClick={() => {
           handle.closeMenu();
