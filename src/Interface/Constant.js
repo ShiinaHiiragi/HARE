@@ -306,7 +306,8 @@ const downloadAnswer = (item, synthesis) => {
   let ansString;
   if (swapAnsTag.keys instanceof Array) {
     ansString = swapAnsTag.keys.join("  \n");
-    synthesis[0] = true;
+    if (swapAnsTag.keys.length)
+      synthesis[0] = true;
   } else {
     ansString = swapAnsTag.key;
   }
