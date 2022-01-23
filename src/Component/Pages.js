@@ -22,7 +22,8 @@ import {
   downloadQuestion,
   downloadAnswer,
   downloadSynthesis,
-  imageReg
+  imageReg,
+  checkImageReg
 } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 import JSZip from "jszip";
@@ -294,6 +295,12 @@ export default function Pages(props) {
     })
 
   // downloading Markdown
+  React.useEffect(() => {
+    // these two reg should be different object
+    // to avoid being changed in console
+    window.ImageReg = checkImageReg();
+  }, []);
+
   const downloadUnitMarkdown = (unitID) => {
     let unitZip = JSZip();
     Promise.all([
@@ -333,7 +340,7 @@ export default function Pages(props) {
         supFolder.file("answers.md", items.map((item) => {
           const lineText = downloadAnswer(item, synthesis);
           return replaceImage(lineText, pictures, images);
-        }).join("\n\n"));
+        }).join("\n\n---\n\n"));
         if (synthesis[0])
           supFolder.file("synthesis.md", items.map((item) => {
             const lineText = downloadSynthesis(item);

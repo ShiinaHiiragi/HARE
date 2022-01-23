@@ -67,7 +67,7 @@ const imageReg = [
   /(<img.*?src=[\"|\']?)\/?src\/image\?unitID=(\d+)\&pageID=(\d+)\&imageID=(\d+).*?([\"|\']?\s.*?>)/g
 ]
 const checkLineReg = () => new RegExp(`^${lineReg.source}$`);
-const checkImageReg = () => new RegExp(`^${imageReg.source}$`);
+const checkImageReg = () => imageReg.map((item) => new RegExp(`^${item.source}$`));
 const underline = "<line>";
 const emSpace = "&emsp;"
 export {
