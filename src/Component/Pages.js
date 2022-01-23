@@ -15,7 +15,14 @@ import PageMenu from "../Dialogue/PageMenu";
 import NewUnitPage from "../Dialogue/NewUnitPage";
 import EditUnit from "../Dialogue/EditUnit";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
-import { initMenu, pageIcon, routeIndex, downloadQuestion } from "../Interface/Constant";
+import {
+  initMenu,
+  pageIcon,
+  routeIndex,
+  downloadQuestion,
+  downloadAnswer,
+  downloadSynthesis
+} from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
@@ -267,7 +274,11 @@ export default function Pages(props) {
   const addPageMarkdown = (supFolder, unitID, pageID) => new Promise((resolve, reject) => {
     context.request("GET/data/item", { unitID: unitID, pageID: pageID})
       .then((out) => {
-        supFolder.file("questions.md", out.map((item) => downloadQuestion(item.query)).join("\n\n"));
+        const synthesis = [false];
+        supFolder.file("questions.md", out.map((item) => downloadQuestion(item)).join("\n\n"));
+        supFolder.file("answers.md", out.map((item) => downloadAnswer(item, synthesis)).join("\n\n"));
+        if (synthesis[0])
+          supFolder.file("synthesis.md", out.map((item) => downloadSynthesis(item, synthesis)).join("\n\n"));
         resolve();
       })
   })

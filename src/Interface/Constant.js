@@ -283,11 +283,37 @@ const localMarkdown = (text) => text.replace(lineReg, (_, num) => {
   return `<u>${"\u2003".repeat(!size || isNaN(size) ? 8 : size)}</u>`
 })
 
-// use for downloading
-const downloadQuestion = (text) => text.replace(lineReg, (_, num) => {
+const downloadMarkdown = (text) => text.replace(lineReg, (_, num) => {
   const size = Number(num);
   return "\\_\\_".repeat(!size || isNaN(size) ? 8 : size)
 })
 
-export { syncEachChain, imageURL, localMarkdown, downloadQuestion };
+// use for downloading
+const downloadQuestion = (item) => {
+  const swapAnsTag = item.key.length ? item : autoQuery(item.query);
+  return downloadMarkdown(swapAnsTag.query);
+}
+
+const downloadAnswer = (item, synthesis) => {
+  const swapAnsTag = item.key.length ? item : autoQuery(item.query);
+  let ansString;
+  if (swapAnsTag.keys instanceof Array) {
+    ansString = swapAnsTag.keys.join("  \n");
+    synthesis[0] = true;
+  } else {
+    ansString = swapAnsTag.key;
+  }
+  return downloadMarkdown(ansString);
+}
+
+const downloadSynthesis = (item) => {
+  const swapAns = item.key.length
+    ? item.query
+    : item.query
+      .replace(autoKeyReg[0], (_, answer) => answer)
+      .replace(autoKeyReg[1], (_, before, answer) => `${before}${answer}`)
+  return downloadMarkdown(swapAns);
+}
+
+export { syncEachChain, imageURL, localMarkdown, downloadQuestion, downloadAnswer, downloadSynthesis };
 export default requestURL;
