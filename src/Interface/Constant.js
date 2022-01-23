@@ -62,7 +62,12 @@ const defaultDigit = 2;
 const setStateDelay = 400;
 const leaveDelay = 200;
 const lineReg = /< *(?:line|underline|cloze)(?: +(?:size|length|width) *= *\{(\d+)\})? *\/? *>/g;
+const imageReg = [
+  /!\[(.*?)\]\(\/?src\/image\?unitID=(\d+)\&pageID=(\d+)\&imageID=(\d+).*?\)/g,
+  /(<img.*?src=[\"|\']?)\/?src\/image\?unitID=(\d+)\&pageID=(\d+)\&imageID=(\d+).*?([\"|\']?\s.*?>)/g
+]
 const checkLineReg = () => new RegExp(`^${lineReg.source}$`);
+const checkImageReg = () => new RegExp(`^${imageReg.source}$`);
 const underline = "<line>";
 const emSpace = "&emsp;"
 export {
@@ -70,7 +75,9 @@ export {
   setStateDelay,
   leaveDelay,
   lineReg,
+  imageReg,
   checkLineReg,
+  checkImageReg,
   underline,
   emSpace
 };

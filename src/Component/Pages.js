@@ -21,7 +21,8 @@ import {
   routeIndex,
   downloadQuestion,
   downloadAnswer,
-  downloadSynthesis
+  downloadSynthesis,
+  imageReg
 } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 import JSZip from "jszip";
@@ -263,9 +264,37 @@ export default function Pages(props) {
     } else listSelected(unitID, pageID);
   };
 
+  const uniquePush = (pictures, element) => {
+    const handler = (item) => item[0] === element[0] &&
+      item[1] === element[1] &&
+      item[2] === element[2];
+    if (!pictures.filter(handler).length)
+      pictures.push(element)
+  }
+
+  const replaceImage = (text, pictures, images) =>
+    text.replace(imageReg[0], (all, mark, unitID, pageID, imageID) => {
+      const test = [Number(unitID), Number(pageID), Number(imageID)];
+      const img = images?.[test[0] - 1]?.[test[1] - 1]?.[test[2] - 1];
+      if (img !== undefined) {
+        uniquePush(pictures, test);
+        return `![${mark}](assets/${test.join("_")}_${img.title}${img.type})`
+      } else {
+        return all;
+      }
+    }).replace(imageReg[1], (all, before, unitID, pageID, imageID, after) => {
+      const test = [Number(unitID), Number(pageID), Number(imageID)];
+      const img = images?.[test[0] - 1]?.[test[1] - 1]?.[test[2] - 1];
+      if (img !== undefined) {
+        uniquePush(pictures, test);
+        return `${before}assets/${test.join("_")}_${img.title}${img.type}${after}`
+      } else {
+        return all;
+      }
+    })
+
   // downloading Markdown or PDF
   const downloadPageMarkdown = (unitID, pageID) => {
-    console.log(state.listObject);
     let pageZip = JSZip();
     addPageMarkdown(pageZip, unitID, pageID)
       .then(() => pageZip.generateAsync({ type: "blob" }))
@@ -282,17 +311,28 @@ export default function Pages(props) {
         const synthesis = [false];
         supFolder.file("questions.md", items.map((item) => {
           const lineText = downloadQuestion(item);
-          return lineText;
+          return replaceImage(lineText, pictures, images);
         }).join("\n\n"));
         supFolder.file("answers.md", items.map((item) => {
           const lineText = downloadAnswer(item, synthesis);
-          return lineText;
+          return replaceImage(lineText, pictures, images);
         }).join("\n\n"));
         if (synthesis[0])
           supFolder.file("synthesis.md", items.map((item) => {
             const lineText = downloadSynthesis(item);
-            return lineText;
+            return replaceImage(lineText, pictures, images);
           }).join("\n\n"));
+        if (pictures.length) {
+          const assets = supFolder.folder("assets");
+          pictures.forEach((item) => {
+            const img = images[item[0] - 1][item[1] - 1][item[2] - 1];
+            assets.file(
+              `${item.join("_")}_${img.title}${img.type}`,
+              bases[item[0] - 1][item[1] - 1][item[2] - 1],
+              { base64: true }
+            )
+          });
+        }
         resolve();
       })
   })

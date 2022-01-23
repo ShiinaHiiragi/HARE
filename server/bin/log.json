@@ -1,6 +1,6 @@
 [
   {
-    "version": "1.6.0.2",
+    "version": "1.6.0.3",
     "date": "2022-01-23T00:00:00.000Z",
     "detail": [
       {
@@ -14,6 +14,10 @@
       {
         "type": "New",
         "content": "Add local setting of hiding redundant captions"
+      },
+      {
+        "type": "New",
+        "content": "Add features of exporting Markdown"
       },
       {
         "type": "Change",
