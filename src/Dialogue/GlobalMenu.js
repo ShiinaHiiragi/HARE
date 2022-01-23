@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import cookie from "react-cookies";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -10,7 +9,7 @@ import LogoutConfirm from "../Dialogue/LogoutConfirm";
 import Password from "./Password";
 import LocalSetting from "./LocalSetting";
 import { PanelContext } from "../Page/Panel";
-import { maxImageBase, checkLineReg, cookieTime, syncEachChain, imageURL } from "../Interface/Constant";
+import { maxImageBase, checkLineReg, cookieTime, syncEachChain } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -71,7 +70,6 @@ export default function GlobalMenu(props) {
       context.request("GET/src/images")
     ])
       .then(([units, images, bases]) => new Promise((resolve, reject) => {
-        console.log(bases);
         return syncEachChain(units, (unit, onsuccess, onerror, unitIndex) => {
           let unitFolder = unitsZip.folder(
             `${unitIndex + 1}_${state.listObject[unitIndex].unitName.replace(/\//g, "_")}`
@@ -81,7 +79,7 @@ export default function GlobalMenu(props) {
               .folder(
                 `${pageIndex + 1}_${state.listObject[unitIndex].pages[pageIndex].pageName.replace(/\//g, "_")}`
               );
-            pageFolder.file(`text.json`, JSON.stringify(page, null, 2));
+            pageFolder.file(`texts.json`, JSON.stringify(page, null, 2));
             if (images[unitIndex][pageIndex].length) {
               let imageFolder = pageFolder.folder("assets");
               images[unitIndex][pageIndex].forEach((image, imageIndex) => {

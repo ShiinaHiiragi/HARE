@@ -15,8 +15,10 @@ import PageMenu from "../Dialogue/PageMenu";
 import NewUnitPage from "../Dialogue/NewUnitPage";
 import EditUnit from "../Dialogue/EditUnit";
 import DeleteConfirm from "../Dialogue/DeleteConfirm";
-import { initMenu, pageIcon, routeIndex } from "../Interface/Constant";
+import { initMenu, pageIcon, routeIndex, downloadQuestion } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import clsx from "clsx";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -254,6 +256,22 @@ export default function Pages(props) {
     } else listSelected(unitID, pageID);
   };
 
+  // downloading Markdown or PDF
+  const downloadPageMarkdown = (unitID, pageID) => {
+    console.log(state.listObject);
+    let pageZip = JSZip();
+    addPageMarkdown(pageZip, unitID, pageID)
+      .then(() => pageZip.generateAsync({ type: "blob" }))
+      .then((content) => saveAs(content, `${state.listObject[unitID - 1].pages[pageID - 1].pageName}`))
+  };
+  const addPageMarkdown = (supFolder, unitID, pageID) => new Promise((resolve, reject) => {
+    context.request("GET/data/item", { unitID: unitID, pageID: pageID})
+      .then((out) => {
+        supFolder.file("questions.md", out.map((item) => downloadQuestion(item.query)).join("\n\n"));
+        resolve();
+      })
+  })
+
   return (
     <div className={classes.newPage}>
       {state.listObject.length !== 0 ? (
@@ -328,7 +346,8 @@ export default function Pages(props) {
               toggleNewPage: (pos, edit) => toggleNewUnitPage(false, pos, edit),
               toggleDeleteConfirm: toggleDeleteConfirm,
               closeMenu: () => setPageMenu(initMenu),
-              movePage: (less) => changeMove(false, less)
+              movePage: (less) => changeMove(false, less),
+              downloadPageMarkdown: downloadPageMarkdown
             }}
           />
         </List>

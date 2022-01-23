@@ -370,7 +370,8 @@ const list = {
     addUnitBelow: "在下方创建新卡片组",
     addPageBelow: "在下方创建新卡片册",
     deleteUnit: "删除此卡片组",
-    deletePage: "删除此卡片册"
+    deletePage: "删除此卡片册",
+    downloadMarkdown: "下载 Markdown"
   },
   message: {
     error: "错误",

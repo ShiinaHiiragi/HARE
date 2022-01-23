@@ -276,5 +276,18 @@ const syncEachChain = (arrayObject, eachTemp) =>
 const imageURL = (id, time, unitID, pageID) => `${requestURL}/src/image` +
   `?unitID=${unitID}&pageID=${pageID}&imageID=${id}` +
   `&t=${CryptoJS.MD5(time)}`;
-export { syncEachChain, imageURL };
+
+// use for preview
+const localMarkdown = (text) => text.replace(lineReg, (_, num) => {
+  const size = Number(num);
+  return `<u>${"\u2003".repeat(!size || isNaN(size) ? 8 : size)}</u>`
+})
+
+// use for downloading
+const downloadQuestion = (text) => text.replace(lineReg, (_, num) => {
+  const size = Number(num);
+  return "\\_\\_".repeat(!size || isNaN(size) ? 8 : size)
+})
+
+export { syncEachChain, imageURL, localMarkdown, downloadQuestion };
 export default requestURL;

@@ -376,7 +376,8 @@ const list = {
     addUnitBelow: "Add New Group Below",
     addPageBelow: "Add New Booklet Below",
     deleteUnit: "Delete this Group",
-    deletePage: "Delete this Booklet"
+    deletePage: "Delete this Booklet",
+    downloadMarkdown: "Download Markdown"
   },
   message: {
     error: "Error",
