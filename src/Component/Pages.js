@@ -272,13 +272,27 @@ export default function Pages(props) {
       .then((content) => saveAs(content, `${state.listObject[unitID - 1].pages[pageID - 1].pageName}`))
   };
   const addPageMarkdown = (supFolder, unitID, pageID) => new Promise((resolve, reject) => {
-    context.request("GET/data/item", { unitID: unitID, pageID: pageID})
-      .then((out) => {
+    Promise.all([
+      context.request("GET/data/item", { unitID: unitID, pageID: pageID}),
+      context.request("GET/data/images"),
+      context.request("GET/src/images")
+    ])
+      .then(([items, images, bases]) => {
+        let pictures = [];
         const synthesis = [false];
-        supFolder.file("questions.md", out.map((item) => downloadQuestion(item)).join("\n\n"));
-        supFolder.file("answers.md", out.map((item) => downloadAnswer(item, synthesis)).join("\n\n"));
+        supFolder.file("questions.md", items.map((item) => {
+          const lineText = downloadQuestion(item);
+          return lineText;
+        }).join("\n\n"));
+        supFolder.file("answers.md", items.map((item) => {
+          const lineText = downloadAnswer(item, synthesis);
+          return lineText;
+        }).join("\n\n"));
         if (synthesis[0])
-          supFolder.file("synthesis.md", out.map((item) => downloadSynthesis(item, synthesis)).join("\n\n"));
+          supFolder.file("synthesis.md", items.map((item) => {
+            const lineText = downloadSynthesis(item);
+            return lineText;
+          }).join("\n\n"));
         resolve();
       })
   })
