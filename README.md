@@ -6,6 +6,7 @@
 
 ## 1 设计
 ### 1.1 计划
+- [ ] 留言板
 - [ ] 定时邮件备份
 - [ ] 自定义 CSS
 - [ ] 动态导入语言模块
@@ -211,13 +212,6 @@
 
 ## 4 备忘
 ### 4.1 XGrid 修改记录
-1. 删除水印产生：GridBody.tsx
-
-    ```diff
-    // delete line 37
-    - <Watermark licenseStatus={rootProps.licenseStatus} />
-    ```
-
 2. 修改全选时的选择范围：useGridKeyboard.ts
 
     ```diff
