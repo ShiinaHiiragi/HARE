@@ -6,6 +6,7 @@
 
 ## 1 设计
 ### 1.1 计划
+- [ ] 留言板
 - [ ] 定时邮件备份
 - [ ] 自定义 CSS
 - [ ] 动态导入语言模块
@@ -163,7 +164,7 @@
 
 2. 下载 PostgreSQL，如果配置不顺利，建议下载版本 12.6。建立一个数据库（建议取名为 `hare`），将数据库名和密码填写到 `server/bin/setting.json` 中
 3. 如果需要发布到公网，假设域名为 `s.ichinoe.xyz`，需要修改以下配置
-    - 将域名填写到 `server/bin/api.jh` 的 `exports.domain` 字符串中
+    - 将域名填写到 `server/bin/api.js` 的 `exports.domain` 字符串中
     - 将 SSL 证书放到 `server/bin/https` 下，名字按照例子名为 `1_s.ichinoe.xyz_bundle.crt` 和 `2_s.ichinoe.xyz.key`
 4. 指令 `npm run server` 或 `npm run dev` 运行服务器
 
@@ -211,13 +212,6 @@
 
 ## 4 备忘
 ### 4.1 XGrid 修改记录
-1. 删除水印产生：GridBody.tsx
-
-    ```diff
-    // delete line 37
-    - <Watermark licenseStatus={rootProps.licenseStatus} />
-    ```
-
 2. 修改全选时的选择范围：useGridKeyboard.ts
 
     ```diff
