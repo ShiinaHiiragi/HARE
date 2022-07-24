@@ -3,7 +3,7 @@
     "user": "postgres",
     "host": "localhost",
     "database": "hare",
-    "password": "531207"
+    "password": "screencast"
   },
   "schema": {
     "userInfo": [
