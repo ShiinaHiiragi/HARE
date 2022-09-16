@@ -12,7 +12,7 @@ import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
 
 // used for distinguishing dev and release mode
 const isDevMode = window.location.port === "3000";
-const requestURL = isDevMode ? "http://localhost" : "";
+const requestURL = isDevMode ? "http://localhost:8000" : "";
 export { isDevMode, requestURL };
 
 // the information of the autor
@@ -63,7 +63,9 @@ const setStateDelay = 400;
 const leaveDelay = 200;
 const lineReg = /< *(?:line|underline|cloze)(?: +(?:size|length|width) *= *\{(\d+)\})? *\/? *>/g;
 const imageReg = [
+  // eslint-disable-next-line
   /!\[(.*?)\]\(\/?src\/image\?unitID=(\d+)\&pageID=(\d+)\&imageID=(\d+).*?\)/g,
+  // eslint-disable-next-line
   /(<img.*?src=[\"|\']?)\/?src\/image\?unitID=(\d+)\&pageID=(\d+)\&imageID=(\d+).*?([\"|\']?\s.*?>)/g
 ]
 const checkLineReg = () => new RegExp(`^${lineReg.source}$`);
