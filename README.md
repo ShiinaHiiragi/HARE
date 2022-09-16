@@ -6,6 +6,8 @@
 
 ## 1 设计
 ### 1.1 计划
+- [ ] 默认继续
+- [ ] 批量导入 JSON
 - [ ] 留言板
 - [ ] 定时邮件备份
 - [ ] 自定义 CSS
@@ -16,6 +18,7 @@
 1. 数据库命令行
     - 注册 `sign <email> <username> <password>`
         - 大小写敏感，不能含有空格
+        - 第一个注册的用户是管理员
     - 查看 `view <schema>`：
         - `schema` 忽略大小写，必须是下面列出的某个模式
     - 扩容 `cap <schema> <userID> <addition>`
@@ -212,7 +215,7 @@
 
 ## 4 备忘
 ### 4.1 XGrid 修改记录
-2. 修改全选时的选择范围：useGridKeyboard.ts
+1. 修改全选时的选择范围：useGridKeyboard.ts
 
     ```diff
     - apiRef.current.selectRows(apiRef.current.getAllRowIds(), true);
@@ -222,7 +225,7 @@
     + );
     ```
 
-3. 修改过滤器的项目为 `MenuItem`：GridFilterForm.tsx
+2. 修改过滤器的项目为 `MenuItem`：GridFilterForm.tsx
 
     ```diff
     -  <option
@@ -271,7 +274,7 @@
     }, [apiRef]);
     ```
 
-4. 修改过滤器 `FormControl` 的间距：GridFilterForm.tsx
+3. 修改过滤器 `FormControl` 的间距：GridFilterForm.tsx
 
     ```diff
     columnSelect: {
@@ -284,7 +287,7 @@
     }
     ```
 
-5. 修改数字比较对应的标签：gridNumericOperators.tsx
+4. 修改数字比较对应的标签：gridNumericOperators.tsx
 
     ```diff
     {
@@ -306,7 +309,7 @@
     }
     ```
 
-6. 修改时间选择器，加入时间组件。即在输入内建类型标签为 `datetime-local` 时使用 `DateTimePicker` 而不是 `TextField`。
+5. 修改时间选择器，加入时间组件。即在输入内建类型标签为 `datetime-local` 时使用 `DateTimePicker` 而不是 `TextField`。
     - 如果今后需要选择 `date` 类型，那么也要特判，使用 `DatePicker`：GridFilterInputValue.tsx
     - `format` 使用的是 `localeText`，注意需要特别规定这里的文本内容
 
@@ -398,7 +401,7 @@
     }
     ```
 
-7. 移除占位符，将列投影面板改成不可选择的
+6. 移除占位符，将列投影面板改成不可选择的
 
     ```diff
     // delete line 96 in GridColumnsPanel.tsx
