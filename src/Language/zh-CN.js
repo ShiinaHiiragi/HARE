@@ -378,6 +378,8 @@ const list = {
     addPageBelow: "在下方创建新卡片册",
     deleteUnit: "删除此卡片组",
     deletePage: "删除此卡片册",
+    exportUnit: "导出此卡片组",
+    exportPage: "导出此卡片册",
     downloadMarkdown: "下载 Markdown"
   },
   message: {

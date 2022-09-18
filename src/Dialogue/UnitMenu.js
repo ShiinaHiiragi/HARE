@@ -82,6 +82,14 @@ export default function UnitMenu(props) {
       <MenuItem
         onClick={() => {
           handle.closeMenu();
+          handle.exportUnit(state.unitID);
+        }}
+      >
+        {context.lang.menu.exportUnit}
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.closeMenu();
           handle.downloadUnitMarkdown(state.unitID);
         }}
       >

@@ -225,7 +225,7 @@ export default function Pages(props) {
     const prevUnit = state.listObject.find((item) => item.selected);
     const prevPage = prevUnit?.pages.find?.((item) => item.selected);
     const samePage = prevUnit?.unitID === unitID && prevPage?.pageID === pageID;
-    
+
     if (state.navListMobile) handle.closeNavListMobile();
     if (!samePage) {
       if (prevUnit) prevUnit.selected = false;
@@ -240,7 +240,7 @@ export default function Pages(props) {
         : 1;
     if (!samePage && state.route === routeIndex.recall)
       handle.submitRecall(prevUnit.unitID, prevPage.pageID);
-    
+
     const clickRoute = state.listObject[unitID - 1].pages[pageID - 1].route;
     if (clickRoute === routeIndex.stat)
       context.request("GET/data/stat", {
@@ -268,6 +268,66 @@ export default function Pages(props) {
     window.ImageReg = checkImageReg();
   }, []);
 
+  const exportUnit = (unitID) => {
+    let unitZip = JSZip();
+    let thisUnitName = state.listObject[unitID - 1].unitName;
+    Promise.all([
+      context.request("GET/data/items"),
+      context.request("GET/data/images"),
+      context.request("GET/src/images")
+    ])
+      .then(([items, images, bases]) => new Promise((resolve, reject) => {
+        Promise.all(state.listObject[unitID - 1].pages.map((pageItem, pageIndex) =>
+          new Promise((resolve) => {
+            let pageZip = unitZip
+              .folder(thisUnitName)
+              .folder(`${pageIndex + 1}_${pageItem.pageName}`);
+            pageZip.file(`texts.json`, JSON.stringify(items[unitID - 1][pageIndex], null, 2));
+            if (images[unitID - 1][pageIndex].length) {
+              let imageFolder = pageZip.folder("assets");
+              images[unitID - 1][pageIndex].forEach((image, imageIndex) => {
+                imageFolder.file(
+                  `${imageIndex + 1}_${image.title.replace(/\//g, "_")}${image.type}`,
+                  bases[unitID - 1][pageIndex][imageIndex],
+                  { base64: true }
+                );
+              });
+            }
+            resolve();
+          })
+        ))
+          .then(resolve)
+          .catch(reject);
+      }))
+      .then(() => unitZip.generateAsync({ type: "blob" }))
+      .then((content) => saveAs(content, state.listObject[unitID - 1].unitName))
+  };
+
+  const exportPage = (unitID, pageID) => {
+    let pageZip = JSZip();
+    let thisPageName = state.listObject[unitID - 1].pages[pageID - 1].pageName;
+    Promise.all([
+      context.request("GET/data/items"),
+      context.request("GET/data/images"),
+      context.request("GET/src/images")
+    ])
+      .then(([items, images, bases]) => {
+        pageZip.folder(thisPageName).file(`texts.json`, JSON.stringify(items[unitID - 1][pageID - 1], null, 2));
+        if (images[unitID - 1][pageID - 1].length) {
+          let imageFolder = pageZip.folder(thisPageName).folder("assets");
+          images[unitID - 1][pageID - 1].forEach((image, imageIndex) => {
+            imageFolder.file(
+              `${imageIndex + 1}_${image.title.replace(/\//g, "_")}${image.type}`,
+              bases[unitID - 1][pageID - 1][imageIndex],
+              { base64: true }
+            );
+          });
+        }
+      })
+      .then(() => pageZip.generateAsync({ type: "blob" }))
+      .then((content) => saveAs(content, thisPageName))
+  };
+
   const downloadUnitMarkdown = (unitID) => {
     let unitZip = JSZip();
     let thisUnitName = state.listObject[unitID - 1].unitName;
@@ -290,7 +350,7 @@ export default function Pages(props) {
       }))
       .then(() => unitZip.generateAsync({ type: "blob" }))
       .then((content) => saveAs(content, state.listObject[unitID - 1].unitName))
-  }
+  };
 
   const downloadPageMarkdown = (unitID, pageID) => {
     let pageZip = JSZip();
@@ -362,6 +422,7 @@ export default function Pages(props) {
               closeMenu: () => setUnitMenu(initMenu),
               changeUnit: changeUnit,
               moveUnit: (less) => changeMove(true, less),
+              exportUnit: exportUnit,
               downloadUnitMarkdown: downloadUnitMarkdown
             }}
           />
@@ -380,6 +441,7 @@ export default function Pages(props) {
               toggleDeleteConfirm: toggleDeleteConfirm,
               closeMenu: () => setPageMenu(initMenu),
               movePage: (less) => changeMove(false, less),
+              exportPage: exportPage,
               downloadPageMarkdown: downloadPageMarkdown
             }}
           />

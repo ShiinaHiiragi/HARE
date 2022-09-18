@@ -93,7 +93,7 @@ export default function NavList(props) {
       return;
     }
 
-    context.request("GET/data/item", { unitID: unitID, pageID: pageID})
+    context.request("GET/data/item", { unitID: unitID, pageID: pageID })
       .then(filling);
   })
 

@@ -384,6 +384,8 @@ const list = {
     addPageBelow: "Add New Booklet Below",
     deleteUnit: "Delete this Group",
     deletePage: "Delete this Booklet",
+    exportUnit: "Export this Group",
+    exportPage: "Export this Booklet",
     downloadMarkdown: "Download Markdown"
   },
   message: {

@@ -185,7 +185,7 @@ export default function Statistics(props) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.current.route]);
-  
+
   React.useEffect(() => {
     const pageJump = state.current.prevRoute === -1;
     const quitStat = state.current.prevRoute === routeIndex.stat;
@@ -461,7 +461,7 @@ export default function Statistics(props) {
   const [poly, setPoly] = React.useState(0);
   const [negative, setNegative] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
+
   React.useEffect(() => {
     const trackSize = state.statInfo.length;
     if (trackSize < 2) {
@@ -679,7 +679,7 @@ export default function Statistics(props) {
           </div>
         </Collapse>
       </Card>
-      
+
       {state.statInfo.map((item, index) => (
         <Card className={classes.rankingPanel} key={index}>
           <div className={classes.visible}>

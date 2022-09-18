@@ -124,11 +124,11 @@ export default function GlobalMenu(props) {
             .then(onsuccess)
             .catch(onerror);
         })
-        .then(resolve)
-        .catch(reject)
+          .then(resolve)
+          .catch(reject)
       }))
-      .then(() => unitsZip.generateAsync({ type: "blob" }))
-      .then((content) => saveAs(content, state.userName));
+        .then(() => unitsZip.generateAsync({ type: "blob" }))
+        .then((content) => saveAs(content, state.userName));
   };
 
   const closeLocalSetting = () => {

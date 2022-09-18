@@ -74,6 +74,14 @@ export default function PageMenu(props) {
       <MenuItem
         onClick={() => {
           handle.closeMenu();
+          handle.exportPage(state.unitID, state.pageID);
+        }}
+      >
+        {context.lang.menu.exportPage}
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handle.closeMenu();
           handle.downloadPageMarkdown(state.unitID, state.pageID);
         }}
       >
