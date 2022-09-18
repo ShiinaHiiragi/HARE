@@ -1,8 +1,12 @@
 [
   {
-    "version": "1.7.0.4",
+    "version": "1.7.0.5",
     "date": "2022-09-18T00:00:00.000Z",
     "detail": [
+      {
+        "type": "New",
+        "content": "Add restrictions for mobile users to visit some pages"
+      },
       {
         "type": "New",
         "content": "Add features of customizing hidden answer cells"

@@ -1,4 +1,5 @@
 import React from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -101,6 +102,16 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 2),
     display: "flex",
     flexDirection: "row"
+  },
+  flexObject: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none !important"
+    },
+  },
+  flexContent: {
+    [theme.breakpoints.down("xs")]: {
+      padding: theme.spacing(1, 2)
+    },
   }
 }));
 
@@ -151,14 +162,19 @@ export default function License(props) {
   const context = React.useContext(PanelContext);
   const lang = context.lang ?? props.lang
 
+  const matches = useMediaQuery("(min-width: 600px)");
+  React.useEffect(() => {
+    if (!matches) setTab(2);
+  }, [matches]);
+
   const [tab, setTab] = React.useState(0);
   const [expand, setExpand] = React.useState(0);
   React.useEffect(() => {
     if (open) {
-      setTab(0);
+      setTab(matches || !withTab ? 0 : 2);
       setExpand(0);
     }
-  }, [open]);
+  }, [open, matches, withTab]);
 
   const infoObject = lang.popup.about.info;
   const helpObject = lang.popup.about.help;
@@ -183,6 +199,7 @@ export default function License(props) {
         textColor="primary"
         onChange={(_, index) => setTab(index)}
         style={{ display: withTab ? "flex" : "none" }}
+        className={classes.flexObject}
       >
         <Tab label={lang.popup.about.tab[0]} />
         <Tab label={lang.popup.about.tab[1]} />
@@ -287,7 +304,7 @@ export default function License(props) {
         }
         else {
           return (
-            <DialogContent>
+            <DialogContent className={classes.flexContent}>
               {Object.keys(helpObject).map((item, index) => (
                 <Accordion
                   key={index}

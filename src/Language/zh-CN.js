@@ -415,7 +415,7 @@ const list = {
     nonJSON: "上传的文件不是 JSON 文件",
     invalidJSON: "上传的 JSON 文件格式有误",
     largeJSON: "可新建的条目超出上限",
-    menuMatches: "请在 PC 或更宽的手机上打开菜单"
+    menuMatches: "请在 PC 或更宽的屏幕上打开菜单"
   },
   grid: {
     column: {
@@ -507,7 +507,7 @@ const list = {
       "第五十七次", "第五十八次", "第五十九次", "第六十次",
       "第六十一次", "第六十二次", "第六十三次", "第六十四次"
     ],
-    warning: "请在 PC 上访问该数据表"
+    warning: "请在 PC 或更宽的屏幕上访问该数据表"
   },
   common: {
     back: "返回",

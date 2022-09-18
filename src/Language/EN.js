@@ -421,7 +421,7 @@ const list = {
     nonJSON: "The file you selected is not JSON.",
     invalidJSON: "Formatting of uploaded JSON is invalid.",
     largeJSON: "The entries to be added exceed the limit of this account.",
-    menuMatches: "PC or wider phone is needed to toggle side menu."
+    menuMatches: "PC or wider screen is needed to toggle side menu."
   },
   grid: {
     column: {
@@ -524,7 +524,7 @@ const list = {
       "Fifty-ninth",   "Sixtieth",       "Sixty-first",
       "Sixty-second",  "Sixty-third",    "Sixty-fourth"
     ],
-    warning: "PC is Needed to Display the Data Grid"
+    warning: "PC or Wider Screen is Needed to Display the Data Grid"
   },
   common: {
     back: "Back",
