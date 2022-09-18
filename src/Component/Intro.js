@@ -32,7 +32,7 @@ const Intro = React.memo((props) => {
   return (
     <div className={classes.root}>
       <img src={IntroGraph} alt="" className={classes.graph} />
-      <Typography variant="body2" color="textSecondary" align="center">
+      <Typography variant="body2" color="textSecondary" align="center" style={{ maxWidth: "90%" }}>
         {captions[dice(0, captions.length - 1)]}
       </Typography>
     </div>

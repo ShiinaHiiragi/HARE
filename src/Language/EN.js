@@ -522,7 +522,8 @@ const list = {
       "Fifty-sixth",   "Fifty-seventh",  "Fifty-eighth",
       "Fifty-ninth",   "Sixtieth",       "Sixty-first",
       "Sixty-second",  "Sixty-third",    "Sixty-fourth"
-    ]
+    ],
+    warning: "PC is Needed to Display the Data Grid"
   },
   common: {
     back: "Back",

@@ -3,6 +3,7 @@ import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
+import Typography from "@material-ui/core/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -51,7 +52,15 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center"
   },
+  flexButton: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    }
+  },
   cardField: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    },
     flexGrow: 1,
     height: 0,
     borderRadius: "0",
@@ -85,6 +94,17 @@ const useStyles = makeStyles((theme) => ({
   },
   hiddenText: {
     color: "rgba(0, 0, 0, 0.4)"
+  },
+  warning: {
+    [theme.breakpoints.up("sm")]: {
+      display: "none"
+    },
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
   }
 }));
 
@@ -413,7 +433,7 @@ export default function View(props) {
           color="primary"
           disabled={state.pageDetail.itemSize >= state.range.maxItem}
           startIcon={<PublishOutlinedIcon />}
-          className={clsx(classes.button, classes.exportButton)}
+          className={clsx(classes.button, classes.exportButton, classes.flexButton)}
           component="label"
         >
           <input
@@ -430,7 +450,7 @@ export default function View(props) {
           variant="outlined"
           color="primary"
           startIcon={<GetAppOutlinedIcon />}
-          className={clsx(classes.button, classes.exportButton)}
+          className={clsx(classes.button, classes.exportButton, classes.flexButton)}
           onClick={exportItem}
         >
           {context.lang.grid.buttons.export}
@@ -440,7 +460,7 @@ export default function View(props) {
           color="primary"
           disabled={invalidDelete}
           startIcon={<CheckCircleOutlinedIcon />}
-          className={classes.button}
+          className={clsx(classes.button, classes.flexButton)}
           onClick={() => {
             handle.setRecollect(true);
             handle.setTimerInitial((lastValue) => [0, lastValue[1] + 1]);
@@ -530,6 +550,11 @@ export default function View(props) {
           setItemList: handle.setItemList
         }}
       />
+      <div className={classes.warning}>
+        <Typography variant="body2" color="textSecondary" align="center" style={{ maxWidth: "90%" }}>
+          {context.lang.grid.warning}
+        </Typography>
+      </div>
     </HotKeys>
   );
 }

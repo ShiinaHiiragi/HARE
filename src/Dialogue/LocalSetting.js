@@ -42,26 +42,39 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 12
   },
   formLabel: {
-    width: "60%",
+    [theme.breakpoints.up("sm")]: {
+      width: "60%",
+    },
     [theme.breakpoints.down("xs")]: {
+      width: "90%",
       margin: theme.spacing(2, 0)
     }
   },
   radioGroup: {
-    width: "40%",
+    flexDirection: "row",
     [theme.breakpoints.up("sm")]: {
-      flexDirection: "row",
+      width: "40%",
     },
     [theme.breakpoints.down("xs")]: {
-      flexDirection: "column",
+      width: "90%",
     }
   },
   selector: {
-    width: "40%",
+    [theme.breakpoints.up("sm")]: {
+      width: "40%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "90%",
+    },
     marginTop: "8px !important"
   },
   textField: {
-    width: "40%",
+    [theme.breakpoints.up("sm")]: {
+      width: "40%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "90%",
+    }
   },
   formControlLabel: {
     [theme.breakpoints.up("sm")]: {

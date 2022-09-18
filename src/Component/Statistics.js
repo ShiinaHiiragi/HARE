@@ -61,7 +61,12 @@ const useStyles = makeStyles((theme) => ({
   rankingPanel: {
     borderRadius: 0,
     margin: theme.spacing(1, 2, 2, 2),
-    padding: theme.spacing(2, 4),
+    [theme.breakpoints.down("xs")]: {
+      padding: theme.spacing(2, 3),
+    },
+    [theme.breakpoints.up("sm")]: {
+      padding: theme.spacing(2, 4),
+    },
     display: "flex",
     overflow: "visible",
     flexDirection: "column"
@@ -102,7 +107,15 @@ const useStyles = makeStyles((theme) => ({
       height: 240
     }
   },
+  sliderText: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    }
+  },
   slider: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    },
     width: 144,
     margin: theme.spacing(0, 1, 0, 2)
   },
@@ -130,6 +143,9 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   expand: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    },
     transform: "rotate(0deg)",
     marginLeft: "auto",
     transition: theme.transitions.create("transform", {
@@ -494,7 +510,7 @@ export default function Statistics(props) {
           {context.lang.common.back}
         </Button>
         <div style={{ flexGrow: 1 }} />
-        <Typography variant="subtitle2" color="textSecondary">
+        <Typography variant="subtitle2" color="textSecondary" className={classes.sliderText}>
           {context.lang.panel.stat.precision}
         </Typography>
         <Slider
