@@ -132,7 +132,8 @@ const list = {
       lineTag: "自定义完型标签",
       hiddenTag: "自定义视图隐藏答案格",
       querySeparator: "自定义 Markdown 问题分隔符",
-      keySeparator: "自定义 Markdown 答案分隔符"
+      keySeparator: "自定义 Markdown 答案分隔符",
+      separatorTip: "可以使用转义字符"
     },
     newUnitPage: {
       titleUnit: "创建新记忆组",

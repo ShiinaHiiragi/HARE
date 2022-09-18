@@ -138,7 +138,8 @@ const list = {
       lineTag: "Custom Line Tag",
       hiddenTag: "Custom Hidden Cell in View",
       querySeparator: "Custom Markdown Questions Delimiter",
-      keySeparator: "Custom Markdown Answers Delimiter"
+      keySeparator: "Custom Markdown Answers Delimiter",
+      separatorTip: "Escape characters are allowed"
     },
     newUnitPage: {
       titleUnit: "Create New Group",

@@ -253,12 +253,17 @@ export default function LocalSetting(props) {
             <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.querySeparator}
             </FormLabel>
-            <TextField
-              className={classes.textField}
-              classes={{ root: classes.codeFont }}
-              value={state.querySeparator}
-              onChange={(event) => handle.setQuerySeparator(event.target.value)}
-            />
+            <Tooltip
+              title={context.lang.popup.localSetting.separatorTip}
+              classes={{ tooltip: classes.noneSelect }}
+            >
+              <TextField
+                className={classes.textField}
+                classes={{ root: classes.codeFont }}
+                value={state.querySeparator}
+                onChange={(event) => handle.setQuerySeparator(event.target.value)}
+              />
+            </Tooltip>
           </FormControl>
           <FormControl
             className={clsx(classes.formControl, classes.marginTop)}
@@ -266,12 +271,17 @@ export default function LocalSetting(props) {
             <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.keySeparator}
             </FormLabel>
-            <TextField
-              className={classes.textField}
-              classes={{ root: classes.codeFont }}
-              value={state.keySeparator}
-              onChange={(event) => handle.setKeySeparator(event.target.value)}
-            />
+            <Tooltip
+              title={context.lang.popup.localSetting.separatorTip}
+              classes={{ tooltip: classes.noneSelect }}
+            >
+              <TextField
+                className={classes.textField}
+                classes={{ root: classes.codeFont }}
+                value={state.keySeparator}
+                onChange={(event) => handle.setKeySeparator(event.target.value)}
+              />
+            </Tooltip>
           </FormControl>
           {!state.showKey && <FormControl
             className={clsx(classes.formControl, classes.marginTop)}
