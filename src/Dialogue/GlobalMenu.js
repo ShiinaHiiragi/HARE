@@ -61,6 +61,35 @@ export default function GlobalMenu(props) {
     }
   };
 
+  const download = () => {
+    handle.close();
+    let unitsZip = JSZip();
+    Promise.all([
+      context.request("GET/data/items"),
+      context.request("GET/data/images"),
+      context.request("GET/src/images")
+    ])
+        .then(([units, images, bases]) => new Promise((resolve, reject) => {
+          Promise.all(state.listObject.map((unitItem, unitIndex) => Promise.all(
+            unitItem.pages.map((pageItem, pageIndex) => handle.addPageMarkdown(
+              unitsZip
+                .folder(state.userName)
+                .folder(unitItem.unitName)
+                .folder(`${pageIndex + 1}_${pageItem.pageName}`),
+              unitIndex + 1,
+              pageIndex + 1,
+              images,
+              bases,
+              units[unitIndex][pageIndex]
+            ))
+          )))
+            .then(resolve)
+            .catch(reject)
+        }))
+        .then(() => unitsZip.generateAsync({ type: "blob" }))
+        .then((content) => saveAs(content, state.userName))
+  }
+
   const backup = () => {
     handle.close();
     let unitsZip = JSZip();
@@ -70,6 +99,7 @@ export default function GlobalMenu(props) {
       context.request("GET/src/images")
     ])
       .then(([units, images, bases]) => new Promise((resolve, reject) => {
+        console.log(units)
         return syncEachChain(units, (unit, onsuccess, onerror, unitIndex) => {
           let unitFolder = unitsZip.folder(
             `${unitIndex + 1}_${state.listObject[unitIndex].unitName.replace(/\//g, "_")}`
@@ -99,7 +129,7 @@ export default function GlobalMenu(props) {
         .catch(reject)
       }))
       .then(() => unitsZip.generateAsync({ type: "blob" }))
-      .then((content) => saveAs(content, `${state.userName}`));
+      .then((content) => saveAs(content, state.userName));
   };
 
   const closeLocalSetting = () => {
@@ -142,6 +172,9 @@ export default function GlobalMenu(props) {
       </MenuItem>
       <MenuItem onClick={backup}>
         {context.lang.menu.exportAll}
+      </MenuItem>
+      <MenuItem onClick={download}>
+        {context.lang.menu.downloadAll}
       </MenuItem>
       <MenuItem
         onClick={() => {

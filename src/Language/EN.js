@@ -369,6 +369,7 @@ const list = {
     changeAvatar: "Change Avatar",
     localSetting: "Toggle Local Setting",
     exportAll: "Export All Booklets",
+    downloadAll: "Download All Markdown",
     viewCopyright: "About HARE",
     logout: "Logout",
     fold: "Fold",

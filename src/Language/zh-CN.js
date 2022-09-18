@@ -363,6 +363,7 @@ const list = {
     changeAvatar: "更换头像",
     localSetting: "打开本地设置",
     exportAll: "导出所有记忆册",
+    downloadAll: "下载所有 Markdown",
     viewCopyright: "关于",
     logout: "退出登录",
     fold: "折叠",

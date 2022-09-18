@@ -60,6 +60,7 @@ export default function PersonalInfo(props) {
           setShowCaption: handle.setShowCaption,
           setLineTag: handle.setLineTag,
           setHiddenTag: handle.setHiddenTag,
+          addPageMarkdown: handle.addPageMarkdown,
           close: () => setAnchorGlobalMenu(null)
         }}
       />
