@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.6.1",
+    "date": "2022-09-18T00:00:00.000Z",
+    "detail": [
+      {
+        "type": "Change",
+        "content": "Update local setting of showing redundant buttons"
+      }
+    ]
+  },
+  {
     "version": "1.6.0.3",
     "date": "2022-01-23T00:00:00.000Z",
     "detail": [

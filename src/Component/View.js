@@ -82,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
   },
   footer: {
     minHeight: "44px !important"
+  },
+  hiddenText: {
+    color: "rgba(0, 0, 0, 0.4)"
   }
 }));
 
@@ -99,7 +102,7 @@ export default function View(props) {
   const context = React.useContext(PanelContext);
   const jsonRef = React.createRef();
 
-  const [column, setColumn] = React.useState(defaultColumn(context.lang.grid));
+  const [column, setColumn] = React.useState(defaultColumn(context.lang.grid, state.showKey, classes.hiddenText));
   const [invalidDelete, setInvalidDelete] = React.useState(true);
   const [invalidMove, setInvalidMove] = React.useState(true);
   const [changeTrack, setChangeTrack] = React.useState(false);
@@ -179,14 +182,14 @@ export default function View(props) {
 
     return (
       <GridToolbarContainer className={classes.dataGridButton}>
-        <GridToolbarDensitySelector
+        {state.showMove && <GridToolbarDensitySelector
           className={classes.innerButton}
           variant="outlined"
-        />
-        <GridToolbarColumnsButton
+        />}
+        {state.showMove && <GridToolbarColumnsButton
           className={classes.innerButton}
           variant="outlined"
-        />
+        />}
         <GridToolbarFilterButton
           className={classes.innerButton}
           variant="outlined"
@@ -271,7 +274,7 @@ export default function View(props) {
 
     if (state.itemList.length) {
       setColumn(
-        defaultColumn(context.lang.grid, state.showKey).concat(
+        defaultColumn(context.lang.grid, state.showKey, classes.hiddenText).concat(
           new Array(Object.keys(state.itemList[0]).length - 4)
             .fill()
             .map((_, index) => ({
@@ -299,7 +302,7 @@ export default function View(props) {
             }))
         )
       );
-    } else setColumn(defaultColumn(context.lang.grid));
+    } else setColumn(defaultColumn(context.lang.grid, state.showKey, classes.hiddenText));
   }, [context.lang, state.itemList, state.showKey]);
 
 

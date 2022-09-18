@@ -127,7 +127,7 @@ const list = {
       title: "Local Setting",
       text: "These setting are stored in cookies and will take into effect immediately upon being changed.",
       ranking: "Display of Ranking",
-      moveButton: "Show MOVE Button in View",
+      moveButton: "Show Redundant Buttons in View",
       showKey: "Show Answers in View",
       showCaption: "Show Redundant Caption",
       hideButton: "Hide",

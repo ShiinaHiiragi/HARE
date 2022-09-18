@@ -121,7 +121,7 @@ const list = {
       title: "本地设置",
       text: "此设定保存在本地 Cookie，更改后立即生效。",
       ranking: "评级表示",
-      moveButton: "视图移动按钮",
+      moveButton: "视图冗余按钮显示",
       showKey: "视图答案显示",
       showCaption: "显示冗余字幕",
       hideButton: "隐藏",

@@ -98,7 +98,7 @@ export { drawerWidth, routeIndex, pageIcon };
 
 // the initial state of some object state
 const initialDate = "2019-12-31T16:00:00.000Z";
-const hideAnswerString = "#".repeat(20);
+const hideAnswerString = "▇".repeat(12);
 const initMenu = { mouseX: null, mouseY: null };
 const defaultProfile = { userName: "", email: "", gender: "U", birth: initialDate, city: "", tel: "" };
 const defaultRange = { maxUnit: 8, maxPage: 16, maxItem: 64, maxImg: 16 };
@@ -109,7 +109,7 @@ const defaultCurrentSelect = {
   prevRoute: -1,
   route: routeIndex.intro
 };
-const defaultColumn = (langGrid, showKey) => [
+const defaultColumn = (langGrid, showKey, hiddenClass) => [
   {
     field: "id",
     type: "number",
@@ -140,6 +140,7 @@ const defaultColumn = (langGrid, showKey) => [
     headerName: langGrid?.column?.key,
     width: 200,
     valueFormatter: (param) => showKey ? markdownToTxt(param.value) : hideAnswerString,
+    cellClassName: showKey ? "" : hiddenClass,
     headerAlign: "center"
   }
 ];
