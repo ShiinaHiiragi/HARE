@@ -72,6 +72,8 @@ const checkLineReg = () => new RegExp(`^${lineReg.source}$`);
 const checkImageReg = () => imageReg.map((item) => new RegExp(`^${item.source}$`));
 const underline = "<line>";
 const defaultHiddenTag = "▇".repeat(12);
+const defaultQuerySeparator = "\\n\\n";
+const defaultKeySeparator = "\\n\\n---\\n\\n";
 const emSpace = "&emsp;"
 export {
   defaultDigit,
@@ -83,6 +85,8 @@ export {
   checkImageReg,
   underline,
   defaultHiddenTag,
+  defaultQuerySeparator,
+  defaultKeySeparator,
   emSpace
 };
 
@@ -206,7 +210,32 @@ const cookieSetting = (cookieName, setState) => {
     cookie.save(cookieName, false, { expires: cookieTime(3650) });
   }
 }
-export { markMap, lostGenerator, underlineLength, cookieSetting };
+const cookieString = (cookieName, setState, defaultValue) => {
+  const storageCookie = cookie.load(cookieName);
+  if (typeof(storageCookie) !== "string") {
+    cookie.save(cookieName, defaultValue, { expires: cookieTime(3650) });
+  } else setState(storageCookie);
+};
+const escaping = (text) => {
+  return text
+    .replace(/\\n/g, "\n")
+    .replace(/\\0/g, "\0")
+    .replace(/\\b/g, "\b")
+    .replace(/\\t/g, "\t")
+    .replace(/\\v/g, "\v")
+    .replace(/\\f/g, "\f")
+    .replace(/\\r/g, "\r")
+    .replace(/\\"/g, "\"")
+    .replace(/\\'/g, "'")
+    .replace(/\\\\/g, "\\")
+    .replace(/\\([0-7][0-7][0-7])/g, (_, one) => String.fromCharCode(parseInt(one, 8)))
+    .replace(/\\x([0-9a-fA-F][0-9a-fA-F])/g, (_, one) => String.fromCharCode(one, 16))
+    .replace(
+      /\\x([0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])/g,
+      (_, one) => String.fromCharCode(parseInt(one, 16))
+    );
+}
+export { markMap, lostGenerator, underlineLength, cookieSetting, cookieString, escaping };
 
 // function about markdown blank and code
 const inlineCode = "``"

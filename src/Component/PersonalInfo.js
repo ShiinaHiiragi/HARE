@@ -42,6 +42,8 @@ export default function PersonalInfo(props) {
           showMove: state.showMove,
           lineTag: state.lineTag,
           hiddenTag: state.hiddenTag,
+          querySeparator: state.querySeparator,
+          keySeparator: state.keySeparator,
           showKey: state.showKey,
           showCaption: state.showCaption,
           languageName: state.languageName,
@@ -60,6 +62,8 @@ export default function PersonalInfo(props) {
           setShowCaption: handle.setShowCaption,
           setLineTag: handle.setLineTag,
           setHiddenTag: handle.setHiddenTag,
+          setQuerySeparator: handle.setQuerySeparator,
+          setKeySeparator: handle.setKeySeparator,
           addPageMarkdown: handle.addPageMarkdown,
           close: () => setAnchorGlobalMenu(null)
         }}

@@ -24,8 +24,11 @@ import {
   versionLatest,
   disjunctVersion,
   cookieSetting,
+  cookieString,
   underline,
   defaultHiddenTag,
+  defaultQuerySeparator,
+  defaultKeySeparator,
   checkLineReg
 } from "../Interface/Constant";
 
@@ -55,6 +58,8 @@ export default function Panel(props) {
   const [showCaption, setShowCaption] = React.useState(true);
   const [lineTag, setLineTag] = React.useState(underline);
   const [hiddenTag, setHiddenTag] = React.useState(defaultHiddenTag);
+  const [querySeparator, setQuerySeparator] = React.useState(defaultQuerySeparator);
+  const [keySeparator, setKeySeparator] = React.useState(defaultKeySeparator);
   React.useEffect(() => {
     cookieSetting("lowRank", setLowRank);
     cookieSetting("showMove", setShowMove);
@@ -67,11 +72,10 @@ export default function Panel(props) {
       cookie.save("lineTag", underline, { expires: cookieTime(3650) });
     } else setLineTag(storageLineTag);
 
-    // and also for hiddenTag
-    const storageHiddenTag = cookie.load("hiddenTag");
-    if (typeof(storageHiddenTag) !== "string") {
-      cookie.save("hiddenTag", defaultHiddenTag, { expires: cookieTime(3650) });
-    } else setHiddenTag(storageHiddenTag);
+    // and also for hiddenTag and so on
+    cookieString("hiddenTag", setHiddenTag, defaultHiddenTag);
+    cookieString("querySeparator", setQuerySeparator, defaultQuerySeparator);
+    cookieString("keySeparator", setKeySeparator, defaultKeySeparator);
   }, []);
 
   // the setting of request
@@ -321,6 +325,8 @@ export default function Panel(props) {
             lineTag: lineTag,
             hiddenTag: hiddenTag,
             languageName: languageName,
+            querySeparator: querySeparator,
+            keySeparator: keySeparator,
             log: log
           }}
           handle={{
@@ -338,6 +344,8 @@ export default function Panel(props) {
             setShowCaption: setShowCaption,
             setLineTag: setLineTag,
             setHiddenTag: setHiddenTag,
+            setQuerySeparator: setQuerySeparator,
+            setKeySeparator: setKeySeparator,
             setProfile: setProfile
           }}
         />

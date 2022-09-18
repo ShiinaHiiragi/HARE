@@ -1,11 +1,15 @@
 [
   {
-    "version": "1.7.0.3",
+    "version": "1.7.0.4",
     "date": "2022-09-18T00:00:00.000Z",
     "detail": [
       {
         "type": "New",
         "content": "Add features of customizing hidden answer cells"
+      },
+      {
+        "type": "New",
+        "content": "Add features of customizing delimiters of questions or answers in Markdown"
       },
       {
         "type": "Change",

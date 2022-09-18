@@ -136,7 +136,9 @@ const list = {
       hideMoveTip: "Double clicking the data grid ID may also move the entry",
       language: "Language",
       lineTag: "Custom Line Tag",
-      hiddenTag: "Custom Hidden Cell in View"
+      hiddenTag: "Custom Hidden Cell in View",
+      querySeparator: "Custom Markdown Questions Delimiter",
+      keySeparator: "Custom Markdown Answers Delimiter"
     },
     newUnitPage: {
       titleUnit: "Create New Group",

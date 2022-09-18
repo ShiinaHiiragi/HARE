@@ -134,6 +134,8 @@ export default function GlobalMenu(props) {
   const closeLocalSetting = () => {
     setLocalSetting(false);
     cookie.save("hiddenTag", state.hiddenTag, { expires: cookieTime(3650) });
+    cookie.save("querySeparator", state.querySeparator, { expires: cookieTime(3650) });
+    cookie.save("keySeparator", state.keySeparator, { expires: cookieTime(3650) });
     if (localLineReg.test(lineCode)) {
       handle.setLineTag(lineCode);
       cookie.save("lineTag", lineCode, { expires: cookieTime(3650) });
@@ -232,6 +234,8 @@ export default function GlobalMenu(props) {
           showCaption: state.showCaption,
           languageName: state.languageName,
           hiddenTag: state.hiddenTag,
+          querySeparator: state.querySeparator,
+          keySeparator: state.keySeparator,
           localLineReg: localLineReg
         }}
         handle={{
@@ -242,6 +246,8 @@ export default function GlobalMenu(props) {
           setShowKey: handle.setShowKey,
           setShowCaption: handle.setShowCaption,
           setHiddenTag: handle.setHiddenTag,
+          setQuerySeparator: handle.setQuerySeparator,
+          setKeySeparator: handle.setKeySeparator,
           changeGlobalLang: handle.changeGlobalLang
         }}
       />

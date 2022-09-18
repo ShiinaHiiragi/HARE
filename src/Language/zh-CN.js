@@ -130,7 +130,9 @@ const list = {
       hideMoveTip: "双击数据格 ID 同样可以移动词条",
       language: "语言",
       lineTag: "自定义完型标签",
-      hiddenTag: "自定义视图隐藏答案格"
+      hiddenTag: "自定义视图隐藏答案格",
+      querySeparator: "自定义 Markdown 问题分隔符",
+      keySeparator: "自定义 Markdown 答案分隔符"
     },
     newUnitPage: {
       titleUnit: "创建新记忆组",

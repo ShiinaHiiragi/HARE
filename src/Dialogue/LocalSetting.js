@@ -247,6 +247,32 @@ export default function LocalSetting(props) {
               onChange={(event) => handle.setLineCode(event.target.value)}
             />
           </FormControl>
+          <FormControl
+            className={clsx(classes.formControl, classes.marginTop)}
+          >
+            <FormLabel className={classes.formLabel}>
+              {context.lang.popup.localSetting.querySeparator}
+            </FormLabel>
+            <TextField
+              className={classes.textField}
+              classes={{ root: classes.codeFont }}
+              value={state.querySeparator}
+              onChange={(event) => handle.setQuerySeparator(event.target.value)}
+            />
+          </FormControl>
+          <FormControl
+            className={clsx(classes.formControl, classes.marginTop)}
+          >
+            <FormLabel className={classes.formLabel}>
+              {context.lang.popup.localSetting.keySeparator}
+            </FormLabel>
+            <TextField
+              className={classes.textField}
+              classes={{ root: classes.codeFont }}
+              value={state.keySeparator}
+              onChange={(event) => handle.setKeySeparator(event.target.value)}
+            />
+          </FormControl>
           {!state.showKey && <FormControl
             className={clsx(classes.formControl, classes.marginTop)}
           >

@@ -13,7 +13,8 @@ import {
   downloadAnswer,
   downloadSynthesis,
   imageReg,
-  defaultProfile
+  defaultProfile,
+  escaping
 } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
 
@@ -64,11 +65,11 @@ export default function NavList(props) {
       supFolder.file("questions.md", items.map((item) => {
         const lineText = downloadQuestion(item);
         return replaceImage(lineText, pictures, images);
-      }).join("\n\n"));
+      }).join(escaping(state.querySeparator)));
       supFolder.file("answers.md", items.map((item) => {
         const lineText = downloadAnswer(item, synthesis);
         return replaceImage(lineText, pictures, images);
-      }).join("\n\n---\n\n"));
+      }).join(escaping(state.keySeparator)));
       if (synthesis[0])
         supFolder.file("synthesis.md", items.map((item) => {
           const lineText = downloadSynthesis(item);
@@ -140,6 +141,8 @@ export default function NavList(props) {
           showCaption: state.showCaption,
           lineTag: state.lineTag,
           hiddenTag: state.hiddenTag,
+          querySeparator: state.querySeparator,
+          keySeparator: state.keySeparator,
           languageName: state.languageName,
           log: state.log
         }}
@@ -155,6 +158,8 @@ export default function NavList(props) {
           setShowCaption: handle.setShowCaption,
           setLineTag: handle.setLineTag,
           setHiddenTag: handle.setHiddenTag,
+          setQuerySeparator: handle.setQuerySeparator,
+          setKeySeparator: handle.setKeySeparator,
           addPageMarkdown: addPageMarkdown,
           clearCheck: clearCheck
         }}
