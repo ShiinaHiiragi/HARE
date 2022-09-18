@@ -104,6 +104,7 @@ export default function GlobalMenu(props) {
 
   const closeLocalSetting = () => {
     setLocalSetting(false);
+    cookie.save("hiddenTag", state.hiddenTag, { expires: cookieTime(3650) });
     if (localLineReg.test(lineCode)) {
       handle.setLineTag(lineCode);
       cookie.save("lineTag", lineCode, { expires: cookieTime(3650) });
@@ -198,6 +199,7 @@ export default function GlobalMenu(props) {
           showKey: state.showKey,
           showCaption: state.showCaption,
           languageName: state.languageName,
+          hiddenTag: state.hiddenTag,
           localLineReg: localLineReg
         }}
         handle={{
@@ -207,6 +209,7 @@ export default function GlobalMenu(props) {
           setShowMove: handle.setShowMove,
           setShowKey: handle.setShowKey,
           setShowCaption: handle.setShowCaption,
+          setHiddenTag: handle.setHiddenTag,
           changeGlobalLang: handle.changeGlobalLang
         }}
       />

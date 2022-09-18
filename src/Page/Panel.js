@@ -25,6 +25,7 @@ import {
   disjunctVersion,
   cookieSetting,
   underline,
+  defaultHiddenTag,
   checkLineReg
 } from "../Interface/Constant";
 
@@ -53,6 +54,7 @@ export default function Panel(props) {
   const [showKey, setShowKey] = React.useState(true);
   const [showCaption, setShowCaption] = React.useState(true);
   const [lineTag, setLineTag] = React.useState(underline);
+  const [hiddenTag, setHiddenTag] = React.useState(defaultHiddenTag);
   React.useEffect(() => {
     cookieSetting("lowRank", setLowRank);
     cookieSetting("showMove", setShowMove);
@@ -64,6 +66,12 @@ export default function Panel(props) {
     if (typeof(storageLineTag) !== "string" || !checkLineReg().test(storageLineTag)) {
       cookie.save("lineTag", underline, { expires: cookieTime(3650) });
     } else setLineTag(storageLineTag);
+
+    // and also for hiddenTag
+    const storageHiddenTag = cookie.load("hiddenTag");
+    if (typeof(storageHiddenTag) !== "string") {
+      cookie.save("hiddenTag", defaultHiddenTag, { expires: cookieTime(3650) });
+    } else setHiddenTag(storageHiddenTag);
   }, []);
 
   // the setting of request
@@ -311,6 +319,7 @@ export default function Panel(props) {
             showKey: showKey,
             showCaption: showCaption,
             lineTag: lineTag,
+            hiddenTag: hiddenTag,
             languageName: languageName,
             log: log
           }}
@@ -328,6 +337,7 @@ export default function Panel(props) {
             setShowKey: setShowKey,
             setShowCaption: setShowCaption,
             setLineTag: setLineTag,
+            setHiddenTag: setHiddenTag,
             setProfile: setProfile
           }}
         />
@@ -336,6 +346,7 @@ export default function Panel(props) {
           state={{
             range: range,
             lineTag: lineTag,
+            hiddenTag: hiddenTag,
             image: image,
             current: currentSelect,
             navList: navListPC,

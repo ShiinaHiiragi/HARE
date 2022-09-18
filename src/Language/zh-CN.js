@@ -128,7 +128,8 @@ const list = {
       showButton: "显示",
       hideMoveTip: "双击数据格 ID 同样可以移动词条",
       language: "语言",
-      lineTag: "自定义完型标签"
+      lineTag: "自定义完型标签",
+      hiddenTag: "自定义视图隐藏答案格"
     },
     newUnitPage: {
       titleUnit: "创建新记忆组",

@@ -134,7 +134,8 @@ const list = {
       showButton: "Show",
       hideMoveTip: "Double clicking the data grid ID may also move the entry",
       language: "Language",
-      lineTag: "Custom Line Tag"
+      lineTag: "Custom Line Tag",
+      hiddenTag: "Custom Hidden Cell in View"
     },
     newUnitPage: {
       titleUnit: "Create New Group",

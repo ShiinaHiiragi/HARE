@@ -64,6 +64,7 @@ export default function NavList(props) {
           showKey: state.showKey,
           showCaption: state.showCaption,
           lineTag: state.lineTag,
+          hiddenTag: state.hiddenTag,
           languageName: state.languageName,
           log: state.log
         }}
@@ -78,6 +79,7 @@ export default function NavList(props) {
           setShowKey: handle.setShowKey,
           setShowCaption: handle.setShowCaption,
           setLineTag: handle.setLineTag,
+          setHiddenTag: handle.setHiddenTag,
           clearCheck: clearCheck
         }}
       />

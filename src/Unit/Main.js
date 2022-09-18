@@ -101,6 +101,7 @@ export default function Main(props) {
           state={{
             range: state.range,
             lineTag: state.lineTag,
+            hiddenTag: state.hiddenTag,
             current: state.current,
             pageDetail: state.pageDetail,
             showMove: state.showMove,

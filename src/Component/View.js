@@ -102,7 +102,12 @@ export default function View(props) {
   const context = React.useContext(PanelContext);
   const jsonRef = React.createRef();
 
-  const [column, setColumn] = React.useState(defaultColumn(context.lang.grid, state.showKey, classes.hiddenText));
+  const [column, setColumn] = React.useState(defaultColumn(
+    context.lang.grid,
+    state.showKey,
+    classes.hiddenText,
+    state.hiddenTag
+  ));
   const [invalidDelete, setInvalidDelete] = React.useState(true);
   const [invalidMove, setInvalidMove] = React.useState(true);
   const [changeTrack, setChangeTrack] = React.useState(false);
@@ -274,7 +279,7 @@ export default function View(props) {
 
     if (state.itemList.length) {
       setColumn(
-        defaultColumn(context.lang.grid, state.showKey, classes.hiddenText).concat(
+        defaultColumn(context.lang.grid, state.showKey, classes.hiddenText, state.hiddenTag).concat(
           new Array(Object.keys(state.itemList[0]).length - 4)
             .fill()
             .map((_, index) => ({
@@ -302,8 +307,8 @@ export default function View(props) {
             }))
         )
       );
-    } else setColumn(defaultColumn(context.lang.grid, state.showKey, classes.hiddenText));
-  }, [context.lang, state.itemList, state.showKey]);
+    } else setColumn(defaultColumn(context.lang.grid, state.showKey, classes.hiddenText, state.hiddenTag));
+  }, [context.lang, state.itemList, state.showKey, classes.hiddenText, state.hiddenTag]);
 
 
   const readJSON = (event) => {
