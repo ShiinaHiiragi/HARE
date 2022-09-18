@@ -303,13 +303,20 @@ export default function Pages(props) {
 
   const downloadUnitMarkdown = (unitID) => {
     let unitZip = JSZip();
+    let thisUnitName = state.listObject[unitID - 1].unitName;
     Promise.all([
       context.request("GET/data/images"),
       context.request("GET/src/images")
     ])
       .then(([images, bases]) => new Promise((resolve, reject) => {
         Promise.all(state.listObject[unitID - 1].pages.map((pageItem, pageIndex) => addPageMarkdown(
-          unitZip.folder(`${pageIndex + 1}_${pageItem.pageName}`), unitID, pageIndex + 1, images, bases
+          unitZip
+            .folder(thisUnitName)
+            .folder(`${pageIndex + 1}_${pageItem.pageName}`),
+          unitID,
+          pageIndex + 1,
+          images,
+          bases
         )))
           .then(resolve)
           .catch(reject);
@@ -320,13 +327,14 @@ export default function Pages(props) {
 
   const downloadPageMarkdown = (unitID, pageID) => {
     let pageZip = JSZip();
+    let thisPageName = state.listObject[unitID - 1].pages[pageID - 1].pageName;
     Promise.all([
       context.request("GET/data/images"),
       context.request("GET/src/images")
     ])
-      .then(([images, bases]) => addPageMarkdown(pageZip, unitID, pageID, images, bases))
+      .then(([images, bases]) => addPageMarkdown(pageZip.folder(thisPageName), unitID, pageID, images, bases))
       .then(() => pageZip.generateAsync({ type: "blob" }))
-      .then((content) => saveAs(content, `${state.listObject[unitID - 1].pages[pageID - 1].pageName}`))
+      .then((content) => saveAs(content, thisPageName))
   };
   const addPageMarkdown = (supFolder, unitID, pageID, images, bases) => new Promise((resolve, reject) => {
     context.request("GET/data/item", { unitID: unitID, pageID: pageID})
