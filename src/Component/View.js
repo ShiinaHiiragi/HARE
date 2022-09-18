@@ -429,7 +429,6 @@ export default function View(props) {
         <Button
           variant="outlined"
           color="primary"
-          disabled={invalidDelete}
           startIcon={<GetAppOutlinedIcon />}
           className={clsx(classes.button, classes.exportButton)}
           onClick={exportItem}

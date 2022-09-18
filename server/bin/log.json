@@ -1,6 +1,6 @@
 [
   {
-    "version": "1.7.0.1",
+    "version": "1.7.0.2",
     "date": "2022-09-18T00:00:00.000Z",
     "detail": [
       {
@@ -9,7 +9,11 @@
       },
       {
         "type": "Change",
-        "content": "Update local setting of showing redundant buttons and hints"
+        "content": "Update local setting of showing or hiding redundant buttons and hints"
+      },
+      {
+        "type": "Change",
+        "content": "Complete each hierarchy of markdown downloading"
       }
     ]
   },

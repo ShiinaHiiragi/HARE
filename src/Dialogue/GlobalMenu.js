@@ -99,7 +99,6 @@ export default function GlobalMenu(props) {
       context.request("GET/src/images")
     ])
       .then(([units, images, bases]) => new Promise((resolve, reject) => {
-        console.log(units)
         return syncEachChain(units, (unit, onsuccess, onerror, unitIndex) => {
           let unitFolder = unitsZip.folder(
             `${unitIndex + 1}_${state.listObject[unitIndex].unitName.replace(/\//g, "_")}`
