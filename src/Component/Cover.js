@@ -85,7 +85,8 @@ export default function Cover(props) {
 
   const [clear, setClear] = React.useState(false);
   const verifyTime = () => {
-    if (state.pageDetail.timeThis) setClear(true);
+    if (state.pageDetail.timeThis && state.showCaption) setClear(true);
+    else if (state.pageDetail.timeThis) toggleRecall(false);
     else toggleRecall();
   }
 

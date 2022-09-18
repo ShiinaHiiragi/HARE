@@ -126,6 +126,7 @@ const list = {
       showCaption: "显示冗余字幕",
       hideButton: "隐藏",
       showButton: "显示",
+      hideCaptionTip: "选择进度的对话框将不会显示",
       hideMoveTip: "双击数据格 ID 同样可以移动词条",
       language: "语言",
       lineTag: "自定义完型标签",

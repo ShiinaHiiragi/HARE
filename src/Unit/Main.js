@@ -82,6 +82,7 @@ export default function Main(props) {
           state={{
             current: state.current,
             pageDetail: state.pageDetail,
+            showCaption: state.showCaption
           }}
           handle={{
             setImage: handle.setImage,

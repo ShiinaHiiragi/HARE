@@ -132,6 +132,7 @@ const list = {
       showCaption: "Show Redundant Caption",
       hideButton: "Hide",
       showButton: "Show",
+      hideCaptionTip: "The dialogue of Progress Choosing will be disabled",
       hideMoveTip: "Double clicking the data grid ID may also move the entry",
       language: "Language",
       lineTag: "Custom Line Tag",

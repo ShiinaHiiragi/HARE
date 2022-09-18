@@ -152,12 +152,17 @@ export default function LocalSetting(props) {
                 control={<Radio color="primary" />}
                 label={context.lang.popup.localSetting.showButton}
               />
-              <FormControlLabel
-                className={classes.formControlLabel}
-                value={"false"}
-                control={<Radio color="primary" />}
-                label={context.lang.popup.localSetting.hideButton}
-              />
+              <Tooltip
+                title={context.lang.popup.localSetting.hideCaptionTip}
+                classes={{ tooltip: classes.noneSelect }}
+              >
+                <FormControlLabel
+                  className={classes.formControlLabel}
+                  value={"false"}
+                  control={<Radio color="primary" />}
+                  label={context.lang.popup.localSetting.hideButton}
+                />
+              </Tooltip>
             </RadioGroup>
           </FormControl>
           <FormControl className={classes.formControl}>
