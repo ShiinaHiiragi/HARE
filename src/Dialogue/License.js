@@ -48,11 +48,27 @@ const useStyles = makeStyles((theme) => ({
   },
   author: {
     display: "flex",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+    },
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column",
+    },
     alignItems: "center",
     margin: theme.spacing(1, 0)
   },
+  authorName: {
+    [theme.breakpoints.down("xs")]: {
+      textAlign: "center"
+    }
+  },
   info: {
-    marginLeft: theme.spacing(2)
+    [theme.breakpoints.down("xs")]: {
+      marginTop: theme.spacing(1)
+    },
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(2)
+    },
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -184,7 +200,7 @@ export default function License(props) {
                   <PersonIcon className={classes.notLargeAvatar} />
                 </Avatar>
                 <div className={classes.info}>
-                  <Typography variant="subtitle1">{author}</Typography>
+                  <Typography variant="subtitle1" className={classes.authorName}>{author}</Typography>
                   <Tooltip
                     title={lang.popup.about.copyTip}
                     classes={{ tooltip: classes.noneSelect }}

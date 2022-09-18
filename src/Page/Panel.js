@@ -278,8 +278,21 @@ export default function Panel(props) {
   // the state of image
   const [image, setImage] = React.useState([]);
 
+  // prohibit toggling navigation list when the screen is too small
+  const menuMatches = useMediaQuery("(min-width: 320px)");
+  const toggleNavListMobile = () => {
+    if (!menuMatches) {
+      toggleMessageBox(
+        globalLang.message.menuMatches,
+        "warning"
+      );
+      return;
+    }
+    setNavListMobile(true)
+  };
+
   // change navList when change screen size
-  const matches = useMediaQuery("(min-width:960px)");
+  const matches = useMediaQuery("(min-width: 960px)");
   React.useEffect(() => {
     if (matches) {
       setNavListPC(true);
@@ -303,7 +316,7 @@ export default function Panel(props) {
           handle={{
             toggleNavList: () => setNavListPC(true),
             closeNavList: () => setNavListPC(false),
-            toggleNavListMobile: () => setNavListMobile(true),
+            toggleNavListMobile: toggleNavListMobile,
             setListObject: setListObject
           }}
         />

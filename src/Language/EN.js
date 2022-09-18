@@ -420,7 +420,8 @@ const list = {
     copyImageLink: "The link of the image has been copied to clipboard. Paste it in Markdown editor and it won't be displayed outside of this site.",
     nonJSON: "The file you selected is not JSON.",
     invalidJSON: "Formatting of uploaded JSON is invalid.",
-    largeJSON: "The entries to be added exceed the limit of this account."
+    largeJSON: "The entries to be added exceed the limit of this account.",
+    menuMatches: "PC or wider phone is needed to toggle side menu."
   },
   grid: {
     column: {
