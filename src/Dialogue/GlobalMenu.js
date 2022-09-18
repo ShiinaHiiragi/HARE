@@ -194,7 +194,7 @@ export default function GlobalMenu(props) {
         state={{
           lineCode: lineCode,
           lowRank: state.lowRank,
-          hideMove: state.hideMove,
+          showMove: state.showMove,
           showKey: state.showKey,
           showCaption: state.showCaption,
           languageName: state.languageName,
@@ -204,7 +204,7 @@ export default function GlobalMenu(props) {
           close: closeLocalSetting,
           setLineCode: setLineCode,
           setLowRank: handle.setLowRank,
-          setHideMove: handle.setHideMove,
+          setShowMove: handle.setShowMove,
           setShowKey: handle.setShowKey,
           setShowCaption: handle.setShowCaption,
           changeGlobalLang: handle.changeGlobalLang

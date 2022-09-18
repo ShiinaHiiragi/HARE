@@ -90,8 +90,8 @@ export default function LocalSetting(props) {
     cookie.save("lowRank", event.target.value, { expires: cookieTime(3650) });
   }
   const changeMove = (event) => {
-    handle.setHideMove(event.target.value === "true");
-    cookie.save("hideMove", event.target.value, { expires: cookieTime(3650) });
+    handle.setShowMove(event.target.value === "true");
+    cookie.save("showMove", event.target.value, { expires: cookieTime(3650) });
   }
   const changeKey = (event) => {
     handle.setShowKey(event.target.value === "true");
@@ -189,12 +189,12 @@ export default function LocalSetting(props) {
             </FormLabel>
             <RadioGroup
               className={classes.radioGroup}
-              value={String(state.hideMove)}
+              value={String(state.showMove)}
               onChange={changeMove}
             >
               <FormControlLabel
                 className={classes.formControlLabel}
-                value={"false"}
+                value={"true"}
                 control={<Radio color="primary" />}
                 label={context.lang.popup.localSetting.showButton}
               />
@@ -204,7 +204,7 @@ export default function LocalSetting(props) {
               >
                 <FormControlLabel
                   className={classes.formControlLabel}
-                  value={"true"}
+                  value={"false"}
                   control={<Radio color="primary" />}
                   label={context.lang.popup.localSetting.hideButton}
                 />

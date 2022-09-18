@@ -103,7 +103,7 @@ export default function Main(props) {
             lineTag: state.lineTag,
             current: state.current,
             pageDetail: state.pageDetail,
-            hideMove: state.hideMove,
+            showMove: state.showMove,
             showKey: state.showKey,
             showCaption: state.showCaption,
             itemList: state.itemList

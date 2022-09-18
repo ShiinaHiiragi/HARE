@@ -49,13 +49,13 @@ export default function Panel(props) {
 
   // load cookie to seek some setting
   const [lowRank, setLowRank] = React.useState(true);
-  const [hideMove, setHideMove] = React.useState(true);
+  const [showMove, setShowMove] = React.useState(true);
   const [showKey, setShowKey] = React.useState(true);
   const [showCaption, setShowCaption] = React.useState(true);
   const [lineTag, setLineTag] = React.useState(underline);
   React.useEffect(() => {
     cookieSetting("lowRank", setLowRank);
-    cookieSetting("hideMove", setHideMove);
+    cookieSetting("showMove", setShowMove);
     cookieSetting("showKey", setShowKey);
     cookieSetting("showCaption", setShowCaption);
 
@@ -307,7 +307,7 @@ export default function Panel(props) {
             navListMobile: navListMobile,
             listObject: listObject,
             lowRank: lowRank,
-            hideMove: hideMove,
+            showMove: showMove,
             showKey: showKey,
             showCaption: showCaption,
             lineTag: lineTag,
@@ -324,7 +324,7 @@ export default function Panel(props) {
             setListObject: setListObject,
             setStatInfo: setStatInfo,
             setLowRank: setLowRank,
-            setHideMove: setHideMove,
+            setShowMove: setShowMove,
             setShowKey: setShowKey,
             setShowCaption: setShowCaption,
             setLineTag: setLineTag,
@@ -344,7 +344,7 @@ export default function Panel(props) {
             itemList: itemList,
             statInfo: statInfo,
             lowRank: lowRank,
-            hideMove: hideMove,
+            showMove: showMove,
             showKey: showKey,
             showCaption: showCaption,
             pageDetail: pageDetail
