@@ -1,4 +1,5 @@
 import React from "react";
+
 import Avatar from "@material-ui/core/Avatar";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -11,6 +12,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import PersonIcon from "@material-ui/icons/Person";
 import MenuItem from "@material-ui/core/MenuItem";
 import DateFnsUtils from "@date-io/date-fns";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import { maxNameLength } from "../Interface/Constant";
 import { PanelContext } from "../Page/Panel";
@@ -26,7 +28,13 @@ const useStyles = makeStyles((theme) => ({
   largeAvatar: {
     width: theme.spacing(12),
     height: theme.spacing(12),
-    margin: theme.spacing(0, 0, 2, 0)
+    [theme.breakpoints.down("xs")]: {
+      margin: theme.spacing(0, 0, 1, 0)
+    },
+    [theme.breakpoints.up("sm")]: {
+      margin: theme.spacing(0, 0, 2, 0)
+    },
+    
   },
   notLargeAvatar: {
     width: theme.spacing(8),
@@ -34,18 +42,34 @@ const useStyles = makeStyles((theme) => ({
   },
   selfProfile: {
     "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: "45%"
+      [theme.breakpoints.down("xs")]: {
+        margin: theme.spacing(1, 0),
+      },
+      [theme.breakpoints.up("sm")]: {
+        margin: theme.spacing(1),
+        width: "45%"
+      }
     }
   },
   genderControl: {
-    margin: theme.spacing(1),
-    width: "45%"
+    [theme.breakpoints.down("xs")]: {
+      margin: theme.spacing(1, 0)
+    },
+    [theme.breakpoints.up("sm")]: {
+      margin: theme.spacing(1),
+      width: "45%"
+    }
   },
   selectEmpty: {
     marginTop: theme.spacing(2)
   },
   line: {
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column"
+    },
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row"
+    },
     display: "flex",
     justifyContent: "center"
   }
@@ -55,6 +79,7 @@ export default function Profile(props) {
   const classes = useStyles();
   const { open, state, handle } = props;
   const context = React.useContext(PanelContext);
+  const calendarMatches = useMediaQuery("(min-width: 340px)");
 
   const valueChange = (key, targetValue) => {
     handle.setValue((profileValue) => ({
@@ -141,6 +166,7 @@ export default function Profile(props) {
           <div className={classes.line}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <DatePicker
+                disabled={!calendarMatches}
                 disableFuture
                 variant="inline"
                 format={context.lang.popup.profile.timeFormatString}

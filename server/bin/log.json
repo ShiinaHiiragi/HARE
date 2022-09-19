@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.7.1",
+    "date": "2022-09-19T00:00:00.000Z",
+    "detail": [
+      {
+        "type": "Change",
+        "content": "Optimizing the users' experience for mobile"
+      }
+    ]
+  },
+  {
     "version": "1.7.0.6",
     "date": "2022-09-18T00:00:00.000Z",
     "detail": [

@@ -292,13 +292,13 @@ export default function Panel(props) {
   };
 
   // change navList when change screen size
-  const matches = useMediaQuery("(min-width: 960px)");
+  const smallMediumMatches = useMediaQuery("(min-width: 960px)");
   React.useEffect(() => {
-    if (matches) {
+    if (smallMediumMatches) {
       setNavListPC(true);
       setNavListMobile(false);
     } else setNavListPC(true);
-  }, [matches]);
+  }, [smallMediumMatches]);
 
   return (
     <PanelContext.Provider value={{

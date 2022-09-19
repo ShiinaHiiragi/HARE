@@ -162,19 +162,19 @@ export default function License(props) {
   const context = React.useContext(PanelContext);
   const lang = context.lang ?? props.lang
 
-  const matches = useMediaQuery("(min-width: 600px)");
+  const extrasmallSmallMatches = useMediaQuery("(min-width: 600px)");
   React.useEffect(() => {
-    if (!matches) setTab(2);
-  }, [matches]);
+    if (!extrasmallSmallMatches) setTab(2);
+  }, [extrasmallSmallMatches]);
 
   const [tab, setTab] = React.useState(0);
   const [expand, setExpand] = React.useState(0);
   React.useEffect(() => {
     if (open) {
-      setTab(matches || !withTab ? 0 : 2);
+      setTab(extrasmallSmallMatches || !withTab ? 0 : 2);
       setExpand(0);
     }
-  }, [open, matches, withTab]);
+  }, [open, extrasmallSmallMatches, withTab]);
 
   const infoObject = lang.popup.about.info;
   const helpObject = lang.popup.about.help;
