@@ -1,11 +1,15 @@
 [
   {
-    "version": "1.7.1",
+    "version": "1.7.1.1",
     "date": "2022-09-19T00:00:00.000Z",
     "detail": [
       {
         "type": "Change",
         "content": "Optimizing the users' experience for mobile"
+      },
+      {
+        "type": "Change",
+        "content": "Update intro in welcome page"
       }
     ]
   },
