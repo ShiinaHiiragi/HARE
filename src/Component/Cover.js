@@ -61,8 +61,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     flexWrap: "wrap"
   },
-  button: {
+  buttonPair: {
+    display: "flex",
     flexGrow: 1,
+  },
+  button: {
+    width: "50%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -190,43 +194,47 @@ export default function Cover(props) {
           {context.lang.panel.cover.details}
         </Typography>
         <div className={classes.buttonField}>
-          <div className={classes.button}>
-            <IconButton
-              onClick={verifyTime}
-              disabled={!state.pageDetail.itemSize || state.pageDetail.trackSize >= maxRecall}
-            >
-              <CheckCircleOutlinedIcon fontSize="large" />
-            </IconButton>
-            <Typography variant="button" color="textSecondary" align="center">
-              {context.lang.panel.cover.recall}
-            </Typography>
+          <div className={classes.buttonPair}>
+            <div className={classes.button}>
+              <IconButton
+                onClick={verifyTime}
+                disabled={!state.pageDetail.itemSize || state.pageDetail.trackSize >= maxRecall}
+              >
+                <CheckCircleOutlinedIcon fontSize="large" />
+              </IconButton>
+              <Typography variant="button" color="textSecondary" align="center">
+                {context.lang.panel.cover.recall}
+              </Typography>
+            </div>
+            <div className={classes.button}>
+              <IconButton onClick={() => handle.setCurrentRoute(routeIndex.view)}>
+                <ViewCompactOutlinedIcon fontSize="large" />
+              </IconButton>
+              <Typography variant="button" color="textSecondary" align="center">
+                {context.lang.panel.cover.view}
+              </Typography>
+            </div>
           </div>
-          <div className={classes.button}>
-            <IconButton onClick={() => handle.setCurrentRoute(routeIndex.view)}>
-              <ViewCompactOutlinedIcon fontSize="large" />
-            </IconButton>
-            <Typography variant="button" color="textSecondary" align="center">
-              {context.lang.panel.cover.view}
-            </Typography>
-          </div>
-          <div className={classes.button}>
-            <IconButton
-              disabled={!state.pageDetail.trackSize}
-              onClick={toggleStat}
-            >
-              <DataUsageOutlinedIcon fontSize="large" />
-            </IconButton>
-            <Typography variant="button" color="textSecondary" align="center">
-              {context.lang.panel.cover.stat}
-            </Typography>
-          </div>
-          <div className={classes.button}>
-            <IconButton onClick={toggleGallery}>
-              <ViewCarouselOutlinedIcon fontSize="large" />
-            </IconButton>
-            <Typography variant="button" color="textSecondary" align="center">
-              {context.lang.panel.cover.gallery}
-            </Typography>
+          <div className={classes.buttonPair}>
+            <div className={classes.button}>
+              <IconButton
+                disabled={!state.pageDetail.trackSize}
+                onClick={toggleStat}
+              >
+                <DataUsageOutlinedIcon fontSize="large" />
+              </IconButton>
+              <Typography variant="button" color="textSecondary" align="center">
+                {context.lang.panel.cover.stat}
+              </Typography>
+            </div>
+            <div className={classes.button}>
+              <IconButton onClick={toggleGallery}>
+                <ViewCarouselOutlinedIcon fontSize="large" />
+              </IconButton>
+              <Typography variant="button" color="textSecondary" align="center">
+                {context.lang.panel.cover.gallery}
+              </Typography>
+            </div>
           </div>
         </div>
       </Card>
