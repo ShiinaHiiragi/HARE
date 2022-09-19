@@ -88,15 +88,32 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center"
   },
   invisibleButton: {
-    padding: theme.spacing(1, 0),
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column",
+      padding: theme.spacing(0, 1.5)
+    },
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+      padding: theme.spacing(1, 0)
+    },
     width: "100%",
     display: "flex",
     flexDirection: "row"
   },
+  firstButton: {
+    borderRadius: 0,
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: 6
+    },
+    [theme.breakpoints.up("sm")]: {
+      marginRight: 12
+    }
+  },
   invisibleGraph: {
     [theme.breakpoints.only("xs")]: {
       width: "96%",
-      height: 160
+      height: 160,
+      display: "none"
     },
     [theme.breakpoints.only("sm")]: {
       width: "84%",
@@ -122,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     flexGrow: 1,
     [theme.breakpoints.down("xs")]: {
-      padding: theme.spacing(2, 2, 1, 2),
+      padding: theme.spacing(2, 1.5, 0, 1.5),
       alignSelf: "flex-start"
     },
     [theme.breakpoints.up("sm")]: {
@@ -143,9 +160,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   expand: {
-    [theme.breakpoints.down("xs")]: {
-      display: "none"
-    },
     transform: "rotate(0deg)",
     marginLeft: "auto",
     transition: theme.transitions.create("transform", {
@@ -156,9 +170,15 @@ const useStyles = makeStyles((theme) => ({
     transform: "rotate(180deg)",
   },
   selector: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    },
     flexDirection: "row"
   },
   log: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    },
     width: "100%",
     padding: theme.spacing(0, 2)
   },
@@ -665,7 +685,7 @@ export default function Statistics(props) {
               color="primary"
               disabled={!lostAll?.length}
               startIcon={<CheckCircleOutlinedIcon />}
-              style={{ borderRadius: 0, marginRight: 12 }}
+              className={classes.firstButton}
               onClick={() => {
                 handle.setRecollect(true);
                 handle.setTimerInitial((lastValue) => [0, lastValue[1] + 1]);
@@ -769,7 +789,7 @@ export default function Statistics(props) {
                 color="primary"
                 disabled={!lostEach[index]?.length}
                 startIcon={<CheckCircleOutlinedIcon />}
-                style={{ borderRadius: 0, marginRight: 12 }}
+                className={classes.firstButton}
                 onClick={() => {
                   handle.setRecollect(true);
                   handle.setTimerInitial((lastValue) => [0, lastValue[1] + 1]);
