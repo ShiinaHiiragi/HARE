@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
   noneSelect: {
     userSelect: "none"
   },
+  flexObject: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none !important"
+    }
+  },
   formControl: {
     display: "flex",
     alignItems: "center",
@@ -178,7 +183,7 @@ export default function LocalSetting(props) {
               </Tooltip>
             </RadioGroup>
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl className={clsx(classes.formControl, classes.flexObject)}>
             <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.showKey}
             </FormLabel>
@@ -201,7 +206,7 @@ export default function LocalSetting(props) {
               />
             </RadioGroup>
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl className={clsx(classes.formControl, classes.flexObject)}>
             <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.moveButton}
             </FormLabel>
@@ -244,7 +249,7 @@ export default function LocalSetting(props) {
             </Select>
           </FormControl>
           <FormControl
-            className={clsx(classes.formControl, classes.marginTop)}
+            className={clsx(classes.formControl, classes.marginTop, classes.flexObject)}
             focused={lineTagFocus}
           >
             <FormLabel className={classes.formLabel}>
@@ -261,7 +266,7 @@ export default function LocalSetting(props) {
             />
           </FormControl>
           <FormControl
-            className={clsx(classes.formControl, classes.marginTop)}
+            className={clsx(classes.formControl, classes.marginTop, classes.flexObject)}
           >
             <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.querySeparator}
@@ -279,7 +284,7 @@ export default function LocalSetting(props) {
             </Tooltip>
           </FormControl>
           <FormControl
-            className={clsx(classes.formControl, classes.marginTop)}
+            className={clsx(classes.formControl, classes.marginTop, classes.flexObject)}
           >
             <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.keySeparator}

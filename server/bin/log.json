@@ -1,6 +1,6 @@
 [
   {
-    "version": "1.7.1.1",
+    "version": "1.7.1.2",
     "date": "2022-09-19T00:00:00.000Z",
     "detail": [
       {
@@ -10,6 +10,10 @@
       {
         "type": "Change",
         "content": "Update introduction captions in welcome page"
+      },
+      {
+        "type": "Fix",
+        "content": "Fix the bug of showing single slash in statistics page"
       }
     ]
   },

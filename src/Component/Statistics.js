@@ -558,14 +558,21 @@ export default function Statistics(props) {
             </Typography>
             <Typography variant="body2" color="textSecondary">
               {context.lang.panel.stat.avgSpan}
-              {Stat.timestampCount(
-                averageSpan, context.lang.panel.stat.timeSpan
-              )}
-              {" / "}
-              {Stat.timestampCount(
-                averageSpan / itemSize, context.lang.panel.stat.timeSpan
-              )}
-              {spanJudge && ` (${spanJudge})`}
+              {function() {
+                let avgSpan = Stat.timestampCount(
+                  averageSpan,
+                  context.lang.panel.stat.timeSpan
+                ), avgSpanPerItem = Stat.timestampCount(
+                  averageSpan / itemSize,
+                  context.lang.panel.stat.timeSpan
+                );
+                if (avgSpan === undefined && avgSpanPerItem === undefined) {
+                  return `(${context.lang.panel.stat.judge.noData})`;
+                } else {
+                  return `${avgSpan} / ${avgSpanPerItem}` +
+                    (spanJudge ? ` (${spanJudge})` : ``)
+                }
+              }()}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               {context.lang.panel.stat.avgInterval}
