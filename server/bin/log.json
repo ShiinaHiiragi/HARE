@@ -1,8 +1,12 @@
 [
   {
-    "version": "1.7.2",
+    "version": "1.8.0",
     "date": "2022-12-01T00:00:00.000Z",
     "detail": [
+      {
+        "type": "New",
+        "content": "Add local setting of changing theme color"
+      },
       {
         "type": "Fix",
         "content": "Fix the bug of shortcuts in recall or recollect pages"

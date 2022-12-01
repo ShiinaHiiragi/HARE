@@ -43,9 +43,6 @@ const useStyles = makeStyles((theme) => ({
   marginTopLess: {
     marginTop: 8
   },
-  marginTop: {
-    marginTop: 12
-  },
   formLabel: {
     [theme.breakpoints.up("sm")]: {
       width: "60%",
@@ -289,7 +286,7 @@ export default function LocalSetting(props) {
             </Select>
           </FormControl>
           <FormControl
-            className={clsx(classes.formControl, classes.marginTop, classes.flexObject)}
+            className={clsx(classes.formControl, classes.marginTopLess, classes.flexObject)}
             focused={lineTagFocus}
           >
             <FormLabel className={classes.formLabel}>
@@ -306,7 +303,7 @@ export default function LocalSetting(props) {
             />
           </FormControl>
           <FormControl
-            className={clsx(classes.formControl, classes.marginTop, classes.flexObject)}
+            className={clsx(classes.formControl, classes.marginTopLess, classes.flexObject)}
           >
             <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.querySeparator}
@@ -324,7 +321,7 @@ export default function LocalSetting(props) {
             </Tooltip>
           </FormControl>
           <FormControl
-            className={clsx(classes.formControl, classes.marginTop, classes.flexObject)}
+            className={clsx(classes.formControl, classes.marginTopLess, classes.flexObject)}
           >
             <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.keySeparator}
@@ -342,7 +339,7 @@ export default function LocalSetting(props) {
             </Tooltip>
           </FormControl>
           {!state.showKey && <FormControl
-            className={clsx(classes.formControl, classes.marginTop)}
+            className={clsx(classes.formControl, classes.marginTopLess)}
           >
             <FormLabel className={classes.formLabel}>
               {context.lang.popup.localSetting.hiddenTag}

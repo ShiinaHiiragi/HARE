@@ -15,6 +15,7 @@ const list = {
       "Welcome to HARE!",
       "It's said that pressing '?' may toggle shortcut list.",
       "It's said that pressing CTRL or SHIFT and clicking the data table column may sort by multiple columns at the same time.",
+      "Our default color theme is 'Indigo' as primary with 'Pink' as secondary.",
       "Want higher ranking? Increasing the number of entries may work!",
       "Do not study anymore. Let's have fun!",
       "Why do you log in? Do you have exams in the near future?",
