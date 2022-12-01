@@ -407,11 +407,6 @@ const downloadSynthesis = (item) => {
   return downloadMarkdown(swapAns);
 }
 
-const convertLowerCamel = (name) => {
-  const temp = name[0].toUpperCase() + name.slice(1);
-  return temp.match(/[A-Z][a-z]*/g).join(" ");
-}
-
 const getColorTheme = (primary, secondary) => {
   return createMuiTheme({
     palette: {
@@ -436,7 +431,6 @@ export {
   downloadQuestion,
   downloadAnswer,
   downloadSynthesis,
-  convertLowerCamel,
   getColorTheme
 };
 export default requestURL;

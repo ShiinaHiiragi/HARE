@@ -18,7 +18,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import TextField from "@material-ui/core/TextField";
 import { PanelContext } from "../Page/Panel";
 import { nameMap } from "../Language/Lang";
-import { cookieTime, palette, convertLowerCamel } from "../Interface/Constant";
+import { cookieTime, palette } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -266,7 +266,9 @@ export default function LocalSetting(props) {
               onChange={(event) => changeColor("primary", event)}
             >
               {Object.keys(palette).map((innerName, index) => (
-                <MenuItem value={innerName} key={index}>{convertLowerCamel(innerName)}</MenuItem>
+                <MenuItem value={innerName} key={index}>
+                  {context.lang.popup.palette[innerName]}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -280,7 +282,9 @@ export default function LocalSetting(props) {
               onChange={(event) => changeColor("secondary", event)}
             >
               {Object.keys(palette).map((innerName, index) => (
-                <MenuItem value={innerName} key={index}>{convertLowerCamel(innerName)}</MenuItem>
+                <MenuItem value={innerName} key={index}>
+                  {context.lang.popup.palette[innerName]}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
