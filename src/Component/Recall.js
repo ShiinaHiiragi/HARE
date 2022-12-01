@@ -251,12 +251,15 @@ export default function Recall(props) {
             title={context.lang.panel.recall.previous}
             classes={{ tooltip: classes.noneSelect }}
           >
-            <IconButton
-              className={classes.iconButton}
-              onClick={() => changeItem(-1)}
-            >
-              <ArrowBackIcon />
-            </IconButton>
+            <span>
+              <IconButton
+                disabled={state.recall.lost.length <= 1}
+                className={classes.iconButton}
+                onClick={() => changeItem(-1)}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+            </span>
           </Tooltip>
           <Tooltip
             title={context.lang.panel.recall.revoke}
@@ -314,12 +317,15 @@ export default function Recall(props) {
             title={context.lang.panel.recall.next}
             classes={{ tooltip: classes.noneSelect }}
           >
-            <IconButton
-              className={classes.iconButton}
-              onClick={() => changeItem(1)}
-            >
-              <ArrowForwardIcon />
-            </IconButton>
+            <span>
+              <IconButton
+                disabled={state.recall.lost.length <= 1}
+                className={classes.iconButton}
+                onClick={() => changeItem(1)}
+              >
+                <ArrowForwardIcon />
+              </IconButton>
+            </span>
           </Tooltip>
           <Tooltip
             title={context.lang.panel.recall.far}
