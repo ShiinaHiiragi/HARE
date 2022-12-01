@@ -11,6 +11,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import Typography from "@material-ui/core/Typography";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
@@ -39,9 +40,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       flexDirection: "column",
     },
-  },
-  marginTopLess: {
-    marginTop: 8
   },
   formLabel: {
     [theme.breakpoints.up("sm")]: {
@@ -90,6 +88,12 @@ const useStyles = makeStyles((theme) => ({
     "& input": {
       fontFamily: "'consolas', monospace !important"
     }
+  },
+  marginTopLess: {
+    marginTop: 8
+  },
+  PaddingLeftLess: {
+    paddingLeft: 6
   }
 }));
 
@@ -263,7 +267,12 @@ export default function LocalSetting(props) {
               onChange={(event) => changeColor("primary", event)}
             >
               {Object.keys(palette).map((innerName, index) => (
-                <MenuItem value={innerName} key={index}>
+                <MenuItem value={innerName} key={index} className={classes.PaddingLeftLess}>
+                  <Typography
+                    display="inline"
+                    style={{ color: palette[innerName][500] }}
+                    children=" ꔷ "
+                  />
                   {context.lang.popup.palette[innerName]}
                 </MenuItem>
               ))}
@@ -279,7 +288,12 @@ export default function LocalSetting(props) {
               onChange={(event) => changeColor("secondary", event)}
             >
               {Object.keys(palette).map((innerName, index) => (
-                <MenuItem value={innerName} key={index}>
+                <MenuItem value={innerName} key={index} className={classes.PaddingLeftLess}>
+                  <Typography
+                    display="inline"
+                    style={{ color: palette[innerName][500] }}
+                    children=" ꔷ "
+                  />
                   {context.lang.popup.palette[innerName]}
                 </MenuItem>
               ))}

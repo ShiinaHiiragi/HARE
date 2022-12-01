@@ -419,7 +419,7 @@ const getColorTheme = (primary, secondary) => {
         light: palette[secondary][300],
         main: palette[secondary][500],
         dark: palette[secondary][700],
-      },
+      }
     },
   });
 }
