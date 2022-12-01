@@ -185,8 +185,9 @@ export default function Recall(props) {
 
   const keyHandler = {
     backToMenu: back,
-    pure: () => changeItem("pure"),
-    fault: () => changeItem("far"),
+    // click the button due to some annoying problem of closure
+    pure: () => document.getElementById("mark-pure").click(),
+    fault: () => document.getElementById("mark-far").click(),
     next: () => changeItem(1),
     previous: () => changeItem(-1),
     switch: switcher,
@@ -307,6 +308,7 @@ export default function Recall(props) {
             classes={{ tooltip: classes.noneSelect }}
           >
             <IconButton
+              id="mark-pure"
               className={classes.iconButton}
               onClick={() => changeItem("pure")}
             >
@@ -332,6 +334,7 @@ export default function Recall(props) {
             classes={{ tooltip: classes.noneSelect }}
           >
             <IconButton
+              id="mark-far"
               className={classes.iconButton}
               onClick={() => changeItem("far")}
             >
