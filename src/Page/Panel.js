@@ -365,6 +365,8 @@ export default function Panel(props) {
               languageName: languageName,
               querySeparator: querySeparator,
               keySeparator: keySeparator,
+              primaryColor: primaryColor,
+              secondaryColor: secondaryColor,
               log: log
             }}
             handle={{
@@ -384,6 +386,8 @@ export default function Panel(props) {
               setHiddenTag: setHiddenTag,
               setQuerySeparator: setQuerySeparator,
               setKeySeparator: setKeySeparator,
+              setPrimaryColor: setPrimaryColor,
+              setSecondaryColor: setSecondaryColor,
               setProfile: setProfile
             }}
           />

@@ -18,7 +18,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import TextField from "@material-ui/core/TextField";
 import { PanelContext } from "../Page/Panel";
 import { nameMap } from "../Language/Lang";
-import { cookieTime } from "../Interface/Constant";
+import { cookieTime, palette, convertLowerCamel } from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -118,6 +118,14 @@ export default function LocalSetting(props) {
   const changeCaption = (event) => {
     handle.setShowCaption(event.target.value === "true");
     cookie.save("showCaption", event.target.value, { expires: cookieTime(3650) });
+  }
+  const changeColor = (type, event) => {
+    if (type === "primary") {
+      handle.setPrimaryColor(event.target.value)
+    } else if (type === "secondary") {
+      handle.setSecondaryColor(event.target.value)
+    }
+    cookie.save(type, event.target.value, { expires: cookieTime(3650) });
   }
 
   return (
@@ -245,6 +253,34 @@ export default function LocalSetting(props) {
             >
               {Object.keys(nameMap).map((displayName, index) => (
                 <MenuItem value={nameMap[displayName]} key={index}>{displayName}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <FormLabel className={clsx(classes.formLabel, classes.marginTopLess)}>
+              {context.lang.popup.localSetting.primaryColor}
+            </FormLabel>
+            <Select
+              className={classes.selector}
+              value={state.primaryColor}
+              onChange={(event) => changeColor("primary", event)}
+            >
+              {Object.keys(palette).map((innerName, index) => (
+                <MenuItem value={innerName} key={index}>{convertLowerCamel(innerName)}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <FormLabel className={clsx(classes.formLabel, classes.marginTopLess)}>
+              {context.lang.popup.localSetting.secondaryColor}
+            </FormLabel>
+            <Select
+              className={classes.selector}
+              value={state.secondaryColor}
+              onChange={(event) => changeColor("secondary", event)}
+            >
+              {Object.keys(palette).map((innerName, index) => (
+                <MenuItem value={innerName} key={index}>{convertLowerCamel(innerName)}</MenuItem>
               ))}
             </Select>
           </FormControl>

@@ -135,6 +135,8 @@ const list = {
       hideCaptionTip: "选择进度的对话框将不会显示",
       hideMoveTip: "双击数据格 ID 同样可以移动词条",
       language: "语言",
+      primaryColor: "原色",
+      secondaryColor: "间色",
       lineTag: "自定义完型标签",
       hiddenTag: "自定义视图隐藏答案格",
       querySeparator: "自定义 Markdown 问题分隔符",

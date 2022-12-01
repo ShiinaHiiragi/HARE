@@ -141,6 +141,8 @@ const list = {
       hideCaptionTip: "The dialogue of Progress Choosing will be disabled",
       hideMoveTip: "Double clicking the data grid ID may also move the entry",
       language: "Language",
+      primaryColor: "Primary Color",
+      secondaryColor: "Secondary Color",
       lineTag: "Custom Line Tag",
       hiddenTag: "Custom Hidden Cell in View",
       querySeparator: "Custom Markdown Questions Delimiter",

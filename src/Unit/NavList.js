@@ -143,6 +143,8 @@ export default function NavList(props) {
           hiddenTag: state.hiddenTag,
           querySeparator: state.querySeparator,
           keySeparator: state.keySeparator,
+          primaryColor: state.primaryColor,
+          secondaryColor: state.secondaryColor,
           languageName: state.languageName,
           log: state.log
         }}
@@ -160,6 +162,8 @@ export default function NavList(props) {
           setHiddenTag: handle.setHiddenTag,
           setQuerySeparator: handle.setQuerySeparator,
           setKeySeparator: handle.setKeySeparator,
+          setPrimaryColor: handle.setPrimaryColor,
+          setSecondaryColor: handle.setSecondaryColor,
           addPageMarkdown: addPageMarkdown,
           clearCheck: clearCheck
         }}

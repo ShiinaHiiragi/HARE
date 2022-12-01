@@ -236,6 +236,8 @@ export default function GlobalMenu(props) {
           hiddenTag: state.hiddenTag,
           querySeparator: state.querySeparator,
           keySeparator: state.keySeparator,
+          primaryColor: state.primaryColor,
+          secondaryColor: state.secondaryColor,
           localLineReg: localLineReg
         }}
         handle={{
@@ -248,6 +250,8 @@ export default function GlobalMenu(props) {
           setHiddenTag: handle.setHiddenTag,
           setQuerySeparator: handle.setQuerySeparator,
           setKeySeparator: handle.setKeySeparator,
+          setPrimaryColor: handle.setPrimaryColor,
+          setSecondaryColor: handle.setSecondaryColor,
           changeGlobalLang: handle.changeGlobalLang
         }}
       />
