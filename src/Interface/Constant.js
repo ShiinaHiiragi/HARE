@@ -9,6 +9,28 @@ import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import InsertInvitationOutlinedIcon from "@material-ui/icons/InsertInvitationOutlined";
 import AlarmOutlinedIcon from "@material-ui/icons/AlarmOutlined";
 import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
+import {
+  red,
+  pink,
+  purple,
+  deepPurple,
+  indigo,
+  blue,
+  lightBlue,
+  cyan,
+  teal,
+  green,
+  lightGreen,
+  lime,
+  yellow,
+  amber,
+  orange,
+  deepOrange,
+  brown,
+  grey,
+  blueGrey,
+} from "@material-ui/core/colors";
+import { createMuiTheme } from "@material-ui/core/styles";
 
 // used for distinguishing dev and release mode
 const isDevMode = window.location.port === "3000";
@@ -74,6 +96,8 @@ const underline = "<line>";
 const defaultHiddenTag = "▇".repeat(12);
 const defaultQuerySeparator = "\\n\\n";
 const defaultKeySeparator = "\\n\\n---\\n\\n";
+const defaultPrimaryColor = "indigo";
+const defaultSecondaryColor = "pink";
 const emSpace = "&emsp;"
 export {
   defaultDigit,
@@ -87,7 +111,9 @@ export {
   defaultHiddenTag,
   defaultQuerySeparator,
   defaultKeySeparator,
-  emSpace
+  emSpace,
+  defaultPrimaryColor,
+  defaultSecondaryColor
 };
 
 // the info about user interface
@@ -100,7 +126,28 @@ const pageIcon = (iconProps) => [
   <AlarmOutlinedIcon {...iconProps} />,
   <InboxOutlinedIcon {...iconProps} />
 ];
-export { drawerWidth, routeIndex, pageIcon };
+const palette = {
+  red: red,
+  pink: pink,
+  purple: purple,
+  deepPurple: deepPurple,
+  indigo: indigo,
+  blue: blue,
+  lightBlue: lightBlue,
+  cyan: cyan,
+  teal: teal,
+  green: green,
+  lightGreen: lightGreen,
+  lime: lime,
+  yellow: yellow,
+  amber: amber,
+  orange: orange,
+  deepOrange: deepOrange,
+  brown: brown,
+  grey: grey,
+  blueGrey: blueGrey,
+}
+export { drawerWidth, routeIndex, pageIcon, palette };
 
 // the initial state of some object state
 const initialDate = "2019-12-31T16:00:00.000Z";
@@ -210,11 +257,15 @@ const cookieSetting = (cookieName, setState) => {
     cookie.save(cookieName, false, { expires: cookieTime(3650) });
   }
 }
-const cookieString = (cookieName, setState, defaultValue) => {
+const cookieString = (cookieName, setState, defaultValue, judgeValidation) => {
   const storageCookie = cookie.load(cookieName);
-  if (typeof(storageCookie) !== "string") {
+  if (typeof(storageCookie) !== "string" ||
+    (judgeValidation !== undefined && !judgeValidation(storageCookie))
+  ) {
     cookie.save(cookieName, defaultValue, { expires: cookieTime(3650) });
-  } else setState(storageCookie);
+  } else {
+    setState(storageCookie);
+  }
 };
 const escaping = (text) => {
   return text
@@ -356,5 +407,36 @@ const downloadSynthesis = (item) => {
   return downloadMarkdown(swapAns);
 }
 
-export { syncEachChain, imageURL, localMarkdown, downloadQuestion, downloadAnswer, downloadSynthesis };
+const convertLowerCamel = (name) => {
+  const temp = name[0].toUpperCase() + name.slice(1);
+  return temp.match(/[A-Z][a-z]*/g).join(" ");
+}
+
+const getColorTheme = (primary, secondary) => {
+  return createMuiTheme({
+    palette: {
+      primary: {
+        light: palette[primary][300],
+        main: palette[primary][500],
+        dark: palette[primary][700],
+      },
+      secondary: {
+        light: palette[secondary][300],
+        main: palette[secondary][500],
+        dark: palette[secondary][700],
+      },
+    },
+  });
+}
+
+export {
+  syncEachChain,
+  imageURL,
+  localMarkdown,
+  downloadQuestion,
+  downloadAnswer,
+  downloadSynthesis,
+  convertLowerCamel,
+  getColorTheme
+};
 export default requestURL;

@@ -10,9 +10,11 @@ import MessageBox from "../Dialogue/MessageBox";
 import Load from "../Dialogue/Load";
 import Kick from "../Dialogue/Kick";
 import Conflict from "../Dialogue/Conflict";
+import { ThemeProvider } from "@material-ui/core/styles";
 import { languagePicker, nameMap, containLanguage } from "../Language/Lang";
 import { packedGET, packedPOST } from "../Interface/Request";
 import {
+  palette,
   cookieTime,
   defaultProfile,
   defaultRange,
@@ -29,7 +31,10 @@ import {
   defaultHiddenTag,
   defaultQuerySeparator,
   defaultKeySeparator,
-  checkLineReg
+  defaultPrimaryColor,
+  defaultSecondaryColor,
+  checkLineReg,
+  getColorTheme
 } from "../Interface/Constant";
 
 const PanelContext = React.createContext({});
@@ -60,6 +65,8 @@ export default function Panel(props) {
   const [hiddenTag, setHiddenTag] = React.useState(defaultHiddenTag);
   const [querySeparator, setQuerySeparator] = React.useState(defaultQuerySeparator);
   const [keySeparator, setKeySeparator] = React.useState(defaultKeySeparator);
+  const [primaryColor, setPrimaryColor] = React.useState(defaultPrimaryColor);
+  const [secondaryColor, setSecondaryColor] = React.useState(defaultSecondaryColor);
   React.useEffect(() => {
     cookieSetting("lowRank", setLowRank);
     cookieSetting("showMove", setShowMove);
@@ -76,7 +83,24 @@ export default function Panel(props) {
     cookieString("hiddenTag", setHiddenTag, defaultHiddenTag);
     cookieString("querySeparator", setQuerySeparator, defaultQuerySeparator);
     cookieString("keySeparator", setKeySeparator, defaultKeySeparator);
+    cookieString(
+      "primary",
+      setPrimaryColor,
+      defaultPrimaryColor,
+      (cookie) => Object.keys(palette).includes(cookie)
+    );
+    cookieString(
+      "secondary",
+      setSecondaryColor,
+      defaultSecondaryColor,
+      (cookie) => Object.keys(palette).includes(cookie)
+    );
   }, []);
+
+  const colorTheme = React.useMemo(
+    () => getColorTheme(primaryColor, secondaryColor),
+    [primaryColor, secondaryColor]
+  );
 
   // the setting of request
   const [kick, setKick] = React.useState(false);
@@ -301,111 +325,113 @@ export default function Panel(props) {
   }, [smallMediumMatches]);
 
   return (
-    <PanelContext.Provider value={{
-      lang: globalLang,
-      request: packedRequest,
-      range: range
-    }}>
-      <Root>
-        <CssBaseline />
-        <NavBar
-          state={{
-            navList: navListPC,
-            currentSelect: currentSelect
-          }}
-          handle={{
-            toggleNavList: () => setNavListPC(true),
-            closeNavList: () => setNavListPC(false),
-            toggleNavListMobile: toggleNavListMobile,
-            setListObject: setListObject
-          }}
-        />
-        <NavList
-          lang={globalLang}
-          state={{
-            userID: userID,
-            profile: profile,
-            range: range,
-            navList: navListPC,
-            currentSelect: currentSelect,
-            route: currentSelect.route,
-            navListMobile: navListMobile,
-            listObject: listObject,
-            lowRank: lowRank,
-            showMove: showMove,
-            showKey: showKey,
-            showCaption: showCaption,
-            lineTag: lineTag,
-            hiddenTag: hiddenTag,
-            languageName: languageName,
-            querySeparator: querySeparator,
-            keySeparator: keySeparator,
-            log: log
-          }}
-          handle={{
-            setImage: setImage,
-            toggleMessageBox: toggleMessageBox,
-            toggleKick: () => setKick(true),
-            closeNavListMobile: () => setNavListMobile(false),
-            changeGlobalLang: changeGlobalLang,
-            submitRecall: submitRecall,
-            setListObject: setListObject,
-            setStatInfo: setStatInfo,
-            setLowRank: setLowRank,
-            setShowMove: setShowMove,
-            setShowKey: setShowKey,
-            setShowCaption: setShowCaption,
-            setLineTag: setLineTag,
-            setHiddenTag: setHiddenTag,
-            setQuerySeparator: setQuerySeparator,
-            setKeySeparator: setKeySeparator,
-            setProfile: setProfile
-          }}
-        />
-        <Main
-          lang={globalLang}
-          state={{
-            range: range,
-            lineTag: lineTag,
-            hiddenTag: hiddenTag,
-            image: image,
-            current: currentSelect,
-            navList: navListPC,
-            recall: recall,
-            recollect: recollect,
-            itemList: itemList,
-            statInfo: statInfo,
-            lowRank: lowRank,
-            showMove: showMove,
-            showKey: showKey,
-            showCaption: showCaption,
-            pageDetail: pageDetail
-          }}
-          handle={{
-            toggleMessageBox: toggleMessageBox,
-            toggleKick: () => setKick(true),
-            setCurrentRoute: setCurrentRoute,
-            submitRecall: submitRecall,
-            rearrangeLost: rearrangeLost,
-            setItemList: setItemList,
-            setRecall: setRecall,
-            setImage: setImage,
-            setStatInfo: setStatInfo,
-            setRecollect: setRecollect,
-            setPageDetail: setPageDetail
-          }}
-        />
-        <MessageBox
-          open={messageBoxInfo.open}
-          handleClose={closeMessageBox}
-          messageBoxType={messageBoxInfo.type}
-          messageBoxMessage={messageBoxInfo.message}
-        />
-        <Load open={loading} />
-        <Kick open={kick} handleClose={() => setKick(false)} />
-        <Conflict open={conflict} />
-      </Root>
-    </PanelContext.Provider>
+    <ThemeProvider theme={colorTheme}>
+      <PanelContext.Provider value={{
+        lang: globalLang,
+        request: packedRequest,
+        range: range
+      }}>
+        <Root>
+          <CssBaseline />
+          <NavBar
+            state={{
+              navList: navListPC,
+              currentSelect: currentSelect
+            }}
+            handle={{
+              toggleNavList: () => setNavListPC(true),
+              closeNavList: () => setNavListPC(false),
+              toggleNavListMobile: toggleNavListMobile,
+              setListObject: setListObject
+            }}
+          />
+          <NavList
+            lang={globalLang}
+            state={{
+              userID: userID,
+              profile: profile,
+              range: range,
+              navList: navListPC,
+              currentSelect: currentSelect,
+              route: currentSelect.route,
+              navListMobile: navListMobile,
+              listObject: listObject,
+              lowRank: lowRank,
+              showMove: showMove,
+              showKey: showKey,
+              showCaption: showCaption,
+              lineTag: lineTag,
+              hiddenTag: hiddenTag,
+              languageName: languageName,
+              querySeparator: querySeparator,
+              keySeparator: keySeparator,
+              log: log
+            }}
+            handle={{
+              setImage: setImage,
+              toggleMessageBox: toggleMessageBox,
+              toggleKick: () => setKick(true),
+              closeNavListMobile: () => setNavListMobile(false),
+              changeGlobalLang: changeGlobalLang,
+              submitRecall: submitRecall,
+              setListObject: setListObject,
+              setStatInfo: setStatInfo,
+              setLowRank: setLowRank,
+              setShowMove: setShowMove,
+              setShowKey: setShowKey,
+              setShowCaption: setShowCaption,
+              setLineTag: setLineTag,
+              setHiddenTag: setHiddenTag,
+              setQuerySeparator: setQuerySeparator,
+              setKeySeparator: setKeySeparator,
+              setProfile: setProfile
+            }}
+          />
+          <Main
+            lang={globalLang}
+            state={{
+              range: range,
+              lineTag: lineTag,
+              hiddenTag: hiddenTag,
+              image: image,
+              current: currentSelect,
+              navList: navListPC,
+              recall: recall,
+              recollect: recollect,
+              itemList: itemList,
+              statInfo: statInfo,
+              lowRank: lowRank,
+              showMove: showMove,
+              showKey: showKey,
+              showCaption: showCaption,
+              pageDetail: pageDetail
+            }}
+            handle={{
+              toggleMessageBox: toggleMessageBox,
+              toggleKick: () => setKick(true),
+              setCurrentRoute: setCurrentRoute,
+              submitRecall: submitRecall,
+              rearrangeLost: rearrangeLost,
+              setItemList: setItemList,
+              setRecall: setRecall,
+              setImage: setImage,
+              setStatInfo: setStatInfo,
+              setRecollect: setRecollect,
+              setPageDetail: setPageDetail
+            }}
+          />
+          <MessageBox
+            open={messageBoxInfo.open}
+            handleClose={closeMessageBox}
+            messageBoxType={messageBoxInfo.type}
+            messageBoxMessage={messageBoxInfo.message}
+          />
+          <Load open={loading} />
+          <Kick open={kick} handleClose={() => setKick(false)} />
+          <Conflict open={conflict} />
+        </Root>
+      </PanelContext.Provider>
+    </ThemeProvider>
   );
 }
 
