@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 2, 2, 2),
     maxWidth: "9600px"
   },
+  griding: {
+    padding: theme.spacing(1)
+  },
   card: {
     height: "100%",
     display: "flex",
@@ -175,11 +178,11 @@ export default function Gallery(props) {
                 md: 1280,
                 lg: 1920,
                 xl: 2560,
-              },
+              }
             }
           })}>
             {state.image.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4} lg={3} xl={2}>
+              <Grid item key={item.id} className={classes.griding} xs={12} sm={6} md={4} lg={3} xl={2}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
@@ -227,7 +230,7 @@ export default function Gallery(props) {
               </Grid>
             ))}
             {(state.image.length < state.range.maxImg) &&
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+            <Grid item className={classes.griding} xs={12} sm={6} md={4} lg={3} xl={2}>
               <Card className={classes.card}>
                 <CardMedia
                   className={clsx(classes.cardMedia, classes.cardFill)}
