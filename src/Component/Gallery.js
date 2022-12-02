@@ -60,18 +60,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const theme = createMuiTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 1280,
-      lg: 1920,
-      xl: 2560,
-    },
-  },
-})
-
 const keyMap = {
   backToMenu: "esc",
 };
@@ -178,7 +166,18 @@ export default function Gallery(props) {
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={2}>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider theme={(theme) => createMuiTheme({
+            ...theme,
+            breakpoints: {
+              values: {
+                xs: 0,
+                sm: 600,
+                md: 1280,
+                lg: 1920,
+                xl: 2560,
+              },
+            }
+          })}>
             {state.image.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4} lg={3} xl={2}>
                 <Card className={classes.card}>
