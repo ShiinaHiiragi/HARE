@@ -4,6 +4,10 @@
     "date": "2022-12-02T00:00:00.000Z",
     "detail": [
       {
+        "type": "New",
+        "content": "Add recover default to local setting"
+      },
+      {
         "type": "Fix",
         "content": "Fix the displaying bug in gallery"
       }

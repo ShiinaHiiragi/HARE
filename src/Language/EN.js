@@ -148,7 +148,8 @@ const list = {
       hiddenTag: "Custom Hidden Cell in View",
       querySeparator: "Custom Markdown Questions Delimiter",
       keySeparator: "Custom Markdown Answers Delimiter",
-      separatorTip: "Escape characters are allowed"
+      separatorTip: "Escape characters are allowed",
+      recover: "Recover Default"
     },
     palette: {
       red: "Red",

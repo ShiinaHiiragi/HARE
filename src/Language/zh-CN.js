@@ -142,7 +142,8 @@ const list = {
       hiddenTag: "自定义视图隐藏答案格",
       querySeparator: "自定义 Markdown 问题分隔符",
       keySeparator: "自定义 Markdown 答案分隔符",
-      separatorTip: "可以使用转义字符"
+      separatorTip: "可以使用转义字符",
+      recover: "恢复默认设置"
     },
     palette: {
       red: "红",

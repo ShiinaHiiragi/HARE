@@ -19,7 +19,16 @@ import Tooltip from "@material-ui/core/Tooltip";
 import TextField from "@material-ui/core/TextField";
 import { PanelContext } from "../Page/Panel";
 import { nameMap } from "../Language/Lang";
-import { cookieTime, palette } from "../Interface/Constant";
+import {
+  cookieTime,
+  palette,
+  defaultPrimaryColor,
+  defaultSecondaryColor,
+  underline,
+  defaultQuerySeparator,
+  defaultKeySeparator,
+  defaultHiddenTag,
+} from "../Interface/Constant";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
@@ -104,29 +113,42 @@ export default function LocalSetting(props) {
 
   const [lineTagFocus, setLineTagFocus] = React.useState(false);
 
-  const changeRank = (event) => {
-    handle.setLowRank(event.target.value === "true");
-    cookie.save("lowRank", event.target.value, { expires: cookieTime(3650) });
+  const changeRank = (value) => {
+    handle.setLowRank(value === "true");
+    cookie.save("lowRank", value, { expires: cookieTime(3650) });
   }
-  const changeMove = (event) => {
-    handle.setShowMove(event.target.value === "true");
-    cookie.save("showMove", event.target.value, { expires: cookieTime(3650) });
+  const changeMove = (value) => {
+    handle.setShowMove(value === "true");
+    cookie.save("showMove", value, { expires: cookieTime(3650) });
   }
-  const changeKey = (event) => {
-    handle.setShowKey(event.target.value === "true");
-    cookie.save("showKey", event.target.value, { expires: cookieTime(3650) });
+  const changeKey = (value) => {
+    handle.setShowKey(value === "true");
+    cookie.save("showKey", value, { expires: cookieTime(3650) });
   }
-  const changeCaption = (event) => {
-    handle.setShowCaption(event.target.value === "true");
-    cookie.save("showCaption", event.target.value, { expires: cookieTime(3650) });
+  const changeCaption = (value) => {
+    handle.setShowCaption(value === "true");
+    cookie.save("showCaption", value, { expires: cookieTime(3650) });
   }
-  const changeColor = (type, event) => {
+  const changeColor = (type, value) => {
     if (type === "primary") {
-      handle.setPrimaryColor(event.target.value)
+      handle.setPrimaryColor(value)
     } else if (type === "secondary") {
-      handle.setSecondaryColor(event.target.value)
+      handle.setSecondaryColor(value)
     }
-    cookie.save(type, event.target.value, { expires: cookieTime(3650) });
+    cookie.save(type, value, { expires: cookieTime(3650) });
+  }
+  const recover = () => {
+    changeRank("true");
+    changeCaption("true");
+    changeKey("true");
+    changeMove("true");
+    changeColor("primary", defaultPrimaryColor);
+    changeColor("secondary", defaultSecondaryColor);
+    handle.changeGlobalLang("en");
+    handle.setLineCode(underline);
+    handle.setQuerySeparator(defaultQuerySeparator);
+    handle.setKeySeparator(defaultKeySeparator);
+    handle.setHiddenTag(defaultHiddenTag);
   }
 
   return (
@@ -148,7 +170,7 @@ export default function LocalSetting(props) {
             <RadioGroup
               className={classes.radioGroup}
               value={String(state.lowRank)}
-              onChange={changeRank}
+              onChange={(event) => changeRank(event.target.value)}
             >
               <FormControlLabel
                 className={classes.formControlLabel}
@@ -171,7 +193,7 @@ export default function LocalSetting(props) {
             <RadioGroup
               className={classes.radioGroup}
               value={String(state.showCaption)}
-              onChange={changeCaption}
+              onChange={(event) => changeCaption(event.target.value)}
             >
               <FormControlLabel
                 className={classes.formControlLabel}
@@ -199,7 +221,7 @@ export default function LocalSetting(props) {
             <RadioGroup
               className={classes.radioGroup}
               value={String(state.showKey)}
-              onChange={changeKey}
+              onChange={(event) => changeKey(event.target.value)}
             >
               <FormControlLabel
                 className={classes.formControlLabel}
@@ -222,7 +244,7 @@ export default function LocalSetting(props) {
             <RadioGroup
               className={classes.radioGroup}
               value={String(state.showMove)}
-              onChange={changeMove}
+              onChange={(event) => changeMove(event.target.value)}
             >
               <FormControlLabel
                 className={classes.formControlLabel}
@@ -264,7 +286,7 @@ export default function LocalSetting(props) {
             <Select
               className={classes.selector}
               value={state.primaryColor}
-              onChange={(event) => changeColor("primary", event)}
+              onChange={(event) => changeColor("primary", event.target.value)}
             >
               {Object.keys(palette).map((innerName, index) => (
                 <MenuItem value={innerName} key={index} className={classes.PaddingLeftLess}>
@@ -285,7 +307,7 @@ export default function LocalSetting(props) {
             <Select
               className={classes.selector}
               value={state.secondaryColor}
-              onChange={(event) => changeColor("secondary", event)}
+              onChange={(event) => changeColor("secondary", event.target.value)}
             >
               {Object.keys(palette).map((innerName, index) => (
                 <MenuItem value={innerName} key={index} className={classes.PaddingLeftLess}>
@@ -367,6 +389,9 @@ export default function LocalSetting(props) {
           </FormControl>}
       </DialogContent>
       <DialogActions>
+        <Button onClick={recover} color="secondary">
+          {context.lang.popup.localSetting.recover}
+        </Button>
         <Button onClick={handle.close} color="primary">
           {context.lang.common.back}
         </Button>
