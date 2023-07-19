@@ -2,7 +2,7 @@ var CryptoJS = require('crypto-js');
 
 // api for constants
 exports.domain = 'server.ichinoe.xyz';
-exports.port = { http: 8000, https: 400 };
+exports.port = { http: 80, https: 443 };
 exports.ignore = true;
 exports.tokenLifeSpan = 24 * 3600 * 1000;
 exports.maxRecall = 64;
