@@ -164,9 +164,9 @@
     ```
 
 2. 下载 PostgreSQL，如果配置不顺利，建议下载版本 12.6。建立一个数据库（建议取名为 `hare`），将数据库名和密码填写到 `server/bin/setting.json` 中
-3. 如果需要发布到公网，假设域名为 `server.ichinoe.xyz`，需要修改以下配置
+3. 如果需要发布到公网，假设域名为 `hare.ichinoe.xyz`，需要修改以下配置
     - 将域名填写到 `server/bin/api.js` 的 `exports.domain` 字符串中
-    - 将 Nginx 格式的 SSL 证书放到 `server/bin/https` 下，名字按照例子名为 `1_server.ichinoe.xyz_bundle.crt` 和 `2_server.ichinoe.xyz.key`
+    - 将 Nginx 格式的 SSL 证书放到 `server/bin/https` 下，名字按照例子名为 `1_hare.ichinoe.xyz_bundle.crt` 和 `2_hare.ichinoe.xyz.key`
 4. 指令 `npm run server` 或 `npm run dev` 运行服务器
 
 ## 3 依赖
